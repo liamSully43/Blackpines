@@ -1,0 +1,27 @@
+<app-header [search]="true"></app-header>
+<div class="main-content">
+    <app-side-nav [feed]="false" [search]="true" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (toggleSearchMethod)="toggleSearch($event)" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
+    <main>
+        <form action="/search" method="GET" class="search-bar">
+            <input placeholder="Search" />
+            <button class="submit">Search</button>
+        </form>
+        <section>
+            <div class="results twitter">
+                <div class="results">
+                    <app-feed-posts></app-feed-posts>
+                </div>
+            </div>
+            <div class="results linkedin">
+                <div class="results">
+                    <app-feed-posts></app-feed-posts>
+                </div>
+            </div>
+            <div class="results facebook">
+                <div class="results">
+                    <app-feed-posts></app-feed-posts>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>

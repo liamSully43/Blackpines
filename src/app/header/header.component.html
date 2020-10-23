@@ -15,6 +15,10 @@
                     <ng-template #elseNew><a href="new-post" class="nav-links">New Post</a></ng-template>
                 </li>
                 <li class="nav-items">
+                    <a *ngIf="search; else elseSearch" href="search" class="nav-links active" >Search</a>
+                    <ng-template #elseSearch><a href="search" class="nav-links">Search</a></ng-template>
+                </li>
+                <li class="nav-items">
                     <a *ngIf="account; else elseAccount" href="my-account" class="nav-links active" >My Account</a>
                     <ng-template #elseAccount><a href="my-account" class="nav-links">My Account</a></ng-template>
                 </li>

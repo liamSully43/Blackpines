@@ -1,1 +1,59 @@
-/* No CSS *//*# sourceMappingURL=header.component.css.map */
+header {
+  background-color: #303030;
+  color: #fff;
+  height: 70px;
+  text-align: center;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.header-cover {
+  background-color: rgba(0, 0, 0, 0.7);
+  width: 100%;
+}
+
+.nav-items, .nav-links {
+  list-style: none !important;
+  text-decoration: none;
+  color: darkgrey;
+  display: inline-block;
+  padding: 13px;
+  border-radius: 5px;
+}
+
+.nav-links:hover {
+  color: #fff;
+  -webkit-box-shadow: 3px 3px 5px #212121;
+          box-shadow: 3px 3px 5px #212121;
+  background-color: rgba(45, 45, 45, 0.3);
+}
+
+.active {
+  color: #fff;
+}
+
+ul {
+  margin: 0px;
+  padding: 0px;
+}
+
+@media (min-width: 1921px) {
+  header {
+    background-image: url("../../assets/pine-forest-large.png");
+  }
+}
+
+@media (max-width: 1920px) {
+  header {
+    background-image: url("../../assets/pine-forest-med.png");
+  }
+}
+
+@media (max-width: 1024px) {
+  header {
+    background-image: url("../../assets/pine-forest-small.png");
+  }
+}
+/*# sourceMappingURL=header.component.css.map */

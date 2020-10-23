@@ -7,6 +7,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
 import { MyFeedComponent } from './my-feed/my-feed.component';
 import { MyPostsComponent } from './my-posts/my-posts.component';
 import { NewPostComponent } from './new-post/new-post.component';
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   { path: "", component: IndexComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: "my-posts", component: MyPostsComponent },
   { path: "new-post", component: NewPostComponent },
   { path: "my-account", component: MyAccountComponent },
+  { path: "search", component: SearchComponent },
 ];
 
 @NgModule({
