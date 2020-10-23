@@ -1,0 +1,76 @@
+<app-header [new]="true"></app-header>
+<div class="main-content">
+    <app-side-nav [feed]="false" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
+    <main>
+        <form method="POST" action="/new-post" (submit)="newPost($event)">
+            <div class="primary-input-container">
+                <textarea class="primary-input" placeholder="Type your post here" name="primary-post" (keydown)="onPrimaryInput($event)"></textarea>
+                <div class="menu">
+                    <div class="button-container">
+                        <button class="submit" >Post</button>
+                        <button class="submit" >Schedule</button>
+                        <button class="clear clear-all" type="reset" (click)="clearAll()" >Clear All</button>
+                        <select class="clear clear-specific" (change)="clearFields($event)">
+                            <option class="clear-options hide">Clear...</option>
+                            <option class="clear-options">Clear Primary</option>
+                            <option class="clear-options" *ngIf="twitter.feed">Clear Twitter</option>
+                            <option class="clear-options" *ngIf="linkedin.feed">Clear LinkedIn</option>
+                            <option class="clear-options" *ngIf="facebook.feed">Clear Facebook</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="error"></p>
+            </div>
+            <div class="platform-input-container">
+                <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !twitter.feed}">
+                    <app-platform-headers *ngIf="twitter.feed" cName="twitter-header" img="../../assets/twitter-feed.png" ></app-platform-headers>
+                    <div class="character-limit-container" title="Maximum limit of 280 characters">
+                        <p>Character Limit</p>
+                        <div class="twitter-limit"></div>
+                    </div>
+                    <div class="twitter sub-inputs">
+                        <img class="platform-img" src="{{ user.twitterProfile.profile_image_url_https }}" />
+                        <div>
+                            <h5 class="name">{{ user.twitterProfile.name }}</h5>
+                            <h5>@{{ user.twitterProfile.screen_name }}</h5>
+                        </div>
+                        <textarea class="inputs twitter-input" placeholder="What's happening?" name="tweet" (input)="twitterLength()" maxlength="280"></textarea>
+                    </div>
+                </div>
+                
+                <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !linkedin.feed}">
+                    <app-platform-headers *ngIf="linkedin.feed" cName="linkedin-header" img="../../assets/linkedin-feed.png" ></app-platform-headers>
+                    <div class="character-limit-container" title="Maximum limit of 700 characters">
+                        <p>Character Limit</p>
+                        <div class="linkedin-limit"></div>
+                    </div>
+                    <div class="linkedin sub-inputs">
+                        <img class="platform-img" src="../../assets/blackpines-logo.png"/>
+                        <div>
+                            <h5>Blackpines</h5>
+                            <h5>CEO of Blackpines</h5>
+                            <h5>0h</h5>
+                        </div>
+                        <textarea class="inputs linkedin-input" placeholder="What do you want to talk about?" name="linkedin-post" (input)="linkedinLength()" maxlength="700"></textarea>
+                    </div>
+                </div>
+
+                <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !facebook.feed}">
+                    <app-platform-headers *ngIf="facebook.feed" cName="facebook-header" img="../../assets/facebook-feed.png" ></app-platform-headers>
+                    <div class="character-limit-container fb" title="Maximum limit of 63000 characters">
+                        <p>Character Limit</p>
+                        <div class="facebook-limit"></div>
+                    </div>
+                    <div class="facebook sub-inputs">
+                        <img class="platform-img" src="../../assets/blackpines-logo.png" />
+                        <div>
+                            <h5>Blackpines</h5>
+                            <h5 class="date">{{ date }}</h5>
+                        </div>
+                        <textarea class="inputs facebook-input" placeholder="What's on your mind, Liam?" (input)="facebookLength()" name="facebook-post" maxlength="63000"></textarea>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </main>
+</div>

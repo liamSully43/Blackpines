@@ -1,0 +1,27 @@
+<app-header [feed]="true"></app-header>
+<div class="main-content">
+    <app-side-nav [feed]="true" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (toggleFeedMethod)="toggleFeed($event)" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
+    <main>
+        <div *ngIf="twitter.feed" class="feeds">
+            <app-platform-headers cName="twitter-header" img="../../assets/twitter-feed.png"></app-platform-headers>
+            <p *ngIf="twitterError !== false" class="error">{{ twitterError }}</p>
+            <div *ngFor="let post of twitterFeed">
+                <app-feed-posts [post]=post></app-feed-posts>
+            </div>
+        </div>
+
+        <div *ngIf="linkedin.feed" class="feeds">
+            <app-platform-headers cName="linkedin-header" img="../../assets/linkedin-feed.png"></app-platform-headers>
+            <div *ngFor="let post of linkedinFeed">
+                <app-feed-posts [post]=post></app-feed-posts>
+            </div>
+        </div>
+
+        <div *ngIf="facebook.feed" class="feeds">
+            <app-platform-headers cName="facebook-header" img="../../assets/facebook-feed.png"></app-platform-headers>
+            <div *ngFor="let post of facebookFeed">
+                <app-feed-posts [post]=post></app-feed-posts>
+            </div>
+        </div>
+    </main>
+</div>

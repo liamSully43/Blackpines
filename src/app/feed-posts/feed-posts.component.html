@@ -1,0 +1,11 @@
+<div class="posts">
+    <section>
+        <img class="tweet-photo" width="50" height="auto" src={{post.user.profile_image_url_https}} />
+        <div>
+            <p>{{post.user.name}}</p>
+            <p>@{{post.user.screen_name}}</p>
+        </div>
+    </section>
+    <p class="tweet-text">{{post.text}}</p>
+    <p class="time">{{post.created_at}}</p>
+</div>

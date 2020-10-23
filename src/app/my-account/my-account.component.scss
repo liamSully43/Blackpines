@@ -1,0 +1,223 @@
+@import '../../variables';
+
+.side-nav {
+    flex-basis: auto !important;
+    padding: 20px 0px !important;
+    background-color: $primary;
+
+    p {
+        font-size: 17px;
+        margin-bottom: 15px;
+    }
+
+    .info {
+        color: $accent;
+        font-weight: 600;
+        padding: 0px 20px;
+    }
+
+    .info:nth-of-type(2) {
+        word-break: break-all;
+        font-size: clamp(10px, 0.7vmax, 16px);
+        font-weight: 400;
+    }
+
+    .break {
+        display: block;
+        width: 90%;
+        margin: 0px auto;
+        height: 1px;
+        border-bottom: solid 1px lightgrey;
+    }
+
+    .side-nav-buttons {
+        width: calc(100% - 60px);
+        height: auto;
+        padding: 10px;
+        margin: 15px 20px;
+        background-color: $accent;
+        color: $primary;
+        border-radius: 10px;
+        border: none;
+        font-size: 18px;
+        text-align: center;
+        box-shadow: #dbdbdb 2px 2px 7px;
+        cursor: pointer;
+    }
+
+    .side-nav-buttons:hover {
+        background-color: $hover;
+    }
+
+    .logout {
+        margin-top: 0px;
+        width: calc(100% - 40px);
+    }
+
+    .password-form {
+        height: 0px;
+        overflow: hidden;
+        margin-bottom: 0px;
+
+        input, button {
+            display: block;
+        }
+
+        button {
+            width: calc(100% - 40px);
+            margin-bottom: 0px;
+        }
+
+        input {
+            background-color: rgba(0,0,0,0);
+            border: solid 1px darkgrey;
+            padding: 5px;
+            border-radius: 7px;
+            width: calc(100% - 52px);
+            margin: 0px 20px;
+        }
+
+        input:nth-of-type(2) {
+            margin: 15px 20px;
+        }
+    }
+
+    .message {
+        padding: 5px 20px 0px 20px;
+        font-size: 15px;
+        word-wrap: normal !important;
+        max-width: 200px;
+        text-align: center;
+        display: grid;
+    }
+
+    .expandForm {
+        height: 170px;
+        animation: expandForm 0.5s;
+    }
+
+    .shrinkForm {
+        animation: shrinkForm 0.5s;
+        height: 0px;
+    }
+
+    @keyframes expandForm {
+        from {
+            height: 0px;
+        }
+        to {
+            height: 170px;
+        }
+    }
+
+    @keyframes shrinkForm {
+        from {
+            height: 170px;
+        }
+        to {
+            height: 0px;
+        }
+    }
+
+    .platform-links, .platform-links:visited {
+        background-color: $accent;
+        display: block;
+        color: $primary;
+        text-decoration: none;
+        height: auto;
+        width: calc(100% - 60px);
+        padding: 10px;
+        margin: 0px 20px;
+        margin-top: 15px !important;
+        border-radius: 10px;
+        font-size: 18px;
+        text-align: center;
+        box-shadow: #dbdbdb 2px 2px 7px;
+        cursor: pointer;
+    }
+
+    .facebook {
+        font-size: 17px;
+    }
+
+    .twitter:hover {
+        background-color: $twitter;
+    }
+
+    .linkedin:hover {
+        background-color: $linkedin;
+    }
+
+    .facebook:hover {
+        background-color: $facebook;
+    }
+}
+
+main {
+    width: 600px;
+    height: auto;
+    background-color: $off-primary;
+    padding: 20px;
+    display: flex;
+}
+
+.platform-containers {
+    flex-basis: calc(100% / 3);
+    height: auto;
+    margin-left: 20px;
+}
+
+.platform-containers:nth-of-type(1) {
+    margin-left: 0px !important;
+}
+
+input:focus {
+    border-color: $accent !important;
+}
+
+input:invalid {
+    border: solid 1px lightgrey;
+    border-width: 1px 0px;
+}
+
+.platform-sections {
+    height: calc(100% - 4px);
+    background-color: #ccc;
+    border: dashed 2px grey;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+
+    .platform-logos {
+        background-color: grey;
+    }
+
+    .errors {
+        display: block;
+        color: red;
+    }
+}
+
+#facebook {
+    margin-right: 0px;
+}
+
+@keyframes expand {
+    from {
+        height: 0px;
+    }
+    to {
+        height: 115px;
+    }
+}
+
+@keyframes shrink {
+    from {
+        height: 115px;
+    }
+    to {
+        height: 0px;
+    }
+}

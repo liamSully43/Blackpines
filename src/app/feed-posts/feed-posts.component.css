@@ -1,0 +1,42 @@
+.posts, .posts-single {
+  width: 100%;
+  margin-bottom: 20px;
+  background-color: #fff;
+  color: #232323;
+  border-radius: 5px;
+}
+
+.posts section, .posts-single section {
+  display: block;
+  padding: 5px 10px;
+}
+
+.posts section img, .posts section div, .posts-single section img, .posts-single section div {
+  display: inline-block;
+}
+
+.posts section img, .posts-single section img {
+  border-radius: 100%;
+}
+
+.posts section div, .posts-single section div {
+  width: 60%;
+  vertical-align: top;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.posts .tweet-text, .posts .time, .posts-single .tweet-text, .posts-single .time {
+  width: calc(100% - 22px);
+  padding: 5px 10px;
+}
+
+.posts .time, .posts-single .time {
+  font-size: 14px;
+  color: grey;
+}
+
+.posts {
+  border: solid 1px lightgrey;
+}
+/*# sourceMappingURL=feed-posts.component.css.map */

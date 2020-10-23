@@ -1,0 +1,50 @@
+@import "../../variables";
+
+.side-nav {
+    background-color: $primary;
+}
+
+input[type=checkbox] {
+    background-color: $accent;
+    display: none;
+}
+
+.checkbox {
+    width: 11px;
+    height: 11px;
+    background-color: $primary;
+    border: solid 1px grey;
+    border-radius: 3px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.active-cb {
+    background-color: $accent;
+}
+
+.checkbox-container {
+
+    li {
+        color: lightgrey;
+    }
+
+    .checkbox, .active-cb {
+        background-color: $primary !important;
+        border-color: lightgrey;
+        cursor: auto;
+    }
+}
+
+select, option {
+    border: none;
+    background-color: $primary;
+    color: $secondary;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+select:hover {
+    color: $accent;
+}

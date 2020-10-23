@@ -1,0 +1,65 @@
+body {
+  background-color: #232323;
+  background-image: url("../../assets/pine-forest.png");
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: none;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  height: 100vh !important;
+}
+
+main {
+  width: 30%;
+  height: auto;
+  border-radius: 30px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+main h1, main h2 {
+  color: #fff;
+  text-align: center;
+  text-shadow: 1.5px 1.5px 3px #232323;
+}
+
+main h1 {
+  font-size: 70px;
+  margin-bottom: 10px;
+}
+
+main h2 {
+  font-size: 40px;
+}
+
+main img {
+  margin: 50px 0px;
+  background-color: #fff;
+  border-radius: 100%;
+  padding: 60px;
+}
+
+main .button-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+main .button-container .submit, main .button-container .submit:visited, main .button-container .submit:hover {
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+  background-color: #009a7f;
+  border: solid 3px #fff;
+  text-decoration: none;
+  font-weight: 100;
+  margin: 0px 30px;
+}
+
+main .button-container .submit:hover {
+  background-color: #007a63;
+}
+/*# sourceMappingURL=missing-page.component.css.map */

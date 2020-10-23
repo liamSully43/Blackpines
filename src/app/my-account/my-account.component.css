@@ -1,0 +1,268 @@
+.side-nav {
+  -ms-flex-preferred-size: auto !important;
+      flex-basis: auto !important;
+  padding: 20px 0px !important;
+  background-color: #fff;
+}
+
+.side-nav p {
+  font-size: 17px;
+  margin-bottom: 15px;
+}
+
+.side-nav .info {
+  color: #009a7f;
+  font-weight: 600;
+  padding: 0px 20px;
+}
+
+.side-nav .info:nth-of-type(2) {
+  word-break: break-all;
+  font-size: clamp(10px, 0.7vmax, 16px);
+  font-weight: 400;
+}
+
+.side-nav .break {
+  display: block;
+  width: 90%;
+  margin: 0px auto;
+  height: 1px;
+  border-bottom: solid 1px lightgrey;
+}
+
+.side-nav .side-nav-buttons {
+  width: calc(100% - 60px);
+  height: auto;
+  padding: 10px;
+  margin: 15px 20px;
+  background-color: #009a7f;
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  text-align: center;
+  -webkit-box-shadow: #dbdbdb 2px 2px 7px;
+          box-shadow: #dbdbdb 2px 2px 7px;
+  cursor: pointer;
+}
+
+.side-nav .side-nav-buttons:hover {
+  background-color: #007a63;
+}
+
+.side-nav .logout {
+  margin-top: 0px;
+  width: calc(100% - 40px);
+}
+
+.side-nav .password-form {
+  height: 0px;
+  overflow: hidden;
+  margin-bottom: 0px;
+}
+
+.side-nav .password-form input, .side-nav .password-form button {
+  display: block;
+}
+
+.side-nav .password-form button {
+  width: calc(100% - 40px);
+  margin-bottom: 0px;
+}
+
+.side-nav .password-form input {
+  background-color: rgba(0, 0, 0, 0);
+  border: solid 1px darkgrey;
+  padding: 5px;
+  border-radius: 7px;
+  width: calc(100% - 52px);
+  margin: 0px 20px;
+}
+
+.side-nav .password-form input:nth-of-type(2) {
+  margin: 15px 20px;
+}
+
+.side-nav .message {
+  padding: 5px 20px 0px 20px;
+  font-size: 15px;
+  word-wrap: normal !important;
+  max-width: 200px;
+  text-align: center;
+  display: -ms-grid;
+  display: grid;
+}
+
+.side-nav .expandForm {
+  height: 170px;
+  -webkit-animation: expandForm 0.5s;
+          animation: expandForm 0.5s;
+}
+
+.side-nav .shrinkForm {
+  -webkit-animation: shrinkForm 0.5s;
+          animation: shrinkForm 0.5s;
+  height: 0px;
+}
+
+@-webkit-keyframes expandForm {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 170px;
+  }
+}
+
+@keyframes expandForm {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 170px;
+  }
+}
+
+@-webkit-keyframes shrinkForm {
+  from {
+    height: 170px;
+  }
+  to {
+    height: 0px;
+  }
+}
+
+@keyframes shrinkForm {
+  from {
+    height: 170px;
+  }
+  to {
+    height: 0px;
+  }
+}
+
+.side-nav .platform-links, .side-nav .platform-links:visited {
+  background-color: #009a7f;
+  display: block;
+  color: #fff;
+  text-decoration: none;
+  height: auto;
+  width: calc(100% - 60px);
+  padding: 10px;
+  margin: 0px 20px;
+  margin-top: 15px !important;
+  border-radius: 10px;
+  font-size: 18px;
+  text-align: center;
+  -webkit-box-shadow: #dbdbdb 2px 2px 7px;
+          box-shadow: #dbdbdb 2px 2px 7px;
+  cursor: pointer;
+}
+
+.side-nav .facebook {
+  font-size: 17px;
+}
+
+.side-nav .twitter:hover {
+  background-color: #1ba1f2;
+}
+
+.side-nav .linkedin:hover {
+  background-color: #0177b5;
+}
+
+.side-nav .facebook:hover {
+  background-color: #4367b2;
+}
+
+main {
+  width: 600px;
+  height: auto;
+  background-color: #f0f0f0;
+  padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.platform-containers {
+  -ms-flex-preferred-size: calc(100% / 3);
+      flex-basis: calc(100% / 3);
+  height: auto;
+  margin-left: 20px;
+}
+
+.platform-containers:nth-of-type(1) {
+  margin-left: 0px !important;
+}
+
+input:focus {
+  border-color: #009a7f !important;
+}
+
+input:invalid {
+  border: solid 1px lightgrey;
+  border-width: 1px 0px;
+}
+
+.platform-sections {
+  height: calc(100% - 4px);
+  background-color: #ccc;
+  border: dashed 2px grey;
+  border-radius: 30px;
+  margin-bottom: 20px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.platform-sections .platform-logos {
+  background-color: grey;
+}
+
+.platform-sections .errors {
+  display: block;
+  color: red;
+}
+
+#facebook {
+  margin-right: 0px;
+}
+
+@-webkit-keyframes expand {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 115px;
+  }
+}
+
+@keyframes expand {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 115px;
+  }
+}
+
+@-webkit-keyframes shrink {
+  from {
+    height: 115px;
+  }
+  to {
+    height: 0px;
+  }
+}
+
+@keyframes shrink {
+  from {
+    height: 115px;
+  }
+  to {
+    height: 0px;
+  }
+}
+/*# sourceMappingURL=my-account.component.css.map */

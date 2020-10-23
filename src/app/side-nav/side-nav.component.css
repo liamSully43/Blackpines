@@ -1,0 +1,46 @@
+.side-nav {
+  background-color: #fff;
+}
+
+input[type=checkbox] {
+  background-color: #009a7f;
+  display: none;
+}
+
+.checkbox {
+  width: 11px;
+  height: 11px;
+  background-color: #fff;
+  border: solid 1px grey;
+  border-radius: 3px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.active-cb {
+  background-color: #009a7f;
+}
+
+.checkbox-container li {
+  color: lightgrey;
+}
+
+.checkbox-container .checkbox, .checkbox-container .active-cb {
+  background-color: #fff !important;
+  border-color: lightgrey;
+  cursor: auto;
+}
+
+select, option {
+  border: none;
+  background-color: #fff;
+  color: #232323;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+select:hover {
+  color: #009a7f;
+}
+/*# sourceMappingURL=side-nav.component.css.map */

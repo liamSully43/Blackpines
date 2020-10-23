@@ -1,0 +1,185 @@
+* {
+  color: #232323;
+}
+
+body {
+  background-color: #fff;
+  background: linear-gradient(165deg, #ddd, #fff);
+  height: auto !important;
+  font-family: "Poppins", Arial, Helvetica, sans-serif !important;
+}
+
+.background {
+  width: 100%;
+  height: 55vh;
+  background-attachment: fixed;
+  background-image: url("../../assets/pine-forest.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #232323;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.background div {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.join {
+  color: #fff;
+  font-size: 20px;
+  padding: 20px 25px;
+  border: solid 3px #fff;
+  text-decoration: none;
+  text-shadow: 1.5px 1.5px 3px #232323;
+  border-radius: 10px;
+  margin-top: 75px;
+  -webkit-box-shadow: #232323 2px 2px 7px;
+          box-shadow: #232323 2px 2px 7px;
+}
+
+.join:hover {
+  background-color: #007a63;
+}
+
+main {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+main section {
+  padding: 10.4% !important;
+  width: 79.2% !important;
+}
+
+main .break {
+  width: 90%;
+  height: 1px;
+  margin: auto;
+  border-bottom: solid 1px #009a7f;
+}
+
+.info {
+  text-align: center;
+  font-size: 20px;
+  padding-bottom: 200px;
+}
+
+.info p {
+  font-weight: 200;
+}
+
+.platforms h1 {
+  text-align: center;
+  margin-bottom: 100px;
+  color: #232323;
+}
+
+@media (max-width: 600px) {
+  .platforms h1 {
+    font-size: 7vw;
+  }
+}
+
+.platforms div {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap !important;
+      flex-wrap: wrap !important;
+}
+
+.platforms div .platform-logos {
+  -ms-flex-preferred-size: calc(calc(100% / 3) - 40px);
+      flex-basis: calc(calc(100% / 3) - 40px);
+  display: -ms-grid;
+  display: grid;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  place-items: center;
+  -webkit-box-shadow: 12px 12px 20px #e2e2e2;
+          box-shadow: 12px 12px 20px #e2e2e2;
+  background-color: #fff;
+  margin: 20px;
+  padding: 20px 0px;
+}
+
+.platforms div .platform-logos img {
+  width: 100px;
+  background-color: #009a7f;
+}
+
+.platforms div .platform-logos a, .platforms div .platform-logos a:visited {
+  margin-top: 20px;
+  font-size: 20px;
+  text-decoration: none;
+  font-weight: 200;
+}
+
+.platforms div .platform-logos a:hover {
+  color: #009a7f;
+}
+
+@media (max-width: 1150px) {
+  .platforms div .platform-logos {
+    -ms-flex-preferred-size: calc(50% - 40px);
+        flex-basis: calc(50% - 40px);
+  }
+  .platforms div .platform-logos:last-of-type {
+    min-width: 416px;
+    margin: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .platforms div .platform-logos {
+    -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+    min-width: 100% !important;
+    margin: 20px 0px !important;
+  }
+}
+
+.join-container {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  padding-top: 100px;
+}
+
+.join-container p {
+  font-size: 17px;
+  font-weight: 200;
+  color: #232323;
+  text-align: center;
+}
+
+.join-container .join, .join-container .join:visited {
+  color: #009a7f;
+  border-color: #009a7f;
+  margin-top: 50px;
+  -webkit-box-shadow: #ccc 2px 2px 7px;
+          box-shadow: #ccc 2px 2px 7px;
+  text-shadow: none;
+}
+
+.join-container .join:hover {
+  color: #fff;
+  border-color: #007a63;
+  background-color: #007a63;
+}
+
+@media (max-width: 500px) {
+  .join {
+    font-size: 16px;
+    padding: 15px 20px;
+  }
+  .info p {
+    font-size: 15px;
+  }
+}
+/*# sourceMappingURL=index.component.css.map */

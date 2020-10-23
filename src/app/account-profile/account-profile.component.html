@@ -1,0 +1,16 @@
+<div *ngIf="account" class="platform-sections-connected" id="twitter">
+    <div class="account-info">
+        <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
+        <ng-template #elseBlock >
+            <div class="default-background"></div>
+        </ng-template>
+        <div class="profile-pic-container">
+            <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url_https }}" />
+        </div>
+        <p class="name">{{ account.name }}</p>
+        <p class="handle">@{{ account.screen_name }}</p>
+        <button name="disconnect clear" class="disconnect" (click)="disconnect($event)">Disconnect</button>
+        <br />
+        <p *ngIf="error" class="error">An error occured when trying to remove the profile, please try again later</p>
+    </div>
+</div>

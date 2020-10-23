@@ -1,0 +1,31 @@
+@import '../../variables';
+
+.platform-icon, .twitter-header, .linkedin-header, .facebook-header {
+    width: calc(100% - 2px);
+    height: auto;
+    padding-left: 3px;
+    background-color: $twitter;
+    padding-top: 3px;
+}
+
+.platform-icon {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.twitter-header, .linkedin-header, .facebook-header {
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.twitter-header {
+    background-color: $twitter;
+}
+
+.linkedin-header {
+    background-color: $linkedin;
+}
+
+.facebook-header {
+    background-color: $facebook;
+}

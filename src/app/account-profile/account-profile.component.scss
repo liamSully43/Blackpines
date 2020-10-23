@@ -1,0 +1,73 @@
+@import '../../variables';
+
+.platform-sections-connected {
+    height: calc(100% - 4px);
+    display: block;
+    background-color: $primary;
+    border: solid 2px $accent;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    
+    .account-info {
+        display: block;
+    
+        .default-background {
+            width: 100%;
+            height: 110px;
+            background-color: #ccd6dd;
+        }
+    
+        .profile-pic-container {
+            position: relative;
+            height: 50px;
+    
+            .profile-pic {
+                border: solid 4px $primary;
+                border-radius: 100%;
+                position: absolute;
+                left: 10px;
+                top: -40px;
+                background-color: $primary;
+            }
+        }
+    
+        .name, .handle {
+            margin-left: 10px;
+            color: $secondary;
+            font-size: 17px;
+        }
+    
+        .name {
+            font-weight: 600;
+        }
+    
+        .handle {
+            font-weight: 400;
+        }
+    
+    
+        .disconnect {
+            width: 35%;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: darkgrey;
+            color: $primary;
+            font-size: 16px;
+            margin-left: 10px;
+            box-shadow: #dbdbdb 2px 2px 7px;
+            cursor: pointer;
+        }
+    
+        .disconnect:hover {
+            background-color: grey;
+        }
+    }
+    .error {
+        width: calc(100% - 20px);
+        padding: 0px 10px;
+        font-size: 14px;
+        margin-top: 10px;
+    }
+}

@@ -1,0 +1,187 @@
+@import '../../variables';
+
+// default styles across all sizes
+
+.login-page {
+    background-attachment: fixed;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: $secondary;
+    overflow: hidden;
+    height: 100vh !important;
+}
+
+.title {
+    margin-top: 6%;
+}
+
+.form-container {
+    width: 350px;
+    height: auto;
+    margin: auto;
+    margin-top: 10vh;
+    border: none;
+    border-radius: 30px;
+    padding: 20px;
+    padding-top: 10px;
+    background-color: $primary;
+}
+
+.login-nav {
+    margin: 0px !important;
+    position: relative;
+    height: 50px;
+}
+
+.nav-buttons {
+    display: inline-block;
+    width: 50%;
+    background-color: $primary;
+    border: none;
+    text-align: center;
+    color: darkgrey;
+    font-size: 100%;
+    padding-bottom: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    position: absolute;
+    z-index: 1;
+}
+
+.nav-buttons:hover {
+    color: grey;
+}
+
+.sign-up-button {
+    margin-left: 50%;
+}
+
+.selection-container {
+    position: absolute;
+    width: 100%;
+    height: auto;
+}
+
+.selection {
+    width: 50%;
+    height: 32px;
+    padding: 0px;
+    margin: 0px;
+    background-color: $accent;
+}
+
+@keyframes right {
+    from {
+        margin-left: 0%;
+    }
+    to {
+        margin-left: 50%;
+    }
+}
+
+@keyframes left {
+    from {
+        margin-left: 50%;
+    }
+    to {
+        margin-left: 0%;
+    }
+}
+
+.index-forms > input {
+    display: block;
+    width: 96.5%;
+    font-size: 90%;
+    margin-bottom: 10px;
+    padding: 2.86%;
+    padding-right: 0px;
+    border: solid 1px darkgrey;
+    border-radius: 7px;
+}
+
+.submit, .clear {
+    margin-top: 8.6%;
+    padding: 5.7%;
+    font-size: 100% !important;
+}
+
+.forgotten-password, .forgotten-password:visited {
+    color: $accent;
+    font-size: 87.5%;
+    display: inline-block;
+}
+
+.forgotten-password:hover {
+    color: $hover;
+}
+
+.register-error {
+    margin-top: 10px;
+}
+
+// styles for larger screens (w: 1921 <=)
+
+@media(min-width: 1921px) {
+
+    .login-page {
+        background-image: url("../../assets/pine-forest-large.png");
+    }
+
+    .title {
+        font-size: 2.5vw;
+    }
+
+}
+
+// styles for standard desktop monitors (w: 1920 >=)
+
+@media(max-width: 1920px) {
+
+    .login-page {
+        background-image: url("../../assets/pine-forest-med.png");
+    }
+
+}
+
+// styles for tablets (w: 1024 >=)
+
+@media(max-width: 1024px) {
+
+    .login-page {
+        background-image: url("../../assets/pine-forest-small.png");
+    }
+
+    .title {
+        font-size: 8vw;
+    }
+
+    .form-container {
+        width: 50%;
+    }
+
+}      
+
+// styles for phones (w: 720 >=)
+
+@media(max-width: 720px) {
+
+    .title {
+        font-size: 15vw;
+    }
+
+    .selection {
+        height: 30px;
+    }
+
+    .form-container {
+        width: 70%;
+    }
+
+    button, input, .login, .clear {
+        font-size: 14px !important;
+    }
+
+    a {
+        font-size: 12px !important;
+    }
+}

@@ -1,0 +1,238 @@
+main {
+  width: calc(100% - 40px);
+  padding-bottom: 0px;
+  background-color: #f0f0f0;
+}
+
+.primary-input-container, .platform-input-container {
+  width: 100%;
+  margin: auto;
+}
+
+.primary-input-container {
+  height: auto;
+  vertical-align: top;
+  margin-bottom: 20px;
+}
+
+.primary-input-container .menu {
+  width: 60%;
+  display: inline-block;
+}
+
+.primary-input-container .menu .button-container {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.primary-input-container .menu .button-container button, .primary-input-container .menu .button-container select {
+  -ms-flex-preferred-size: 24%;
+      flex-basis: 24%;
+  margin-top: 7px;
+}
+
+.primary-input-container .menu .button-container select {
+  -ms-flex-preferred-size: 28%;
+      flex-basis: 28%;
+}
+
+.primary-input-container .error {
+  display: inline-block;
+  margin-left: 30px;
+}
+
+.platform-input-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.primary-input {
+  width: calc(100% - 22px);
+  height: 20vh;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: solid 1px lightgrey;
+  border-radius: 10px;
+  display: inline-block;
+  resize: none;
+}
+
+.submit, .clear {
+  display: inline-block;
+  margin-right: 20px;
+  float: none;
+  -webkit-box-shadow: #ccc 2px 2px 7px;
+          box-shadow: #ccc 2px 2px 7px;
+}
+
+.submit {
+  width: calc(23% - 18px);
+}
+
+.clear {
+  width: calc(27% - 19px);
+}
+
+.clear:nth-of-type(1) {
+  margin-right: 0px !important;
+}
+
+.character-limit-container {
+  width: calc(100% - 15px);
+  height: 18px;
+  margin: 0px 20px 10px 0px;
+  color: #232323;
+  padding: 3px;
+  padding-left: 10px;
+  border: solid 1px #232323;
+  border-radius: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.character-limit-container p {
+  position: absolute;
+  z-index: 1;
+}
+
+.character-limit-container div {
+  height: 100%;
+  width: 0%;
+  background-color: #ff6666;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+span:last-of-type {
+  margin-right: 0px;
+}
+
+.platform-containers {
+  -ms-flex-preferred-size: 25%;
+      flex-basis: 25%;
+}
+
+.input-containers {
+  width: 100%;
+  height: auto;
+  margin-left: 20px;
+}
+
+.input-containers:nth-of-type(1) {
+  margin-left: 0px !important;
+}
+
+.sub-inputs {
+  width: calc(100% - 10px);
+  height: auto;
+  min-height: 120px;
+  padding: 5px;
+  border: solid 1px lightgrey !important;
+  background-color: #fff;
+  color: #232323;
+  vertical-align: top;
+}
+
+.inputs {
+  width: calc(100% - 22px);
+  height: auto;
+  min-height: 20px !important;
+  margin: 0px;
+  margin-left: 5px;
+  padding: 0px;
+  padding-top: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  border: none;
+  resize: none;
+}
+
+.platform-img {
+  width: 49px;
+  height: 49px;
+  background-color: #fff;
+  border: none;
+  border-radius: 100%;
+  display: inline-block;
+}
+
+.twitter div {
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 7px;
+  padding-left: 10px;
+}
+
+.twitter div .name {
+  color: #232323;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.twitter div h5 {
+  font-size: 15px;
+  font-weight: 100;
+  color: grey;
+}
+
+.twitter .time {
+  color: grey;
+  padding-left: 3px;
+  font-weight: 100;
+  font-size: 15px;
+}
+
+.linkedin div {
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 3px;
+  padding-left: 5px;
+}
+
+.linkedin div h5 {
+  color: #666;
+  font-weight: 100;
+  font-size: 12px;
+}
+
+.linkedin div h5:nth-of-type(1) {
+  color: #232323;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.linkedin div h5:nth-of-type(2) {
+  padding: 2px 0px;
+}
+
+.linkedin p {
+  padding-top: 6px;
+  color: #666;
+  font-weight: 100;
+  font-size: 12px;
+}
+
+.facebook div {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.facebook div h5:nth-of-type(1) {
+  padding: 5px 0px;
+}
+
+.facebook div h5:nth-of-type(2) {
+  color: #666;
+  font-size: 12px;
+  font-weight: 100;
+}
+
+.invalid {
+  border: solid 1px red;
+}
+/*# sourceMappingURL=new-post.component.css.map */
