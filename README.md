@@ -14,4 +14,4 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - Facebook API doesn't pass through a API token secret - if this isn't needed for API requests to facebook then it won't be a problem
 
 ## Notes
- - Instagram will be removed as a supported platform, the app/website will need to be in a near or fully completed state in order for instagram developers to green light the use of the API. The rest of Blackpines will be completed before attempting to get access again, as at this point getting access has only delayed development and isn't currently worth the time.  
+ - Added new Search page, only the basic layout & design has been implimented. The child components of the page have been added & connected so that the search filters (platforms & posts vs users) are handles & queried by the search page component & TS.
