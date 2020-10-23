@@ -1,0 +1,59 @@
+@import '../../_variables';
+
+main {
+    background-color: $off-primary;
+}
+
+.search-bar {
+    display: flex;
+    padding: 0px 20%;
+    margin: auto;
+    width: 50%;
+
+    input {
+        flex-basis: 85%;
+        margin-right: 5%;
+        padding: 10px;
+        border: solid 1px lightgrey;
+        border-radius: 5px;
+    }
+
+    button {
+        flex-basis: 15%;
+        padding: 10px 0px;
+    }
+}
+
+section {
+    width: 100%;
+    height: calc(100% - 58px);
+    display: flex;
+    margin-top: 20px;
+    overflow: auto;
+
+    .results {
+        flex-basis: calc(calc(100% / 3) - 28px);
+        border-right: solid 1px $accent;
+        height: 100%;
+        padding: 0px 20px;
+    }
+
+    .results:first-of-type {
+        padding-left: 0px;
+    }
+
+    .results:last-of-type {
+        border-right: none;
+        padding-right: 0px;
+    }
+
+    .results {
+        width: 100%;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .results:last-of-type {
+       margin-bottom: 0px;
+    }
+}

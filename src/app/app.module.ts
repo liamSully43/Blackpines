@@ -16,6 +16,10 @@ import { FeedPostsComponent } from './feed-posts/feed-posts.component';
 import { AccountProfileComponent } from './account-profile/account-profile.component';
 import { PlatformHeadersComponent } from './platform-headers/platform-headers.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PreviewProfileComponent } from './preview-profile/preview-profile.component';
+import { PreviewPostComponent } from './preview-post/preview-post.component';
+import { SharePostComponent } from './share-post/share-post.component';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import { HttpClientModule } from '@angular/common/http';
     SideNavComponent,
     FeedPostsComponent,
     AccountProfileComponent,
-    PlatformHeadersComponent
+    PlatformHeadersComponent,
+    PreviewProfileComponent,
+    PreviewPostComponent,
+    SharePostComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

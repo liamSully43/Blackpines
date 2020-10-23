@@ -11,6 +11,7 @@ export class HeaderComponent implements OnInit {
   @Input() posts;
   @Input() new;
   @Input() account;
+  @Input() search;
 
   constructor() { }
 

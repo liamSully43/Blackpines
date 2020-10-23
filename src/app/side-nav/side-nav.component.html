@@ -26,5 +26,10 @@
             <option>Multi Feed</option>
             <option>Single Feed</option>
         </select>
+        <select *ngIf="search" (change)="toggleSearch($event)">
+            <option>Users</option>
+            <option>Posts</option>
+            <option>Both</option>
+        </select>
     </ul>
 </nav>
