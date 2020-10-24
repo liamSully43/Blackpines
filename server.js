@@ -23,10 +23,13 @@ const cryptr = require("cryptr");
 const fetch = require("node-fetch");
 const OAuth = require("oauth");
 
+// custom files
+
 const blackPines = require("./blackpinesAuthentication");
 const twitterAuth = require("./twitterAuthentication");
 const linkedinAuth = require("./linkedinAuthentication");
 const facebookAuth = require("./facebookAuthentication");
+const platformSearch = require("./platformSearch");
 
 const app = express();
 
@@ -190,6 +193,111 @@ app.post("/api/changePassword", [
         res.send(result);
     }
     blackPines.changePassword(req, Customer, cb);
+})
+
+app.post("/api/search", [
+    check("searchTerm").stripLow().trim().escape(),
+], (req, res) => {
+    const searchTerm = req.body.searchTerm // the user's searched term
+    let twitter = req.body.twitter; // if twitter is selected by user
+    let linkedin = req.body.linkedin; // if linkedin is selected by user
+    let facebook = req.body.facebook; // if facebook is selected by user
+    const type = req.body.type; // if the user is searching for posts or users
+
+    let failSafeCalled = false; // used to prevent the complete function from returning data if the failsafe is called after a timeout 
+
+    // what will be returned to the client side
+    let outcome = {
+        twitter: {
+            results: "",
+            success: false,
+        },
+        linkedin: {
+            results: "",
+            success: false,
+        },
+        facebook: {
+            results: "",
+            success: false,
+        }
+    };
+    
+    // is a search query returns succesfully with data - this will be called
+    function callbackSuccess(platform, results) {
+        if(platform === "twitter") {
+            outcome.twitter.results = results;
+            outcome.twitter.success = true;
+            twitter = false;
+        }
+        else if(platform === "linkedin") {
+            outcome.linkedin.results = results;
+            outcome.linkedin.success = true;
+            linkedin = false;
+            console.log("linkedin match")
+        }
+        else {
+            outcome.facebook.results = results;
+            outcome.facebook.success = true;
+            facebook = false;
+            console.log("facebook match")
+        }
+        // when a platform search request returns it will set the respective platform value to false in order to call the function back to the client side
+        //      this is called in both the success callback & the failed callback as both will return a value to the client side
+        if(!twitter && !linkedin && !facebook) complete();
+    }
+
+    // is a search query doesn't returns - this will be called
+    function callbackFailed(platform, message) {
+        if(platform === "twitter") {
+            outcome.twitter.message = message;
+            outcome.twitter.success = false;
+            twitter = false;
+        }
+        else if(platform === "linkedin") {
+            outcome.linkedin.message = message;
+            outcome.linkedin.success = false;
+            linkedin = false;
+            console.log("linkedin match")
+        }
+        else {
+            outcome.facebook.message = message;
+            outcome.facebook.success = false;
+            facebook = false;
+            console.log("facebook match")
+        }
+        if(!twitter && !linkedin && !facebook) complete();
+    }
+
+    // this calls platform search requests depending on the user selected filter options
+    if(twitter) {
+        platformSearch.twitter(req, searchTerm, type, callbackSuccess, callbackFailed);
+    }
+    if(linkedin) platformSearch.linkedin(req, searchTerm, type, callbackSuccess, callbackFailed);
+    if(facebook) platformSearch.facebook(req, searchTerm, type, callbackSuccess, callbackFailed);
+
+    // request(s) takes too long
+    const failsafe = setTimeout(() => {
+        failSafeCalled = true;
+        const end = {
+            success: false,
+            message: "Request timed out, please try searching again later",
+        }
+        return res.send(end);
+    }, 30000); 
+
+    // returns result(s) back to client side
+    const complete = () => {
+        console.log("complete func called");
+        if(!failSafeCalled) {
+            console.log(outcome);
+            console.log("yeet");
+            clearTimeout(failsafe);
+            return res.send(outcome);
+        }
+    };
+
+    // this will end the API call if none of the platforms are selected in the filter
+    if(!twitter && !linkedin && !facebook) complete();
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////

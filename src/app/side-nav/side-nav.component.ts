@@ -67,11 +67,8 @@ export class SideNavComponent implements OnInit {
     if(e.path[0].value === "Users") {
       this.toggleSearchMethod.next("user");
     }
-    else if (e.path[0].value === "Posts") {
-      this.toggleSearchMethod.next("post");
-    }
     else {
-      this.toggleSearchMethod.next("both");
+      this.toggleSearchMethod.next("post");
     }
   }
 

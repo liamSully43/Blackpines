@@ -2,25 +2,58 @@
 <div class="main-content">
     <app-side-nav [feed]="false" [search]="true" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (toggleSearchMethod)="toggleSearch($event)" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
     <main>
-        <form action="/search" method="GET" class="search-bar">
-            <input placeholder="Search" />
-            <button class="submit">Search</button>
+        <form action="/search" method="GET" class="search-bar" (submit)="submitForm($event)">
+            <input placeholder="Search" name="search" class="search" />
+            <button type="submit" class="submit">Search</button>
         </form>
         <section>
-            <div class="results twitter">
-                <div class="results">
-                    <app-feed-posts></app-feed-posts>
-                </div>
+            <div class="results-box twitter">
+                <ng-container *ngIf='searchType == "user"; else twitterElse'>
+                    <div *ngFor="let user of twitterResults" class="results">
+                        <img width="50" height="50" src="{{ user.profile_image_url }}" />
+                        <p>{{ user.name }}</p>
+                        <p>@{{ user.screen_name }}</p>
+                        <br />
+                        <p>{{ user.description }}</p>
+                        <br />
+                        <p>Following: {{ user.friends_count }}</p>
+                        <p>Followers: {{ user.followers_count }}</p>
+                    </div>
+                </ng-container>
+                <ng-template #twitterElse>
+                    <div *ngFor="let post of twitterResults" class="results">
+                        <img width="50" height="50" src="{{ post.user.profile_image_url }}" />
+                        <p>{{ post.user.name }}</p>
+                        <p>@{{ post.user.screen_name }}</p>
+                        <br />
+                        <p>{{ post.text }}</p>
+                        <p>Time: {{ post.created_at }}</p>
+                    </div>
+                </ng-template>
             </div>
-            <div class="results linkedin">
-                <div class="results">
-                    <app-feed-posts></app-feed-posts>
-                </div>
+            <div class="results-box linkedin">
+                <ng-container *ngIf='searchType == "user"; else linkedinElse'>
+                    <div *ngFor="let user of linkedInResults" class="results">
+
+                    </div>
+                </ng-container>
+                <ng-template #linkedinElse>
+                    <div *ngFor="let post of linkedInResults" class="results">
+
+                    </div>
+                </ng-template>
             </div>
-            <div class="results facebook">
-                <div class="results">
-                    <app-feed-posts></app-feed-posts>
-                </div>
+            <div class="results-box facebook">
+                <ng-container *ngIf='searchType == "user"; else facebookElse'>
+                    <div *ngFor="let user of facebookResults" class="results">
+
+                    </div>
+                </ng-container>
+                <ng-template #facebookElse>
+                    <div *ngFor="let post of facebookResults" class="results">
+
+                    </div>
+                </ng-template>
             </div>
         </section>
     </main>

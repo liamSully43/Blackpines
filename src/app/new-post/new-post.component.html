@@ -67,7 +67,7 @@
                             <h5>Blackpines</h5>
                             <h5 class="date">{{ date }}</h5>
                         </div>
-                        <textarea class="inputs facebook-input" placeholder="What's on your mind, Liam?" (input)="facebookLength()" name="facebook-post" maxlength="63000"></textarea>
+                        <textarea class="inputs facebook-input" placeholder="What's on your mind, {{ user.firstName }}?" (input)="facebookLength()" name="facebook-post" maxlength="63000"></textarea>
                     </div>
                 </div>
             </div>

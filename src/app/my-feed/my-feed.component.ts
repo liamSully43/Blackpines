@@ -21,7 +21,6 @@ export class MyFeedComponent implements OnInit {
     feed: false,
   };
 
-  user: any = {};
   twitterFeed: any = [];
   linkedinFeed: any = [];
   facebookFeed: any = [];
@@ -32,19 +31,18 @@ export class MyFeedComponent implements OnInit {
 
   ngOnInit(): void {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
-    this.http.get("api/user", { headers }).subscribe(data => {
-      this.user = data
+    this.http.get("api/user", { headers }).subscribe((data: any) => {
       this.twitter = {
-        connected: (typeof this.user.twitterProfile !== "undefined" && this.user.twitterProfile !== null) ? true : false,
-        feed: (typeof this.user.twitterProfile !== "undefined" && this.user.twitterProfile !== null) ? true : false
+        connected: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false,
+        feed: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false
       }
       this.linkedin = {
-        connected: (typeof this.user.linkedinProfile !== "undefined" && this.user.linkedinProfile !== null) ? true : false,
-        feed: (typeof this.user.linkedinProfile !== "undefined" && this.user.linkedinProfile !== null) ? true : false
+        connected: (typeof data.linkedinProfile !== "undefined" && data.linkedinProfile !== null) ? true : false,
+        feed: (typeof data.linkedinProfile !== "undefined" && data.linkedinProfile !== null) ? true : false
       }
       this.facebook = {
-        connected: (typeof this.user.facebookProfile !== "undefined" && this.user.facebookProfile !== null) ? true : false,
-        feed: (typeof this.user.facebookProfile !== "undefined" && this.user.facebookProfile !== null) ? true : false,
+        connected: (typeof data.facebookProfile !== "undefined" && data.facebookProfile !== null) ? true : false,
+        feed: (typeof data.facebookProfile !== "undefined" && data.facebookProfile !== null) ? true : false,
       }
       if(this.twitter.connected) this.http.get("api/myfeed", { headers }).subscribe((feed: any) => {
         if(feed.success === false) {
