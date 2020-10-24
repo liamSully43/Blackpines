@@ -14,4 +14,4 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - Facebook API doesn't pass through a API token secret - if this isn't needed for API requests to facebook then it won't be a problem
 
 ## Notes
- - Added new Search page, only the basic layout & design has been implimented. The child components of the page have been added & connected so that the search filters (platforms & posts vs users) are handles & queried by the search page component & TS.
+Currently working on the search page - added the ability to search for twitter accounts & posts, I'll need to add linkedin & facebook account authorisation before setting up post & account searching for those platforms.
