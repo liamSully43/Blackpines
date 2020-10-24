@@ -124,7 +124,7 @@ function newTweet(req, done) {
         access_token,
         access_token_secret,
         timeout_ms: 60*1000,
-        strictSSL: false, // set to true when deployed to live server
+        strictSSL: false,
     })
     T.post("statuses/update", { status: req.body.tweet}, function(err, data, response) {
         if(err) {

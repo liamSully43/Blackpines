@@ -37,7 +37,8 @@ export class NewPostComponent implements OnInit {
     this.date= this.newDate();
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     this.http.get("api/user", { headers }).subscribe(data => {
-      this.user = data
+      this.user = data;
+      console.log(this.user);
       this.twitter = {
         connected: (typeof this.user.twitterProfile !== "undefined" && this.user.twitterProfile !== null) ? true : false,
         feed: (typeof this.user.twitterProfile !== "undefined" && this.user.twitterProfile !== null) ? true : false
