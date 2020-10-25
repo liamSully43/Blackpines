@@ -7,8 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class PlatformHeadersComponent implements OnInit {
 
-  @Input() cName: string;
-  @Input() img: string;
+  @Input() platform: string;
 
   constructor() { }
 

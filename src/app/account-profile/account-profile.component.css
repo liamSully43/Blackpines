@@ -6,6 +6,7 @@
   border-radius: 30px;
   margin-bottom: 20px;
   overflow: hidden;
+  position: relative;
 }
 
 .platform-sections-connected .account-info {
@@ -15,7 +16,8 @@
 .platform-sections-connected .account-info .default-background {
   width: 100%;
   height: 110px;
-  background-color: #ccd6dd;
+  background-color: #009a7f;
+  background-image: linear-gradient(45deg, #009a7f, #007a63);
 }
 
 .platform-sections-connected .account-info .profile-pic-container {
@@ -54,7 +56,7 @@
   background-color: darkgrey;
   color: #fff;
   font-size: 16px;
-  margin-left: 10px;
+  margin: 10px;
   -webkit-box-shadow: #dbdbdb 2px 2px 7px;
           box-shadow: #dbdbdb 2px 2px 7px;
   cursor: pointer;
@@ -69,5 +71,27 @@
   padding: 0px 10px;
   font-size: 14px;
   margin-top: 10px;
+}
+
+.platform-sections-connected .platform-footers {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  bottom: 0px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.platform-sections-connected .twitter-footer {
+  background-color: #1ba1f2;
+}
+
+.platform-sections-connected .linkedin-footer {
+  background-color: #0177b5;
+}
+
+.platform-sections-connected .facebook-footer {
+  background-color: #4367b2;
 }
 /*# sourceMappingURL=account-profile.component.css.map */

@@ -33,33 +33,46 @@ section {
   display: -ms-flexbox;
   display: flex;
   margin-top: 20px;
+}
+
+section .results-box {
+  -ms-flex-preferred-size: calc(100% / 3);
+      flex-basis: calc(100% / 3);
+  height: 100%;
+  margin-right: 20px;
+}
+
+section .results-box .results-overflow {
+  height: calc(100% - 17px);
+  padding-right: 10px;
   overflow: auto;
 }
 
-section .results {
-  -ms-flex-preferred-size: calc(calc(100% / 3) - 28px);
-      flex-basis: calc(calc(100% / 3) - 28px);
-  border-right: solid 1px #009a7f;
-  height: 100%;
-  padding: 0px 20px;
+section .results-box .results-overflow .results {
+  width: calc(100% - 20px);
+  height: auto;
+  padding: 10px;
+  background-color: #fff;
+  border: solid 1px lightgrey;
+  border-radius: 5px;
+  margin-bottom: 20px;
 }
 
-section .results:first-of-type {
-  padding-left: 0px;
+section .results-box .results-overflow .results:last-of-type {
+  margin-bottom: 0px;
 }
 
-section .results:last-of-type {
-  border-right: none;
-  padding-right: 0px;
+section .results-box:last-of-type {
+  margin-right: 0px;
 }
 
-section .results {
+section .results-box {
   width: 100%;
   height: auto;
   margin-bottom: 10px;
 }
 
-section .results:last-of-type {
+section .results-box:last-of-type {
   margin-bottom: 0px;
 }
 /*# sourceMappingURL=search.component.css.map */

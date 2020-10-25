@@ -15,30 +15,30 @@ function callback(req, res, Customer) {
         tokenSecret,
         linkedinID: req.account.id,
     };
-    req.user.linkedinProfile = req.account._json;
+    req.user.linkedinProfile = req.account;
+    console.log(req.account);
+    console.log(req.account.token);
+    console.log("===== yeet =====");
+    console.log(req.account.tokenSecret);
     Customer.updateOne(
         {_id: req.user._id},
         {linkedinCredentials: {
             token,
             tokenSecret,
             linkedinID: req.account.id,
-        }, linkedinProfile: req.account._json},
+        }, linkedinProfile: req.account},
         {multi: false},
-        function(err) {
-            if(err) {
-                req.flash("linkedinError", "Something went wrong, please try again later");
-                return res.redirect("/account");
-            }
+        function(err) { 
+            if(err) console.log(err);
         }
     )
-    res.redirect("/account");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //                              Disconnect From Linkedin                                //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function disconnect(req, res, Customer) {
+function disconnect(req, Customer, done) {
     req.user.linkedinCredentials = null;
     req.user.linkedinProfile = null;
     Customer.updateOne(
@@ -47,12 +47,14 @@ function disconnect(req, res, Customer) {
         {multi: false},
         function(err) {
             if(err) {
-                req.flash("linkedinError", "Something went wrong, please try again later");
-                return res.redirect("/account");
+                console.log(err)
+                done(true);
+            }
+            else {
+                done(false);
             }
         }
     )
-    res.redirect("/account");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
