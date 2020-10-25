@@ -12,6 +12,9 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
 
 ## Known Issues
  - Facebook API doesn't pass through a API token secret - if this isn't needed for API requests to facebook then it won't be a problem
+ - When twitter isn't connected to a blackpines account - the new-post page throws errors in the browser console & shows the linkedin & facebook post previews regardless if they are connected or not - this will be fixed when I get to the new-post page in regards to completing the project
+ - Unable to search for users on linkedin, the issue is relating to the oauth 2.0 scope permissions set by linkedin, I'll need to add the search scope to the linkedin app/account in order to make any searccg requests - currently in contact with LinkedIn support to get this sorted.
 
 ## Notes
-Currently working on the search page - added the ability to search for twitter accounts & posts, I'll need to add linkedin & facebook account authorisation before setting up post & account searching for those platforms.
+Currently working on the search page - added the ability to search for twitter accounts & posts
+Can now authenticate/connect blackpines accounts with facebook & linkedin accounts
