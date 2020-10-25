@@ -15,7 +15,9 @@ export class AccountProfileComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  ngOnChanges() {}
+  ngOnChanges() {
+    console.log(this.account);
+  }
 
   disconnect(e) :void {
     this.disconnectMethod.next(e);

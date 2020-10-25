@@ -8,37 +8,34 @@ const encrypt = new cryptr(process.env.ENCRYPTION_SECRET_KEY);
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function callback(req, res, Customer) {
+    console.log(req.account);
     const token = encrypt.encrypt(req.account.token);
-    const tokenSecret = encrypt.encrypt(req.account.tokenSecret);
+    // const tokenSecret = encrypt.encrypt(req.account.tokenSecret);
     req.user.facebookCredentials = {
         token,
-        tokenSecret,
+        // tokenSecret,
         facebookID: req.account.id,
     };
-    req.user.facebookProfile = req.account._json;
+    req.user.facebookProfile = req.account;
     Customer.updateOne(
         {_id: req.user._id},
         {facebookCredentials: {
             token,
-            tokenSecret,
+            // tokenSecret,
             facebookID: req.account.id,
-        }, facebookProfile: req.account._json},
+        }, facebookProfile: req.account},
         {multi: false},
-        function(err) {
-            if(err) {
-                req.flash("facebookError", "Something went wrong, please try again later");
-                return res.redirect("/account");
-            }
+        function(err) { 
+            if(err) console.log(err);
         }
     )
-    res.redirect("/account");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //                              Disconnect From Facebook                                //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function disconnect(req, res, Customer) {
+function disconnect(req, Customer, done) {
     req.user.facebookCredentials = null;
     req.user.facebookProfile = null;
     Customer.updateOne(
@@ -47,12 +44,14 @@ function disconnect(req, res, Customer) {
         {multi: false},
         function(err) {
             if(err) {
-                req.flash("facebookError", "Something went wrong, please try again later");
-                return res.redirect("/account");
+                console.log(err)
+                done(true);
+            }
+            else {
+                done(false);
             }
         }
     )
-    res.redirect("/account");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

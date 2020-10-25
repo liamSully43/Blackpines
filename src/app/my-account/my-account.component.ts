@@ -42,10 +42,20 @@ export class MyAccountComponent implements OnInit {
         });
         break;
       case "linkedin":
-        this.linkedin = false;
+        this.http.get("api/linkedin/disconnect", { headers }).subscribe((accountConnected: boolean) => {
+          if(accountConnected) {
+            this.linkedinError = true;
+          }
+          this.linkedin = accountConnected;
+        });
         break;
       case "facebook":
-        this.facebook = false;
+        this.http.get("api/facebook/disconnect", { headers }).subscribe((accountConnected: boolean) => {
+          if(accountConnected) {
+            this.facebookError = true;
+          }
+          this.facebook = accountConnected;
+        });
         break;
     }
   }

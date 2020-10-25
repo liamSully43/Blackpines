@@ -23,7 +23,7 @@
             </div>
             <div class="platform-input-container">
                 <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !twitter.feed}">
-                    <app-platform-headers *ngIf="twitter.feed" cName="twitter-header" img="../../assets/twitter-feed.png" ></app-platform-headers>
+                    <app-platform-headers *ngIf="twitter.feed" platform="twitter"></app-platform-headers>
                     <div class="character-limit-container" title="Maximum limit of 280 characters">
                         <p>Character Limit</p>
                         <div class="twitter-limit"></div>
@@ -39,7 +39,7 @@
                 </div>
                 
                 <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !linkedin.feed}">
-                    <app-platform-headers *ngIf="linkedin.feed" cName="linkedin-header" img="../../assets/linkedin-feed.png" ></app-platform-headers>
+                    <app-platform-headers *ngIf="linkedin.feed" platform="linkedin"></app-platform-headers>
                     <div class="character-limit-container" title="Maximum limit of 700 characters">
                         <p>Character Limit</p>
                         <div class="linkedin-limit"></div>
@@ -56,7 +56,7 @@
                 </div>
 
                 <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !facebook.feed}">
-                    <app-platform-headers *ngIf="facebook.feed" cName="facebook-header" img="../../assets/facebook-feed.png" ></app-platform-headers>
+                    <app-platform-headers *ngIf="facebook.feed" platform="facebook"></app-platform-headers>
                     <div class="character-limit-container fb" title="Maximum limit of 63000 characters">
                         <p>Character Limit</p>
                         <div class="facebook-limit"></div>

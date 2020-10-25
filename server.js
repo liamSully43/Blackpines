@@ -324,9 +324,7 @@ app.post("/newpost", [
 
 app.get("/twitter", checkAuthentication, passport.authorize("twitter"));
 
-app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter", {
-    failureRedirect: "/failre",
-}), function(req, res) {
+app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter"), function(req, res) {
     twitterAuth.callback(req, res, Customer);
     res.redirect("/my-account");
 });
@@ -343,12 +341,62 @@ app.get("/api/twitter/disconnect", function(req, res) {
 ////////////// linkedin
 // connect
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////// https://docs.microsoft.com/en-us/linkedin/shared/references/v2/profile/full-profile
+///////////////////////////////////////////////////////////////////////////////////////////////// https://docs.microsoft.com/en-us/linkedin/talent/recruiter-system-connect/unified-search
+
+
+
+app.get("/linkedin", checkAuthentication, passport.authorize("linkedin"));
+
+app.get("/linkedin/callback", checkAuthentication, passport.authorize("linkedin"), function(req, res) {
+    linkedinAuth.callback(req, res, Customer);
+    res.redirect("/my-account");
+});
+
+
+
+app.get("/profile", function(req, res) {
+    
+})
+
+
+
+
+
+
+
+
+
+
 // disconnect
+
+app.get("/api/linkedin/disconnect", function(req, res) {
+    function cb (accountConnected) {
+        res.send(accountConnected)
+    }
+    linkedinAuth.disconnect(req, Customer, cb);
+})
 
 ////////////// facebook
 // connect
 
+app.get("/facebook", checkAuthentication, passport.authorize("facebook"));
+
+app.get("/facebook/callback", checkAuthentication, passport.authorize("facebook"), function(req, res) {
+    facebookAuth.callback(req, res, Customer);
+    res.redirect("/my-account");
+});
+
 // disconnect
+
+app.get("/api/facebook/disconnect", function(req, res) {
+    function cb (accountConnected) {
+        res.send(accountConnected)
+    }
+    facebookAuth.disconnect(req, Customer, cb);
+})
 
 /////////////// Main/Info Page
 
