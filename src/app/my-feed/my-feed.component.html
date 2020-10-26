@@ -1,6 +1,6 @@
 <app-header [feed]="true"></app-header>
 <div class="main-content">
-    <app-side-nav [feed]="true" [search]="false" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (toggleFeedMethod)="toggleFeed($event)" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
+    <app-side-nav [feed]="true" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (toggleFeedMethod)="toggleFeed($event)" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
     <main>
         <div *ngIf="twitter.feed" class="feeds">
             <app-platform-headers platform="twitter"></app-platform-headers>

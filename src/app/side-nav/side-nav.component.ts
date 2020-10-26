@@ -8,7 +8,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class SideNavComponent implements OnInit {
 
   @Input() feed; // used to detect if the feed toggle html is needed
-  @Input() search; // used to detect if the search toggle html is needed
   
   // used to pass back what platforms should be connected
   @Input() twitter: any = {
@@ -61,15 +60,4 @@ export class SideNavComponent implements OnInit {
       this.toggleFeedMethod.next("multi");
     }
   }
-
-  // used for passing back what the user want's to search for
-  toggleSearch(e) {
-    if(e.path[0].value === "Users") {
-      this.toggleSearchMethod.next("user");
-    }
-    else {
-      this.toggleSearchMethod.next("post");
-    }
-  }
-
 }

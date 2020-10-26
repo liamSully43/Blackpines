@@ -1,6 +1,6 @@
 <app-header [new]="true"></app-header>
 <div class="main-content">
-    <app-side-nav [feed]="false" [search]="false" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
+    <app-side-nav [feed]="false" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
     <main>
         <form method="POST" action="/new-post" (submit)="newPost($event)">
             <div class="primary-input-container">
