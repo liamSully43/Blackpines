@@ -5,7 +5,7 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
 
 ## Features & Functionality
  - User's can signup & login to Blackpines
- - User's can connect to their Twitter accounts
+ - User's can connect to their Twitter, LinkedIn & Facebook accounts
  - User's can view the twitter home timelines
  - User's can view their own tweets
  - User's can make tweets from Blackpines
@@ -13,8 +13,6 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
 ## Known Issues
  - Facebook API doesn't pass through a API token secret - if this isn't needed for API requests to facebook then it won't be a problem
  - When twitter isn't connected to a blackpines account - the new-post page throws errors in the browser console & shows the linkedin & facebook post previews regardless if they are connected or not - this will be fixed when I get to the new-post page in regards to completing the project
- - Unable to search for users on linkedin, the issue is relating to the oauth 2.0 scope permissions set by linkedin, I'll need to add the search scope to the linkedin app/account in order to make any searccg requests - currently in contact with LinkedIn support to get this sorted.
 
 ## Notes
-Currently working on the search page - added the ability to search for twitter accounts & posts
-Can now authenticate/connect blackpines accounts with facebook & linkedin accounts
+Search page search function is now complete - had to remove linkedin & facebook as they don't support searching for user's & posts
