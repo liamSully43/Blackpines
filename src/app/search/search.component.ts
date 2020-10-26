@@ -23,10 +23,8 @@ export class SearchComponent implements OnInit {
   };
 
   twitterResults = [];
-  linkedInResults = [];
-  facebookResults = [];
 
-  searchType = "user";
+  searchType = "Users";
 
   constructor(private http: HttpClient) { }
 
@@ -37,36 +35,14 @@ export class SearchComponent implements OnInit {
         connected: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false,
         feed: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false
       }
-      this.linkedin = {
-        connected: (typeof data.linkedinProfile !== "undefined" && data.linkedinProfile !== null) ? true : false,
-        feed: (typeof data.linkedinProfile !== "undefined" && data.linkedinProfile !== null) ? true : false
-      }
-      this.facebook = {
-        connected: (typeof data.facebookProfile !== "undefined" && data.facebookProfile !== null) ? true : false,
-        feed: (typeof data.facebookProfile !== "undefined" && data.facebookProfile !== null) ? true : false,
-      }
     })
   }
 
-  toggleSearch = searchQuery => {
-    this.searchType = searchQuery // post or user
+  toggleSearch = () => {
+    const type = <HTMLSelectElement><unknown>document.querySelector("select");
+    this.searchType = type.value; // Users or Posts
     this.twitterResults = []; // used to prevent an errors - the data pased back from search queries will vary depending on if users or posts are searched for
     this.search(); // called to update results based off of type of search
-  }
-
-  togglePlatforms(platform) {
-    // platform keys = name & active
-    switch(platform.name) {
-      case "twitter":
-        this.twitter.feed = platform.active
-        break;
-      case "linkedin":
-        this.linkedin.feed = platform.active
-        break;
-      case "facebook":
-        this.facebook.feed = platform.active
-        break;
-    }
   }
 
   submitForm(e) {
@@ -78,18 +54,16 @@ export class SearchComponent implements OnInit {
     const searchTerm = (<HTMLInputElement>document.querySelector(".search")).value;
     if(searchTerm.length < 1) return;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
-    const twitter = this.twitter.feed;
-    const linkedin = this.linkedin.feed;
-    const facebook = this.facebook.feed;
     const type = this.searchType;
-    this.http.post("api/search", { headers, searchTerm, twitter, linkedin, facebook, type }, {responseType: "json"}).subscribe(((result: any) => {
-      if(result.twitter.success || result.linkedin.success || result.facebook.success) {
-        if(this.searchType === "user") {
-          this.twitterResults = result.twitter.results;
+    this.http.post("api/search", { headers, searchTerm, type }, {responseType: "json"}).subscribe(((result: any) => {
+      if(result.success) {
+        if(this.searchType === "Users") {
+          this.twitterResults = result.results;
           console.log(this.twitterResults);
         }
         else {
-          this.twitterResults = result.twitter.results.statuses;
+          this.twitterResults = result.results.statuses;
+          console.log(this.twitterResults);
         }
       }
       else {

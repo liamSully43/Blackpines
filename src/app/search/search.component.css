@@ -1,5 +1,7 @@
 main {
   background-color: #f0f0f0;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
 }
 
 .search-bar {
@@ -14,10 +16,20 @@ main {
 .search-bar input {
   -ms-flex-preferred-size: 85%;
       flex-basis: 85%;
-  margin-right: 5%;
   padding: 10px;
   border: solid 1px lightgrey;
-  border-radius: 5px;
+  border-right: 0px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.search-bar select {
+  border: solid 1px lightgrey;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding-left: 10px;
+  margin-right: 5%;
+  cursor: pointer;
 }
 
 .search-bar button {
@@ -27,38 +39,30 @@ main {
 }
 
 section {
-  width: 100%;
+  width: 75%;
   height: calc(100% - 58px);
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  margin: auto;
   margin-top: 20px;
 }
 
-section .results-box {
-  -ms-flex-preferred-size: calc(100% / 3);
-      flex-basis: calc(100% / 3);
-  height: 100%;
-  margin-right: 20px;
-}
-
-section .results-box .results-overflow {
-  height: calc(100% - 17px);
-  padding-right: 10px;
+section .results-overflow {
+  height: calc(100% - 37px);
   overflow: auto;
+  padding-right: 10px;
 }
 
-section .results-box .results-overflow .results {
-  width: calc(100% - 20px);
+section .results-overflow .results {
+  width: calc(100% - 22px);
   height: auto;
   padding: 10px;
   background-color: #fff;
   border: solid 1px lightgrey;
   border-radius: 5px;
+  margin: auto;
   margin-bottom: 20px;
 }
 
-section .results-box .results-overflow .results:last-of-type {
+section .results-overflow .results:last-of-type {
   margin-bottom: 0px;
 }
 

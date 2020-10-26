@@ -199,83 +199,41 @@ app.post("/api/search", [
     check("searchTerm").stripLow().trim().escape(),
 ], (req, res) => {
     const searchTerm = req.body.searchTerm // the user's searched term
-    let twitter = req.body.twitter; // if twitter is selected by user
-    let linkedin = req.body.linkedin; // if linkedin is selected by user
-    let facebook = req.body.facebook; // if facebook is selected by user
     const type = req.body.type; // if the user is searching for posts or users
 
     let failSafeCalled = false; // used to prevent the complete function from returning data if the failsafe is called after a timeout 
 
     // what will be returned to the client side
-    let outcome = {
-        twitter: {
-            results: "",
-            success: false,
-        },
-        linkedin: {
-            results: "",
-            success: false,
-        },
-        facebook: {
-            results: "",
-            success: false,
-        }
+    let response = {
+        results: "",
+        success: false,
     };
     
     // is a search query returns succesfully with data - this will be called
-    function callbackSuccess(platform, results) {
-        if(platform === "twitter") {
-            outcome.twitter.results = results;
-            outcome.twitter.success = true;
-            twitter = false;
-        }
-        else if(platform === "linkedin") {
-            outcome.linkedin.results = results;
-            outcome.linkedin.success = true;
-            linkedin = false;
-            console.log("linkedin match")
-        }
-        else {
-            outcome.facebook.results = results;
-            outcome.facebook.success = true;
-            facebook = false;
-            console.log("facebook match")
-        }
+    function callbackSuccess(results) {
+        response.results = results;
+        response.success = true;
         // when a platform search request returns it will set the respective platform value to false in order to call the function back to the client side
         //      this is called in both the success callback & the failed callback as both will return a value to the client side
-        if(!twitter && !linkedin && !facebook) complete();
+        complete();
     }
 
-    // is a search query doesn't returns - this will be called
-    function callbackFailed(platform, message) {
-        if(platform === "twitter") {
-            outcome.twitter.message = message;
-            outcome.twitter.success = false;
-            twitter = false;
-        }
-        else if(platform === "linkedin") {
-            outcome.linkedin.message = message;
-            outcome.linkedin.success = false;
-            linkedin = false;
-            console.log("linkedin match")
-        }
-        else {
-            outcome.facebook.message = message;
-            outcome.facebook.success = false;
-            facebook = false;
-            console.log("facebook match")
-        }
-        if(!twitter && !linkedin && !facebook) complete();
+    // is a search query fails - this will be called
+    function callbackFailed() {
+        response.message = "Something went wrong, please try again later";
+        response.success = false;
+        complete();
     }
 
-    // this calls platform search requests depending on the user selected filter options
-    if(twitter) {
-        platformSearch.twitter(req, searchTerm, type, callbackSuccess, callbackFailed);
+    // this calls the 
+    if(type === "Posts") {
+        platformSearch.searchPosts(req, searchTerm, callbackSuccess, callbackFailed);
     }
-    if(linkedin) platformSearch.linkedin(req, searchTerm, type, callbackSuccess, callbackFailed);
-    if(facebook) platformSearch.facebook(req, searchTerm, type, callbackSuccess, callbackFailed);
+    else {
+        platformSearch.searchUsers(req, searchTerm, callbackSuccess, callbackFailed);
+    }
 
-    // request(s) takes too long
+    // request takes too long
     const failsafe = setTimeout(() => {
         failSafeCalled = true;
         const end = {
@@ -283,21 +241,15 @@ app.post("/api/search", [
             message: "Request timed out, please try searching again later",
         }
         return res.send(end);
-    }, 30000); 
+    }, 20000); 
 
     // returns result(s) back to client side
     const complete = () => {
-        console.log("complete func called");
         if(!failSafeCalled) {
-            console.log(outcome);
-            console.log("yeet");
             clearTimeout(failsafe);
-            return res.send(outcome);
+            return res.send(response);
         }
     };
-
-    // this will end the API call if none of the platforms are selected in the filter
-    if(!twitter && !linkedin && !facebook) complete();
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -354,21 +306,6 @@ app.get("/linkedin/callback", checkAuthentication, passport.authorize("linkedin"
     linkedinAuth.callback(req, res, Customer);
     res.redirect("/my-account");
 });
-
-
-
-app.get("/profile", function(req, res) {
-    
-})
-
-
-
-
-
-
-
-
-
 
 // disconnect
 

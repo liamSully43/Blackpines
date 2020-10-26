@@ -2,6 +2,7 @@
 
 main {
     background-color: $off-primary;
+    flex-basis: 100%;
 }
 
 .search-bar {
@@ -12,10 +13,20 @@ main {
 
     input {
         flex-basis: 85%;
-        margin-right: 5%;
         padding: 10px;
         border: solid 1px lightgrey;
-        border-radius: 5px;
+        border-right: 0px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+
+    select {
+        border: solid 1px lightgrey;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding-left: 10px;
+        margin-right: 5%;
+        cursor: pointer;
     }
 
     button {
@@ -25,34 +36,29 @@ main {
 }
 
 section {
-    width: 100%;
+    width: 75%;
     height: calc(100% - 58px);
-    display: flex;
+    margin: auto;
     margin-top: 20px;
 
-    .results-box {
-        flex-basis: calc(100% / 3);
-        height: 100%;
-        margin-right: 20px;
+    .results-overflow {
+        height: calc(100% - 37px);
+        overflow: auto;
+        padding-right: 10px;
         
-        .results-overflow {
-            height: calc(100% - 17px);
-            padding-right: 10px;
-            overflow: auto;
-            
-            .results {
-                width: calc(100% - 20px);
-                height: auto;
-                padding: 10px;
-                background-color: $primary;
-                border: solid 1px lightgrey;
-                border-radius: 5px;
-                margin-bottom: 20px;
-            }
-    
-            .results:last-of-type {
-                margin-bottom: 0px;
-            }
+        .results {
+            width: calc(100% - 22px);
+            height: auto;
+            padding: 10px;
+            background-color: $primary;
+            border: solid 1px lightgrey;
+            border-radius: 5px;
+            margin: auto;
+            margin-bottom: 20px;
+        }
+
+        .results:last-of-type {
+            margin-bottom: 0px;
         }
     }
 
