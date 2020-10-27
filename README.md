@@ -15,4 +15,4 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - When twitter isn't connected to a blackpines account - the new-post page throws errors in the browser console & shows the linkedin & facebook post previews regardless if they are connected or not - this will be fixed when I get to the new-post page in regards to completing the project
 
 ## Notes
-Search page search function is now complete - had to remove linkedin & facebook as they don't support searching for user's & posts
+None
