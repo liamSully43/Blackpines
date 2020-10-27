@@ -12,26 +12,34 @@
         <section>
             <app-platform-headers platform="twitter"></app-platform-headers>
             <div class="results-overflow">
+                <!-- user results -->
                 <ng-container *ngIf='searchType == "Users"; else twitterElse'>
                     <div *ngFor="let user of twitterResults" class="results">
                         <img width="50" height="50" src="{{ user.profile_image_url }}" />
-                        <p>{{ user.name }}</p>
-                        <p>@{{ user.screen_name }}</p>
-                        <br />
-                        <p>{{ user.description }}</p>
-                        <br />
-                        <p>Following: {{ user.friends_count }}</p>
-                        <p>Followers: {{ user.followers_count }}</p>
+                        <div class="profile-headers">
+                            <p>{{ user.name }}</p>
+                            <img *ngIf="user.verified" width="20" height="20" src="../../assets/verified.png" />
+                            <p>@{{ user.screen_name }}</p>
+                        </div>
+                        <p class="text">{{ user.description }}</p>
+                        <div class="followers">
+                            <p><span>{{ user.friends_count }}</span> Following</p>
+                            <p><span>{{ user.followers_count }}</span> Followers</p>
+                            <p *ngIf="user.following" class="following">Following</p>
+                        </div>
                     </div>
                 </ng-container>
-                <ng-template #twitterElse>
+                <!-- tweet results -->
+                <ng-template #twitterElse>    
                     <div *ngFor="let post of twitterResults" class="results">
                         <img width="50" height="50" src="{{ post.user.profile_image_url }}" />
-                        <p>{{ post.user.name }}</p>
-                        <p>@{{ post.user.screen_name }}</p>
-                        <br />
-                        <p>{{ post.text }}</p>
-                        <p>Time: {{ post.created_at }}</p>
+                        <div class="profile-headers">
+                            <p>{{ post.user.name }}</p>
+                            <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
+                            <p>@{{ post.user.screen_name }}</p>
+                        </div>
+                        <p class="text">{{ post.text }}</p>
+                        <p class="time">{{ post.time }} | {{ post.date }}</p>
                     </div>
                 </ng-template>
             </div>
