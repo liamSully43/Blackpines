@@ -20,7 +20,7 @@
         <div *ngIf="facebook.feed" class="feeds">
             <app-platform-headers platform="facebook"></app-platform-headers>
             <div *ngFor="let post of facebookFeed">
-                <app-feed-posts [post]=post></app-feed-posts>
+                <app-feed-posts [post]=post [search]="false"></app-feed-posts>
             </div>
         </div>
     </main>

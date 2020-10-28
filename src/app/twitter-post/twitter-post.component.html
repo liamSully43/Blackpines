@@ -1,0 +1,25 @@
+<div class="preview-background">
+    <div class="post-preview">
+        <img width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" />
+        <div class="profile-headers" title="View post">
+            <p>{{ tweet.user.name }}</p>
+            <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
+            <p>@{{ tweet.user.screen_name }}</p>
+        </div>
+        <p class="text">{{ tweet.text }}</p>
+        <p class="time" >{{ tweet.time }} | {{ tweet.date }}</p>
+        <div class="user-interaction">
+            <div>
+                <a href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" target="_blank" rel="nofollow"><img src="../../assets/twitter-comment.PNG" width="30" height="auto" title="comment" /></a>
+            </div>
+            <div>
+                <img src="../../assets/retweet.png" width="30" height="auto" title="retweet" />
+                <p>{{ tweet.retweet_count }}</p>
+            </div>
+            <div>
+                <img src="../../assets/tweet-like.PNG" width="30" height="auto" title="like" />
+                <p>{{ tweet.favorite_count }}</p>
+            </div>
+        </div>
+    </div>
+</div>

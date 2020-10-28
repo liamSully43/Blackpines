@@ -1,43 +1,79 @@
 @import "../../variables";
 
-.posts, .posts-single {
-    width: 100%;
-    margin-bottom: 20px;
+.results {
+    width: calc(100% - 22px);
+    height: auto;
+    padding: 10px;
     background-color: $primary;
-    color: $secondary;
+    border: solid 1px lightgrey;
     border-radius: 5px;
+    margin: auto;
+    margin-bottom: 20px;
+    cursor: pointer;
 
-    section {
-        display: block;
-        padding: 5px 10px;
+    img {
+        border-radius: 100%;
+        display: inline-block;
+        margin-right: 10px;
+    }
 
-        img, div {
+    .profile-headers {
+        display: inline-block;
+        vertical-align: top;
+        padding-top: 5px;
+        
+        p, img {
             display: inline-block;
+            width: auto;
         }
 
         img {
-            border-radius: 100%;
+            margin-left: 10px;
+            vertical-align: bottom;
         }
 
-        div {
-            width: 60%;
-            vertical-align: top;
-            padding-top: 10px;
-            padding-left: 10px;
+        p:nth-of-type(2) {
+            display: block;
+            font-size: 14px;
+            color: grey
         }
     }
-    
-    .tweet-text, .time {
-        width: calc(100% - 22px);
-        padding: 5px 10px;
+
+    .text {
+        color: $secondary;
+        margin: 10px 0px;
     }
+
+    // used for users & not posts
+
+    .followers {
+        color: $secondary;
+
+        p {
+            font-size: 13px;
+            color: grey;
+            display: inline-block;
+            margin-right: 20px;
+
+            span {
+                font-size: 16px;
+                color: $secondary;
+            }
+        }
+
+        .following {
+            background-color: $off-primary;
+            border: solid 1px lightgrey;
+            border-radius: 3px;
+            padding: 1px 3px;
+        }
+    }
+
+    // used for posts rather & not users
 
     .time {
         font-size: 14px;
         color: grey;
     }
-}
 
-.posts {
-    border: solid 1px lightgrey;
 }

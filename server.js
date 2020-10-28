@@ -30,6 +30,7 @@ const twitterAuth = require("./twitterAuthentication");
 const linkedinAuth = require("./linkedinAuthentication");
 const facebookAuth = require("./facebookAuthentication");
 const platformSearch = require("./platformSearch");
+const getUsersAndPosts = require("./getUsersAndPosts");
 
 const app = express();
 
@@ -250,6 +251,16 @@ app.post("/api/search", [
             return res.send(response);
         }
     };
+})
+
+// get tweets 
+
+app.post("/api/getTwitterPost", (req, res) => {
+    const postId = req.body.postId;
+    function cb (val) {
+        res.send(val);
+    }
+    getUsersAndPosts.twitterPost(postId, cb);
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -30,19 +30,21 @@
                     </div>
                 </ng-container>
                 <!-- tweet results -->
-                <ng-template #twitterElse>    
-                    <div *ngFor="let post of twitterResults" class="results">
-                        <img width="50" height="50" src="{{ post.user.profile_image_url }}" />
-                        <div class="profile-headers">
-                            <p>{{ post.user.name }}</p>
-                            <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
-                            <p>@{{ post.user.screen_name }}</p>
-                        </div>
-                        <p class="text">{{ post.text }}</p>
-                        <p class="time">{{ post.time }} | {{ post.date }}</p>
-                    </div>
+                <ng-template #twitterElse>
+                    <app-feed-posts *ngFor="let post of twitterResults" [post]="post" [search]="true" (showPost)="showPost($event)" ></app-feed-posts>
                 </ng-template>
             </div>
         </section>
     </main>
 </div>
+
+<!-- post & account previews -->
+<!-- <app-twitter-account></app-twitter-account> -->
+<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet"></app-twitter-post>
+<!--
+<app-linkedin-account></app-linkedin-account>
+<app-linkedin-post></app-linkedin-post>
+
+<app-facebook-account></app-facebook-account>
+<app-facebook-post></app-facebook-post>
+-->

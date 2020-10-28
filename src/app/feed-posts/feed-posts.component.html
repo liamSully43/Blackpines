@@ -1,11 +1,13 @@
-<div class="posts">
-    <section>
-        <img class="tweet-photo" width="50" height="auto" src={{post.user.profile_image_url_https}} />
-        <div>
-            <p>{{post.user.name}}</p>
-            <p>@{{post.user.screen_name}}</p>
-        </div>
-    </section>
-    <p class="tweet-text">{{post.text}}</p>
-    <p class="time">{{post.created_at}}</p>
+<div class="results" (click)="viewPost($event)">
+    <img width="50" height="50" src="{{ post.user.profile_image_url }}" (click)="viewUser($event)" title="View account" />
+    <div class="profile-headers" (click)="viewUser($event)" title="View post">
+        <p>{{ post.user.name }}</p>
+        <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
+        <p>@{{ post.user.screen_name }}</p>
+    </div>
+    <p class="text">{{ post.text }}</p>
+    <p class="time" *ngIf="search; else elseBlock">{{ post.time }} | {{ post.date }}</p>
+    <ng-template #elseBlock>
+        <p class="time">{{ post.created_at }}</p>
+    </ng-template>
 </div>

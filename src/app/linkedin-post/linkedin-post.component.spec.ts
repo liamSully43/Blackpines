@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PreviewProfileComponent } from './preview-profile.component';
+import { LinkedinPostComponent } from './linkedin-post.component';
 
-describe('PreviewProfileComponent', () => {
-  let component: PreviewProfileComponent;
-  let fixture: ComponentFixture<PreviewProfileComponent>;
+describe('LinkedinPostComponent', () => {
+  let component: LinkedinPostComponent;
+  let fixture: ComponentFixture<LinkedinPostComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PreviewProfileComponent ]
+      declarations: [ LinkedinPostComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PreviewProfileComponent);
+    fixture = TestBed.createComponent(LinkedinPostComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
