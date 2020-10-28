@@ -16,10 +16,14 @@ import { FeedPostsComponent } from './feed-posts/feed-posts.component';
 import { AccountProfileComponent } from './account-profile/account-profile.component';
 import { PlatformHeadersComponent } from './platform-headers/platform-headers.component';
 import { HttpClientModule } from '@angular/common/http';
-import { PreviewProfileComponent } from './preview-profile/preview-profile.component';
-import { PreviewPostComponent } from './preview-post/preview-post.component';
 import { SharePostComponent } from './share-post/share-post.component';
 import { SearchComponent } from './search/search.component';
+import { TwitterPostComponent } from './twitter-post/twitter-post.component';
+import { LinkedinPostComponent } from './linkedin-post/linkedin-post.component';
+import { FacebookPostComponent } from './facebook-post/facebook-post.component';
+import { FacebookAccountComponent } from './facebook-account/facebook-account.component';
+import { LinkedinAccountComponent } from './linkedin-account/linkedin-account.component';
+import { TwitterAccountComponent } from './twitter-account/twitter-account.component';
 
 @NgModule({
   declarations: [
@@ -36,10 +40,14 @@ import { SearchComponent } from './search/search.component';
     FeedPostsComponent,
     AccountProfileComponent,
     PlatformHeadersComponent,
-    PreviewProfileComponent,
-    PreviewPostComponent,
     SharePostComponent,
-    SearchComponent
+    SearchComponent,
+    TwitterPostComponent,
+    LinkedinPostComponent,
+    FacebookPostComponent,
+    FacebookAccountComponent,
+    LinkedinAccountComponent,
+    TwitterAccountComponent
   ],
   imports: [
     BrowserModule,

@@ -26,6 +26,10 @@ export class SearchComponent implements OnInit {
 
   searchType = "Users";
 
+  tweet: any = false;
+  linkedinPost: any;
+  facebookPost: any;
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -87,18 +91,9 @@ export class SearchComponent implements OnInit {
             }
           }
           this.twitterResults = result.results;
-          console.log(this.twitterResults);
         }
         else { // if posts were searched for
-          let posts = result.results.statuses;
-          for(let post of posts) {
-            let time = post.created_at;
-            let date = post.created_at;
-            post.time = time.substr(11, 5);
-            post.date = date.substr(4, 6);
-          }
-          this.twitterResults = posts;
-          console.log(this.twitterResults);
+          this.twitterResults = result.results.statuses;
         }
       }
       else {
@@ -106,4 +101,26 @@ export class SearchComponent implements OnInit {
       }
     }))
   }
+
+  showPost(id) {
+    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const postId = id
+    this.http.post("api/getTwitterPost", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
+      if(result.success) {
+        let time = result.post.created_at;
+        let date = result.post.created_at;
+        this.tweet = result.post;
+        this.tweet.time = time.substr(11, 5);
+        this.tweet.date = date.substr(4, 6);
+        console.log(this.tweet);
+      }
+      else {
+        console.log("something went wrong");
+      }
+    }))
+  }
+
+
+
+
 }

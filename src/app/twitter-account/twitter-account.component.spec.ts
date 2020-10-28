@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PreviewPostComponent } from './preview-post.component';
+import { TwitterAccountComponent } from './twitter-account.component';
 
-describe('PreviewPostComponent', () => {
-  let component: PreviewPostComponent;
-  let fixture: ComponentFixture<PreviewPostComponent>;
+describe('TwitterAccountComponent', () => {
+  let component: TwitterAccountComponent;
+  let fixture: ComponentFixture<TwitterAccountComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PreviewPostComponent ]
+      declarations: [ TwitterAccountComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PreviewPostComponent);
+    fixture = TestBed.createComponent(TwitterAccountComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

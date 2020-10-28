@@ -1,0 +1,92 @@
+@import '../../variables';
+
+.preview-background {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(33, 33, 33, 0.5);
+    display: grid;
+    place-items: center;
+}
+
+.post-preview {
+    width: 30%;
+    height: auto;
+    padding: 20px;
+    background-color: $primary;
+    border-radius: 25px;
+
+    img {
+        border-radius: 100%;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .profile-headers {
+        display: inline-block;
+        vertical-align: top;
+        padding-top: 5px;
+        
+        p, img {
+            display: inline-block;
+            width: auto;
+            font-size: 18px;
+        }
+
+        img {
+            margin-left: 10px;
+            vertical-align: bottom;
+        }
+
+        p:nth-of-type(2) {
+            display: block;
+            font-size: 16px;
+            color: grey
+        }
+    }
+
+    .text {
+        color: $secondary;
+        margin: 20px 0px;
+        font-size: 20px;
+    }
+
+    .time {
+        font-size: 16px;
+        color: grey;
+    }
+
+    .user-interaction {
+        display: flex;
+
+        div {
+            flex-basis: calc(100% / 3);
+            display: flex !important;
+            place-items: center !important;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: solid 1px lightgrey;
+
+            img, a {
+                border-radius: 0px !important;
+                cursor: pointer;
+            }
+
+            a {
+                width: 100%;
+                text-align: center;
+            }
+
+            img {
+                background-color: $secondary;
+                margin: auto;
+            }
+
+            img:hover {
+                background-color: $accent;
+            }
+        }
+    }
+
+}
