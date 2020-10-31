@@ -16,6 +16,7 @@ export class FeedPostsComponent implements OnInit {
   ngOnInit(): void { }
 
   ngOnChanges() {
+    console.log(this.post);
     if(this.search) {
       let time = this.post.created_at;
       let date = this.post.created_at;

@@ -46,6 +46,19 @@
         }
     }
 
+    .close {
+        width: 13px;
+        position: relative;
+        top: -5px;
+        float: right;
+        color: $close;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: $close-hover
+    }
+
     .text {
         color: $secondary;
         margin: 20px 0px;
@@ -55,36 +68,41 @@
     .time {
         font-size: 16px;
         color: grey;
+        display: inline-block;
+    }
+
+    .preview {
+        display: inline-block;
+        color: grey;
+        margin-left: 10px;
+        font-size: 15px;
     }
 
     .user-interaction {
         display: flex;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: solid 1px lightgrey;
 
         div {
-            flex-basis: calc(100% / 3);
-            display: flex !important;
-            place-items: center !important;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: solid 1px lightgrey;
-
-            img, a {
-                border-radius: 0px !important;
-                cursor: pointer;
-            }
-
-            a {
-                width: 100%;
-                text-align: center;
-            }
+            flex-basis: 20%;
+            margin: auto;
 
             img {
                 background-color: $secondary;
-                margin: auto;
+                max-height: 20px;
+                border-radius: 0px !important;
+                float: left;
+                cursor: pointer;
             }
-
+            
             img:hover {
                 background-color: $accent;
+            }
+            
+            p {
+                color: grey;
+                float: left;
             }
         }
     }
