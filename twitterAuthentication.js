@@ -80,7 +80,7 @@ const getFeed = (req, done) => {
         'HMAC-SHA1'
     );
     let response = oauth.get(
-        "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50",
+        "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50&include_my_retweet=true&tweet_mode=extended",
         token,
         tokenSecret,
         function(err, data) {
@@ -102,7 +102,7 @@ const getFeed = (req, done) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 const getPosts = (req, done) => {
-    fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=50&user_id=${req.user.twitterCredentials.twitterID}`, {
+    fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=50&user_id=${req.user.twitterCredentials.twitterID}&include_my_retweet=true&tweet_mode=extended`, {
         method: "get",
         headers:  {
             'Content-Type': 'application/json',

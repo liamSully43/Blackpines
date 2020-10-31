@@ -6,7 +6,7 @@ function twitterAccount() {
 }
 
 function twitterPost(id, done) {
-    fetch(`https://api.twitter.com/1.1/statuses/show.json?id=${id}`, {
+    fetch(`https://api.twitter.com/1.1/statuses/show.json?id=${id}&tweet_mode=extended`, {
         method: "get",
         headers:  {
             'Content-Type': 'application/json',

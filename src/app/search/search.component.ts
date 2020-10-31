@@ -120,7 +120,24 @@ export class SearchComponent implements OnInit {
     }))
   }
 
-
+  close(platform) {
+    switch(platform) {
+      case "twitter":
+        this.tweet = false;
+        break;
+      case "linkedin":
+        this.linkedinPost = false;
+        break;
+      case "facebook":
+        this.facebookPost = false;
+        break;
+      default:
+        this.tweet = false;
+        this.linkedinPost = false;
+        this.facebookPost = false;
+        break;
+    }
+  }
 
 
 }
