@@ -146,6 +146,43 @@ function newTweet(req, done) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//                                    Like Tweet                                       //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function like(req, done) {
+    console.log(req.body.id);
+    const id = parseInt(req.body.id);
+    console.log(id);
+    const token = encrypt.decrypt(req.user.twitterCredentials.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const oauth = new OAuth.OAuth(
+        "https://api.twitter.com/oauth/request_token",
+        "https://api.twitter.com/oauth/access_token",
+        process.env.TWITTER_CONSUMER_KEY,
+        process.env.TWITTER_CONSUMER_SECRET,
+        '1.0A',
+        null,
+        'HMAC-SHA1'
+    );
+    oauth.post(
+        `https://api.twitter.com/1.1/favorites/create.json?id=${id}`,
+        token,
+        tokenSecret,
+        function(err, data) {
+            console.log("func called");
+            if(err) {
+                console.log(err);
+                done(false)
+            }
+            else {
+                console.log(data);
+                done(true);
+            }
+        }
+    )
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //                                      Exports                                        //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -156,4 +193,5 @@ module.exports = {
     getFeed,
     getPosts,
     newTweet,
+    like,
 }

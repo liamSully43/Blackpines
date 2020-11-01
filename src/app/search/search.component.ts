@@ -23,12 +23,13 @@ export class SearchComponent implements OnInit {
   };
 
   twitterResults = [];
+  firstSearch = true;
+  failedSearch = false;
+  loading = false;
 
   searchType = "Users";
 
   tweet: any = false;
-  linkedinPost: any;
-  facebookPost: any;
 
   constructor(private http: HttpClient) { }
 
@@ -57,9 +58,14 @@ export class SearchComponent implements OnInit {
   search() {
     const searchTerm = (<HTMLInputElement>document.querySelector(".search")).value;
     if(searchTerm.length < 1) return;
+
+    this.loading = true;
+    this.failedSearch = false;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const type = this.searchType;
     this.http.post("api/search", { headers, searchTerm, type }, {responseType: "json"}).subscribe(((result: any) => {
+      this.firstSearch = false;
+      this.loading = false;
       if(result.success) {
         if(this.searchType === "Users") { // if user's was searched for
           let users = result.results;
@@ -97,7 +103,8 @@ export class SearchComponent implements OnInit {
         }
       }
       else {
-        console.log("not successful");
+        this.twitterResults = [];
+        this.failedSearch = true;
       }
     }))
   }
@@ -115,29 +122,14 @@ export class SearchComponent implements OnInit {
         console.log(this.tweet);
       }
       else {
-        console.log("something went wrong");
+        this.firstSearch = false;
+        this.failedSearch = true;
       }
     }))
   }
 
-  close(platform) {
-    switch(platform) {
-      case "twitter":
-        this.tweet = false;
-        break;
-      case "linkedin":
-        this.linkedinPost = false;
-        break;
-      case "facebook":
-        this.facebookPost = false;
-        break;
-      default:
-        this.tweet = false;
-        this.linkedinPost = false;
-        this.facebookPost = false;
-        break;
+  close() {
+      this.tweet = false;
     }
-  }
-
 
 }
