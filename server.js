@@ -226,7 +226,6 @@ app.post("/api/search", [
         complete();
     }
 
-    // this calls the 
     if(type === "Posts") {
         platformSearch.searchPosts(req, searchTerm, callbackSuccess, callbackFailed);
     }
@@ -251,6 +250,11 @@ app.post("/api/search", [
             return res.send(response);
         }
     };
+})
+
+app.post("/api/tweet/like", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.like(req, cb)
 })
 
 // get tweets 

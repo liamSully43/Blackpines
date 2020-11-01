@@ -13,6 +13,7 @@ main {
 
     input {
         flex-basis: 85%;
+        min-width: 10px;
         padding: 10px;
         border: solid 1px lightgrey;
         border-right: 0px;
@@ -31,6 +32,7 @@ main {
 
     button {
         flex-basis: 15%;
+        min-width: 90px;
         padding: 10px 0px;
     }
 
@@ -131,6 +133,10 @@ section {
         .results:last-of-type {
             margin-bottom: 0px;
         }
+
+        .no-results {
+            margin-top: 10px;
+        }
     }
 
     .results-box:last-of-type {
@@ -145,5 +151,23 @@ section {
 
     .results-box:last-of-type {
        margin-bottom: 0px;
+    }
+}
+
+@media(max-width: 1024px) {
+    .submit {
+        flex-basis: 20% !important;
+        font-size: 14px;
+    }
+}
+
+@media(max-width: 800px) {
+    .search-bar, section {
+        width: 100%;
+        padding: 0px;
+    }
+
+    .search {
+        flex-basis: calc(85% - 90px);
     }
 }

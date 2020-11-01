@@ -5,7 +5,7 @@
         <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
         <p>@{{ post.user.screen_name }}</p>
     </div>
-    <p class="text">{{ post.text }}</p>
+    <p class="text">{{ post.full_text }}</p>
     <p class="time" *ngIf="search; else elseBlock">{{ post.time }} | {{ post.date }}</p>
     <ng-template #elseBlock>
         <p class="time">{{ post.created_at }}</p>

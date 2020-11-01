@@ -1,7 +1,7 @@
 <div class="preview-background">
     <div class="post-preview">
         <img width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" />
-        <div class="profile-headers" title="View post">
+        <div class="profile-headers">
             <p>{{ tweet.user.name }}</p>
             <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
             <p>@{{ tweet.user.screen_name }}</p>
@@ -16,7 +16,7 @@
                 <p>{{ tweet.retweet_count }}</p>
             </div>
             <div>
-                <img src="../../assets/tweet-like.PNG" width="auto" height="15" title="like" />
+                <img src="../../assets/tweet-like.PNG" width="auto" height="15" title="like" (click)="likeTweet()" />
                 <p>{{ tweet.favorite_count }}</p>
             </div>
         </div>
