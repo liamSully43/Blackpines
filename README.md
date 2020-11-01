@@ -13,6 +13,7 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
 ## Known Issues
  - Facebook API doesn't pass through a API token secret - if this isn't needed for API requests to facebook then it won't be a problem
  - When twitter isn't connected to a blackpines account - the new-post page throws errors in the browser console & shows the linkedin & facebook post previews regardless if they are connected or not - this will be fixed when I get to the new-post page in regards to completing the project
+ - Error "socket hung up" when attempting to like tweets, nothing mentioned in either Twitter API or Oauth lib docs
 
 ## Notes
 None
