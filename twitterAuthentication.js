@@ -1,10 +1,21 @@
 require("dotenv").config();
 const cryptr = require("cryptr");
 const OAuth = require("oauth");
+const oAuthSignature = require("oauth-signature");
 const fetch = require("node-fetch");
 const Twit = require("twit");
 
 const encrypt = new cryptr(process.env.ENCRYPTION_SECRET_KEY);
+
+const oauth = new OAuth.OAuth(
+    "https://api.twitter.com/oauth/request_token",
+    "https://api.twitter.com/oauth/access_token",
+    process.env.TWITTER_CONSUMER_KEY,
+    process.env.TWITTER_CONSUMER_SECRET,
+    '1.0A',
+    null,
+    'HMAC-SHA1'
+);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //                             Twitter API Callback                                    //
@@ -70,15 +81,6 @@ function update(req, res) {
 const getFeed = (req, done) => {
     const token = encrypt.decrypt(req.user.twitterCredentials.token);
     const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
-    const oauth = new OAuth.OAuth(
-        "https://api.twitter.com/oauth/request_token",
-        "https://api.twitter.com/oauth/access_token",
-        process.env.TWITTER_CONSUMER_KEY,
-        process.env.TWITTER_CONSUMER_SECRET,
-        '1.0A',
-        null,
-        'HMAC-SHA1'
-    );
     let response = oauth.get(
         "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50&include_my_retweet=true&tweet_mode=extended",
         token,
@@ -146,36 +148,46 @@ function newTweet(req, done) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//                                    Like Tweet                                       //
+//                                   Like Tweets                                       //
 /////////////////////////////////////////////////////////////////////////////////////////
+//`Bearer ${process.env.TWITTER_BEARER_TOKEN}`
 
 function like(req, done) {
-    console.log(req.body.id);
-    const id = parseInt(req.body.id);
-    console.log(id);
     const token = encrypt.decrypt(req.user.twitterCredentials.token);
     const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
-    const oauth = new OAuth.OAuth(
-        "https://api.twitter.com/oauth/request_token",
-        "https://api.twitter.com/oauth/access_token",
-        process.env.TWITTER_CONSUMER_KEY,
-        process.env.TWITTER_CONSUMER_SECRET,
-        '1.0A',
-        null,
-        'HMAC-SHA1'
-    );
     oauth.post(
-        `https://api.twitter.com/1.1/favorites/create.json?id=${id}`,
+        `https://api.twitter.com/1.1/favorites/create.json?id=${req.body.id}`,
         token,
         tokenSecret,
+        null,
+        "application/json",
         function(err, data) {
-            console.log("func called");
             if(err) {
                 console.log(err);
-                done(false)
+                const error = Function(`"use strict";return ${data}`)();
+                if(error.errors[0].code === 139) {
+                    oauth.post(
+                        `https://api.twitter.com/1.1/favorites/destroy.json?id=${req.body.id}`,
+                        token,
+                        tokenSecret,
+                        null,
+                        "application/json",
+                        function(err, data) {
+                            if(err) {
+                                console.log(err);
+                                return done(null);
+                            }
+                            else {
+                                return done(false);
+                            }
+                        }
+                    )
+                }
+                else {
+                    done(null);
+                }
             }
             else {
-                console.log(data);
                 done(true);
             }
         }

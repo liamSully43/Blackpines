@@ -1,42 +1,73 @@
-.posts, .posts-single {
-  width: 100%;
-  margin-bottom: 20px;
-  background-color: #fff;
-  color: #232323;
-  border-radius: 5px;
-}
-
-.posts section, .posts-single section {
-  display: block;
-  padding: 5px 10px;
-}
-
-.posts section img, .posts section div, .posts-single section img, .posts-single section div {
-  display: inline-block;
-}
-
-.posts section img, .posts-single section img {
-  border-radius: 100%;
-}
-
-.posts section div, .posts-single section div {
-  width: 60%;
-  vertical-align: top;
-  padding-top: 10px;
-  padding-left: 10px;
-}
-
-.posts .tweet-text, .posts .time, .posts-single .tweet-text, .posts-single .time {
+.results {
   width: calc(100% - 22px);
-  padding: 5px 10px;
+  height: auto;
+  padding: 10px;
+  background-color: #fff;
+  border: solid 1px lightgrey;
+  border-radius: 5px;
+  margin: auto;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
 
-.posts .time, .posts-single .time {
+.results img {
+  border-radius: 100%;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.results .profile-headers {
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 5px;
+}
+
+.results .profile-headers p, .results .profile-headers img {
+  display: inline-block;
+  width: auto;
+}
+
+.results .profile-headers img {
+  margin-left: 10px;
+  vertical-align: bottom;
+}
+
+.results .profile-headers p:nth-of-type(2) {
+  display: block;
   font-size: 14px;
   color: grey;
 }
 
-.posts {
+.results .text {
+  color: #232323;
+  margin: 10px 0px;
+}
+
+.results .followers {
+  color: #232323;
+}
+
+.results .followers p {
+  font-size: 13px;
+  color: grey;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.results .followers p span {
+  font-size: 16px;
+  color: #232323;
+}
+
+.results .followers .following {
+  background-color: #f0f0f0;
   border: solid 1px lightgrey;
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+
+.results .time {
+  font-size: 14px;
+  color: grey;
 }
 /*# sourceMappingURL=feed-posts.component.css.map */

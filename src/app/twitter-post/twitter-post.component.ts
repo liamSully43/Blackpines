@@ -11,6 +11,9 @@ export class TwitterPostComponent implements OnInit {
 
   @Output() close = new EventEmitter<string>();
 
+  liked = false;
+  error = false;
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -56,16 +59,24 @@ export class TwitterPostComponent implements OnInit {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.tweet.id_str;
     this.http.post("api/tweet/like", { headers, id }, {responseType: "json"}).subscribe((liked => {
-      if(liked) {
-        console.log("liked")
+      if(liked === null) {
+        this.errorThrown();
+      }
+      else if(liked) {
+        this.liked = true;
       }
       else {
-        console.log("not liked");
+        this.liked = false;
       }
     }))
   }
 
   retweet() {
 
+  }
+
+  errorThrown() {
+    this.error = true;
+    setTimeout(() => this.error = false, 5000);
   }
 }
