@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "twitter-account.component.scss"
+    ],
+    "names": [],
+    "file": "twitter-account.component.css"
+}

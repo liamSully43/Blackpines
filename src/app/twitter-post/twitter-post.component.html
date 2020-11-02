@@ -16,9 +16,13 @@
                 <p>{{ tweet.retweet_count }}</p>
             </div>
             <div>
-                <img src="../../assets/tweet-like.PNG" width="auto" height="15" title="like" (click)="likeTweet()" />
+                <img *ngIf="!liked; else likedTweet" src="../../assets/tweet-like.PNG" width="auto" height="15" title="like" (click)="likeTweet()" />
+                <ng-template #likedTweet>
+                    <img src="../../assets/tweet-liked.PNG" width="auto" height="15" title="like" class="selected" (click)="likeTweet()" />
+                </ng-template>
                 <p>{{ tweet.favorite_count }}</p>
             </div>
         </div>
+        <p *ngIf="error" class="error">An error occured, please try again later</p>
     </div>
 </div>
