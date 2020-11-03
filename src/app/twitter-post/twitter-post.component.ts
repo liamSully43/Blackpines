@@ -14,6 +14,9 @@ export class TwitterPostComponent implements OnInit {
   liked = false;
   error = false;
 
+  links = [];
+  imgUrls = [];
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
@@ -47,6 +50,41 @@ export class TwitterPostComponent implements OnInit {
         likes = Math.floor(likes/1000000);
         likes += "M";
         this.tweet.favorite_count = likes;
+      }
+
+      // changes the time & date into the correct format
+      let time = this.tweet.created_at;
+      let date = this.tweet.created_at;
+      this.tweet.time = time.substr(11, 5);
+      this.tweet.date = date.substr(4, 6);
+      
+      // replaces the shortened href with the actual href
+      if(this.tweet.entities.urls.length > 0) {
+        for(let url of this.tweet.entities.urls) {
+          const text = this.tweet.full_text.replace(url.url, "");
+          this.tweet.full_text = text;
+          const link = {
+            displayUrl: url.display_url,
+            expandedUrl: url.expanded_url,
+          }
+          this.links.push(link);
+        }
+      }
+
+
+      // add index for links - use the index method for for of loops and use the index as a ref for each link - replace the '>' with the index 
+
+      // replaces the image href with the camera emoji
+      for(const prop in this.tweet.entities) {
+        if(prop === "media") { // the media property only shows up if an image is used, unlike the url or hashtag properties
+          for(let url of this.tweet.extended_entities.media) {
+            const text = this.tweet.full_text.replace(url.url, "");
+            this.tweet.full_text = text;
+            this.imgUrls.push(url.media_url_https);
+            console.log(this.imgUrls);
+          }
+          break;
+        }
       }
     }
   }

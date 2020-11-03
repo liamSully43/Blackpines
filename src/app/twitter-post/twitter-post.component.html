@@ -1,13 +1,23 @@
 <div class="preview-background">
     <div class="post-preview">
-        <img width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" />
+        <img class="users-profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" />
         <div class="profile-headers">
             <p>{{ tweet.user.name }}</p>
-            <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
+            <img class="verified" *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
             <p>@{{ tweet.user.screen_name }}</p>
         </div>
         <p (click)="closeTweet()" class="close">&#10005;</p>
         <p class="text">{{ tweet.full_text }}</p>
+        <div class="links-container">
+            <ng-container *ngFor="let link of links">
+                <a class="user-links" href="{{ link.expandedUrl }}" target="_blank" rel="nofollow" >> {{ link.displayUrl }}</a>
+            </ng-container>
+        </div>
+        <div class="media-container">
+            <ng-container *ngFor="let url of imgUrls">
+                <img class="image" src={{url}} width="auto" height="auto" alt="A photo posted by the user" />
+            </ng-container>
+        </div>
         <p class="time" >{{ tweet.time }} | {{ tweet.date }}</p>
         <a class="preview" href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" target="_blank" rel="nofollow" >View Tweet</a>
         <div class="user-interaction">
