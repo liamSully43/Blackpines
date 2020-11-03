@@ -50,6 +50,7 @@ export class MyFeedComponent implements OnInit {
         }
         else {
           this.twitterFeed = feed
+          console.log(feed);
           this.twitterError = false;
         }
       })
