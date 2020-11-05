@@ -257,6 +257,11 @@ app.post("/api/tweet/like", (req, res) => {
     twitterAuth.like(req, cb)
 })
 
+app.post("/api/tweet/reply", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.reply(req, cb);
+})
+
 // get tweets 
 
 app.post("/api/getTwitterPost", (req, res) => {

@@ -120,7 +120,7 @@ const getPosts = (req, done) => {
 function newTweet(req, done) {
     const access_token = encrypt.decrypt(req.user.twitterCredentials.token);
     const access_token_secret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
-    let T = new Twit({
+    const T = new Twit({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
         access_token,
@@ -150,7 +150,6 @@ function newTweet(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 //                                   Like Tweets                                       //
 /////////////////////////////////////////////////////////////////////////////////////////
-//`Bearer ${process.env.TWITTER_BEARER_TOKEN}`
 
 function like(req, done) {
     const token = encrypt.decrypt(req.user.twitterCredentials.token);
@@ -195,6 +194,39 @@ function like(req, done) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//                                 Reply to Tweets                                     //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function reply(req, done) {
+    const id = req.body.id;
+    const tweet = req.body.tweet;
+    const handle = req.body.handle;
+    const tweetArray = tweet.split(" ");
+    const status = (tweetArray[0] !== `@${handle}`) ? `@${handle} ${tweet}` : tweet;
+    
+    const access_token = encrypt.decrypt(req.user.twitterCredentials.token);
+    const access_token_secret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const T = new Twit({
+        consumer_key: process.env.TWITTER_CONSUMER_KEY,
+        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+        access_token,
+        access_token_secret,
+        timeout_ms: 60*1000,
+        strictSSL: false,
+    })
+    T.post("statuses/update", { in_reply_to_status_id: id, status: status}, function(err, data, response) {
+        if(err) {
+            console.log(err);
+            done(false);
+        }
+        else {
+            console.log(data);
+            done(true);
+        }
+    })
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //                                      Exports                                        //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -206,4 +238,5 @@ module.exports = {
     getPosts,
     newTweet,
     like,
+    reply,
 }

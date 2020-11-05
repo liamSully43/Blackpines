@@ -1,11 +1,24 @@
 <div class="results" (click)="viewPost($event)">
+    <!-- The user's picture, name, handle & verification badge -->
     <img width="50" height="50" src="{{ post.user.profile_image_url }}" (click)="viewUser($event)" title="View account" />
     <div class="profile-headers" (click)="viewUser($event)" title="View post">
         <p>{{ post.user.name }}</p>
         <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
         <p>@{{ post.user.screen_name }}</p>
     </div>
+    <!-- tweet text -->
     <p class="text">{{ post.full_text }}</p>
+    <!-- quote tweet if the original tweet is a quote tweet -->
+    <div *ngIf="post.quoted_status" class="quoted-tweet">
+        <img class="users-profile-pic" width="60" height="auto" src="{{ post.quoted_status.user.profile_image_url }}" title="View account" />
+        <div class="profile-headers">
+            <p>{{ post.quoted_status.user.name }}</p>
+            <img class="verified" *ngIf="post.quoted_status.user.verified" width="20" height="20" src="../../assets/verified.png" />
+            <p>@{{ post.quoted_status.user.screen_name }}</p>
+        </div>
+        <p class="text">{{ post.quoted_status.full_text }}</p>
+    </div>
+    <!-- time & date of tweet -->
     <p class="time" *ngIf="search; else elseBlock">{{ post.time }} | {{ post.date }}</p>
     <ng-template #elseBlock>
         <p class="time">{{ post.created_at }}</p>
