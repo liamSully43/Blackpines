@@ -10,6 +10,7 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can view their own tweets
  - User's can make tweets from Blackpines
  - User's can Search for tweets & Twitter accounts
+ - User's can reply to tweets
 
 ## Known Issues
  - Facebook API doesn't pass through a API token secret - if this isn't needed for API requests to facebook then it won't be a problem
