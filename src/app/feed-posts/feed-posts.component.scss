@@ -71,6 +71,43 @@
 
     // used for posts rather & not users
 
+    .quoted-tweet {
+        padding: 10px;
+        border: solid 1px lightgrey;
+        border-radius: 10px;
+        width: calc(100% - 22px);
+        margin-bottom: 10px;
+
+        .users-profile-pic {
+            width: 45px;
+            height: auto;
+        }
+
+        .profile-headers {
+                
+            p {font-size: 14px}
+            p:nth-of-type(2) {font-size: 12px}
+
+            img {
+                height: 15px;
+                width: auto;
+            }
+        }
+
+        .text {
+            font-size: 16px;
+            margin-bottom: 0px;
+        }
+
+        .user-links {
+            font-size: 14px;   
+        }
+
+        .media-container {
+            margin-bottom: 0px;
+        }
+    }
+
     .time {
         font-size: 14px;
         color: grey;

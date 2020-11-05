@@ -1,26 +1,71 @@
 <div class="preview-background">
     <div class="post-preview">
+
+        <!-- The user's picture, name, handle & verification badge -->
         <img class="users-profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" />
         <div class="profile-headers">
             <p>{{ tweet.user.name }}</p>
             <img class="verified" *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
             <p>@{{ tweet.user.screen_name }}</p>
         </div>
+
         <p (click)="closeTweet()" class="close">&#10005;</p>
-        <p class="text">{{ tweet.full_text }}</p>
-        <div class="links-container">
+        <p class="text">{{ tweet.full_text }}</p> <!-- tweet text -->
+
+        <!-- list of external links included in tweet -->
+        <div *ngIf="links.length > 0" class="links-container">
             <ng-container *ngFor="let link of links">
                 <a class="user-links" href="{{ link.expandedUrl }}" target="_blank" rel="nofollow" >> {{ link.displayUrl }}</a>
             </ng-container>
         </div>
-        <div class="media-container">
-            <ng-container *ngFor="let url of imgUrls">
-                <img class="image" src={{url}} width="auto" height="auto" alt="A photo posted by the user" />
-            </ng-container>
+
+        <!-- media included in tweet -->
+        <div *ngIf="imgUrls.length > 0" class="media-container">
+            <div class="image-containers" *ngFor="let url of imgUrls">
+                <img class="image-item" src={{url}} alt="A photo posted by the user" />
+            </div>
         </div>
+
+        <!-- quote tweet if the original tweet is a quote tweet -->
+        <div *ngIf="tweet.quoted_status" class="quoted-tweet">
+
+            <!-- quoted user's account info -->
+            <img class="users-profile-pic" width="60" height="auto" src="{{ tweet.quoted_status.user.profile_image_url }}" title="View account" />
+            <div class="profile-headers">
+                <p>{{ tweet.quoted_status.user.name }}</p>
+                <img class="verified" *ngIf="tweet.quoted_status.user.verified" width="20" height="20" src="../../assets/verified.png" />
+                <p>@{{ tweet.quoted_status.user.screen_name }}</p>
+            </div>
+
+            <!-- quote tweet text -->
+            <p class="text">{{ tweet.quoted_status.full_text }}</p>
+
+            <!-- list of external links included in quote tweet -->
+            <div *ngIf="linksQuote.length > 0" class="links-container">
+                <ng-container *ngFor="let link of linksQuote">
+                    <a class="user-links" href="{{ link.expandedUrl }}" target="_blank" rel="nofollow" >> {{ link.displayUrl }}</a>
+                </ng-container>
+            </div>
+
+            <!-- media included in quote tweet -->
+            <div *ngIf="imgUrlsQuote.length > 0" class="media-container">
+                <div class="image-containers" *ngFor="let url of imgUrlsQuote">
+                    <img class="image-item" src={{url}} alt="A photo posted by the user" />
+                </div>
+            </div>
+        </div>
+
+        <!-- time & date of tweet -->
         <p class="time" >{{ tweet.time }} | {{ tweet.date }}</p>
         <a class="preview" href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" target="_blank" rel="nofollow" >View Tweet</a>
+        
+        <!-- comments, retweets & likes -->
         <div class="user-interaction">
+            <div>
+                <a href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" target="_blank" rel="nofollow" >
+                    <img src="../../assets/twitter-comment.png" width="auto" height="20"/>
+                </a>
+            </div>
             <div>
                 <img src="../../assets/retweet.png" width="auto" height="20" title="retweet" />
                 <p>{{ tweet.retweet_count }}</p>
@@ -33,6 +78,15 @@
                 <p>{{ tweet.favorite_count }}</p>
             </div>
         </div>
+
+        <!-- Reply container -->
+        <form class="reply-container" (submit)="addReply($event)">
+            <input placeholder="Reply to @{{tweet.user.screen_name}}" name="reply" class="reply" maxlength="263" (keydown)="checkLength()"/> <!-- max tweet length = 280. minus max handle length of 17 characters -->
+            <button class="submit">Tweet</button>
+        </form>
+
+        <!-- Error & success messages -->
         <p *ngIf="error" class="error">An error occured, please try again later</p>
+        <p *ngIf="success" class="success">Tweet sent</p>
     </div>
 </div>

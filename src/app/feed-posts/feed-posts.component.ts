@@ -24,24 +24,32 @@ export class FeedPostsComponent implements OnInit {
       let date = this.post.created_at;
       this.post.time = time.substr(11, 5);
       this.post.date = date.substr(4, 6);
-      
-      // replaces the shortened href with the actual href
-      if(this.post.entities.urls.length > 0) {
-        for(let url of this.post.entities.urls) {
-          const text = this.post.full_text.replace(url.url, url.display_url);
-          this.post.full_text = text;
-        }
+      console.log(this.post);
+      this.filterPost(this.post);
+      if(this.post.quoted_status) {
+        this.filterPost(this.post.quoted_status);
       }
+    }
+  }
 
-      // replaces the image href with the camera emoji
-      for(const prop in this.post.entities) {
-        if(prop === "media") { // the media property only shows up if an image is used, unlike the url or hashtag properties
-          for(let url of this.post.entities.media) {
-            const text = this.post.full_text.replace(url.url, "📷");
-            this.post.full_text = text;
-          }
-          break;
+  // swaps the shortened urls of external links & media with the correct links & actual media
+  filterPost(post) {
+    // replaces the shortened href with the actual href
+    if(post.entities.urls.length > 0) {
+      for(let url of post.entities.urls) {
+        const text = post.full_text.replace(url.url, "");
+        post.full_text = text;
+      }
+    }
+
+    // replaces the image href with the camera emoji
+    for(const prop in post.entities) {
+      if(prop === "media") { // the media property only shows up if an image is used, unlike the url or hashtag properties
+        for(let url of post.extended_entities.media) {
+          const text = post.full_text.replace(url.url, "📷");
+          post.full_text = text;
         }
+        break;
       }
     }
   }

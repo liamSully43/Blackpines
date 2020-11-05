@@ -66,6 +66,45 @@
   padding: 1px 3px;
 }
 
+.results .quoted-tweet {
+  padding: 10px;
+  border: solid 1px lightgrey;
+  border-radius: 10px;
+  width: calc(100% - 22px);
+  margin-bottom: 10px;
+}
+
+.results .quoted-tweet .users-profile-pic {
+  width: 45px;
+  height: auto;
+}
+
+.results .quoted-tweet .profile-headers p {
+  font-size: 14px;
+}
+
+.results .quoted-tweet .profile-headers p:nth-of-type(2) {
+  font-size: 12px;
+}
+
+.results .quoted-tweet .profile-headers img {
+  height: 15px;
+  width: auto;
+}
+
+.results .quoted-tweet .text {
+  font-size: 16px;
+  margin-bottom: 0px;
+}
+
+.results .quoted-tweet .user-links {
+  font-size: 14px;
+}
+
+.results .quoted-tweet .media-container {
+  margin-bottom: 0px;
+}
+
 .results .time {
   font-size: 14px;
   color: grey;
