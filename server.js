@@ -262,6 +262,11 @@ app.post("/api/tweet/reply", (req, res) => {
     twitterAuth.reply(req, cb);
 })
 
+app.post("/api/tweet/retweet", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.retweet(req, cb);
+})
+
 // get tweets 
 
 app.post("/api/getTwitterPost", (req, res) => {

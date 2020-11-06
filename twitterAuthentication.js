@@ -227,6 +227,54 @@ function reply(req, done) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//                                      Retweet                                        //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function retweet(req, done) {
+    const id = req.body.id;    
+    const access_token = encrypt.decrypt(req.user.twitterCredentials.token);
+    const access_token_secret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const T = new Twit({
+        consumer_key: process.env.TWITTER_CONSUMER_KEY,
+        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+        access_token,
+        access_token_secret,
+        timeout_ms: 60*1000,
+        strictSSL: false,
+    })
+    T.post("statuses/retweet/:id", { id }, function(err, data, response) {
+        if(err) {
+            console.log(err);
+            if(err.allErrors[0].code === 327) {
+                oauth.post(
+                    `https://api.twitter.com/1.1/statuses/unretweet/${id}.json?trim_user=true`,
+                    access_token,
+                    access_token_secret,
+                    null,
+                    "application/json",
+                    function(err, data) {
+                        if(err) {
+                            console.log(err);
+                            return done(null);
+                        }
+                        else {
+                            return done(false);
+                        }
+                    }
+                )
+            }
+            else {
+                done(null);
+            }
+        }
+        else {
+            console.log(data);
+            done(true);
+        }
+    })
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //                                      Exports                                        //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -239,4 +287,5 @@ module.exports = {
     newTweet,
     like,
     reply,
+    retweet,
 }
