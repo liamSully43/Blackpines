@@ -10,6 +10,7 @@ export class TwitterPostComponent implements OnInit {
   @Input() tweet;
 
   @Output() close = new EventEmitter<string>();
+  @Output() updateTweet = new EventEmitter<string>();
 
   liked = false;
   error = false;
@@ -99,15 +100,15 @@ export class TwitterPostComponent implements OnInit {
 
     // replaces the image href with the camera emoji
     for(const prop in tweet.entities) {
-      if(prop === "media") { // the media property only shows up if an image is used, unlike the url or hashtag properties
+      if(prop === "media") { // the media property only shows up if an image or video is used, unlike the url or hashtag properties
         for(let url of tweet.extended_entities.media) {
           const text = tweet.full_text.replace(url.url, "");
           tweet.full_text = text;
           if(source === "original") {
-            this.imgUrls.push(url.media_url_https);
+            this.imgUrls.push(url);
           }
           else {
-            this.imgUrlsQuote.push(url.media_url_https);
+            this.imgUrlsQuote.push(url);
           }
         }
         break;
@@ -136,7 +137,20 @@ export class TwitterPostComponent implements OnInit {
   }
 
   retweet() {
-    //
+    const headers = new HttpHeaders().set("Authorization", "auth-token");
+      const id = this.tweet.id_str;
+      this.http.post("api/tweet/retweet", { headers, id}, {responseType: "json"}).subscribe((response => {
+        if(response === null) {
+          this.errorThrown();
+        }
+        else if(response) {
+          (<HTMLImageElement>document.querySelector(".retweet")).classList.add("selected");
+          this.successThrown();
+        }
+        else {
+          (<HTMLImageElement>document.querySelector(".retweet")).classList.remove("selected");
+        }
+      }))
   }
 
   // checks the length of the reply to prevent user's from being able to reply to tweets with an empty tweet
@@ -166,6 +180,15 @@ export class TwitterPostComponent implements OnInit {
         }
       }));
     }
+  }
+
+  expandTweet() {
+    this.updateTweet.next(this.tweet.quoted_status.id_str);
+  }
+  
+  loadUser(handle) {
+    console.log(handle);
+    // load/get user profile
   }
 
   successThrown() {

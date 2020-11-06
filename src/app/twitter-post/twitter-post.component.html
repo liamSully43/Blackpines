@@ -19,15 +19,20 @@
             </ng-container>
         </div>
 
-        <!-- media included in tweet -->
+        <!-- media included in  tweet -->
         <div *ngIf="imgUrls.length > 0" class="media-container">
             <div class="image-containers" *ngFor="let url of imgUrls">
-                <img class="image-item" src={{url}} alt="A photo posted by the user" />
+                <video *ngIf="url.type === 'video'; else image" class="image-item" controls> <!-- videos -->
+                    <source *ngFor="let video of url.video_info.variants" src={{video.url}} type={{video.content_type}}>
+                </video>
+                <ng-template #image >
+                    <img class="image-item" src={{url.media_url_https}} alt="A photo posted by the user" /> <!-- images -->
+                </ng-template>
             </div>
         </div>
 
         <!-- quote tweet if the original tweet is a quote tweet -->
-        <div *ngIf="tweet.quoted_status" class="quoted-tweet">
+        <div *ngIf="tweet.quoted_status" class="quoted-tweet" (click)="expandTweet()">
 
             <!-- quoted user's account info -->
             <img class="users-profile-pic" width="60" height="auto" src="{{ tweet.quoted_status.user.profile_image_url }}" title="View account" />
@@ -50,9 +55,18 @@
             <!-- media included in quote tweet -->
             <div *ngIf="imgUrlsQuote.length > 0" class="media-container">
                 <div class="image-containers" *ngFor="let url of imgUrlsQuote">
-                    <img class="image-item" src={{url}} alt="A photo posted by the user" />
+                    <img *ngIf="url.type === 'photo'" class="image-item" src={{url.media_url_https}} alt="A photo posted by the user" /> <!-- images -->
+                    <video *ngIf="url.type === 'video'" class="image-item" controls> <!-- videos -->
+                            <source *ngFor="let video of url.video_info.variants" src={{video.url}} type={{video.content_type}}>
+                    </video>
+                    <p *ngIf="url.type === 'animated_gif'">gif</p>  <!-- animated gifs -->
                 </div>
             </div>
+        </div>
+
+        <!-- mentioned users-->
+        <div class="mentioned-users">
+            <p *ngFor="let user of tweet.entities.user_mentions" class="user" (click)="loadUser(user.screen_name)">@{{ user.screen_name }}</p>
         </div>
 
         <!-- time & date of tweet -->
@@ -67,7 +81,7 @@
                 </a>
             </div>
             <div>
-                <img src="../../assets/retweet.png" width="auto" height="20" title="retweet" />
+                <img class="retweet" src="../../assets/retweet.png" width="auto" height="20" title="retweet" (click)="retweet()" />
                 <p>{{ tweet.retweet_count }}</p>
             </div>
             <div>

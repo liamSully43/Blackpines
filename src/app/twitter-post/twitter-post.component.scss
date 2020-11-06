@@ -11,9 +11,10 @@
 }
 
 .post-preview {
-    width: 30%;
+    width: 80%;
+    max-width: 600px;
     height: auto;
-    max-height: 820px;
+    max-height: 850px !important;
     overflow: auto;
     padding: 20px;
     background-color: $primary;
@@ -46,6 +47,11 @@
             font-size: 16px;
             color: grey
         }
+
+        @media(max-width: 425px) {
+            p {font-size: 16px}
+            p:nth-of-type(2) {font-size: 14px}
+        }
     }
 
     .close {
@@ -67,6 +73,12 @@
         font-size: 20px;
     }
 
+    @media(max-width: 415px) {
+        .text {
+            font-size: 16px;
+        }
+    }
+
     .links-container {
         margin-bottom: 10px;
 
@@ -77,6 +89,12 @@
     
         .user-links:hover {
             color: $hover;
+        }
+
+        @media(max-width: 425px) {
+            .user-links {
+                font-size: 12px;
+            }
         }
     }
 
@@ -130,6 +148,7 @@
         border-radius: 15px;
         width: calc(100% - 22px);
         margin-bottom: 20px;
+        cursor: pointer;
 
         .users-profile-pic {
             width: 45px;
@@ -140,6 +159,11 @@
                 
             p {font-size: 14px}
             p:nth-of-type(2) {font-size: 12px}
+            
+            @media(max-width: 425px) {
+                p {font-size: 12px}
+                p:nth-of-type(2) {font-size: 10px}
+            }
 
             img {
                 height: 15px;
@@ -149,14 +173,52 @@
 
         .text {
             font-size: 16px;
+            margin-bottom: 0px;
+        }
+
+        @media(max-width: 425px) {
+            .text {
+                font-size: 14px;
+            }
         }
 
         .user-links {
-            font-size: 14px;   
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        @media(max-width: 425px) {
+            .user-links {
+                font-size: 12px;
+            }
         }
 
         .media-container {
             margin-bottom: 0px;
+        }
+    }
+
+    .mentioned-users {
+        width: 100%;
+        margin: 20px 0px;
+
+        .user {
+            width: auto;
+            display: inline-block;
+            color: $accent;
+            font-size: 14px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .user:first-of-type {
+            margin-left: 0px;
+        }
+
+        @media(max-width: 425px) {
+            .user {
+                font-size: 12px;
+            }
         }
     }
 
@@ -200,6 +262,12 @@
             p {
                 color: grey;
                 float: left;
+            }
+        }
+
+        @media(max-width: 415px) {
+            div {
+                flex-basis: 30%;
             }
         }
 
@@ -248,10 +316,21 @@
         }
 
         .submit {
-            flex-basis: 27%;
+            flex-basis: 30%;
             padding: 0px 10px !important;
             font-size: 13px;
             height: 30px !important;
+        }
+
+        @media(max-width: 310px) {
+            .reply {
+                max-width: 55% !important;
+                margin-right: 10% !important;
+            }
+
+            .submit {
+                flex-basis: 30% !important;
+            }
         }
     }
 }

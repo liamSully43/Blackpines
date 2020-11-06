@@ -49,7 +49,7 @@
 
 <!-- post & account previews -->
 <!-- <app-twitter-account></app-twitter-account> -->
-<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()"></app-twitter-post>
+<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showPost($event)"></app-twitter-post>
 <!--
 <app-linkedin-account></app-linkedin-account>
 <app-linkedin-post></app-linkedin-post>

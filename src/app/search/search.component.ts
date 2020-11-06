@@ -129,7 +129,7 @@ export class SearchComponent implements OnInit {
   }
 
   close() {
-      this.tweet = false;
-    }
+    this.tweet = false;
+  }
 
 }
