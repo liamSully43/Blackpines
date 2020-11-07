@@ -32,9 +32,6 @@ export class TwitterPostComponent implements OnInit {
   ngOnChanges() {
     console.log(this.tweet);
     if(this.tweet !== {}) {
-      // add handle to beginning of reply
-      <HTMLInputElement><unknown>document.querySelector(".reply").setAttribute("data-before", this.tweet.user.screen_name);
-
       let retweets = this.tweet.retweet_count;
       let likes = this.tweet.favorite_count;
       // round down num of retweets
@@ -66,7 +63,10 @@ export class TwitterPostComponent implements OnInit {
       let date = this.tweet.created_at;
       this.tweet.time = time.substr(11, 5);
       this.tweet.date = date.substr(4, 6);
-      
+      this.links = [];
+      this.linksQuote = [];
+      this.imgUrls = [];
+      this.imgUrlsQuote = [];
       this.filterTweet(this.tweet, "original");
       if(this.tweet.quoted_status) {
         this.filterTweet(this.tweet.quoted_status, "quoted");

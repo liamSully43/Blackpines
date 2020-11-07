@@ -6,7 +6,7 @@
             <app-platform-headers platform="twitter"></app-platform-headers>
             <p *ngIf="twitterError !== false" class="error">{{ twitterError }}</p>
             <div *ngFor="let post of twitterPosts">
-                <app-feed-posts [post]=post [search]="false"></app-feed-posts>
+                <app-feed-posts [post]=post [search]="false" (showPost)="showTweet($event)"></app-feed-posts>
             </div>
         </div>
 
@@ -25,3 +25,14 @@
         </div>
     </main>
 </div>
+
+<!-- post & account previews -->
+<!-- <app-twitter-account></app-twitter-account> -->
+<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showTweet($event)"></app-twitter-post>
+<!--
+<app-linkedin-account></app-linkedin-account>
+<app-linkedin-post></app-linkedin-post>
+
+<app-facebook-account></app-facebook-account>
+<app-facebook-post></app-facebook-post>
+-->
