@@ -1,4 +1,5 @@
-<div class="results" (click)="viewPost($event)">
+<div class="results" (click)="viewPost()">
+
     <!-- The user's picture, name, handle & verification badge -->
     <img width="50" height="50" src="{{ post.user.profile_image_url }}" (click)="viewUser($event)" title="View account" />
     <div class="profile-headers" (click)="viewUser($event)" title="View post">
@@ -6,8 +7,29 @@
         <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
         <p>@{{ post.user.screen_name }}</p>
     </div>
+
     <!-- tweet text -->
     <p class="text">{{ post.full_text }}</p>
+
+    <!-- list of external links included in tweet -->
+    <div *ngIf="links.length > 0" class="links-container">
+        <ng-container *ngFor="let link of links">
+            <a class="user-links" href="{{ link.expandedUrl }}" target="_blank" rel="nofollow" >> {{ link.displayUrl }}</a>
+        </ng-container>
+    </div>
+
+    <!-- media included in  tweet -->
+    <div *ngIf="imgUrls.length > 0" class="media-container">
+        <div class="image-containers" *ngFor="let url of imgUrls">
+            <video *ngIf="url.type === 'video'; else image" class="image-item" controls> <!-- videos -->
+                <source *ngFor="let video of url.video_info.variants" src={{video.url}} type={{video.content_type}}>
+            </video>
+            <ng-template #image >
+                <img class="image-item" src={{url.media_url_https}} alt="A photo posted by the user" /> <!-- images -->
+            </ng-template>
+        </div>
+    </div>
+
     <!-- quote tweet if the original tweet is a quote tweet -->
     <div *ngIf="post.quoted_status" class="quoted-tweet">
         <img class="users-profile-pic" width="60" height="auto" src="{{ post.quoted_status.user.profile_image_url }}" title="View account" />
@@ -18,6 +40,12 @@
         </div>
         <p class="text">{{ post.quoted_status.full_text }}</p>
     </div>
+
+    <!-- mentioned users-->
+    <div *ngIf="post.entities.user_mentions.length > 0" class="mentioned-users">
+        <p *ngFor="let user of post.entities.user_mentions" class="user" (click)="loadUser(user.screen_name)">@{{ user.screen_name }}</p>
+    </div>
+
     <!-- time & date of tweet -->
     <p class="time" *ngIf="search; else elseBlock">{{ post.time }} | {{ post.date }}</p>
     <ng-template #elseBlock>

@@ -71,6 +71,150 @@
 
     // used for posts rather & not users
 
+    .links-container {
+        margin-bottom: 10px;
+
+        .user-links {
+            text-decoration: none;
+            color: $accent;
+        }
+    
+        .user-links:hover {
+            color: $hover;
+        }
+
+        @media(max-width: 425px) {
+            .user-links {
+                font-size: 12px;
+            }
+        }
+    }
+
+    .media-container {
+        display: flex;
+        width: 100%;
+        margin: 0px;
+        margin-bottom: 20px;
+        padding: 0px;
+        flex-wrap: wrap;
+        border-radius: 20px;
+        overflow: hidden;
+
+        .image-containers {
+            flex-basis: calc(50% - 5px);
+            height: auto;
+            min-height: 100px;
+            max-height: 250px;
+            max-width: 50%;
+
+            .image-item {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 0px !important;
+            }
+        }
+        
+        .image-containers:nth-of-type(odd) {
+            padding-right: 5px !important;
+        }
+
+        .image-containers:nth-of-type(even) {
+            padding-left: 5px !important;
+        }
+
+        .image-containers:nth-of-type(3), .image-containers:nth-of-type(4) {
+            margin-top: 10px;
+        }
+
+        .image-containers:only-child {
+            padding: 0px !important;
+            flex-basis: 100%;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+
+    .quoted-tweet {
+        padding: 10px;
+        border: solid 1px lightgrey;
+        border-radius: 15px;
+        width: calc(100% - 22px);
+        margin-bottom: 20px;
+        cursor: pointer;
+
+        .users-profile-pic {
+            width: 45px;
+            height: auto;
+        }
+
+        .profile-headers {
+                
+            p {font-size: 14px}
+            p:nth-of-type(2) {font-size: 12px}
+            
+            @media(max-width: 425px) {
+                p {font-size: 12px}
+                p:nth-of-type(2) {font-size: 10px}
+            }
+
+            img {
+                height: 15px;
+                width: auto;
+            }
+        }
+
+        .text {
+            font-size: 16px;
+            margin-bottom: 0px;
+        }
+
+        @media(max-width: 425px) {
+            .text {
+                font-size: 14px;
+            }
+        }
+
+        .user-links {
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        @media(max-width: 425px) {
+            .user-links {
+                font-size: 12px;
+            }
+        }
+
+        .media-container {
+            margin-bottom: 0px;
+        }
+    }
+
+    .mentioned-users {
+        width: 100%;
+        margin: 20px 0px;
+
+        .user {
+            width: auto;
+            display: inline-block;
+            color: $accent;
+            font-size: 14px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .user:first-of-type {
+            margin-left: 0px;
+        }
+
+        @media(max-width: 425px) {
+            .user {
+                font-size: 12px;
+            }
+        }
+    }
+
     .quoted-tweet {
         padding: 10px;
         border: solid 1px lightgrey;
@@ -112,5 +256,4 @@
         font-size: 14px;
         color: grey;
     }
-
 }
