@@ -19,8 +19,33 @@
     padding: 20px;
     background-color: $primary;
     border-radius: 25px;
+    
+    .close {
+        width: 13px;
+        position: relative;
+        top: -5px;
+        float: right;
+        color: $close;
+        cursor: pointer;
+    }
 
-    .users-profile-pic {
+    .close:hover {
+        color: $close-hover
+    }
+
+    .retweet-name {
+        font-size: 14px;
+        color: grey;
+        margin-bottom: 10px;
+
+        .retweet-pic {
+            color: $secondary;
+            border-radius: 100%;
+            vertical-align: middle;
+        }
+    }
+
+    .profile-pic {
         border-radius: 100%;
         display: inline-block;
         margin-right: 10px;
@@ -54,22 +79,9 @@
         }
     }
 
-    .close {
-        width: 13px;
-        position: relative;
-        top: -5px;
-        float: right;
-        color: $close;
-        cursor: pointer;
-    }
-
-    .close:hover {
-        color: $close-hover
-    }
-
     .text {
         color: $secondary;
-        margin: 20px 0px;
+        margin-top: 15px;
         font-size: 20px;
     }
 
@@ -80,11 +92,12 @@
     }
 
     .links-container {
-        margin-bottom: 10px;
+        margin-top: 15px;
 
         .user-links {
             text-decoration: none;
             color: $accent;
+            display: block;
         }
     
         .user-links:hover {
@@ -102,7 +115,7 @@
         display: flex;
         width: 100%;
         margin: 0px;
-        margin-bottom: 20px;
+        margin-top: 15px;
         padding: 0px;
         flex-wrap: wrap;
         border-radius: 20px;
@@ -147,10 +160,10 @@
         border: solid 1px lightgrey;
         border-radius: 15px;
         width: calc(100% - 22px);
-        margin-bottom: 20px;
+        margin-top: 15px;
         cursor: pointer;
 
-        .users-profile-pic {
+        .profile-pic {
             width: 45px;
             height: auto;
         }
@@ -173,7 +186,6 @@
 
         .text {
             font-size: 16px;
-            margin-bottom: 0px;
         }
 
         @media(max-width: 425px) {
@@ -184,7 +196,6 @@
 
         .user-links {
             font-size: 14px;
-            margin-top: 20px;
         }
 
         @media(max-width: 425px) {
@@ -200,7 +211,7 @@
 
     .mentioned-users {
         width: 100%;
-        margin: 20px 0px;
+        margin: 15px 0px;
 
         .user {
             width: auto;
@@ -223,6 +234,7 @@
     }
 
     .time {
+        margin-top: 15px;
         font-size: 16px;
         color: grey;
         display: inline-block;

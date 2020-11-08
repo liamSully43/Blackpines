@@ -220,7 +220,6 @@ function reply(req, done) {
             done(false);
         }
         else {
-            console.log(data);
             done(true);
         }
     })
@@ -268,10 +267,30 @@ function retweet(req, done) {
             }
         }
         else {
-            console.log(data);
             done(true);
         }
     })
+}
+
+function deleteTweet(req, done) {
+    const token = encrypt.decrypt(req.user.twitterCredentials.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    oauth.post(
+        `https://api.twitter.com/1.1/statuses/destroy/${req.body.id}.json?trim_user=true`,
+        token,
+        tokenSecret,
+        null,
+        "application/json",
+        function(err, data) {
+            if(err) {
+                console.log(err);
+                done(false);
+            }
+            else {
+                done(true)
+            }
+        }
+    )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -288,4 +307,5 @@ module.exports = {
     like,
     reply,
     retweet,
+    deleteTweet,
 }

@@ -29,6 +29,7 @@ export class MyPostsComponent implements OnInit {
   firstSearch = true;
   failedSearch = false;
   tweet: any = false;
+  user: any = {};
   
   constructor(private http: HttpClient) { }
 
@@ -47,6 +48,7 @@ export class MyPostsComponent implements OnInit {
         connected: (typeof data.facebookProfile !== "undefined" && data.facebookProfile !== null) ? true : false,
         feed: (typeof data.facebookProfile !== "undefined" && data.facebookProfile !== null) ? true : false,
       }
+      this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
       if(this.twitter.connected) this.http.get("api/myposts", { headers }).subscribe((posts: any) => {
         if(posts.success === false) {
           this.twitterError = posts.message;
