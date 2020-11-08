@@ -267,6 +267,11 @@ app.post("/api/tweet/retweet", (req, res) => {
     twitterAuth.retweet(req, cb);
 })
 
+app.post("/api/twitter/delete/tweet", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.deleteTweet(req, cb);
+})
+
 // get tweets 
 
 app.post("/api/getTwitterPost", (req, res) => {

@@ -30,6 +30,7 @@ export class SearchComponent implements OnInit {
   searchType = "Users";
 
   tweet: any = false;
+  user: any = {};
 
   constructor(private http: HttpClient) { }
 
@@ -40,6 +41,7 @@ export class SearchComponent implements OnInit {
         connected: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false,
         feed: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false
       }
+      this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
     })
   }
 

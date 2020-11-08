@@ -31,6 +31,14 @@ export class TwitterPostComponent implements OnInit {
 
   ngOnChanges() {
     console.log(this.tweet);
+    // this updates the original tweet details with the retweeted tweets details for the various filter functions
+    if(this.tweet.retweeted_status) {
+      const user = this.tweet.user;
+      this.tweet = this.tweet.retweeted_status;
+      this.tweet.original_user = user;
+    }
+
+    console.log(this.tweet);
     if(this.tweet !== {}) {
       let retweets = this.tweet.retweet_count;
       let likes = this.tweet.favorite_count;

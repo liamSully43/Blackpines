@@ -1,12 +1,30 @@
 <div class="results" (click)="viewPost()">
 
-    <!-- The user's picture, name, handle & verification badge -->
-    <img width="50" height="50" src="{{ post.user.profile_image_url }}" (click)="viewUser($event)" title="View account" />
-    <div class="profile-headers" (click)="viewUser($event)" title="View post">
-        <p>{{ post.user.name }}</p>
-        <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
-        <p>@{{ post.user.screen_name }}</p>
-    </div>
+    <!-- delete button/image -->
+    <img *ngIf="user.twitter.id_str === post.user.id_str" class="delete-post" src="../../assets/delete.png" width="15" height="auto" (click)="deleteTweet($event)" />
+
+    <!-- if the user retweeted a tweet -->
+    <ng-container *ngIf="post.original_user; else nonRetweet">
+        <p class="retweet-name"><img class="retweet-pic" src="{{ post.original_user.profile_image_url }}" height="20" width="auto" alt="{{post.original_user.name}}'s profile picture" /> {{post.original_user.name}} retweeted</p>
+        <!-- The rewtweeted user's picture, name, handle & verification badge -->
+        <img class="profile-pic" width="50" height="50" src="{{ post.user.profile_image_url }}" (click)="viewUser($event)" title="View account" />
+        <div class="profile-headers" (click)="viewUser($event)" title="View post">
+            <p>{{ post.user.name }}</p>
+            <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
+            <p>@{{ post.user.screen_name }}</p>
+        </div>
+    </ng-container>
+
+    <!-- if the user didn't retweet a tweet -->
+    <ng-template #nonRetweet>
+        <!-- The user's picture, name, handle & verification badge -->
+        <img class="profile-pic" width="50" height="50" src="{{ post.user.profile_image_url }}" (click)="viewUser($event)" title="View account" />
+        <div class="profile-headers" (click)="viewUser($event)" title="View post">
+            <p>{{ post.user.name }}</p>
+            <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
+            <p>@{{ post.user.screen_name }}</p>
+        </div>
+    </ng-template>
 
     <!-- tweet text -->
     <p class="text">{{ post.full_text }}</p>
@@ -47,8 +65,6 @@
     </div>
 
     <!-- time & date of tweet -->
-    <p class="time" *ngIf="search; else elseBlock">{{ post.time }} | {{ post.date }}</p>
-    <ng-template #elseBlock>
-        <p class="time">{{ post.created_at }}</p>
-    </ng-template>
+    <p class="time" >{{ post.time }} | {{ post.date }}</p>
+    <p *ngIf="error" class="error">Something went wrong, please try again</p>
 </div>

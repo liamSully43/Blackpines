@@ -32,7 +32,7 @@
                 
                 <!-- tweet results -->
                 <ng-template #twitterElse>
-                    <app-feed-posts *ngFor="let post of twitterResults" [post]="post" [search]="true" (showPost)="showPost($event)" ></app-feed-posts>
+                    <app-feed-posts *ngFor="let post of twitterResults" [post]="post" [search]="true" [user]="user" (showPost)="showPost($event)" ></app-feed-posts>
                 </ng-template>
 
                 <!-- search messages -->

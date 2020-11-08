@@ -11,7 +11,30 @@
     margin-bottom: 20px;
     cursor: pointer;
 
-    img {
+    .retweet-name {
+        font-size: 14px;
+        color: grey;
+        margin-bottom: 10px;
+
+        .retweet-pic {
+            color: $secondary;
+            border-radius: 100%;
+            vertical-align: middle;
+        }
+    }
+
+    .delete-post {
+        background-color: $close;
+        float: right;
+        border-radius: 0px;
+        margin: 0px;
+    }
+
+    .delete-post:hover {
+        background-color: $close-hover;
+    }
+
+    .profile-pic {
         border-radius: 100%;
         display: inline-block;
         margin-right: 10px;
@@ -41,7 +64,7 @@
 
     .text {
         color: $secondary;
-        margin: 10px 0px;
+        margin-top: 10px;
     }
 
     // used for users & not posts
@@ -72,11 +95,12 @@
     // used for posts rather & not users
 
     .links-container {
-        margin-bottom: 10px;
+        margin-top: 15px;
 
         .user-links {
             text-decoration: none;
             color: $accent;
+            display: block;
         }
     
         .user-links:hover {
@@ -94,7 +118,7 @@
         display: flex;
         width: 100%;
         margin: 0px;
-        margin-bottom: 20px;
+        margin-top: 15px;
         padding: 0px;
         flex-wrap: wrap;
         border-radius: 20px;
@@ -138,14 +162,16 @@
     .quoted-tweet {
         padding: 10px;
         border: solid 1px lightgrey;
-        border-radius: 15px;
+        border-radius: 10px;
         width: calc(100% - 22px);
-        margin-bottom: 20px;
+        margin-top: 15px;
         cursor: pointer;
 
         .users-profile-pic {
             width: 45px;
             height: auto;
+            border-radius: 100%;
+            margin-right: 10px;
         }
 
         .profile-headers {
@@ -166,7 +192,6 @@
 
         .text {
             font-size: 16px;
-            margin-bottom: 0px;
         }
 
         @media(max-width: 425px) {
@@ -177,7 +202,6 @@
 
         .user-links {
             font-size: 14px;
-            margin-top: 20px;
         }
 
         @media(max-width: 425px) {
@@ -193,7 +217,7 @@
 
     .mentioned-users {
         width: 100%;
-        margin: 20px 0px;
+        margin: 10px 0px;
 
         .user {
             width: auto;
@@ -215,44 +239,8 @@
         }
     }
 
-    .quoted-tweet {
-        padding: 10px;
-        border: solid 1px lightgrey;
-        border-radius: 10px;
-        width: calc(100% - 22px);
-        margin-bottom: 10px;
-
-        .users-profile-pic {
-            width: 45px;
-            height: auto;
-        }
-
-        .profile-headers {
-                
-            p {font-size: 14px}
-            p:nth-of-type(2) {font-size: 12px}
-
-            img {
-                height: 15px;
-                width: auto;
-            }
-        }
-
-        .text {
-            font-size: 16px;
-            margin-bottom: 0px;
-        }
-
-        .user-links {
-            font-size: 14px;   
-        }
-
-        .media-container {
-            margin-bottom: 0px;
-        }
-    }
-
     .time {
+        margin-top: 15px;
         font-size: 14px;
         color: grey;
     }
