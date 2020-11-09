@@ -13,7 +13,7 @@ export class FeedPostsComponent implements OnInit {
 
   @Output() showPost = new EventEmitter<number>();
   @Output() close = new EventEmitter<string>();
-  @Output() showUser = new EventEmitter<string>();
+  @Output() showUser = new EventEmitter<object>();
 
   liked = false;
   error = false;
@@ -25,7 +25,6 @@ export class FeedPostsComponent implements OnInit {
   ngOnInit(): void { }
 
   ngOnChanges() {
-    console.log(this.post);
     // this updates the original tweet details with the retweeted tweets details for the various filter functions
     if(this.post.retweeted_status) {
       const user = this.post.user;
@@ -66,7 +65,6 @@ export class FeedPostsComponent implements OnInit {
       for(let url of post.entities.urls) {
         const text = post.full_text.replace(url.url, "");
         post.full_text = text;
-        console.log(post);
         if(source === "original" && (!post.quoted_status || url.display_url !== post.entities.urls[finalLink].display_url)) { // if the tweet is a quote tweet, the final url is the link to the original tweet. post.entities.urls[finalLink].display_url = the final link
           const link = {
             displayUrl: url.display_url,
@@ -99,9 +97,13 @@ export class FeedPostsComponent implements OnInit {
     this.showPost.next(id);
   }
   
-  loadUser(e, userID) {
+  loadUser(e, userID, handle) {
     e.stopPropagation(); // this stops view post from being called as viewPost is tied to the whole post and would also be called without it
-    this.showUser.next(userID);
+    const user = {
+      userID,
+      handle
+    }
+    this.showUser.next(user)
   }
 
   deleteTweet(e) {

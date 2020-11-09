@@ -6,10 +6,10 @@
 
         <!-- if the user retweeted a tweet -->
         <ng-container *ngIf="tweet.original_user; else nonRetweet">
-            <p class="retweet-name" (click)="loadUser(tweet.original_user.id_str)"><img class="retweet-pic" src="{{ tweet.original_user.profile_image_url }}" height="20" width="auto" alt="{{tweet.original_user.name}}'s profile picture" /> {{tweet.original_user.name}} retweeted</p>
+            <p class="retweet-name" (click)="loadUser(tweet.original_user.id_str, tweet.original_user.screen_name)"><img class="retweet-pic" src="{{ tweet.original_user.profile_image_url }}" height="20" width="auto" alt="{{tweet.original_user.name}}'s profile picture" /> {{tweet.original_user.name}} retweeted</p>
             <!-- The rewtweeted user's picture, name, handle & verification badge -->
-            <img class="profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" (click)="loadUser(tweet.user.id_str)" />
-            <div class="profile-headers" title="View post" (click)="loadUser(tweet.user.id_str)">
+            <img class="profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" (click)="loadUser(tweet.user.id_str, tweet.user.screen_name)" />
+            <div class="profile-headers" title="View post" (click)="loadUser(tweet.user.id_str, tweet.user.screen_name)">
                 <p>{{ tweet.user.name }}</p>
                 <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
                 <p>@{{ tweet.user.screen_name }}</p>
@@ -19,8 +19,8 @@
         <!-- if the user didn't retweet a tweet -->
         <ng-template #nonRetweet>
             <!-- The user's picture, name, handle & verification badge -->
-            <img class="profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" (click)="loadUser(tweet.user.id_str)" />
-            <div class="profile-headers" (click)="loadUser(tweet.user.id_str)">
+            <img class="profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" (click)="loadUser(tweet.user.id_str, tweet.user.screen_name)" />
+            <div class="profile-headers" (click)="loadUser(tweet.user.id_str, tweet.user.screen_name)">er
                 <p>{{ tweet.user.name }}</p>
                 <img class="verified" *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
                 <p>@{{ tweet.user.screen_name }}</p>
@@ -100,14 +100,14 @@
             </div>
             <div>
                 <img class="retweet" src="../../assets/retweet.png" width="auto" height="20" title="retweet" (click)="retweet()" />
-                <p>{{ tweet.retweet_count }}</p>
+                <p>{{ tweet.retweetsRounded }}</p>
             </div>
             <div>
                 <img *ngIf="!liked; else likedTweet" src="../../assets/tweet-like.PNG" width="auto" height="15" title="like" (click)="likeTweet()" />
                 <ng-template #likedTweet>
                     <img src="../../assets/tweet-liked.PNG" width="auto" height="15" title="like" class="selected" (click)="likeTweet()" />
                 </ng-template>
-                <p>{{ tweet.favorite_count }}</p>
+                <p>{{ tweet.likesRounded }}</p>
             </div>
         </div>
 

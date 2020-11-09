@@ -178,12 +178,28 @@ function getTweet(id, done) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//                                    New User                                         //
+//                                    Get User                                         //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function getUser(id, done) {
-    console.log(id);
-    done(false);
+function getUser(req, done) {
+    const token = encrypt.decrypt(req.user.twitterCredentials.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const id = req.query.id;
+    const handle = req.query.handle;
+    oauth.get(
+        `https://api.twitter.com/1.1/users/show.json?user_id=${id}&screen_name=${handle}`,
+        token,
+        tokenSecret,
+        function(err, data) {
+            if(err) {
+                console.log(err);
+                done(false);
+            }
+            else {
+                done(data);
+            }
+        }
+    ) 
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

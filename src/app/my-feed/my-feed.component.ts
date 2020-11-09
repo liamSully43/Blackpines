@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-my-feed',
@@ -32,16 +32,10 @@ export class MyFeedComponent implements OnInit {
   facebookFeed: any = [];
   facebookFeedError: any = false;
 
+  twitterFeedError: any = false;
   tweet: any = false;
-  linkedinPost: any = false;
-  facebookPost: any = false;
 
   twitterAccount: any = false;
-  linkedinAccount: any = false;
-  facebookAccount: any = false;
-  
-  firstSearch = true;
-  failedSearch = false;
   
   constructor(private http: HttpClient) { }
 
@@ -67,7 +61,6 @@ export class MyFeedComponent implements OnInit {
         }
         else {
           this.twitterFeed = feed
-          console.log(feed);
           this.twitterFeedError = false;
         }
       })
@@ -107,40 +100,22 @@ export class MyFeedComponent implements OnInit {
         this.tweet = result.post;
         this.tweet.time = time.substr(11, 5);
         this.tweet.date = date.substr(4, 6);
-        console.log(this.tweet);
       }
       else {
-        this.firstSearch = false;
-        this.failedSearch = true;
+        this,this.twitterFeedError = result.post;
+        console.log(result.post);
       }
     }))
   }
 
-  showTwitterAccount(id) {
+  showTwitterAccount(user) {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
-    const postId = id
-    this.http.post("api/getTwitterAccount", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
-      if(result.success) {
-        let time = result.post.created_at;
-        let date = result.post.created_at;
-        this.tweet = result.post;
-        this.tweet.time = time.substr(11, 5);
-        this.tweet.date = date.substr(4, 6);
-        console.log(this.tweet);
-      }
-      else {
-        this.firstSearch = false;
-        this.failedSearch = true;
-      }
-    }))
+    const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
+    this.http.get("api/getTwitterAccount", { headers, params }).subscribe((result => this.twitterAccount = result));
   }
 
   close() {
     this.tweet = false;
-    this.linkedinPost= false;
-    this.facebookPost = false;
     this.twitterAccount = false;
-    this.linkedinAccount = false;
-    this.facebookAccount = false;
   }
 }

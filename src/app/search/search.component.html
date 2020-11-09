@@ -32,7 +32,7 @@
                 
                 <!-- tweet results -->
                 <ng-template #twitterElse>
-                    <app-feed-posts *ngFor="let post of twitterResults" [post]="post" [search]="true" [user]="user" (showPost)="showPost($event)" ></app-feed-posts>
+                    <app-feed-posts *ngFor="let post of twitterResults" [post]="post" [search]="true" [user]="user" (showPost)="showPost($event)" (showUser)="showTwitterAccount($event)" ></app-feed-posts>
                 </ng-template>
 
                 <!-- search messages -->
@@ -48,7 +48,7 @@
 </div>
 
 <!-- post & account previews -->
-<!-- <app-twitter-account></app-twitter-account> -->
+<app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" ></app-twitter-account>
 <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showPost($event)"></app-twitter-post>
 <!--
 <app-linkedin-account></app-linkedin-account>
