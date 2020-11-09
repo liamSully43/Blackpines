@@ -10,7 +10,7 @@ export class TwitterAccountComponent implements OnInit {
   @Input() account;
 
   @Output() closePreview = new EventEmitter();
-
+  
   constructor() { }
 
   ngOnInit(): void {

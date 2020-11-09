@@ -31,7 +31,6 @@ export class TwitterPostComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log(this.tweet);
     // this updates the original tweet details with the retweeted tweets details for the various filter functions
     if(this.tweet.retweeted_status) {
       const user = this.tweet.user;
@@ -61,6 +60,19 @@ export class TwitterPostComponent implements OnInit {
   }
 
   // rounds numbers to the neares 1000 or million
+  roundNumbers(num) {
+    if(num >= 1000 && num <= 999999) { // if the tweet has between 1000 & 999,999 retweets/likes then round down to the nearest 1000
+      num = Math.floor(num/1000)
+      num += "K";
+    }
+    if(num >= 1000000) { // if the tweet has more than 1,000,000 retweets/likes then round down to the nearest million
+      num = Math.floor(num/1000000);
+      num += "M";
+    }
+    return num;
+  }
+
+  // round down numbers to nearest 1000 or million
   roundNumbers(num) {
     if(num >= 1000 && num <= 999999) { // if the tweet has between 1000 & 999,999 retweets/likes then round down to the nearest 1000
       num = Math.floor(num/1000)
@@ -128,9 +140,13 @@ export class TwitterPostComponent implements OnInit {
       }
       else if(liked) {
         this.liked = true;
+        this.tweet.favorite_count++;
+        this.tweet.likesRounded = this.roundNumbers(this.tweet.favorite_count);
       }
       else {
         this.liked = false;
+        this.tweet.favorite_count--;
+        this.tweet.likesRounded = this.roundNumbers(this.tweet.favorite_count);
       }
     }))
   }
@@ -145,9 +161,13 @@ export class TwitterPostComponent implements OnInit {
         else if(response) {
           (<HTMLImageElement>document.querySelector(".retweet")).classList.add("selected");
           this.successThrown();
+          this.tweet.retweet_count++;
+          this.tweet.retweetsRounded = this.roundNumbers(this.tweet.retweet_count);
         }
         else {
           (<HTMLImageElement>document.querySelector(".retweet")).classList.remove("selected");
+          this.tweet.retweet_count--;
+          this.tweet.retweetsRounded = this.roundNumbers(this.tweet.retweet_count);
         }
       }))
   }

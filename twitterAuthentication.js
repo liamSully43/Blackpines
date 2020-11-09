@@ -110,11 +110,14 @@ const getPosts = (req, done) => {
             'Content-Type': 'application/json',
             "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
         }
-    }).then(res => res.json()).then(posts => done(posts));
+    }).then(res => res.json()).then(posts => done(posts)).catch((err) => {
+        console.log(err);
+        done(false)
+    });
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//                                     New Tweet                                       //
+//                                    New Tweet                                        //
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function newTweet(req, done) {
