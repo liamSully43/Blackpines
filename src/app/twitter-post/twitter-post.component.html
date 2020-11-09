@@ -6,10 +6,10 @@
 
         <!-- if the user retweeted a tweet -->
         <ng-container *ngIf="tweet.original_user; else nonRetweet">
-            <p class="retweet-name"><img class="retweet-pic" src="{{ tweet.original_user.profile_image_url }}" height="20" width="auto" alt="{{tweet.original_user.name}}'s profile picture" /> {{tweet.original_user.name}} retweeted</p>
+            <p class="retweet-name" (click)="loadUser(tweet.original_user.id_str)"><img class="retweet-pic" src="{{ tweet.original_user.profile_image_url }}" height="20" width="auto" alt="{{tweet.original_user.name}}'s profile picture" /> {{tweet.original_user.name}} retweeted</p>
             <!-- The rewtweeted user's picture, name, handle & verification badge -->
-            <img class="profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" />
-            <div class="profile-headers" title="View post">
+            <img class="profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" (click)="loadUser(tweet.user.id_str)" />
+            <div class="profile-headers" title="View post" (click)="loadUser(tweet.user.id_str)">
                 <p>{{ tweet.user.name }}</p>
                 <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
                 <p>@{{ tweet.user.screen_name }}</p>
@@ -19,8 +19,8 @@
         <!-- if the user didn't retweet a tweet -->
         <ng-template #nonRetweet>
             <!-- The user's picture, name, handle & verification badge -->
-            <img class="profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" />
-            <div class="profile-headers">
+            <img class="profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" (click)="loadUser(tweet.user.id_str)" />
+            <div class="profile-headers" (click)="loadUser(tweet.user.id_str)">
                 <p>{{ tweet.user.name }}</p>
                 <img class="verified" *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
                 <p>@{{ tweet.user.screen_name }}</p>
