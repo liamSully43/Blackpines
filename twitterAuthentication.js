@@ -110,11 +110,14 @@ const getPosts = (req, done) => {
             'Content-Type': 'application/json',
             "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
         }
-    }).then(res => res.json()).then(posts => done(posts));
+    }).then(res => res.json()).then(posts => done(posts)).catch((err) => {
+        console.log(err);
+        done(false)
+    });
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//                                     New Tweet                                       //
+//                                    New Tweet                                        //
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function newTweet(req, done) {
@@ -145,6 +148,42 @@ function newTweet(req, done) {
             done(result);
         }
     })
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                    Get Tweet                                        //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function getTweet(id, done) {
+    fetch(`https://api.twitter.com/1.1/statuses/show.json?id=${id}&tweet_mode=extended`, {
+        method: "get",
+        headers:  {
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+        }
+    }).then(res => res.json()).then(post => {
+        const results = {
+            success: true,
+            post,
+        }
+        done(results);
+    }).catch((err) => {
+        console.log(err);
+        const results = {
+            success: false,
+            post,
+        }
+        done(results);
+    })
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                    New User                                         //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function getUser(id, done) {
+    console.log(id);
+    done(false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -304,6 +343,8 @@ module.exports = {
     getFeed,
     getPosts,
     newTweet,
+    getTweet,
+    getUser,
     like,
     reply,
     retweet,

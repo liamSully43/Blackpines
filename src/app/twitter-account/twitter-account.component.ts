@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-twitter-account',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./twitter-account.component.scss']
 })
 export class TwitterAccountComponent implements OnInit {
+
+  @Input() account;
 
   constructor() { }
 
