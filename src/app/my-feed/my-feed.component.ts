@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-my-feed',
@@ -21,15 +21,16 @@ export class MyFeedComponent implements OnInit {
     feed: false,
   };
 
+  user: any = {};
+
   twitterFeed: any = [];
   linkedinFeed: any = [];
   facebookFeed: any = [];
 
-  twitterError: any = false;
-  firstSearch = true;
-  failedSearch = false;
+  twitterFeedError: any = false;
   tweet: any = false;
-  user: any = {};
+
+  twitterAccount: any = false;
   
   constructor(private http: HttpClient) { }
 
@@ -51,12 +52,11 @@ export class MyFeedComponent implements OnInit {
       this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
       if(this.twitter.connected) this.http.get("api/myfeed", { headers }).subscribe((feed: any) => {
         if(feed.success === false) {
-          this.twitterError = feed.message;
+          this.twitterFeedError = feed.message;
         }
         else {
           this.twitterFeed = feed
-          console.log(feed);
-          this.twitterError = false;
+          this.twitterFeedError = false;
         }
       })
     });
@@ -95,16 +95,22 @@ export class MyFeedComponent implements OnInit {
         this.tweet = result.post;
         this.tweet.time = time.substr(11, 5);
         this.tweet.date = date.substr(4, 6);
-        console.log(this.tweet);
       }
       else {
-        this.firstSearch = false;
-        this.failedSearch = true;
+        this,this.twitterFeedError = result.post;
+        console.log(result.post);
       }
     }))
   }
 
+  showTwitterAccount(user) {
+    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
+    this.http.get("api/getTwitterAccount", { headers, params }).subscribe((result => this.twitterAccount = result));
+  }
+
   close() {
     this.tweet = false;
+    this.twitterAccount = false;
   }
 }

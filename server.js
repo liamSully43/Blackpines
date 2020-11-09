@@ -279,7 +279,12 @@ app.post("/api/getTwitterPost", (req, res) => {
     function cb (val) {
         res.send(val);
     }
-    getUsersAndPosts.twitterPost(postId, cb);
+    twitterAuth.getTweet(postId, cb);
+})
+
+app.get("/api/getTwitterAccount", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.getUser(req, cb);
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////

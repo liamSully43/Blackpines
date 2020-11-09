@@ -1,1 +1,30 @@
-<p>twitter-account works!</p>
+<div class="preview-background">
+    <div class="account-preview">
+        
+        <!-- error message if the user's account cannot be requested -->
+        <p *ngIf="!account; else profile" class="error">An error occured when trying to load this profile, please try again later</p>
+        <ng-template #profile>
+            <!-- the user's banner -->
+            <img class="banner" *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
+            <ng-template #elseBlock >
+                <div class="banner"></div>
+            </ng-template>
+            <div class="account-info">
+                <!-- close the tweet -->
+                <p (click)="close()" class="close">&#10005;</p>
+
+                <!-- account profile picture -->
+                <div class="profile-pic-container">
+                    <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url_https }}" />
+                </div>
+
+                <!-- name & handle -->
+                <p class="name">{{ account.name }}</p>
+                <p class="handle">@{{ account.screen_name }}</p>
+
+                <!-- followers & following -->
+                <p class="followers">Following: {{ account.followingRounded }} | Followers: {{ account.followersRounded }}</p>
+            </div>
+        </ng-template>
+    </div>
+</div>

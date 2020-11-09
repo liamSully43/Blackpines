@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-my-posts',
@@ -21,15 +21,16 @@ export class MyPostsComponent implements OnInit {
     feed: false,
   };
 
+  user: any = {};
+
   twitterPosts: any = [];
   linkedinPosts: any = [];
   facebookPosts: any = [];
 
-  twitterError: any = false;
-  firstSearch = true;
-  failedSearch = false;
+  twitterPostsError: any = false;
   tweet: any = false;
-  user: any = {};
+
+  twitterAccount: any = false;
   
   constructor(private http: HttpClient) { }
 
@@ -51,11 +52,11 @@ export class MyPostsComponent implements OnInit {
       this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
       if(this.twitter.connected) this.http.get("api/myposts", { headers }).subscribe((posts: any) => {
         if(posts.success === false) {
-          this.twitterError = posts.message;
+          this.twitterPostsError = posts.message;
         }
         else {
           this.twitterPosts = posts;
-          this.twitterError = false;
+          this.twitterPostsError = false;
         }
       })
     });
@@ -97,13 +98,20 @@ export class MyPostsComponent implements OnInit {
         console.log(this.tweet);
       }
       else {
-        this.firstSearch = false;
-        this.failedSearch = true;
+        this,this.twitterPostsError = result.post;
+        console.log(result.post);
       }
     }))
   }
 
+  showTwitterAccount(user) {
+    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
+    this.http.get("api/getTwitterAccount", { headers, params }).subscribe((result => this.twitterAccount = result));
+  }
+
   close() {
     this.tweet = false;
+    this.twitterAccount = false;
   }
 }

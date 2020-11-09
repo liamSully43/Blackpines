@@ -148,6 +148,58 @@ function newTweet(req, done) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//                                    Get Tweet                                        //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function getTweet(id, done) {
+    fetch(`https://api.twitter.com/1.1/statuses/show.json?id=${id}&tweet_mode=extended`, {
+        method: "get",
+        headers:  {
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+        }
+    }).then(res => res.json()).then(post => {
+        const results = {
+            success: true,
+            post,
+        }
+        done(results);
+    }).catch((err) => {
+        console.log(err);
+        const results = {
+            success: false,
+            post,
+        }
+        done(results);
+    })
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                    Get User                                         //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function getUser(req, done) {
+    const token = encrypt.decrypt(req.user.twitterCredentials.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const id = req.query.id;
+    const handle = req.query.handle;
+    oauth.get(
+        `https://api.twitter.com/1.1/users/show.json?user_id=${id}&screen_name=${handle}`,
+        token,
+        tokenSecret,
+        function(err, data) {
+            if(err) {
+                console.log(err);
+                done(false);
+            }
+            else {
+                done(data);
+            }
+        }
+    ) 
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //                                   Like Tweets                                       //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -304,6 +356,8 @@ module.exports = {
     getFeed,
     getPosts,
     newTweet,
+    getTweet,
+    getUser,
     like,
     reply,
     retweet,
