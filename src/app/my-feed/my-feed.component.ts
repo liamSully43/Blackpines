@@ -21,15 +21,27 @@ export class MyFeedComponent implements OnInit {
     feed: false,
   };
 
-  twitterFeed: any = [];
-  linkedinFeed: any = [];
-  facebookFeed: any = [];
+  user: any = {};
 
-  twitterError: any = false;
+  twitterFeed: any = [];
+  twitterFeedError: any = false;
+
+  linkedinFeed: any = [];
+  linkedinFeedError: any = false;
+  
+  facebookFeed: any = [];
+  facebookFeedError: any = false;
+
+  tweet: any = false;
+  linkedinPost: any = false;
+  facebookPost: any = false;
+
+  twitterAccount: any = false;
+  linkedinAccount: any = false;
+  facebookAccount: any = false;
+  
   firstSearch = true;
   failedSearch = false;
-  tweet: any = false;
-  user: any = {};
   
   constructor(private http: HttpClient) { }
 
@@ -51,12 +63,12 @@ export class MyFeedComponent implements OnInit {
       this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
       if(this.twitter.connected) this.http.get("api/myfeed", { headers }).subscribe((feed: any) => {
         if(feed.success === false) {
-          this.twitterError = feed.message;
+          this.twitterFeedError = feed.message;
         }
         else {
           this.twitterFeed = feed
           console.log(feed);
-          this.twitterError = false;
+          this.twitterFeedError = false;
         }
       })
     });
@@ -104,7 +116,31 @@ export class MyFeedComponent implements OnInit {
     }))
   }
 
+  showTwitterAccount(id) {
+    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const postId = id
+    this.http.post("api/getTwitterAccount", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
+      if(result.success) {
+        let time = result.post.created_at;
+        let date = result.post.created_at;
+        this.tweet = result.post;
+        this.tweet.time = time.substr(11, 5);
+        this.tweet.date = date.substr(4, 6);
+        console.log(this.tweet);
+      }
+      else {
+        this.firstSearch = false;
+        this.failedSearch = true;
+      }
+    }))
+  }
+
   close() {
     this.tweet = false;
+    this.linkedinPost= false;
+    this.facebookPost = false;
+    this.twitterAccount = false;
+    this.linkedinAccount = false;
+    this.facebookAccount = false;
   }
 }

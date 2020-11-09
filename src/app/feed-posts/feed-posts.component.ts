@@ -13,6 +13,7 @@ export class FeedPostsComponent implements OnInit {
 
   @Output() showPost = new EventEmitter<number>();
   @Output() close = new EventEmitter<string>();
+  @Output() showUser = new EventEmitter<string>();
 
   liked = false;
   error = false;
@@ -97,14 +98,10 @@ export class FeedPostsComponent implements OnInit {
     const id = (this.post.original_id) ? this.post.original_id : this.post.id_str;
     this.showPost.next(id);
   }
-
-  viewUser(e) {
+  
+  loadUser(e, userID) {
     e.stopPropagation(); // this stops view post from being called as viewPost is tied to the whole post and would also be called without it
-  }
-
-  loadUser(handle) {
-    console.log(handle);
-    // load/get user profile
+    this.showUser.next(userID);
   }
 
   deleteTweet(e) {
