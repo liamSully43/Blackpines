@@ -1,0 +1,22 @@
+@import '../../variables';
+
+.preview-background {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(33, 33, 33, 0.5);
+    display: grid;
+    place-items: center;
+}
+
+.account-preview {
+    width: 80%;
+    max-width: 600px;
+    height: auto;
+    max-height: 850px !important;
+    overflow: auto;
+    padding: 20px;
+    background-color: $primary;
+    border-radius: 25px;
+}
