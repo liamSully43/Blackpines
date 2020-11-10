@@ -20,7 +20,7 @@
         <ng-template #nonRetweet>
             <!-- The user's picture, name, handle & verification badge -->
             <img class="profile-pic" width="60" height="auto" src="{{ tweet.user.profile_image_url }}" title="View account" (click)="loadUser(tweet.user.id_str, tweet.user.screen_name)" />
-            <div class="profile-headers" (click)="loadUser(tweet.user.id_str, tweet.user.screen_name)">
+            <div class="profile-headers" (click)="loadUser(tweet.user.id_str, tweet.user.screen_name)">er
                 <p>{{ tweet.user.name }}</p>
                 <img class="verified" *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
                 <p>@{{ tweet.user.screen_name }}</p>

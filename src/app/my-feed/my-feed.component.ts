@@ -24,8 +24,13 @@ export class MyFeedComponent implements OnInit {
   user: any = {};
 
   twitterFeed: any = [];
+  twitterFeedError: any = false;
+
   linkedinFeed: any = [];
+  linkedinFeedError: any = false;
+  
   facebookFeed: any = [];
+  facebookFeedError: any = false;
 
   twitterFeedError: any = false;
   tweet: any = false;

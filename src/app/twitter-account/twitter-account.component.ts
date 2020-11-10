@@ -11,14 +11,8 @@ export class TwitterAccountComponent implements OnInit {
   @Input() account;
 
   @Output() closePreview = new EventEmitter();
-  @Output() showTweet = new EventEmitter<string>();
-
-  loading = true;
-  error = false;
-  tweets = [];
-  accounts = [];
-
-  constructor(private http: HttpClient) { }
+  
+  constructor() { }
 
   ngOnInit(): void {
     document.querySelector("body").addEventListener("keyup", event => (event.key == "Escape") ? this.close() : null); // will close the preview if esc is pressed
