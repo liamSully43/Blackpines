@@ -324,6 +324,10 @@ function retweet(req, done) {
     })
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                   Delete Tweet                                      //
+/////////////////////////////////////////////////////////////////////////////////////////
+
 function deleteTweet(req, done) {
     const token = encrypt.decrypt(req.user.twitterCredentials.token);
     const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
@@ -346,6 +350,82 @@ function deleteTweet(req, done) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//                                   Follow User                                       //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function follow(req, done) {
+    const token = encrypt.decrypt(req.user.twitterCredentials.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    oauth.post(
+        `https://api.twitter.com/1.1/friendships/create.json?user_id=${req.body.id}`,
+        token,
+        tokenSecret,
+        null,
+        "application/json",
+        function(err, data) {
+            if(err) {
+                console.log(err);
+                done(null);
+            }
+            else {
+                done(true)
+            }
+        }
+    )
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                   Unfollow User                                     //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function unfollow(req, done) {
+    const token = encrypt.decrypt(req.user.twitterCredentials.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    oauth.post(
+        `https://api.twitter.com/1.1/friendships/destroy.json?user_id=${req.body.id}`,
+        token,
+        tokenSecret,
+        null,
+        "application/json",
+        function(err, data) {
+            if(err) {
+                console.log(err);
+                done(null);
+            }
+            else {
+                done(false)
+            }
+        }
+    )
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                 Get User's Tweets                                   //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+const getUsersTweets = (req, done) => {
+    fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=50&user_id=${req.query.id}&tweet_mode=extended?trim_user=true`, {
+        method: "get",
+        headers:  {
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+        }
+    }).then(res => res.json()).then(tweets => {
+        const res = {
+            success: true,
+            tweets,
+        }
+        done(res);
+    }).catch(err => {
+        console.log(err);
+        const res = {
+            success: false
+        }
+        done(res);
+    });
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //                                      Exports                                        //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -362,4 +442,7 @@ module.exports = {
     reply,
     retweet,
     deleteTweet,
+    follow,
+    unfollow,
+    getUsersTweets,
 }

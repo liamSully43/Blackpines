@@ -52,6 +52,15 @@ export class TwitterPostComponent implements OnInit {
       this.linksQuote = [];
       this.imgUrls = [];
       this.imgUrlsQuote = [];
+
+      // this swaps a lower quality version of the image for a better quality version
+      let url = this.tweet.user.profile_image_url.replace("normal", "200x200");
+      this.tweet.user.profile_image_url = url;
+      if(this.tweet.quoted_status) {
+        url = this.tweet.quoted_status.user.profile_image_url.replace("normal", "200x200");
+        this.tweet.quoted_status.user.profile_image_url = url;
+      }
+
       this.filterTweet(this.tweet, "original");
       if(this.tweet.quoted_status) {
         this.filterTweet(this.tweet.quoted_status, "quoted");
@@ -184,8 +193,14 @@ export class TwitterPostComponent implements OnInit {
   expandTweet() {
     this.updateTweet.next(this.tweet.quoted_status.id_str);
   }
+
+  loadQuotedUser(e, id, handle) {
+    e.stopPropagation();
+    this.loadUser(id, handle);
+  }
   
   loadUser(userID, handle) {
+    this.closeTweet();
     const user = {
       userID,
       handle

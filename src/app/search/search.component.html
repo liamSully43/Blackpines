@@ -14,7 +14,7 @@
             <div class="results-overflow">
                 <!-- user results -->
                 <ng-container *ngIf='searchType == "Users"; else twitterElse'>
-                    <div *ngFor="let user of twitterResults" class="results">
+                    <div *ngFor="let user of twitterResults" class="results" (click)="combineUser(user.id_str, user.screen_name)">
                         <img width="50" height="50" src="{{ user.profile_image_url }}" />
                         <div class="profile-headers">
                             <p>{{ user.name }}</p>
@@ -36,8 +36,7 @@
                 </ng-template>
 
                 <!-- search messages -->
-                <div *ngIf="loading; else loaded" class="loading"></div>
-                <ng-template #loaded>
+                <ng-template *ngIf="!loading">
                     <p *ngIf="twitterResults.length < 1 && !firstSearch && !failedSearch" class="no-results">No Results Found.</p> <!-- no results found -->
                     <p *ngIf="firstSearch" class="no-results">Search for tweets or users.</p> <!-- default message -->
                     <p *ngIf="failedSearch" class="no-results error">Something went wrong please try again later.</p> <!-- error message -->
@@ -46,10 +45,11 @@
         </section>
     </main>
 </div>
+<app-loading *ngIf="loading"></app-loading>
 
 <!-- post & account previews -->
-<app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" ></app-twitter-account>
-<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showPost($event)"></app-twitter-post>
+<app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showPost($event)"></app-twitter-account>
+<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showPost($event)" (showUser)="showTwitterAccount($event)"></app-twitter-post>
 <!--
 <app-linkedin-account></app-linkedin-account>
 <app-linkedin-post></app-linkedin-post>

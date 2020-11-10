@@ -1,0 +1,45 @@
+section {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  top: 0px;
+}
+
+.loading {
+  width: 35px;
+  height: 35px;
+  border: solid 4px #009a7f;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  border-radius: 100%;
+  -webkit-animation: loading 1s infinite linear;
+          animation: loading 1s infinite linear;
+  margin: auto;
+}
+
+@-webkit-keyframes loading {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes loading {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+/*# sourceMappingURL=loading.component.css.map */

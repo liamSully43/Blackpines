@@ -81,41 +81,6 @@ a {
   }
 }
 
-.loading {
-  width: 35px;
-  height: 35px;
-  border: solid 4px #009a7f;
-  border-bottom-color: rgba(0, 0, 0, 0);
-  border-radius: 100%;
-  margin: 5px;
-  -webkit-animation: loading 1s infinite linear;
-          animation: loading 1s infinite linear;
-  margin: auto;
-  margin-top: 20px;
-}
-
-@-webkit-keyframes loading {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
-
-@keyframes loading {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-            transform: rotate(360deg);
-  }
-}
-
 .main-content {
   width: 100%;
   height: calc(100vh - 70px);
