@@ -7,7 +7,8 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can signup & login to Blackpines
  - User's can connect to their Twitter, LinkedIn & Facebook accounts
  - User's can view the Twitter home timelines
- - User's can view their own tweets
+ - User's can view their any tweets
+ - User's can view any account
  - User's can make tweets from Blackpines
  - User's can Search for tweets & Twitter accounts
  - User's can reply to tweets
