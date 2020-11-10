@@ -45,7 +45,7 @@ main {
 }
 
 section {
-  width: 75%;
+  width: 60%;
   height: calc(100% - 58px);
   margin: auto;
   margin-top: 20px;
@@ -119,8 +119,8 @@ section .results-overflow .results .followers p span {
 }
 
 section .results-overflow .results .followers .following {
-  background-color: #f0f0f0;
-  border: solid 1px lightgrey;
+  background-color: #009a7f;
+  border: solid 1px #007a63;
   border-radius: 3px;
   padding: 1px 3px;
 }

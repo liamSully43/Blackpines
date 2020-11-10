@@ -27,18 +27,20 @@ export class SearchComponent implements OnInit {
   twitterResults = [];
   firstSearch = true;
   failedSearch = false;
-  loading = false;
-
+  
   searchType = "Users";
-
+  
   twitterPosts: any = [];
   linkedinPosts: any = [];
   facebookPosts: any = [];
-
+  
   twitterPostsError: any = false;
   tweet: any = false;
-
+  
   twitterAccount: any = false;
+  
+  // used to render the loading circle, set to true when the user request info from an api, and is then set to false when data is returned
+  loading = false;
 
   constructor(private http: HttpClient) { }
 
@@ -105,6 +107,10 @@ export class SearchComponent implements OnInit {
               following += "M";
               user.friends_count = following;
             }
+
+            // this swaps a lower quality version of the image for a better quality version
+            let url = user.profile_image_url.replace("normal", "200x200");
+            user.profile_image_url = url;
           }
           this.twitterResults = result.results;
         }
@@ -120,9 +126,12 @@ export class SearchComponent implements OnInit {
   }
 
   showPost(id) {
+    this.close();
+    this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const postId = id
     this.http.post("api/getTwitterPost", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
+      this.loading = false;
       if(result.success) {
         let time = result.post.created_at;
         let date = result.post.created_at;
@@ -138,10 +147,22 @@ export class SearchComponent implements OnInit {
     }))
   }
 
+  combineUser(id, handle) {
+    const user = {
+      userID: id,
+      handle,
+    }
+    this,this.showTwitterAccount(user);
+  }
+
   showTwitterAccount(user) {
+    this.loading = true
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
-    this.http.get("api/getTwitterAccount", { headers, params }).subscribe((result => this.twitterAccount = result));
+    this.http.get("api/getTwitterAccount", { headers, params }).subscribe((result => {
+      this.loading = false;
+      this.twitterAccount = result
+    }));
   }
 
   close() {

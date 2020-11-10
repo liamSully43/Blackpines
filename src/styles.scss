@@ -81,27 +81,6 @@ a {
     }
 }
 
-.loading {
-    width: 35px;
-    height: 35px;
-    border: solid 4px $accent;
-    border-bottom-color: rgba(0,0,0,0);
-    border-radius: 100%;
-    margin: 5px;
-    animation: loading 1s infinite linear;
-    margin: auto;
-    margin-top: 20px;
-}
-
-@keyframes loading {
-    from {
-        transform: rotate(0deg)
-    }
-    to {
-        transform: rotate(360deg)
-    }
-}
-
 .main-content {
     width: 100%;
     height: calc(100vh - 70px);

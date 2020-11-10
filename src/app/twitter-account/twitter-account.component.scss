@@ -16,7 +16,6 @@
     height: auto;
     max-height: 850px !important;
     overflow: auto;
-    background: linear-gradient(rgba(33, 33, 33, 0.5), white 20%);
     background-color: $primary;
     border-radius: 25px;
 
@@ -25,6 +24,7 @@
         height: 110px;
         background-color: $accent;
         background-image: linear-gradient(45deg, $accent, $hover);
+        box-shadow: 0px -30px 200px grey;
     }
 
     img.banner {
@@ -61,6 +61,35 @@
                 background-color: $primary;
             }
         }
+
+        .following, .follow {
+            font-size: 14px;
+            border-radius: 3px;
+            padding: 1px 3px;
+            float: right;
+            cursor: pointer;
+        }
+
+        .following {
+            background-color: $accent;
+            border: solid 1px $hover;
+            color: $primary;
+        }
+        
+        .following:hover {
+            background-color: $hover;
+        }
+
+        .follow {
+            background-color: #f0f0f0;
+            border: solid 1px lightgrey;
+        }
+
+        .follow:hover {
+            background-color: $accent;
+            border: solid 1px $hover;
+            color: $primary;
+        }
     
         .name, .handle, .followers {
             color: $secondary;
@@ -69,14 +98,232 @@
     
         .name {
             font-weight: 600;
+            display: inline-block;
         }
     
         .handle {
             font-weight: 400;
+            display: block;
         }
 
-        .followers {
-            margin-top: 10px;
+        .verified {
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .description {
+            margin-top: 20px;
+            color: $secondary;
+        }
+
+        .info {
+            margin-top: 20px;
+            color: $secondary;
+            width: 100%;
+
+            p, a {
+                display: inline-block;
+                width: auto;
+            }
+    
+            p {
+                color: $secondary;
+                margin-right: 20px;
+    
+                img {
+                    vertical-align: bottom;
+                }
+            }
+    
+            a {
+                color: $accent;
+            }
+    
+            a:hover {
+                color: $hover;
+            }
+        }
+
+        .info-interaction {
+            margin-top: 20px;
+            color: $secondary;
+            width: 100%;
+            padding-bottom: 20px;
+            border-bottom: solid 1px lightgrey;
+
+            span {
+                margin-right: 5px;
+                cursor: pointer;
+            }
+
+            span:last-of-type {
+                margin-right: 0px;
+            }
+
+        }
+
+        .results-container {
+
+            .loading {
+                width: 35px;
+                height: 35px;
+                border: solid 4px $accent;
+                border-bottom-color: rgba(0,0,0,0);
+                border-radius: 100%;
+                animation: loading 1s infinite linear;
+                margin: auto;
+                margin-top: 20px;
+            }
+            
+            @keyframes loading {
+                from {
+                    transform: rotate(0deg)
+                }
+                to {
+                    transform: rotate(360deg)
+                }
+            }
+
+            .tweets {
+                width: calc(100% - 22px);
+                height: auto;
+                padding: 10px;
+                background-color: $primary;
+                border: solid 1px lightgrey;
+                border-radius: 5px;
+                margin: auto;
+                margin-top: 20px;
+                cursor: pointer;
+
+                .retweet-name {
+                    font-size: 14px;
+                    color: grey;
+                    margin-bottom: 10px;
+            
+                    .retweet-pic {
+                        color: $secondary;
+                        border-radius: 100%;
+                        vertical-align: middle;
+                    }
+                }
+            
+                .profile-pic {
+                    border-radius: 100%;
+                    display: inline-block;
+                    margin-right: 10px;
+                }
+            
+                .profile-headers {
+                    display: inline-block;
+                    vertical-align: top;
+                    padding-top: 5px;
+                    
+                    p, img {
+                        display: inline-block;
+                        width: auto;
+                    }
+            
+                    img {
+                        margin-left: 10px;
+                        vertical-align: bottom;
+                    }
+            
+                    p:nth-of-type(2) {
+                        display: block;
+                        font-size: 14px;
+                        color: grey
+                    }
+                }
+            
+                .text {
+                    color: $secondary;
+                    margin-top: 10px;
+                }
+            
+                .quoted-tweet {
+                    padding: 10px;
+                    border: solid 1px lightgrey;
+                    border-radius: 10px;
+                    width: calc(100% - 22px);
+                    margin-top: 15px;
+                    cursor: pointer;
+            
+                    .users-profile-pic {
+                        width: 45px;
+                        height: auto;
+                        border-radius: 100%;
+                        margin-right: 10px;
+                    }
+            
+                    .profile-headers {
+                            
+                        p {font-size: 14px}
+                        p:nth-of-type(2) {font-size: 12px}
+                        
+                        @media(max-width: 425px) {
+                            p {font-size: 12px}
+                            p:nth-of-type(2) {font-size: 10px}
+                        }
+            
+                        img {
+                            height: 15px;
+                            width: auto;
+                        }
+                    }
+            
+                    .text {
+                        font-size: 16px;
+                    }
+            
+                    @media(max-width: 425px) {
+                        .text {
+                            font-size: 14px;
+                        }
+                    }
+            
+                    .user-links {
+                        font-size: 14px;
+                    }
+            
+                    @media(max-width: 425px) {
+                        .user-links {
+                            font-size: 12px;
+                        }
+                    }
+            
+                    .media-container {
+                        margin-bottom: 0px;
+                    }
+                }
+            
+                .time {
+                    margin-top: 15px;
+                    font-size: 14px;
+                    color: grey;
+                }
+            }
+            
+            .tweets:hover {
+                background-color: #f7f7f7;
+            }
         }
     }
+}
+
+.account-preview::-webkit-scrollbar {
+    width: 5px;
+}
+
+.account-preview::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0);
+}
+
+.account-preview::-webkit-scrollbar-thumb {
+    background-color: $accent;
+    border-radius: 5px;
+}
+
+.account-preview::-webkit-scrollbar-thumb:hover {
+    background-color: $hover;
 }

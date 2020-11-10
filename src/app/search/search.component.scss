@@ -114,8 +114,8 @@ section {
                 }
 
                 .following {
-                    background-color: $off-primary;
-                    border: solid 1px lightgrey;
+                    background-color: $accent;
+                    border: solid 1px $hover;
                     border-radius: 3px;
                     padding: 1px 3px;
                 }

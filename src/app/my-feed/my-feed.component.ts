@@ -36,12 +36,16 @@ export class MyFeedComponent implements OnInit {
   tweet: any = false;
 
   twitterAccount: any = false;
+
+  // used to render the loading circle, set to true when the user request info from an api, and is then set to false when data is returned
+  loading:boolean = true;
   
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     this.http.get("api/user", { headers }).subscribe((data: any) => {
+      this.loading = false;
       this.twitter = {
         connected: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false,
         feed: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false
@@ -91,9 +95,12 @@ export class MyFeedComponent implements OnInit {
   }
 
   showTweet(id) {
+    this.close();
+    this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const postId = id
     this.http.post("api/getTwitterPost", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
+      this.loading = false;
       if(result.success) {
         let time = result.post.created_at;
         let date = result.post.created_at;
@@ -103,15 +110,18 @@ export class MyFeedComponent implements OnInit {
       }
       else {
         this,this.twitterFeedError = result.post;
-        console.log(result.post);
       }
     }))
   }
 
   showTwitterAccount(user) {
+    this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
-    this.http.get("api/getTwitterAccount", { headers, params }).subscribe((result => this.twitterAccount = result));
+    this.http.get("api/getTwitterAccount", { headers, params }).subscribe((result => {
+      this.loading = false;
+      this.twitterAccount = result
+    }));
   }
 
   close() {

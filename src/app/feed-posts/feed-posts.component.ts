@@ -50,6 +50,10 @@ export class FeedPostsComponent implements OnInit {
       this.post.date = date.substr(0, 6);
     }
 
+    // this swaps a lower quality version of the image for a better quality version
+    let url = this.post.user.profile_image_url.replace("normal", "200x200");
+    this.post.user.profile_image_url = url;
+
     this.filterPost(this.post, "original");
     if(this.post.quoted_status) {
       this.filterPost(this.post.quoted_status, "quoted");

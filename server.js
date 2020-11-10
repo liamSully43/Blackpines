@@ -287,6 +287,21 @@ app.get("/api/getTwitterAccount", (req, res) => {
     twitterAuth.getUser(req, cb);
 })
 
+app.post("/api/twitter/follow", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.follow(req, cb);
+})
+
+app.post("/api/twitter/unfollow", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.unfollow(req, cb);
+})
+
+app.get("/api/twitter/getUsersTweets", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.getUsersTweets(req, cb);
+})
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //                              Posting to Platforms                                   //
 /////////////////////////////////////////////////////////////////////////////////////////

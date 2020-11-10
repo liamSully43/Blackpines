@@ -53,7 +53,7 @@
         <div *ngIf="tweet.quoted_status" class="quoted-tweet" (click)="expandTweet()">
 
             <!-- quoted user's account info -->
-            <img class="profile-pic" width="60" height="auto" src="{{ tweet.quoted_status.user.profile_image_url }}" title="View account" />
+            <img class="profile-pic" width="60" height="auto" src="{{ tweet.quoted_status.user.profile_image_url }}" title="View account" (click)="loadQuotedUser($event, tweet.quoted_status.user.id_str, tweet.quoted_status.user.screen_name)" />
             <div class="profile-headers">
                 <p>{{ tweet.quoted_status.user.name }}</p>
                 <img class="verified" *ngIf="tweet.quoted_status.user.verified" width="20" height="20" src="../../assets/verified.png" />

@@ -10,25 +10,53 @@
 }
 
 .post-preview {
-  width: 30%;
+  width: 80%;
+  max-width: 600px;
   height: auto;
-  max-height: 820px;
+  max-height: 850px !important;
   overflow: auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 25px;
 }
 
-.post-preview .users-profile-pic {
+.post-preview .close {
+  width: 13px;
+  position: relative;
+  top: -5px;
+  float: right;
+  color: #d60000;
+  cursor: pointer;
+}
+
+.post-preview .close:hover {
+  color: #b70000;
+}
+
+.post-preview .retweet-name {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 10px;
+}
+
+.post-preview .retweet-name .retweet-pic {
+  color: #232323;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+.post-preview .profile-pic {
   border-radius: 100%;
   display: inline-block;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .post-preview .profile-headers {
   display: inline-block;
   vertical-align: top;
   padding-top: 5px;
+  cursor: pointer;
 }
 
 .post-preview .profile-headers p, .post-preview .profile-headers .verified {
@@ -48,36 +76,45 @@
   color: grey;
 }
 
-.post-preview .close {
-  width: 13px;
-  position: relative;
-  top: -5px;
-  float: right;
-  color: #d60000;
-  cursor: pointer;
-}
-
-.post-preview .close:hover {
-  color: #b70000;
+@media (max-width: 425px) {
+  .post-preview .profile-headers p {
+    font-size: 16px;
+  }
+  .post-preview .profile-headers p:nth-of-type(2) {
+    font-size: 14px;
+  }
 }
 
 .post-preview .text {
   color: #232323;
-  margin: 20px 0px;
+  margin-top: 15px;
   font-size: 20px;
 }
 
+@media (max-width: 415px) {
+  .post-preview .text {
+    font-size: 16px;
+  }
+}
+
 .post-preview .links-container {
-  margin-bottom: 10px;
+  margin-top: 15px;
 }
 
 .post-preview .links-container .user-links {
   text-decoration: none;
   color: #009a7f;
+  display: block;
 }
 
 .post-preview .links-container .user-links:hover {
   color: #007a63;
+}
+
+@media (max-width: 425px) {
+  .post-preview .links-container .user-links {
+    font-size: 12px;
+  }
 }
 
 .post-preview .media-container {
@@ -86,7 +123,7 @@
   display: flex;
   width: 100%;
   margin: 0px;
-  margin-bottom: 20px;
+  margin-top: 15px;
   padding: 0px;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
@@ -135,10 +172,11 @@
   border: solid 1px lightgrey;
   border-radius: 15px;
   width: calc(100% - 22px);
-  margin-bottom: 20px;
+  margin-top: 15px;
+  cursor: pointer;
 }
 
-.post-preview .quoted-tweet .users-profile-pic {
+.post-preview .quoted-tweet .profile-pic {
   width: 45px;
   height: auto;
 }
@@ -151,6 +189,15 @@
   font-size: 12px;
 }
 
+@media (max-width: 425px) {
+  .post-preview .quoted-tweet .profile-headers p {
+    font-size: 12px;
+  }
+  .post-preview .quoted-tweet .profile-headers p:nth-of-type(2) {
+    font-size: 10px;
+  }
+}
+
 .post-preview .quoted-tweet .profile-headers img {
   height: 15px;
   width: auto;
@@ -160,15 +207,52 @@
   font-size: 16px;
 }
 
+@media (max-width: 425px) {
+  .post-preview .quoted-tweet .text {
+    font-size: 14px;
+  }
+}
+
 .post-preview .quoted-tweet .user-links {
   font-size: 14px;
+}
+
+@media (max-width: 425px) {
+  .post-preview .quoted-tweet .user-links {
+    font-size: 12px;
+  }
 }
 
 .post-preview .quoted-tweet .media-container {
   margin-bottom: 0px;
 }
 
+.post-preview .mentioned-users {
+  width: 100%;
+  margin: 15px 0px;
+}
+
+.post-preview .mentioned-users .user {
+  width: auto;
+  display: inline-block;
+  color: #009a7f;
+  font-size: 14px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.post-preview .mentioned-users .user:first-of-type {
+  margin-left: 0px;
+}
+
+@media (max-width: 425px) {
+  .post-preview .mentioned-users .user {
+    font-size: 12px;
+  }
+}
+
 .post-preview .time {
+  margin-top: 15px;
   font-size: 16px;
   color: grey;
   display: inline-block;
@@ -213,6 +297,13 @@
 .post-preview .user-interaction div p {
   color: grey;
   float: left;
+}
+
+@media (max-width: 415px) {
+  .post-preview .user-interaction div {
+    -ms-flex-preferred-size: 30%;
+        flex-basis: 30%;
+  }
 }
 
 .post-preview .user-interaction div:first-of-type {
@@ -262,11 +353,22 @@
 }
 
 .post-preview .reply-container .submit {
-  -ms-flex-preferred-size: 27%;
-      flex-basis: 27%;
+  -ms-flex-preferred-size: 30%;
+      flex-basis: 30%;
   padding: 0px 10px !important;
   font-size: 13px;
   height: 30px !important;
+}
+
+@media (max-width: 310px) {
+  .post-preview .reply-container .reply {
+    max-width: 55% !important;
+    margin-right: 10% !important;
+  }
+  .post-preview .reply-container .submit {
+    -ms-flex-preferred-size: 30% !important;
+        flex-basis: 30% !important;
+  }
 }
 
 .post-preview::-webkit-scrollbar {
