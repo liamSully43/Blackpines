@@ -14,6 +14,7 @@ export class FeedPostsComponent implements OnInit {
   @Output() showPost = new EventEmitter<number>();
   @Output() close = new EventEmitter<string>();
   @Output() showUser = new EventEmitter<object>();
+  @Output() fetchUserEvent = new EventEmitter<object>();
 
   liked = false;
   error = false;
@@ -101,13 +102,18 @@ export class FeedPostsComponent implements OnInit {
     this.showPost.next(id);
   }
   
-  loadUser(e, userID, handle) {
+  loadUser(e, user) {
     e.stopPropagation(); // this stops view post from being called as viewPost is tied to the whole post and would also be called without it
-    const user = {
-      userID,
-      handle
+    this.showUser.next(user);
+  }
+
+  fetchUser(e, user) {
+    e.stopPropagation();
+    const userInfo = {
+      userID: user.id_str,
+      handle: user.screen_name,
     }
-    this.showUser.next(user)
+    this.fetchUserEvent.next(userInfo);
   }
 
   deleteTweet(e) {

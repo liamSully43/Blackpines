@@ -32,7 +32,6 @@ export class MyFeedComponent implements OnInit {
   facebookFeed: any = [];
   facebookFeedError: any = false;
 
-  twitterFeedError: any = false;
   tweet: any = false;
 
   twitterAccount: any = false;
@@ -115,6 +114,11 @@ export class MyFeedComponent implements OnInit {
   }
 
   showTwitterAccount(user) {
+    this.twitterAccount = user;
+  }
+
+  fetchUser(user) {
+    this.close();
     this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);

@@ -147,16 +147,12 @@ export class SearchComponent implements OnInit {
     }))
   }
 
-  combineUser(id, handle) {
-    const user = {
-      userID: id,
-      handle,
-    }
-    this,this.showTwitterAccount(user);
+  showTwitterAccount(user) {
+    this.twitterAccount = user
   }
 
-  showTwitterAccount(user) {
-    this.loading = true
+  fetchUser(user) {
+    this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
     this.http.get("api/getTwitterAccount", { headers, params }).subscribe((result => {

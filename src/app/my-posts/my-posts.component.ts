@@ -112,6 +112,10 @@ export class MyPostsComponent implements OnInit {
   }
 
   showTwitterAccount(user) {
+    this.twitterAccount = user;
+  }
+
+  fetchUser(user) {
     this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
