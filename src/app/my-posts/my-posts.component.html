@@ -6,7 +6,7 @@
             <app-platform-headers platform="twitter"></app-platform-headers>
             <p *ngIf="twitterPostsError !== false" class="error">{{ twitterPostsError }}</p>
             <div *ngFor="let post of twitterPosts">
-                <app-feed-posts [post]=post [search]="false" [user]="user" (showPost)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-feed-posts>
+                <app-feed-posts [post]=post [search]="false" [user]="user" (showPost)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
             </div>
         </div>
 
@@ -28,8 +28,8 @@
 <app-loading *ngIf="loading"></app-loading>
 
 <!-- post & account previews -->
-<app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showTweet($event)" ></app-twitter-account>
-<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-twitter-post>
+<app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showTweet($event)"></app-twitter-account>
+<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-twitter-post>
 <!--
 <app-linkedin-account></app-linkedin-account>
 <app-linkedin-post></app-linkedin-post>

@@ -12,6 +12,7 @@ export class TwitterPostComponent implements OnInit {
   @Output() close = new EventEmitter<string>();
   @Output() updateTweet = new EventEmitter<string>();
   @Output() showUser = new EventEmitter<object>();
+  @Output() fetchUserEvent = new EventEmitter<object>();
 
   liked = false;
   error = false;
@@ -69,19 +70,6 @@ export class TwitterPostComponent implements OnInit {
   }
 
   // rounds numbers to the neares 1000 or million
-  roundNumbers(num) {
-    if(num >= 1000 && num <= 999999) { // if the tweet has between 1000 & 999,999 retweets/likes then round down to the nearest 1000
-      num = Math.floor(num/1000)
-      num += "K";
-    }
-    if(num >= 1000000) { // if the tweet has more than 1,000,000 retweets/likes then round down to the nearest million
-      num = Math.floor(num/1000000);
-      num += "M";
-    }
-    return num;
-  }
-
-  // round down numbers to nearest 1000 or million
   roundNumbers(num) {
     if(num >= 1000 && num <= 999999) { // if the tweet has between 1000 & 999,999 retweets/likes then round down to the nearest 1000
       num = Math.floor(num/1000)
@@ -214,18 +202,23 @@ export class TwitterPostComponent implements OnInit {
     this.updateTweet.next(this.tweet.quoted_status.id_str);
   }
 
-  loadQuotedUser(e, id, handle) {
+  loadQuotedUser(e, user) {
     e.stopPropagation();
-    this.loadUser(id, handle);
+    this.loadUser(user);
   }
   
-  loadUser(userID, handle) {
+  loadUser(user) {
     this.closeTweet();
-    const user = {
-      userID,
-      handle
-    }
     this.showUser.next(user)
+  }
+
+  fetchUser(e, user) {
+    e.stopPropagation();
+    const userInfo = {
+      userID: user.id_str,
+      handle: user.screen_name,
+    }
+    this.fetchUserEvent.next(userInfo);
   }
 
   successThrown() {
