@@ -12,11 +12,16 @@ export class TwitterAccountComponent implements OnInit {
 
   @Output() closePreview = new EventEmitter();
   @Output() showTweet = new EventEmitter<string>();
+  @Output() showUser = new EventEmitter<object>();
 
   loading = false;
   accounts = [];
   tweets = [];
   error = false;
+
+  tweetsTitle = false;
+  followingTitle = false;
+  followersTitle = false;
   
   constructor(private http: HttpClient) { }
 
@@ -33,6 +38,8 @@ export class TwitterAccountComponent implements OnInit {
     // this swaps a lower quality version of the image for a better quality version
     let url = this.account.profile_image_url.replace("normal", "200x200");
     this.account.profile_image_url = url;
+
+    this.getTweets();
   }
 
   // rounds the number of following & followers to the neares 1000 or million
@@ -75,7 +82,12 @@ export class TwitterAccountComponent implements OnInit {
   }
 
   getTweets() {
+    this.tweets = [];
+    this.accounts = [];
     this.loading = true;
+    this.tweetsTitle = true;
+    this.followersTitle = false;
+    this.followingTitle = false;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
@@ -124,6 +136,66 @@ export class TwitterAccountComponent implements OnInit {
         this.showError();
       }
     });
+  }
+
+  getFollowing() {
+    this.tweets = [];
+    this.accounts = [];
+    this.loading = true;
+    this.tweetsTitle = false;
+    this.followersTitle = false;
+    this.followingTitle = true;
+    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const id = this.account.id_str;
+    const params = new HttpParams().set("id", id);
+    this.http.get("api/twitter/getFollowing", { headers, params }).subscribe((users: any) => {
+      if(users.success) {
+        console.log(users.accounts.users);
+        for(let user of users.accounts.users) {
+          user.followersRounded = this.roundNumbers(user.followers_count);
+          user.followingRounded = this.roundNumbers(user.friends_count);
+          console.log(user);
+        }
+        this.accounts = [...users.accounts.users];
+        this.loading = false;
+      }
+      else {
+        this.loading = false;
+        this.showError();
+      }
+    })
+  }
+
+  getFollowers() {
+    this.tweets = [];
+    this.accounts = [];
+    this.loading = true;
+    this.tweetsTitle = false;
+    this.followersTitle = true;
+    this.followingTitle = false;
+    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const id = this.account.id_str;
+    const params = new HttpParams().set("id", id);
+    this.http.get("api/twitter/getFollowers", { headers, params }).subscribe((users: any) => {
+      if(users.success) {
+        console.log(users.accounts.users);
+        for(let user of users.accounts.users) {
+          user.followersRounded = this.roundNumbers(user.followers_count);
+          user.followingRounded = this.roundNumbers(user.friends_count);
+          console.log(user);
+        }
+        this.accounts = [...users.accounts.users];
+        this.loading = false;
+      }
+      else {
+        this.loading = false;
+        this.showError();
+      }
+    })
+  }
+  
+  loadUser(user) {
+    this.showUser.next(user);
   }
 
   loadTweet(id) {

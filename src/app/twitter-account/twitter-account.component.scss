@@ -29,6 +29,8 @@
 
     img.banner {
         height: auto;
+        min-width: 100%;
+        min-height: 50px;
     }
 
     .account-info {
@@ -147,7 +149,7 @@
 
         .info-interaction {
             margin-top: 20px;
-            color: $secondary;
+            color: darkgrey;
             width: 100%;
             padding-bottom: 20px;
             border-bottom: solid 1px lightgrey;
@@ -160,7 +162,15 @@
             span:last-of-type {
                 margin-right: 0px;
             }
-
+            
+            span:hover {
+                color: $accent;
+            }
+            
+            .active-title {
+                color: $secondary;
+                text-decoration: underline;
+            }
         }
 
         .results-container {
@@ -185,7 +195,7 @@
                 }
             }
 
-            .tweets {
+            .results {
                 width: calc(100% - 22px);
                 height: auto;
                 padding: 10px;
@@ -302,9 +312,15 @@
                     font-size: 14px;
                     color: grey;
                 }
+
+                // for account previews only
+
+                .follow-container {
+                    float: right;
+                }
             }
             
-            .tweets:hover {
+            .results:hover {
                 background-color: #f7f7f7;
             }
         }

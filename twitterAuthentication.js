@@ -429,6 +429,58 @@ const getUsersTweets = (req, done) => {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//                               Get User's Followers                                  //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+const getUsersFollowers = (req, done) => {
+    fetch(`https://api.twitter.com/1.1/followers/list.json?user_id=${req.query.id}&count=50&skip_status=true`, {
+        method: "get",
+        headers:  {
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+        }
+    }).then(res => res.json()).then(accounts => {
+        const res = {
+            success: true,
+            accounts,
+        }
+        done(res);
+    }).catch(err => {
+        console.log(err);
+        const res = {
+            success: false
+        }
+        done(res);
+    });
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                            Get Who the User Follows                                 //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+const getUsersFollowing = (req, done) => {
+    fetch(`https://api.twitter.com/1.1/friends/list.json?user_id=${req.query.id}&count=50&skip_status=true`, {
+        method: "get",
+        headers:  {
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+        }
+    }).then(res => res.json()).then(accounts => {
+        const res = {
+            success: true,
+            accounts,
+        }
+        done(res);
+    }).catch(err => {
+        console.log(err);
+        const res = {
+            success: false
+        }
+        done(res);
+    });
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //                                      Exports                                        //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -448,4 +500,6 @@ module.exports = {
     follow,
     unfollow,
     getUsersTweets,
+    getUsersFollowers,
+    getUsersFollowing,
 }
