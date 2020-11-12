@@ -118,6 +118,7 @@ section {
                     border: solid 1px $hover;
                     border-radius: 3px;
                     padding: 1px 3px;
+                    color: $primary;
                 }
             }
 
@@ -133,6 +134,10 @@ section {
         .results:last-of-type {
             margin-bottom: 0px;
         }
+        
+        .results:hover {
+            background-color: #f7f7f7;
+        } 
 
         .no-results {
             margin-top: 10px;

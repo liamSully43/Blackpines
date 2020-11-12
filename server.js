@@ -302,6 +302,16 @@ app.get("/api/twitter/getUsersTweets", (req, res) => {
     twitterAuth.getUsersTweets(req, cb);
 })
 
+app.get("/api/twitter/getFollowers", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.getUsersFollowers(req, cb);
+})
+
+app.get("/api/twitter/getFollowing", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.getUsersFollowing(req, cb);
+})
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //                              Posting to Platforms                                   //
 /////////////////////////////////////////////////////////////////////////////////////////
