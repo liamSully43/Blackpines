@@ -35,8 +35,11 @@
                     <app-feed-posts *ngFor="let post of twitterResults" [post]="post" [search]="true" [user]="user" (showPost)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
                 </ng-template>
 
+                <div *ngIf="loading; else showMessages" class="loading-container">
+                    <app-loading></app-loading>
+                </div>
                 <!-- search messages -->
-                <ng-template *ngIf="!loading">
+                <ng-template #showMessages>
                     <p *ngIf="twitterResults.length < 1 && !firstSearch && !failedSearch" class="no-results">No Results Found.</p> <!-- no results found -->
                     <p *ngIf="firstSearch" class="no-results">Search for tweets or users.</p> <!-- default message -->
                     <p *ngIf="failedSearch" class="no-results error">Something went wrong please try again later.</p> <!-- error message -->
@@ -45,7 +48,6 @@
         </section>
     </main>
 </div>
-<app-loading *ngIf="loading"></app-loading>
 
 <!-- post & account previews -->
 <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showPost($event)"></app-twitter-account>

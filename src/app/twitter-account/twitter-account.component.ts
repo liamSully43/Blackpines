@@ -31,7 +31,6 @@ export class TwitterAccountComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log(this.account);
     this.account.followersRounded = this.roundNumbers(this.account.followers_count);
     this.account.followingRounded = this.roundNumbers(this.account.friends_count);
 

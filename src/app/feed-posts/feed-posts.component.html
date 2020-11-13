@@ -1,4 +1,4 @@
-<div class="results" (click)="viewPost()">
+<div class="results" id="a{{post.id}}" (click)="viewPost()">
 
     <!-- delete button/image -->
     <img *ngIf="user.twitter.id_str === post.user.id_str" class="delete-post" src="../../assets/delete.png" width="15" height="auto" (click)="deleteTweet($event)" />

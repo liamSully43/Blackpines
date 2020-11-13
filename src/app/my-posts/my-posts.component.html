@@ -3,29 +3,45 @@
     <app-side-nav [feed]="true" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (toggleFeedMethod)="toggleFeed($event)" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
     <main>
         <div *ngIf="twitter.feed" class="feeds">
-            <app-platform-headers platform="twitter"></app-platform-headers>
-            <p *ngIf="twitterPostsError !== false" class="error">{{ twitterPostsError }}</p>
-            <div *ngFor="let post of twitterPosts">
-                <app-feed-posts [post]=post [search]="false" [user]="user" (showPost)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
-            </div>
+            <app-platform-headers platform="twitter"></app-platform-headers> <!-- headers -->
+            <app-loading *ngIf="loadingTwitter; else twitterFeedBlock"></app-loading> <!-- loading circle -->
+            <ng-template #twitterFeedBlock>
+                <p *ngIf="twitterPostsError" class="error">{{ twitterPostsError }}</p> <!-- error message -->
+                <!-- feed -->
+                <div *ngFor="let post of twitterPosts">
+                    <app-feed-posts [post]=post [search]="false" [user]="user" (showPost)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
+                </div>
+            </ng-template>
         </div>
 
         <div *ngIf="linkedin.feed" class="feeds">
-            <app-platform-headers platform="linkedin"></app-platform-headers>
-            <div *ngFor="let post of linkedinPosts">
-                <app-feed-posts [post]=post></app-feed-posts>
-            </div>
+            <app-platform-headers platform="linkedin"></app-platform-headers> <!-- headers -->
+            <app-loading *ngIf="loadingLinkedin; else linkedinFeedBlock"></app-loading> <!-- loading circle -->
+            <ng-template #linkedinFeedBlock>
+                <p *ngIf="linkedinPostsError" class="error">{{ linkedinPostsError }}</p> <!-- error message -->
+                <!-- feed -->
+                <div *ngFor="let post of linkedinPosts">
+                    <app-feed-posts [post]=post></app-feed-posts>
+                </div>
+            </ng-template>
         </div>
 
         <div *ngIf="facebook.feed" class="feeds">
-            <app-platform-headers platform="facebook"></app-platform-headers>
-            <div *ngFor="let post of facebookPosts">
-                <app-feed-posts [post]=post></app-feed-posts>
-            </div>
+            <app-platform-headers platform="facebook"></app-platform-headers> <!-- headers -->
+            <app-loading *ngIf="loadingFacebook; else facebookFeedBlock"></app-loading> <!-- loading circle -->
+            <ng-template #facebookFeedBlock>
+                <p *ngIf="facebookPostsError" class="error">{{ facebookPostsError }}</p> <!-- error message -->
+                <!-- feed -->
+                <div *ngFor="let post of facebookPosts">
+                    <app-feed-posts [post]=post [search]="false"></app-feed-posts>
+                </div>
+            </ng-template>
         </div>
     </main>
 </div>
-<app-loading *ngIf="loading"></app-loading>
+<div class="load-account-post" *ngIf="loading">
+    <app-loading></app-loading> <!-- loading circle for loading posts and accounts-->
+</div>
 
 <!-- post & account previews -->
 <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showTweet($event)"></app-twitter-account>

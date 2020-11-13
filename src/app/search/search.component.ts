@@ -40,7 +40,7 @@ export class SearchComponent implements OnInit {
   twitterAccount: any = false;
   
   // used to render the loading circle, set to true when the user request info from an api, and is then set to false when data is returned
-  loading = false;
+  loading: any = false;
 
   constructor(private http: HttpClient) { }
 
@@ -70,7 +70,6 @@ export class SearchComponent implements OnInit {
   search() {
     const searchTerm = (<HTMLInputElement>document.querySelector(".search")).value;
     if(searchTerm.length < 1) return;
-
     this.loading = true;
     this.failedSearch = false;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
