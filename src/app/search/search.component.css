@@ -123,6 +123,7 @@ section .results-overflow .results .followers .following {
   border: solid 1px #007a63;
   border-radius: 3px;
   padding: 1px 3px;
+  color: #fff;
 }
 
 section .results-overflow .results .time {
@@ -134,8 +135,17 @@ section .results-overflow .results:last-of-type {
   margin-bottom: 0px;
 }
 
+section .results-overflow .results:hover {
+  background-color: #f7f7f7;
+}
+
 section .results-overflow .no-results {
   margin-top: 10px;
+}
+
+section .results-overflow .loading-container {
+  width: 100%;
+  height: 200px;
 }
 
 section .results-box:last-of-type {

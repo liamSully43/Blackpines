@@ -1,14 +1,13 @@
 @import '../../variables';
 
 section {
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
+    width: 100%;
+    height: 100%;
     padding: 0px;
     margin: 0px;
     display: grid;
     place-items: center;
-    top: 0px;
+    overflow: hidden; // the .loading circle causes clipping & scrolling issues due to the display:grid & place-items:center attributes, despite the width & height being set to 35px
 }
 
 .loading {

@@ -13,7 +13,7 @@
   width: 80%;
   max-width: 600px;
   height: auto;
-  max-height: 850px !important;
+  max-height: 90% !important;
   overflow: auto;
   background-color: #fff;
   border-radius: 25px;
@@ -30,6 +30,8 @@
 
 .account-preview img.banner {
   height: auto;
+  min-width: 100%;
+  min-height: 50px;
 }
 
 .account-preview .account-info {
@@ -128,6 +130,7 @@
 .account-preview .account-info .info p, .account-preview .account-info .info a {
   display: inline-block;
   width: auto;
+  margin: 5px 0px;
 }
 
 .account-preview .account-info .info p {
@@ -149,7 +152,7 @@
 
 .account-preview .account-info .info-interaction {
   margin-top: 20px;
-  color: #232323;
+  color: darkgrey;
   width: 100%;
   padding-bottom: 20px;
   border-bottom: solid 1px lightgrey;
@@ -162,6 +165,15 @@
 
 .account-preview .account-info .info-interaction span:last-of-type {
   margin-right: 0px;
+}
+
+.account-preview .account-info .info-interaction span:hover {
+  color: #009a7f;
+}
+
+.account-preview .account-info .info-interaction .active-title {
+  color: #232323;
+  text-decoration: underline;
 }
 
 .account-preview .account-info .results-container .loading {
@@ -198,7 +210,7 @@
   }
 }
 
-.account-preview .account-info .results-container .tweets {
+.account-preview .account-info .results-container .results {
   width: calc(100% - 22px);
   height: auto;
   padding: 10px;
@@ -210,52 +222,52 @@
   cursor: pointer;
 }
 
-.account-preview .account-info .results-container .tweets .retweet-name {
+.account-preview .account-info .results-container .results .retweet-name {
   font-size: 14px;
   color: grey;
   margin-bottom: 10px;
 }
 
-.account-preview .account-info .results-container .tweets .retweet-name .retweet-pic {
+.account-preview .account-info .results-container .results .retweet-name .retweet-pic {
   color: #232323;
   border-radius: 100%;
   vertical-align: middle;
 }
 
-.account-preview .account-info .results-container .tweets .profile-pic {
+.account-preview .account-info .results-container .results .profile-pic {
   border-radius: 100%;
   display: inline-block;
   margin-right: 10px;
 }
 
-.account-preview .account-info .results-container .tweets .profile-headers {
+.account-preview .account-info .results-container .results .profile-headers {
   display: inline-block;
   vertical-align: top;
   padding-top: 5px;
 }
 
-.account-preview .account-info .results-container .tweets .profile-headers p, .account-preview .account-info .results-container .tweets .profile-headers img {
+.account-preview .account-info .results-container .results .profile-headers p, .account-preview .account-info .results-container .results .profile-headers img {
   display: inline-block;
   width: auto;
 }
 
-.account-preview .account-info .results-container .tweets .profile-headers img {
+.account-preview .account-info .results-container .results .profile-headers img {
   margin-left: 10px;
   vertical-align: bottom;
 }
 
-.account-preview .account-info .results-container .tweets .profile-headers p:nth-of-type(2) {
+.account-preview .account-info .results-container .results .profile-headers p:nth-of-type(2) {
   display: block;
   font-size: 14px;
   color: grey;
 }
 
-.account-preview .account-info .results-container .tweets .text {
+.account-preview .account-info .results-container .results .text {
   color: #232323;
   margin-top: 10px;
 }
 
-.account-preview .account-info .results-container .tweets .quoted-tweet {
+.account-preview .account-info .results-container .results .quoted-tweet {
   padding: 10px;
   border: solid 1px lightgrey;
   border-radius: 10px;
@@ -264,67 +276,85 @@
   cursor: pointer;
 }
 
-.account-preview .account-info .results-container .tweets .quoted-tweet .users-profile-pic {
+.account-preview .account-info .results-container .results .quoted-tweet .users-profile-pic {
   width: 45px;
   height: auto;
   border-radius: 100%;
   margin-right: 10px;
 }
 
-.account-preview .account-info .results-container .tweets .quoted-tweet .profile-headers p {
+.account-preview .account-info .results-container .results .quoted-tweet .profile-headers p {
   font-size: 14px;
 }
 
-.account-preview .account-info .results-container .tweets .quoted-tweet .profile-headers p:nth-of-type(2) {
+.account-preview .account-info .results-container .results .quoted-tweet .profile-headers p:nth-of-type(2) {
   font-size: 12px;
 }
 
 @media (max-width: 425px) {
-  .account-preview .account-info .results-container .tweets .quoted-tweet .profile-headers p {
+  .account-preview .account-info .results-container .results .quoted-tweet .profile-headers p {
     font-size: 12px;
   }
-  .account-preview .account-info .results-container .tweets .quoted-tweet .profile-headers p:nth-of-type(2) {
+  .account-preview .account-info .results-container .results .quoted-tweet .profile-headers p:nth-of-type(2) {
     font-size: 10px;
   }
 }
 
-.account-preview .account-info .results-container .tweets .quoted-tweet .profile-headers img {
+.account-preview .account-info .results-container .results .quoted-tweet .profile-headers img {
   height: 15px;
   width: auto;
 }
 
-.account-preview .account-info .results-container .tweets .quoted-tweet .text {
+.account-preview .account-info .results-container .results .quoted-tweet .text {
   font-size: 16px;
 }
 
 @media (max-width: 425px) {
-  .account-preview .account-info .results-container .tweets .quoted-tweet .text {
+  .account-preview .account-info .results-container .results .quoted-tweet .text {
     font-size: 14px;
   }
 }
 
-.account-preview .account-info .results-container .tweets .quoted-tweet .user-links {
+.account-preview .account-info .results-container .results .quoted-tweet .user-links {
   font-size: 14px;
 }
 
 @media (max-width: 425px) {
-  .account-preview .account-info .results-container .tweets .quoted-tweet .user-links {
+  .account-preview .account-info .results-container .results .quoted-tweet .user-links {
     font-size: 12px;
   }
 }
 
-.account-preview .account-info .results-container .tweets .quoted-tweet .media-container {
+.account-preview .account-info .results-container .results .quoted-tweet .media-container {
   margin-bottom: 0px;
 }
 
-.account-preview .account-info .results-container .tweets .time {
+.account-preview .account-info .results-container .results .time {
   margin-top: 15px;
   font-size: 14px;
   color: grey;
 }
 
-.account-preview .account-info .results-container .tweets:hover {
+.account-preview .account-info .results-container .results .follow-container {
+  float: right;
+}
+
+.account-preview .account-info .results-container .results:hover {
   background-color: #f7f7f7;
+}
+
+@media (max-width: 450px) {
+  .account-preview .account-info .name, .account-preview .account-info .handle {
+    font-size: 14px;
+  }
+  .account-preview .account-info .info {
+    font-size: 3.8vw;
+    margin-top: 10px;
+  }
+  .account-preview .account-info .info-interaction {
+    margin-top: 10px;
+    font-size: 3.8vw;
+  }
 }
 
 .account-preview::-webkit-scrollbar {

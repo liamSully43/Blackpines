@@ -55,6 +55,11 @@ export class FeedPostsComponent implements OnInit {
     let url = this.post.user.profile_image_url.replace("normal", "200x200");
     this.post.user.profile_image_url = url;
 
+    if(this.post.original_user) {
+      url = this.post.original_user.profile_image_url.replace("normal", "200x200");
+      this.post.original_user.profile_image_url = url;
+    }
+
     this.filterPost(this.post, "original");
     if(this.post.quoted_status) {
       this.filterPost(this.post.quoted_status, "quoted");
@@ -122,7 +127,7 @@ export class FeedPostsComponent implements OnInit {
     const id = this.post.id_str;
     this.http.post("api/twitter/delete/tweet", { headers, id }).subscribe(res => {
       if(res) {
-        (<HTMLElement>document.querySelector(".results")).classList.add("hide");
+        (<HTMLElement>document.querySelector(`#a${this.post.id}`)).classList.add("hide");
       }
       else {
         this.error = true;

@@ -14,7 +14,7 @@
     width: 80%;
     max-width: 600px;
     height: auto;
-    max-height: 850px !important;
+    max-height: 90% !important;
     overflow: auto;
     background-color: $primary;
     border-radius: 25px;
@@ -127,6 +127,7 @@
             p, a {
                 display: inline-block;
                 width: auto;
+                margin: 5px 0px;
             }
     
             p {
@@ -322,6 +323,25 @@
             
             .results:hover {
                 background-color: #f7f7f7;
+            }
+        }
+    }
+
+    @media(max-width: 450px) {
+        .account-info {
+
+            .name, .handle {
+                font-size: 14px;
+            }
+            
+            .info {
+                font-size: 3.8vw;
+                margin-top: 10px;
+            }
+            
+            .info-interaction {
+                margin-top: 10px;
+                font-size: 3.8vw;
             }
         }
     }

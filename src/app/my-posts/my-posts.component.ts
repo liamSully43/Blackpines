@@ -22,25 +22,30 @@ export class MyPostsComponent implements OnInit {
   };
 
   user: any = {};
+  tweet: any = false;
 
   twitterPosts: any = [];
-  linkedinPosts: any = [];
-  facebookPosts: any = [];
-
   twitterPostsError: any = false;
-  tweet: any = false;
+  
+  linkedinPosts: any = [];
+  linkedinPostsError: any = false;
+  
+  facebookPosts: any = [];
+  facebookPostsError: any = false;
 
   twitterAccount: any = false;
 
   // used to render the loading circle, set to true when the user request info from an api, and is then set to false when data is returned
-  loading: boolean = true;
+  loading:boolean = false;
+  loadingTwitter: boolean = true;
+  loadingLinkedin: boolean = true;
+  loadingFacebook: boolean = true;
   
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     this.http.get("api/user", { headers }).subscribe((data: any) => {
-      this.loading = false;
       this.twitter = {
         connected: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false,
         feed: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false
@@ -55,6 +60,7 @@ export class MyPostsComponent implements OnInit {
       }
       this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
       if(this.twitter.connected) this.http.get("api/myposts", { headers }).subscribe((posts: any) => {
+        this.loadingTwitter = false;
         if(posts.success === false) {
           this.twitterPostsError = posts.message;
         }
