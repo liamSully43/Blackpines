@@ -49,3 +49,59 @@ select, option {
 select:hover {
     color: $accent;
 }
+
+@media(max-width: 700px) {
+    .side-nav {
+        display: block;
+        width: calc(100% - 21px);
+        height: auto;
+        padding: 10px;
+    }
+
+    ul {
+        display: flex;
+        margin: 0px;
+
+        li, div, select {
+            flex-basis: 25%;
+            text-align: center;
+            margin-bottom: 0px;
+        }
+
+        .checkbox {
+            width: 8px;
+            height: 8px;
+        }
+
+        select {
+            max-width: 20%;
+            margin: 0px 2.5%;
+        }
+
+        div {
+            li {
+                width: 100%;
+            }
+        }
+    }
+}
+@media(max-width: 575px) {
+    ul {
+
+        li, div, select {
+            flex-basis: calc(100% / 3);
+        }
+
+        select {
+            display: none;
+        }
+    }
+}
+
+@media(max-width: 355px) {
+    .side-nav {
+        padding: 10px 5px;
+        width: calc(100% - 11px);
+        font-size: 12px;
+    }
+}

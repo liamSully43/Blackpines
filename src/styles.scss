@@ -173,12 +173,12 @@ main {
     text-decoration: none;
 }
 
-@media(max-width: 643px) {
-    .main-content {
-        height: calc(100vh - 50px) !important;
+@media(max-width: 700px){
+    *::-webkit-scrollbar {
+        width: 5px;
     }
 
-    .side-nav {
-        height: calc(100vh - 90px) !important;
+    .main-content {
+        display: block;
     }
 }
