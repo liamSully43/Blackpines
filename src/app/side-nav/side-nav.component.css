@@ -44,4 +44,54 @@ select, option {
 select:hover {
   color: #009a7f;
 }
+
+@media (max-width: 700px) {
+  .side-nav {
+    display: block;
+    width: calc(100% - 21px);
+    height: auto;
+    padding: 10px;
+  }
+  ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0px;
+  }
+  ul li, ul div, ul select {
+    -ms-flex-preferred-size: 25%;
+        flex-basis: 25%;
+    text-align: center;
+    margin-bottom: 0px;
+  }
+  ul .checkbox {
+    width: 8px;
+    height: 8px;
+  }
+  ul select {
+    max-width: 20%;
+    margin: 0px 2.5%;
+  }
+  ul div li {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  ul li, ul div, ul select {
+    -ms-flex-preferred-size: calc(100% / 3);
+        flex-basis: calc(100% / 3);
+  }
+  ul select {
+    display: none;
+  }
+}
+
+@media (max-width: 355px) {
+  .side-nav {
+    padding: 10px 5px;
+    width: calc(100% - 11px);
+    font-size: 12px;
+  }
+}
 /*# sourceMappingURL=side-nav.component.css.map */
