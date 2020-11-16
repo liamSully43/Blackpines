@@ -1,45 +1,34 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>Blackpines | Home</title>
-        <script src="https://kit.fontawesome.com/70314bd783.js" crossorigin="anonymous"></script> <!-- Font awesome icons -->
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;700&display=swap" rel="stylesheet"> <!-- Google Fonts -->
-    </head>
-    <body class="login-page">
-        <h1 class="title">Blackpines.</h1>
-        <div class="form-container">
-            <nav class="login-nav">
-                <button [ngClass]="'nav-buttons login-button a'" (click)="loginSwap($event)" >Login</button>
-                <button [ngClass]="'nav-buttons sign-up-button'" (click)="loginSwap($event)" >Sign up</button>
-                <div class="selection-container">
-                    <div class="selection" [ngStyle]=""></div>
-                </div>
-            </nav>
-            <form method="POST" action="/my-feed" class="index-forms login-form" (submit)="submitLoginForm($event)">
-                <input class="login-email" name="username" type="email" placeholder="Email" title="Enter your email" (keydown)="enableSignIn()" />
-                <input class="login-password" name="password" type="password" placeholder="Password" title="Enter your password" (keydown)="enableSignIn()" />
-                <div class="clear-float"></div>
-                <button class="submit login" type="submit" disabled>Login</button>
-                <button class="clear" type="reset" (click)="enableSignIn()">Clear</button>
-                <div class="clear-float"></div>
-                <br />
-                <p class="login-error error"></p>
-                <a href="https://twitter.com/account/begin_password_reset" class="forgotten-password" target="_blank">Forgotten Password?</a>
-            </form>
-            <form method="POST" action="/my-account" class="index-forms signup-form hide" (submit)="submitRegisterForm($event)">
-                <input class="signup-name" name="name" type="text" placeholder="First Name" title="Enter your first name" (keydown)="enableRegister()" />
-                <input class="signup-last-name" name="lastName" type="text" placeholder="Last Name" title="Enter your last name" (keydown)="enableRegister()" />
-                <input class="signup-email" name="username" type="email" placeholder="Email" title="Enter your email" (keydown)="enableRegister()" />
-                <input class="signup-password" type="password" name="password" placeholder="Password" title="Enter your password" (keydown)="enableRegister()" />
-                <div class="clear-float"></div>
-                <button class="submit signup" type="submit" disabled>Sign up</button>
-                <button class="clear" type="reset" (click)="enableRegister()" >Clear</button>
-                <div class="clear-float"></div>
-                <p class="register-error error"></p>
-            </form>
-        </div>
-    </body>
-    <script src="JavaScript/bp.js" type="text/JavaScript"></script>
-    <script src="JavaScript/entry.js" type="text/JavaScript"></script>
-</html>
+<div class="login-page">
+    <h1 class="title">Blackpines.</h1>
+    <div class="form-container">
+        <nav class="login-nav">
+            <button [ngClass]="'nav-buttons login-button a'" (click)="loginSwap($event)" >Login</button>
+            <button [ngClass]="'nav-buttons sign-up-button'" (click)="loginSwap($event)" >Sign up</button>
+            <div class="selection-container">
+                <div class="selection" [ngStyle]=""></div>
+            </div>
+        </nav>
+        <form method="POST" action="/my-feed" class="index-forms login-form" (submit)="submitLoginForm($event)">
+            <input class="login-email" name="username" type="email" placeholder="Email" title="Enter your email" (keydown)="enableSignIn()" />
+            <input class="login-password" name="password" type="password" placeholder="Password" title="Enter your password" (keydown)="enableSignIn()" />
+            <div class="clear-float"></div>
+            <button class="submit login" type="submit" disabled>Login</button>
+            <button class="clear" type="reset" (click)="enableSignIn()">Clear</button>
+            <div class="clear-float"></div>
+            <br />
+            <p class="login-error error"></p>
+            <a href="https://twitter.com/account/begin_password_reset" class="forgotten-password" target="_blank">Forgotten Password?</a>
+        </form>
+        <form method="POST" action="/my-account" class="index-forms signup-form hide" (submit)="submitRegisterForm($event)">
+            <input class="signup-name" name="name" type="text" placeholder="First Name" title="Enter your first name" (keydown)="enableRegister()" />
+            <input class="signup-last-name" name="lastName" type="text" placeholder="Last Name" title="Enter your last name" (keydown)="enableRegister()" />
+            <input class="signup-email" name="username" type="email" placeholder="Email" title="Enter your email" (keydown)="enableRegister()" />
+            <input class="signup-password" type="password" name="password" placeholder="Password" title="Enter your password" (keydown)="enableRegister()" />
+            <div class="clear-float"></div>
+            <button class="submit signup" type="submit" disabled>Sign up</button>
+            <button class="clear" type="reset" (click)="enableRegister()" >Clear</button>
+            <div class="clear-float"></div>
+            <p class="register-error error"></p>
+        </form>
+    </div>
+</div>

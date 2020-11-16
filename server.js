@@ -252,29 +252,35 @@ app.post("/api/search", [
     };
 })
 
-app.post("/api/tweet/like", (req, res) => {
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                   API Requests                                      //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+// api structure: /api/platform/item/actionOrItems
+
+app.post("/api/twitter/tweet/like", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.like(req, cb)
 })
 
-app.post("/api/tweet/reply", (req, res) => {
-    const cb = val => res.send(val);
-    twitterAuth.reply(req, cb);
-})
-
-app.post("/api/tweet/retweet", (req, res) => {
+app.post("/api/twitter/tweet/retweet", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.retweet(req, cb);
 })
 
-app.post("/api/twitter/delete/tweet", (req, res) => {
+app.post("/api/twitter/tweet/reply", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.reply(req, cb);
+})
+
+app.post("/api/twitter/tweet/delete", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.deleteTweet(req, cb);
 })
 
 // get tweets 
 
-app.post("/api/getTwitterPost", (req, res) => {
+app.post("/api/twitter/tweet/get", (req, res) => {
     const postId = req.body.postId;
     function cb (val) {
         res.send(val);
@@ -282,32 +288,32 @@ app.post("/api/getTwitterPost", (req, res) => {
     twitterAuth.getTweet(postId, cb);
 })
 
-app.get("/api/getTwitterAccount", (req, res) => {
+app.get("/api/twitter/account/get", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.getUser(req, cb);
 })
 
-app.post("/api/twitter/follow", (req, res) => {
+app.post("/api/twitter/account/follow", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.follow(req, cb);
 })
 
-app.post("/api/twitter/unfollow", (req, res) => {
+app.post("/api/twitter/account/unfollow", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.unfollow(req, cb);
 })
 
-app.get("/api/twitter/getUsersTweets", (req, res) => {
+app.get("/api/twitter/account/tweets", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.getUsersTweets(req, cb);
 })
 
-app.get("/api/twitter/getFollowers", (req, res) => {
+app.get("/api/twitter/account/followers", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.getUsersFollowers(req, cb);
 })
 
-app.get("/api/twitter/getFollowing", (req, res) => {
+app.get("/api/twitter/account/following", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.getUsersFollowing(req, cb);
 })
@@ -343,7 +349,7 @@ app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter"),
 
 // disconnect
 
-app.get("/api/twitter/disconnect", function(req, res) {
+app.get("/api/twitter/account/disconnect", function(req, res) {
     function cb (accountConnected) {
         res.send(accountConnected)
     }
@@ -369,7 +375,7 @@ app.get("/linkedin/callback", checkAuthentication, passport.authorize("linkedin"
 
 // disconnect
 
-app.get("/api/linkedin/disconnect", function(req, res) {
+app.get("/api/linkedin/account/disconnect", function(req, res) {
     function cb (accountConnected) {
         res.send(accountConnected)
     }
@@ -388,7 +394,7 @@ app.get("/facebook/callback", checkAuthentication, passport.authorize("facebook"
 
 // disconnect
 
-app.get("/api/facebook/disconnect", function(req, res) {
+app.get("/api/facebook/account/disconnect", function(req, res) {
     function cb (accountConnected) {
         res.send(accountConnected)
     }

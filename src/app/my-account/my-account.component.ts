@@ -34,7 +34,7 @@ export class MyAccountComponent implements OnInit {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     switch(e.path[4].id) {
       case "twitter":
-        this.http.get("api/twitter/disconnect", { headers }).subscribe((accountConnected: boolean) => {
+        this.http.get("api/twitter/account/disconnect", { headers }).subscribe((accountConnected: boolean) => {
           if(accountConnected) {
             this.twitterError = true;
           }
@@ -42,7 +42,7 @@ export class MyAccountComponent implements OnInit {
         });
         break;
       case "linkedin":
-        this.http.get("api/linkedin/disconnect", { headers }).subscribe((accountConnected: boolean) => {
+        this.http.get("api/linkedin/account/disconnect", { headers }).subscribe((accountConnected: boolean) => {
           if(accountConnected) {
             this.linkedinError = true;
           }
@@ -50,7 +50,7 @@ export class MyAccountComponent implements OnInit {
         });
         break;
       case "facebook":
-        this.http.get("api/facebook/disconnect", { headers }).subscribe((accountConnected: boolean) => {
+        this.http.get("api/facebook/account/disconnect", { headers }).subscribe((accountConnected: boolean) => {
           if(accountConnected) {
             this.facebookError = true;
           }

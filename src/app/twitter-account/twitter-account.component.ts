@@ -57,7 +57,7 @@ export class TwitterAccountComponent implements OnInit {
   startFollowing() {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.account.id_str;
-    this.http.post("api/twitter/follow", { headers, id }, {responseType: "json"}).subscribe(res => {
+    this.http.post("api/twitter/account/follow", { headers, id }, {responseType: "json"}).subscribe(res => {
       if(res === null) {
         this.showError();
       }
@@ -70,7 +70,7 @@ export class TwitterAccountComponent implements OnInit {
   unfollow() {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.account.id_str;
-    this.http.post("api/twitter/unfollow", { headers, id }, {responseType: "json"}).subscribe(res => {
+    this.http.post("api/twitter/account/unfollow", { headers, id }, {responseType: "json"}).subscribe(res => {
       if(res === null) {
         this.showError();
       }
@@ -90,7 +90,7 @@ export class TwitterAccountComponent implements OnInit {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
-    this.http.get("api/twitter/getUsersTweets", { headers, params }).subscribe((res: any) => {
+    this.http.get("api/twitter/account/tweets", { headers, params }).subscribe((res: any) => {
       this.loading = false;
       if(res.success) {
         this.accounts = [];
@@ -147,7 +147,7 @@ export class TwitterAccountComponent implements OnInit {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
-    this.http.get("api/twitter/getFollowing", { headers, params }).subscribe((users: any) => {
+    this.http.get("api/twitter/account/following", { headers, params }).subscribe((users: any) => {
       if(users.success) {
         console.log(users.accounts.users);
         for(let user of users.accounts.users) {
@@ -175,7 +175,7 @@ export class TwitterAccountComponent implements OnInit {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
-    this.http.get("api/twitter/getFollowers", { headers, params }).subscribe((users: any) => {
+    this.http.get("api/twitter/account/followers", { headers, params }).subscribe((users: any) => {
       if(users.success) {
         console.log(users.accounts.users);
         for(let user of users.accounts.users) {
