@@ -131,7 +131,7 @@ export class TwitterPostComponent implements OnInit {
   likeTweet() {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.tweet.id_str;
-    this.http.post("api/tweet/like", { headers, id }, {responseType: "json"}).subscribe((liked => {
+    this.http.post("api/twitter/tweet/like", { headers, id }, {responseType: "json"}).subscribe((liked => {
       if(liked === null) {
         this.errorThrown();
       }
@@ -151,7 +151,7 @@ export class TwitterPostComponent implements OnInit {
   retweet() {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
       const id = this.tweet.id_str;
-      this.http.post("api/tweet/retweet", { headers, id}, {responseType: "json"}).subscribe((response => {
+      this.http.post("api/twitter/tweet/retweet", { headers, id}, {responseType: "json"}).subscribe((response => {
         if(response === null) {
           this.errorThrown();
         }
@@ -186,7 +186,7 @@ export class TwitterPostComponent implements OnInit {
       const headers = new HttpHeaders().set("Authorization", "auth-token");
       const id = this.tweet.id_str;
       const handle = this.tweet.user.screen_name;
-      this.http.post("api/tweet/reply", { headers, id, tweet, handle }, {responseType: "json"}).subscribe((response => {
+      this.http.post("api/twitter/tweet/reply", { headers, id, tweet, handle }, {responseType: "json"}).subscribe((response => {
         if(response) {
           this.successThrown();
           reply.value = "";

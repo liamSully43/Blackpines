@@ -129,7 +129,7 @@ export class SearchComponent implements OnInit {
     this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const postId = id
-    this.http.post("api/getTwitterPost", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
+    this.http.post("api/twitter/tweet/get", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
       this.loading = false;
       if(result.success) {
         let time = result.post.created_at;
@@ -154,7 +154,7 @@ export class SearchComponent implements OnInit {
     this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
-    this.http.get("api/getTwitterAccount", { headers, params }).subscribe((result => {
+    this.http.get("api/twitter/tweet/get", { headers, params }).subscribe((result => {
       this.loading = false;
       this.twitterAccount = result
     }));

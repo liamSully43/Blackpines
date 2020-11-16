@@ -1,10 +1,14 @@
-<app-header [new]="true"></app-header>
+<app-header [new]="true"></app-header> <!-- header/nav -->
 <div class="main-content">
+    <!-- side navigation -->
     <app-side-nav [feed]="false" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
     <main>
+        <!-- form that has all platform posts in one container - the primary post doesn't get posted & instead each platform post get's posted to their respective platform -->
         <form method="POST" action="/new-post" (submit)="newPost($event)">
             <div class="primary-input-container">
+                <!-- primary input -->
                 <textarea class="primary-input" placeholder="Type your post here" name="primary-post" (keydown)="onPrimaryInput($event)"></textarea>
+                <!-- buttons/menu -->
                 <div class="menu">
                     <div class="button-container">
                         <button class="submit" >Post</button>
@@ -19,9 +23,12 @@
                         </select>
                     </div>
                 </div>
+                <!-- errors show here if there are any -->
                 <p class="error"></p>
             </div>
+            <!-- platform posts/containers -->
             <div class="platform-input-container">
+                <!-- twitter post/container -->
                 <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !twitter.feed}">
                     <app-platform-headers *ngIf="twitter.feed" platform="twitter"></app-platform-headers>
                     <div class="character-limit-container" title="Maximum limit of 280 characters">
@@ -38,6 +45,7 @@
                     </div>
                 </div>
                 
+                <!-- linkedin post/container -->
                 <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !linkedin.feed}">
                     <app-platform-headers *ngIf="linkedin.feed" platform="linkedin"></app-platform-headers>
                     <div class="character-limit-container" title="Maximum limit of 700 characters">
@@ -55,6 +63,7 @@
                     </div>
                 </div>
 
+                <!-- facebook post/container -->
                 <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !facebook.feed}">
                     <app-platform-headers *ngIf="facebook.feed" platform="facebook"></app-platform-headers>
                     <div class="character-limit-container fb" title="Maximum limit of 63000 characters">

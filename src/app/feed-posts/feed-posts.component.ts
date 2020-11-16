@@ -125,7 +125,7 @@ export class FeedPostsComponent implements OnInit {
     e.stopPropagation(); // stops view post from being called
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.post.id_str;
-    this.http.post("api/twitter/delete/tweet", { headers, id }).subscribe(res => {
+    this.http.post("api/twitter/tweet/delete", { headers, id }).subscribe(res => {
       if(res) {
         (<HTMLElement>document.querySelector(`#a${this.post.id}`)).classList.add("hide");
       }

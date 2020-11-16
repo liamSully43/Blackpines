@@ -1,9 +1,12 @@
-<app-header [account]="true"></app-header>
-<div class="main-content">
+<app-header [account]="true"></app-header> <!-- header/nav -->
+<div class="main-content"> <!-- main content -->
+    <!-- side navigation bar - similar design to the component but different features -->
     <nav class="side-nav">
+        <!-- user's first & last name -->
         <p class="info">{{ user.firstName }} {{ user.lastName }}</p>
         <p class="info">{{ user.username }}</p>
         <div class="break"></div>
+        <!-- password reset form -->
         <p class="side-nav-buttons password-button" (click)="passwordField()">Change Password</p>
         <div class="password-form">
             <input type="password" name="oldPassword" class="old-password" placeholder="Old password" />
@@ -11,24 +14,30 @@
             <button class="side-nav-buttons" (click)="checkPasswords()">Update</button>
             <p class="message same-password"></p>
         </div>
+        <!-- logout -->
         <form action="/logout" method="GET">
             <button type="submit" class="side-nav-buttons logout">Logout</button>
         </form>
         <div class="break"></div>
+        <!-- connect to platforms -->
         <a href="/twitter" class="platform-links twitter">Connect With Twitter</a>
         <a href="/linkedin" class="platform-links linkedin">Connect With LinkedIn</a>
         <a href="/facebook" class="platform-links facebook">Connect With Facebook</a>
     </nav>
     <main>
-       <div class="platform-containers" id="twitter">
+        <!-- twitter account details -->
+        <div class="platform-containers" id="twitter">
+            <!-- placeholder container for account's that are not connected -->
             <div *ngIf="!twitter; else elseTwitter" class="platform-sections">
                 <img src="../../assets/twitter-logo.png" class="platform-logos" width="100" height="100" alt="Twitter" title="Twitter" />
             </div>
+            <!-- account info container -->
             <ng-template #elseTwitter>
                 <app-account-profile *ngIf="user !== {}" [account]="user.twitterProfile" (disconnectMethod)="disconnect($event)" [error]="twitterError" ></app-account-profile>
             </ng-template>
-       </div>
+        </div>
 
+        <!-- linkedin account details -->
         <div class="platform-containers" id="linkedin">
             <div *ngIf="!linkedin; else elseLinkedin" class="platform-sections">
                 <img src="../../assets/linkedin-logo.png" class="platform-logos" width="100" height="100" alt="LinkedIn" title="LinkedIn" />
@@ -38,6 +47,7 @@
             </ng-template>
         </div>
 
+        <!-- facebook account details -->
         <div class="platform-containers" id="facebook">
             <div *ngIf="!facebook; else elseFacebook" class="platform-sections">
                 <img src="../../assets/facebook-logo.png" class="platform-logos" width="100" height="100" alt="Facebook" title="Facebook" />
