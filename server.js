@@ -91,8 +91,8 @@ passport.use(new TwitterStrategy({
 }));
 
 passport.use(new LinkedInStrategy({
-    clientID: process.env.LINKEDIN_CONSUMER_KEY,
-    clientSecret: process.env.LINKEDIN_CONSUMER_SECRET,
+    clientID: process.env.LINKEDIN_CLIENT_ID,
+    clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/linkedin/callback",
 },  function(accessToken, refreshToken, profile, callback) {
         profile.token = accessToken;
@@ -316,6 +316,18 @@ app.get("/api/twitter/account/followers", (req, res) => {
 app.get("/api/twitter/account/following", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.getUsersFollowing(req, cb);
+})
+
+
+
+
+
+app.get("/api/linkedin", (req, res) => {
+    const cb = val => {
+        console.log(val);
+        res.send(val);
+    }
+    linkedinAuth.getFeed(req, cb)
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
