@@ -16,7 +16,6 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
 ## Known Issues
  - Facebook API doesn't pass through a API token secret - if this isn't needed for API requests to facebook then it won't be a problem
  - When twitter isn't connected to a blackpines account - the new-post page throws errors in the browser console & shows the linkedin & facebook post previews regardless if they are connected or not - this will be fixed when I get to the new-post page in regards to completing the project
- - The Twitter API doesn't send back if the user has liked or retweeted a tweet, so you can't reflect the user's ineraction when first loading the tweet, i.e. the like button cannot be green regardless if the tweet has been liked by the user or not
 
 ## Notes
-None
+ - LinkedIn throws an 'inavlid access token' error when fetching a user's feed - this may have something to do with the allowed permissions & scope of Blackpines. If this cannot be changed then I might have to scrap Linkedin & Facebook all together.
