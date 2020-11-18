@@ -95,6 +95,8 @@ passport.use(new LinkedInStrategy({
     clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
     callbackURL: "http://localhost:3000/linkedin/callback",
 },  function(accessToken, refreshToken, profile, callback) {
+        console.log(accessToken);
+        console.log(refreshToken);
         profile.token = accessToken;
         profile.tokenSecret = refreshToken;
         return callback(null, profile);
