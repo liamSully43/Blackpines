@@ -12,12 +12,12 @@ import { SearchComponent } from './search/search.component';
 const routes: Routes = [
   { path: "", component: IndexComponent },
   { path: "entry", component: EntryComponent },
-  { path: "404", component: MissingPageComponent },
   { path: "my-feed", component: MyFeedComponent },
   { path: "my-posts", component: MyPostsComponent },
   { path: "new-post", component: NewPostComponent },
   { path: "my-account", component: MyAccountComponent },
   { path: "search", component: SearchComponent },
+  { path: '**', component: MissingPageComponent },
 ];
 
 @NgModule({

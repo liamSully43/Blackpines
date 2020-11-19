@@ -84,6 +84,12 @@ function getFeed(req, done) {
     // https://api.linkedin.com/v1/people/~/network/updates?scope=self&count=50
     // https://api.linkedin.com/v2/network/id=wW7dsy9tav
     // https://api.linkedin.com/v2/network/id=${user_id}
+    // https://api.linkedin.com/v2/connections?q=viewer&projection=(elements(*(to~)),paging)&start=0&count=10
+    // http://api.linkedin.com/v1/people/~/connections:(id,first-name,last-name,location:(name),picture-url)
+    // https://api.linkedin.com/v2/connections/urn:li:person:${user_id}
+    // https://api.linkedin.com/v2/me?projection=(id)
+    
+    // LinkedIn scopes: r_organization_social%20r_1st_connections_size%20r_emailaddress%20rw_organization_admin%20r_basicprofile%20w_member_social%20w_organization_social
     
     const OAuth2 = OAuth.OAuth2;
     const clientId = process.env.LINKEDIN_CLIENT_ID;
@@ -99,7 +105,7 @@ function getFeed(req, done) {
     );
     oauth2._request(
         "GET",
-        `https://api.linkedin.com/v2/network/?id=${user_id}`,
+        `https://api.linkedin.com/v2/me?id=(${user_id})`,
         headers,
         null,
         user_token,
