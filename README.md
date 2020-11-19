@@ -18,4 +18,4 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - When twitter isn't connected to a blackpines account - the new-post page throws errors in the browser console & shows the linkedin & facebook post previews regardless if they are connected or not - this will be fixed when I get to the new-post page in regards to completing the project
 
 ## Notes
- - LinkedIn throws an 'inavlid access token' error when fetching a user's feed - this may have something to do with the allowed permissions & scope of Blackpines. If this cannot be changed then I might have to scrap Linkedin & Facebook all together.
+ - The multi platform aspect of the app might need to be scrapped - LinkedIn does not support getting a user's feed or getting a list of user's posts. Without this the app will only be able to support posting to LinkedIn. The Facebook API is even harder to work with
