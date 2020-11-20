@@ -30,7 +30,6 @@ const twitterAuth = require("./twitterAuthentication");
 const linkedinAuth = require("./linkedinAuthentication");
 const facebookAuth = require("./facebookAuthentication");
 const platformSearch = require("./platformSearch");
-const getUsersAndPosts = require("./getUsersAndPosts");
 
 const app = express();
 
@@ -80,10 +79,12 @@ const Customer = new mongoose.model("Customer", newCustomerSchema);
 
 passport.use(Customer.createStrategy());
 
+const host = (process.env.PORT) ? "https://blackpines.herokuapp.com" : "http://localhost:3000";
+
 passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTER_CONSUMER_KEY,
     consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    callbackURL: "http://localhost:3000/twitter/callback", // set to https://blackpines.herokuapp.com/twitter/callback when live
+    callbackURL: `${host}/twitter/callback`,
 },  function(token, tokenSecret, profile, callback) {
         profile.token = token;
         profile.tokenSecret = tokenSecret;
@@ -93,7 +94,7 @@ passport.use(new TwitterStrategy({
 passport.use(new LinkedInStrategy({
     clientID: process.env.LINKEDIN_CLIENT_ID,
     clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/linkedin/callback",
+    callbackURL: `${host}/linkedin/callback`,
     scope: ["r_organization_social", "r_1st_connections_size", "r_emailaddress", "rw_organization_admin", "r_basicprofile", "w_member_social", "w_organization_social"],
 },  function(accessToken, refreshToken, profile, callback) {
         console.log(accessToken);
@@ -106,7 +107,7 @@ passport.use(new LinkedInStrategy({
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/facebook/callback",
+    callbackURL: `${host}/facebook/callback`,
 },  function(accessToken, refreshToken, profile, callback) {
         profile.token = accessToken;
         profile.tokenSecret = refreshToken;
@@ -208,7 +209,7 @@ app.get("/api/facebook/account/disconnect", function(req, res) {
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//                                     Web Routing                                     //
+//                                      Web Routes                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////// Main/Info Page
@@ -244,10 +245,6 @@ app.get("/logout", (req, res) => {
 /////////////// passes node routing over to angular routing
 
 app.get("/my-feed", checkAuthentication, (req, res) => {
-    res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
-})
-
-app.get("/my-posts", checkAuthentication, (req, res) => {
     res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
 })
 
@@ -296,14 +293,6 @@ app.post("/newpost", [
         res.send(result)
     }
     twitterAuth.newTweet(req, callback)
-})
-
-/////////////////////////////////////////////////////////////////////////////////////////
-//                                      404                                            //
-/////////////////////////////////////////////////////////////////////////////////////////
-
-app.all("*", (req, res) => {
-    res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -492,6 +481,14 @@ app.get("/api/linkedin", (req, res) => {
         res.send(val);
     }
     linkedinAuth.getFeed(req, cb)
+})
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                      404                                            //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+app.all("*", (req, res) => {
+    res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////

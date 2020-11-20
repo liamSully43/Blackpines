@@ -1,4 +1,4 @@
-.platform-icon, .twitter-header, .linkedin-header, .facebook-header {
+.platform-icon, .twitter-header {
   width: calc(100% - 2px);
   height: auto;
   padding-left: 3px;
@@ -11,46 +11,26 @@
   border-top-right-radius: 5px;
 }
 
-.twitter-header, .linkedin-header, .facebook-header {
+.twitter-header {
   border-radius: 3px;
   margin-bottom: 20px;
-}
-
-.twitter-header {
   background-color: #1ba1f2;
 }
 
-.linkedin-header {
-  background-color: #0177b5;
-}
-
-.facebook-header {
-  background-color: #4367b2;
-}
-
 main {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: block;
   background-color: #f0f0f0;
 }
 
 .feeds {
-  width: 100%;
-  margin-right: 20px;
+  width: 75%;
+  min-width: 500px;
+  margin: auto;
 }
 
 .feeds .loading-container {
-  height: calc(100% - 20px);
-}
-
-.feeds:last-of-type {
-  margin-right: 0px;
-}
-
-.single-feed {
-  display: block !important;
-  padding: 20px 15%;
+  height: 100%;
+  margin-top: 150px;
 }
 
 .load-account-post {
@@ -60,10 +40,20 @@ main {
   height: 100vh;
 }
 
+@media (max-width: 900px) {
+  .feeds {
+    width: 80%;
+    min-width: 0px;
+  }
+}
+
 @media (max-width: 575px) {
+  .feeds {
+    width: 90%;
+  }
   main {
     display: block !important;
-    padding: 20px 5%;
+    padding: 20px 0px;
   }
 }
 /*# sourceMappingURL=my-feed.component.css.map */

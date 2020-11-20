@@ -163,7 +163,20 @@ export class NewPostComponent implements OnInit {
     }, 1);
   }
 
-  togglePlatforms(platform) {
+  togglePlatforms(cb) {
+    const checkbox = (<HTMLInputElement>cb.srcElement); // the visible green "checkbox"
+    const input = cb.path[1].childNodes[0]; // the hidden actual checkbox
+    if(checkbox.classList.contains("active-cb")) {
+        checkbox.classList.remove("active-cb");
+    }
+    else {
+        checkbox.classList.add("active-cb");
+    }
+    input.checked = !input.checked
+    const platform = {
+      name: cb.path[0].id,
+      active: input.checked
+    };
     switch(platform.name) {
       case "twitter":
         this.twitter.feed = platform.active;

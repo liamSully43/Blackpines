@@ -7,7 +7,6 @@ import { IndexComponent } from './index/index.component';
 import { EntryComponent } from './entry/entry.component';
 import { MissingPageComponent } from './missing-page/missing-page.component';
 import { MyFeedComponent } from './my-feed/my-feed.component';
-import { MyPostsComponent } from './my-posts/my-posts.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { NewPostComponent } from './new-post/new-post.component';
 import { HeaderComponent } from './header/header.component';
@@ -33,7 +32,6 @@ import { LoadingComponent } from './loading/loading.component';
     EntryComponent,
     MissingPageComponent,
     MyFeedComponent,
-    MyPostsComponent,
     MyAccountComponent,
     NewPostComponent,
     HeaderComponent,

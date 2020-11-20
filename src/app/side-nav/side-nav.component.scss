@@ -4,45 +4,14 @@
     background-color: $primary;
 }
 
-input[type=checkbox] {
-    background-color: $accent;
-    display: none;
-}
-
-.checkbox {
-    width: 11px;
-    height: 11px;
-    background-color: $primary;
-    border: solid 1px grey;
-    border-radius: 3px;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.active-cb {
-    background-color: $accent;
-}
-
-.checkbox-container {
-
-    li {
-        color: lightgrey;
-    }
-
-    .checkbox, .active-cb {
-        background-color: $primary !important;
-        border-color: lightgrey;
-        cursor: auto;
-    }
-}
-
 select, option {
+    display: inherit;
+    width: 100%;
     border: none;
-    max-width: 108px;
     background-color: $primary;
     color: $secondary;
     font-size: 16px;
-    margin-top: 10px;
+    margin-bottom: 15px;
     cursor: pointer;
 }
 
@@ -50,51 +19,42 @@ select:hover {
     color: $accent;
 }
 
+button {
+    float: none;
+    width: 100%;
+    min-width: 112px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+@media(max-width: 900px) {
+    .side-nav {
+        flex-basis: 3% !important;
+    }
+}
+
 @media(max-width: 700px) {
     .side-nav {
         display: block;
-        width: calc(100% - 21px);
+        width: calc(100% - 20px);
         height: auto;
         padding: 10px;
-    }
 
-    ul {
-        display: flex;
-        margin: 0px;
-
-        li, div, select {
-            flex-basis: 25%;
-            text-align: center;
-            margin-bottom: 0px;
-        }
-
-        .checkbox {
-            width: 8px;
-            height: 8px;
+        select, button {
+            width: 100px;
+            display: inline-block;
         }
 
         select {
-            max-width: 20%;
-            margin: 0px 2.5%;
-        }
-
-        div {
-            li {
-                width: 100%;
-            }
+            margin: 0px;
+            margin-right: 20px;
         }
     }
+
 }
 @media(max-width: 575px) {
-    ul {
-
-        li, div, select {
-            flex-basis: calc(100% / 3);
-        }
-
-        select {
-            display: none;
-        }
+    select {
+        display: none;
     }
 }
 

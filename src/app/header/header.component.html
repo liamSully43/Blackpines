@@ -7,10 +7,6 @@
                     <ng-template #elseFeed><a href="my-feed" class="nav-links">My Feed</a></ng-template>
                 </li>
                 <li class="nav-items">
-                    <a *ngIf="posts; else elsePosts" href="my-posts" class="nav-links active">My Posts</a>
-                    <ng-template #elsePosts><a href="my-posts" class="nav-links">My Posts</a></ng-template>
-                </li>
-                <li class="nav-items">
                     <a *ngIf="new; else elseNew" href="new-post" class="nav-links active" >New Post</a>
                     <ng-template #elseNew><a href="new-post" class="nav-links">New Post</a></ng-template>
                 </li>
