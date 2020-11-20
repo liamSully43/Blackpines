@@ -2,42 +2,14 @@
   background-color: #fff;
 }
 
-input[type=checkbox] {
-  background-color: #009a7f;
-  display: none;
-}
-
-.checkbox {
-  width: 11px;
-  height: 11px;
-  background-color: #fff;
-  border: solid 1px grey;
-  border-radius: 3px;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.active-cb {
-  background-color: #009a7f;
-}
-
-.checkbox-container li {
-  color: lightgrey;
-}
-
-.checkbox-container .checkbox, .checkbox-container .active-cb {
-  background-color: #fff !important;
-  border-color: lightgrey;
-  cursor: auto;
-}
-
 select, option {
+  display: inherit;
+  width: 100%;
   border: none;
-  max-width: 108px;
   background-color: #fff;
   color: #232323;
   font-size: 16px;
-  margin-top: 10px;
+  margin-bottom: 15px;
   cursor: pointer;
 }
 
@@ -45,44 +17,40 @@ select:hover {
   color: #009a7f;
 }
 
+button {
+  float: none;
+  width: 100%;
+  min-width: 112px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+@media (max-width: 900px) {
+  .side-nav {
+    -ms-flex-preferred-size: 3% !important;
+        flex-basis: 3% !important;
+  }
+}
+
 @media (max-width: 700px) {
   .side-nav {
     display: block;
-    width: calc(100% - 21px);
+    width: calc(100% - 20px);
     height: auto;
     padding: 10px;
   }
-  ul {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+  .side-nav select, .side-nav button {
+    width: 100px;
+    display: inline-block;
+  }
+  .side-nav select {
     margin: 0px;
-  }
-  ul li, ul div, ul select {
-    -ms-flex-preferred-size: 25%;
-        flex-basis: 25%;
-    text-align: center;
-    margin-bottom: 0px;
-  }
-  ul .checkbox {
-    width: 8px;
-    height: 8px;
-  }
-  ul select {
-    max-width: 20%;
-    margin: 0px 2.5%;
-  }
-  ul div li {
-    width: 100%;
+    margin-right: 20px;
   }
 }
 
 @media (max-width: 575px) {
-  ul li, ul div, ul select {
-    -ms-flex-preferred-size: calc(100% / 3);
-        flex-basis: calc(100% / 3);
-  }
-  ul select {
+  select {
     display: none;
   }
 }

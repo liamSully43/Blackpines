@@ -8,98 +8,81 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class MyFeedComponent implements OnInit {
 
+  user: any = {};
   twitter = {
     connected: false,
     feed: false,
   };
-  linkedin = {
-    connected: false,
-    feed: false,
-  };
-  facebook = {
-    connected: false,
-    feed: false,
-  };
-
-  user: any = {};
-
+  tweet: any = false;
   twitterFeed: any = [];
   twitterFeedError: any = false;
-
-  linkedinFeed: any = [];
-  linkedinFeedError: any = false;
-  
-  facebookFeed: any = [];
-  facebookFeedError: any = false;
-
-  tweet: any = false;
-
   twitterAccount: any = false;
+
+  headers = new HttpHeaders().set("Authorization", "auth-token");
 
   // used to render the loading circle, set to true when the user request info from an api, and is then set to false when data is returned
   loading:boolean = false;
-  loadingTwitter: boolean = true;
-  loadingLinkedin: boolean = true;
-  loadingFacebook: boolean = true;
+  loadingFeed:boolean = true;
   
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    let headers = new HttpHeaders().set("Authorization", "auth-token");
+    const headers = this.headers;
     this.http.get("api/user", { headers }).subscribe((data: any) => {
       this.twitter = {
         connected: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false,
         feed: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false
       }
-      this.linkedin = {
-        connected: (typeof data.linkedinProfile !== "undefined" && data.linkedinProfile !== null) ? true : false,
-        feed: (typeof data.linkedinProfile !== "undefined" && data.linkedinProfile !== null) ? true : false
-      }
-      this.facebook = {
-        connected: (typeof data.facebookProfile !== "undefined" && data.facebookProfile !== null) ? true : false,
-        feed: (typeof data.facebookProfile !== "undefined" && data.facebookProfile !== null) ? true : false,
-      }
       this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
-      if(this.twitter.connected) this.http.get("api/myfeed", { headers }).subscribe((feed: any) => {
-        this.loadingTwitter = false;
-        if(feed.success === false) {
-          this.twitterFeedError = feed.message;
-        }
-        else {
-          this.twitterFeed = feed
-          this.twitterFeedError = false;
-        }
-      })
+      if(this.twitter.connected) this.getFeed();
     });
   }
 
   toggleFeed(e) {
-      if(e === "single") {
-        document.querySelector("main").classList.add("single-feed");
-      }
-      else {
-        document.querySelector("main").classList.remove("single-feed");
-      }
+    if(e) {
+      this.getFeed();
+    }
+    else {
+      this.getPosts();
+    }
   }
 
-  togglePlatforms(platform) {
-    switch(platform.name) {
-      case "twitter":
-        this.twitter.feed = platform.active;
-        break;
-      case "linkedin":
-        this.linkedin.feed = platform.active;
-        break;
-      case "facebook":
-        this.facebook.feed = platform.active;
-        break;
-    }
+  getFeed() {
+    this.loadingFeed = true;
+    this.twitterFeed = [];
+    const headers = this.headers;
+    this.http.get("api/myfeed", { headers }).subscribe((feed: any) => {
+      this.loadingFeed = false;
+      if(feed.success === false) {
+        this.twitterFeedError = feed.message;
+      }
+      else {
+        this.twitterFeed = feed
+        this.twitterFeedError = false;
+      }
+    })
+  }
+
+  getPosts() {
+    this.loadingFeed = true;
+    this.twitterFeed = [];
+    const headers = this.headers;
+    this.http.get("api/myposts", { headers }).subscribe((posts: any) => {
+      this.loadingFeed = false;
+      if(posts.success === false) {
+        this.twitterFeedError = posts.message;
+      }
+      else {
+        this.twitterFeed = posts;
+        this.twitterFeedError = false;
+      }
+    })
   }
 
   showTweet(id) {
     this.close();
     this.loading = true;
-    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const headers = this.headers;
     const postId = id
     this.http.post("api/twitter/tweet/get", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
       this.loading = false;
@@ -116,6 +99,14 @@ export class MyFeedComponent implements OnInit {
     }))
   }
 
+  viewUser() {
+    const user = {
+      userID: this.user.twitter.id_str,
+      handle: this.user.twitter.screen_name,
+    }
+    this.fetchUser(user);
+  }
+
   showTwitterAccount(user) {
     this.twitterAccount = user;
   }
@@ -123,7 +114,7 @@ export class MyFeedComponent implements OnInit {
   fetchUser(user) {
     this.close();
     this.loading = true;
-    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const headers = this.headers;
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
     this.http.get("api/twitter/account/get", { headers, params }).subscribe((result => {
       this.loading = false;

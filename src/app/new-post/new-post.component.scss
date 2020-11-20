@@ -1,4 +1,87 @@
-@import '../../variables';
+@import "../../variables";
+
+.side-nav {
+    background-color: $primary;
+}
+
+input[type=checkbox] {
+    background-color: $accent;
+    display: none;
+}
+
+.checkbox {
+    width: 11px;
+    height: 11px;
+    background-color: $primary;
+    border: solid 1px grey;
+    border-radius: 3px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.active-cb {
+    background-color: $accent;
+}
+
+.checkbox-container {
+
+    li {
+        color: lightgrey;
+    }
+
+    .checkbox, .active-cb {
+        background-color: $primary !important;
+        border-color: lightgrey;
+        cursor: auto;
+    }
+}
+
+@media(max-width: 700px) {
+    .side-nav {
+        display: block;
+        width: calc(100% - 21px);
+        height: auto;
+        padding: 10px;
+    }
+
+    ul {
+        display: flex;
+        margin: 0px;
+
+        li, div, select {
+            flex-basis: 25%;
+            text-align: center;
+            margin-bottom: 0px;
+        }
+
+        .checkbox {
+            width: 8px;
+            height: 8px;
+        }
+
+        div {
+            li {
+                width: 100%;
+            }
+        }
+    }
+}
+@media(max-width: 575px) {
+    ul {
+
+        li, div, select {
+            flex-basis: calc(100% / 3);
+        }
+    }
+}
+
+@media(max-width: 355px) {
+    .side-nav {
+        padding: 10px 5px;
+        width: calc(100% - 11px);
+        font-size: 12px;
+    }
+}
 
 main {
     width: calc(100% - 40px);
