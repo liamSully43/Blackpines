@@ -1,3 +1,7 @@
+.main-content {
+  background-color: #f0f0f0;
+}
+
 .platform-icon, .twitter-header {
   width: calc(100% - 2px);
   height: auto;
@@ -20,6 +24,11 @@
 main {
   display: block;
   background-color: #f0f0f0;
+}
+
+main .message {
+  color: #232323;
+  font-size: 16px;
 }
 
 .feeds {
