@@ -1,7 +1,10 @@
 <app-header [feed]="true"></app-header>
 <div class="main-content">
-    <app-side-nav (activityFeed)="toggleFeed($event)" (viewUser)="viewUser()" ></app-side-nav>
+    <app-side-nav *ngIf="twitter.connected && user.twitter" [user]="user.twitter" (activityFeed)="toggleFeed($event)" (viewUser)="showTwitterAccount($event)" ></app-side-nav>
     <main>
+        <!-- This will show if the user isn't connected to twitter -->
+        <a href="/my-account" class="message" *ngIf="!twitter.connected">Please connect your twitter account from the My-Account page</a>
+        <!-- If Twitter isn't connected then getFeed() isn't called which in turn will leave the twitter feed array empty and no tweets will show -->
         <div *ngIf="twitter.feed" class="feeds">
             <app-platform-headers platform="twitter"></app-platform-headers> <!-- headers -->
             <!-- loading circle -->
@@ -25,9 +28,3 @@
 <!-- post & account previews -->
 <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-twitter-account>
 <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
-<!--
-<app-linkedin-account></app-linkedin-account>
-<app-linkedin-post></app-linkedin-post>
-<app-facebook-account></app-facebook-account>
-<app-facebook-post></app-facebook-post>
--->

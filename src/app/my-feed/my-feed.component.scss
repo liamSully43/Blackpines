@@ -1,5 +1,9 @@
 @import '../../variables';
 
+.main-content {
+    background-color: $off-primary;
+}
+
 .platform-icon, .twitter-header {
     width: calc(100% - 2px);
     height: auto;
@@ -22,6 +26,11 @@
 main {
     display: block;
     background-color: $off-primary;
+
+    .message {
+        color: $secondary;
+        font-size: 16px;
+    }
 }
 
 .feeds {

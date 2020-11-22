@@ -3,6 +3,14 @@
         <option>My Feed</option>
         <option>My Posts</option>
     </select>
-    <button class="submit" (click)="viewAccount()">View Account</button>
     <div class="clear-float"></div>
+    <div class="account" *ngIf="user || user !== {}">
+        <img src="{{ user.profile_image_url }}" width="60%" height="auto" />
+        <div class="name-container">
+            <p class="name">{{ user.name }}</p>
+            <p class="handle">@{{ user.screen_name }}</p>
+        </div>
+        <p class="following-info">{{ user.followingRounded }} Following | {{ user.followersRounded }} Followers</p>
+    </div>
+    <button class="submit" (click)="viewAccount()">View Account</button>
 </nav>
