@@ -255,4 +255,12 @@
 .results:hover {
   background-color: #f7f7f7;
 }
+
+.results:hover .quoted-tweet {
+  background-color: #fff;
+}
+
+.results:hover .quoted-tweet:hover {
+  background-color: #f7f7f7;
+}
 /*# sourceMappingURL=feed-posts.component.css.map */

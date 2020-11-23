@@ -171,7 +171,7 @@ function getTweet(id, done) {
         console.log(err);
         const results = {
             success: false,
-            post,
+            post: "Something went wrong, please try again later",
         }
         done(results);
     })

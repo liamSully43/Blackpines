@@ -308,8 +308,8 @@ app.get("/api/user", (req, res) => {
 /////////////// returns user's twitter home timeline
 
 app.get("/api/myfeed", (req, res) => {
-    function callback(feed) {
-        if(typeof feed === "string") {
+    function cb(feed) {
+        if(typeof feed === "string") { // checks if the returned value is an error message
             const result = {
                 success: false,
                 message: feed,
@@ -322,14 +322,14 @@ app.get("/api/myfeed", (req, res) => {
         }
         res.send(feed)
     }
-    twitterAuth.getFeed(req, callback);
+    twitterAuth.getFeed(req, cb);
 })
 
 /////////////// returns user's twitter posts
 
 app.get("/api/myposts", (req, res) => {
     function callback(posts) {
-        if(typeof posts[0] === "undefined") {
+        if(!posts) { // checks if the returned value is an error message
             const result = {
                 success: false,
                 message: "Unable to fetch your twitter statuses, please try again later",

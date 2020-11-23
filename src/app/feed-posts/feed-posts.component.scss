@@ -248,4 +248,12 @@
 
 .results:hover {
     background-color: #f7f7f7;
+
+    .quoted-tweet {
+        background-color: $primary;
+    }
+
+    .quoted-tweet:hover {
+        background-color: #f7f7f7;
+    }
 }
