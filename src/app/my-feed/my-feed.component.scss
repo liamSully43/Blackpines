@@ -2,6 +2,12 @@
 
 .main-content {
     background-color: $off-primary;
+    display: flex;
+}
+
+.noscroll {
+    overflow: hidden;
+    height: calc(100vh - 50px);
 }
 
 .platform-icon, .twitter-header {
@@ -26,6 +32,7 @@
 main {
     display: block;
     background-color: $off-primary;
+    flex-basis: 100%;
 
     .message {
         color: $secondary;
@@ -33,9 +40,24 @@ main {
     }
 }
 
+.mainPreview {
+    animation: mainPreview 0.5s;
+    flex-basis: 60%;
+}
+
+@keyframes mainPreview {
+    from {
+        flex-basis: 100%;        
+    }
+
+    to {
+        flex-basis: 60%;
+    }
+}
+
 .feeds {
     width: 75%;
-    min-width: 500px;
+    min-width: 300px;
     margin: auto;
 
     .loading-container {
@@ -44,23 +66,78 @@ main {
     }
 }
 
-.load-account-post {
-    position: absolute;
-    top: 0px;
-    width: 100vw;
-    height: 100vh;
+.feedsPreview {
+    animation: feedsPreview 0.5s;
+    width: 90%;
 }
 
-@media(max-width: 900px) {
+@keyframes feedsPreview {
+    from {
+        width: 75%;       
+    }
+
+    to {
+        width: 90%;
+    }
+}
+
+.load-account-post {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.content-previews {
+    flex-basis: 40%;
+    animation: previewsExpand 0.5s;
+    overflow: auto;
+}
+
+@keyframes previewsExpand {
+    from {
+        flex-basis: 0%;
+    }
+    to {
+        flex-basis: 40%;
+    }
+}
+
+@media(max-width: 1000px) {
     .feeds {
-        width: 80%;
-        min-width: 0px;
+        width: 99% !important;
+    }
+}
+
+@media(max-width: 950px) {
+    .main-content {
+        display: block;
+    }
+
+    .mainPreview, .feedsPreview {
+        animation: none !important;
+    }
+
+    .mainPreview {
+        flex-basis: 100% !important;
+    }
+
+    .feedsPreview {
+        width: 75% !important;
+    }
+
+    .load-account-post {
+        position: absolute;
+        top: 0px;
+        width: 100vw;
+        height: 100vh;
     }
 }
 
 @media(max-width: 575px) {
     .feeds {
-        width: 90%;
+        width: 95% !important;
+        min-width: 0px;
     }
 
     main {

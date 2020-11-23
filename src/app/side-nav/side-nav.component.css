@@ -67,7 +67,7 @@ button {
   }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 950px) {
   .side-nav {
     display: -webkit-box;
     display: -ms-flexbox;

@@ -17,6 +17,8 @@ export class MyFeedComponent implements OnInit {
   twitterFeed: any = [];
   twitterFeedError: any = false;
   twitterAccount: any = false;
+  error: any = false;
+  expand: boolean = false;
 
   headers = new HttpHeaders().set("Authorization", "auth-token");
 
@@ -82,19 +84,25 @@ export class MyFeedComponent implements OnInit {
   showTweet(id) {
     this.close();
     this.loading = true;
+    this.expand = true; // adds the expand animation to preview the tweet and prevents the body from being scrollable when the preview is visible
     const headers = this.headers;
     const postId = id
     this.http.post("api/twitter/tweet/get", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
-      this.loading = false;
       if(result.success) {
         let time = result.post.created_at;
         let date = result.post.created_at;
-        this.tweet = result.post;
-        this.tweet.time = time.substr(11, 5);
-        this.tweet.date = date.substr(4, 6);
+        setTimeout(() => {
+          this.loading = false;
+          this.tweet = result.post;
+          this.tweet.time = time.substr(11, 5);
+          this.tweet.date = date.substr(4, 6);
+        }, 500);
       }
       else {
-        this,this.twitterFeedError = result.post;
+        this.expand = false;
+        this.loading = false;
+        this.error = result.post;
+        setTimeout(() => this.error = false, 3000);
       }
     }))
   }
@@ -108,22 +116,40 @@ export class MyFeedComponent implements OnInit {
   }
 
   showTwitterAccount(user) {
-    this.twitterAccount = user;
+    this.loading = true;
+    this.expand = true;
+    setTimeout(() => {
+      this.loading = false;
+      this.twitterAccount = user;
+    }, 500);
   }
 
   fetchUser(user) {
     this.close();
     this.loading = true;
+    this.expand = true;
     const headers = this.headers;
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
     this.http.get("api/twitter/account/get", { headers, params }).subscribe((result => {
-      this.loading = false;
-      this.twitterAccount = result
+      if(!result) {
+        this.expand = false;
+        this.loading = false;
+        this.error = "Something went wrong, please try again later";
+        setTimeout(() => this.error = false, 3000);
+      }
+      else {
+        setTimeout(() => {
+          this.loading = false;
+          this.twitterAccount = result;
+        }, 500);
+      }
     }));
   }
 
   close() {
     this.tweet = false;
     this.twitterAccount = false;
+    this.error = false;
+    this.expand = false;
   }
 }
