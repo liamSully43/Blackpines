@@ -2,7 +2,7 @@
   color: #232323;
 }
 
-body {
+.body {
   background-color: #fff;
   background: linear-gradient(165deg, #ddd, #fff);
   height: auto !important;

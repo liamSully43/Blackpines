@@ -30,7 +30,6 @@ const twitterAuth = require("./twitterAuthentication");
 const linkedinAuth = require("./linkedinAuthentication");
 const facebookAuth = require("./facebookAuthentication");
 const platformSearch = require("./platformSearch");
-const getUsersAndPosts = require("./getUsersAndPosts");
 
 const app = express();
 
@@ -80,10 +79,12 @@ const Customer = new mongoose.model("Customer", newCustomerSchema);
 
 passport.use(Customer.createStrategy());
 
+const host = (process.env.PORT) ? "https://blackpines.herokuapp.com" : "http://localhost:3000";
+
 passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTER_CONSUMER_KEY,
     consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    callbackURL: "http://localhost:3000/twitter/callback", // set to https://blackpines.herokuapp.com/twitter/callback when live
+    callbackURL: `${host}/twitter/callback`,
 },  function(token, tokenSecret, profile, callback) {
         profile.token = token;
         profile.tokenSecret = tokenSecret;
@@ -91,10 +92,13 @@ passport.use(new TwitterStrategy({
 }));
 
 passport.use(new LinkedInStrategy({
-    clientID: process.env.LINKEDIN_CONSUMER_KEY,
-    clientSecret: process.env.LINKEDIN_CONSUMER_SECRET,
-    callbackURL: "http://localhost:3000/linkedin/callback",
+    clientID: process.env.LINKEDIN_CLIENT_ID,
+    clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+    callbackURL: `${host}/linkedin/callback`,
+    scope: ["r_organization_social", "r_1st_connections_size", "r_emailaddress", "rw_organization_admin", "r_basicprofile", "w_member_social", "w_organization_social"],
 },  function(accessToken, refreshToken, profile, callback) {
+        console.log(accessToken);
+        console.log(refreshToken);
         profile.token = accessToken;
         profile.tokenSecret = refreshToken;
         return callback(null, profile);
@@ -103,7 +107,7 @@ passport.use(new LinkedInStrategy({
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/facebook/callback",
+    callbackURL: `${host}/facebook/callback`,
 },  function(accessToken, refreshToken, profile, callback) {
         profile.token = accessToken;
         profile.tokenSecret = refreshToken;
@@ -138,15 +142,170 @@ app.all("/*", (req, res, next) => {
     next();
 })
 
-/////////////// API functions
+/////////////////////////////////////////////////////////////////////////////////////////
+//                    Connecting & Disconnecting from platforms                        //
+/////////////////////////////////////////////////////////////////////////////////////////
 
-// returns logged in user's account details to the front-end
+////////////// twitter
+// connect
+
+app.get("/twitter", checkAuthentication, passport.authorize("twitter"));
+
+app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter"), function(req, res) {
+    twitterAuth.callback(req, res, Customer);
+    res.redirect("/my-account");
+});
+
+// disconnect
+
+app.get("/api/twitter/account/disconnect", function(req, res) {
+    function cb (accountConnected) {
+        res.send(accountConnected)
+    }
+    twitterAuth.disconnect(req, res, Customer, cb);
+})
+
+////////////// linkedin
+// connect
+
+app.get("/linkedin", checkAuthentication, passport.authorize("linkedin"));
+
+app.get("/linkedin/callback", checkAuthentication, passport.authorize("linkedin"), function(req, res) {
+    linkedinAuth.callback(req, res, Customer);
+    res.redirect("/my-account");
+});
+
+app.get("/linkedin/token", (req, res) => {
+    console.log(req);
+    res.send(req);
+})
+
+// disconnect
+
+app.get("/api/linkedin/account/disconnect", function(req, res) {
+    function cb (accountConnected) {
+        res.send(accountConnected)
+    }
+    linkedinAuth.disconnect(req, Customer, cb);
+})
+
+////////////// facebook
+// connect
+
+app.get("/facebook", checkAuthentication, passport.authorize("facebook"));
+
+app.get("/facebook/callback", checkAuthentication, passport.authorize("facebook"), function(req, res) {
+    facebookAuth.callback(req, res, Customer);
+    res.redirect("/my-account");
+});
+
+// disconnect
+
+app.get("/api/facebook/account/disconnect", function(req, res) {
+    function cb (accountConnected) {
+        res.send(accountConnected)
+    }
+    facebookAuth.disconnect(req, Customer, cb);
+})
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                      Web Routes                                     //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////// Main/Info Page
+
+app.get("/", (req, res) => {
+    res.render(`${__dirname}/index.html`);
+})
+
+/////////////// Login/Register & new-post redirect
+
+app.get("/entry", (req, res) => {
+    if(req.isAuthenticated()) {
+        res.redirect("/my-feed");
+    }
+    else {
+        res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'), req.flash("password"));
+    }
+})
+
+app.post("/my-feed", (req, res) => res.redirect("/my-feed"));
+
+app.post("/my-account", (req, res) => res.redirect("/my-account"));
+
+app.post("/new-post", (req, res) => res.redirect("/new-post"));
+
+/////////////// Logout
+
+app.get("/logout", (req, res) => {
+    req.logOut();
+    res.redirect("/my-feed");
+})
+
+/////////////// passes node routing over to angular routing
+
+app.get("/my-feed", checkAuthentication, (req, res) => {
+    res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
+})
+
+app.get("/new-post", checkAuthentication, (req, res) => {
+    res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
+})
+
+app.get("/search", checkAuthentication, (req, res) => {
+    res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
+})
+
+app.get("/my-account", checkAuthentication, (req, res) => {
+    res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
+})
+
+/////////////// Login Function
+
+app.post("/login", [
+    check("username").isEmail().normalizeEmail().stripLow().trim().escape(),
+    check("password").stripLow().trim().escape()
+], function(req, res, next) {
+    blackPines.login(req, res, next, Customer);
+});
+
+/////////////// Register Function
+
+app.post("/register", [
+    check("firstName").stripLow().trim().escape(),
+    check("lastName").stripLow().trim().escape(),
+    check("username").isEmail().normalizeEmail().stripLow().trim().escape(),
+    check("password").isLength({ min: 8 }).stripLow().trim().escape(),
+], function(req, res) {
+    blackPines.register(req, res, Customer);
+})
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                              Posting to Platforms                                   //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+app.post("/newpost", [
+    check("tweet").stripLow().trim().escape(),
+    check("linkedin-post").stripLow().trim().escape(),
+    check("facebook-post").stripLow().trim().escape(),
+], (req, res) => {
+    function callback(result) {
+        res.send(result)
+    }
+    twitterAuth.newTweet(req, callback)
+})
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                   API Requests                                      //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////// returns logged in user's account details to the front-end
 
 app.get("/api/user", (req, res) => {
     res.send(req.user);
 });
 
-// returns user's twitter home timeline
+/////////////// returns user's twitter home timeline
 
 app.get("/api/myfeed", (req, res) => {
     function callback(feed) {
@@ -166,7 +325,7 @@ app.get("/api/myfeed", (req, res) => {
     twitterAuth.getFeed(req, callback);
 })
 
-// returns user's twitter posts
+/////////////// returns user's twitter posts
 
 app.get("/api/myposts", (req, res) => {
     function callback(posts) {
@@ -252,158 +411,89 @@ app.post("/api/search", [
     };
 })
 
-app.post("/api/tweet/like", (req, res) => {
+/////////////// Platform API calls
+
+/////////////// api structure: /api/platform/item/actionOrItems
+
+app.post("/api/twitter/tweet/like", (req, res) => {
     const cb = val => res.send(val);
     twitterAuth.like(req, cb)
 })
 
-// get tweets 
+app.post("/api/twitter/tweet/retweet", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.retweet(req, cb);
+})
 
-app.post("/api/getTwitterPost", (req, res) => {
+app.post("/api/twitter/tweet/reply", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.reply(req, cb);
+})
+
+app.post("/api/twitter/tweet/delete", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.deleteTweet(req, cb);
+})
+
+/////////////// get tweets 
+
+app.post("/api/twitter/tweet/get", (req, res) => {
     const postId = req.body.postId;
     function cb (val) {
         res.send(val);
     }
-    getUsersAndPosts.twitterPost(postId, cb);
+    twitterAuth.getTweet(postId, cb);
+})
+
+app.get("/api/twitter/account/get", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.getUser(req, cb);
+})
+
+app.post("/api/twitter/account/follow", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.follow(req, cb);
+})
+
+app.post("/api/twitter/account/unfollow", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.unfollow(req, cb);
+})
+
+app.get("/api/twitter/account/tweets", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.getUsersTweets(req, cb);
+})
+
+app.get("/api/twitter/account/followers", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.getUsersFollowers(req, cb);
+})
+
+app.get("/api/twitter/account/following", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAuth.getUsersFollowing(req, cb);
+})
+
+app.get("/api/linkedin", (req, res) => {
+    const cb = val => {
+        console.log(val);
+        res.send(val);
+    }
+    linkedinAuth.getFeed(req, cb)
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//                              Posting to Platforms                                   //
+//                                      404                                            //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-app.post("/newpost", [
-    check("tweet").stripLow().trim().escape(),
-    check("linkedin-post").stripLow().trim().escape(),
-    check("facebook-post").stripLow().trim().escape(),
-], (req, res) => {
-    function callback(result) {
-        res.send(result)
-    }
-    twitterAuth.newTweet(req, callback)
-})
-
-/////////////////////////////////////////////////////////////////////////////////////////
-//                    Connecting & Disconnecting from platforms                        //
-/////////////////////////////////////////////////////////////////////////////////////////
-
-////////////// twitter
-// connect
-
-app.get("/twitter", checkAuthentication, passport.authorize("twitter"));
-
-app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter"), function(req, res) {
-    twitterAuth.callback(req, res, Customer);
-    res.redirect("/my-account");
-});
-
-// disconnect
-
-app.get("/api/twitter/disconnect", function(req, res) {
-    function cb (accountConnected) {
-        res.send(accountConnected)
-    }
-    twitterAuth.disconnect(req, res, Customer, cb);
-})
-
-////////////// linkedin
-// connect
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////// https://docs.microsoft.com/en-us/linkedin/shared/references/v2/profile/full-profile
-///////////////////////////////////////////////////////////////////////////////////////////////// https://docs.microsoft.com/en-us/linkedin/talent/recruiter-system-connect/unified-search
-
-
-
-app.get("/linkedin", checkAuthentication, passport.authorize("linkedin"));
-
-app.get("/linkedin/callback", checkAuthentication, passport.authorize("linkedin"), function(req, res) {
-    linkedinAuth.callback(req, res, Customer);
-    res.redirect("/my-account");
-});
-
-// disconnect
-
-app.get("/api/linkedin/disconnect", function(req, res) {
-    function cb (accountConnected) {
-        res.send(accountConnected)
-    }
-    linkedinAuth.disconnect(req, Customer, cb);
-})
-
-////////////// facebook
-// connect
-
-app.get("/facebook", checkAuthentication, passport.authorize("facebook"));
-
-app.get("/facebook/callback", checkAuthentication, passport.authorize("facebook"), function(req, res) {
-    facebookAuth.callback(req, res, Customer);
-    res.redirect("/my-account");
-});
-
-// disconnect
-
-app.get("/api/facebook/disconnect", function(req, res) {
-    function cb (accountConnected) {
-        res.send(accountConnected)
-    }
-    facebookAuth.disconnect(req, Customer, cb);
-})
-
-/////////////// Main/Info Page
-
-app.get("/", (req, res) => {
-    res.render(`${__dirname}/index.html`);
-})
-
-/////////////// Login/Register & new-post redirect
-
-app.get("/entry", (req, res) => {
-    if(req.isAuthenticated()) {
-        res.redirect("/my-feed");
-    }
-    else {
-        res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'), req.flash("password"));
-    }
-})
-
-app.post("/my-feed", (req, res) => res.redirect("/my-feed"));
-
-app.post("/my-account", (req, res) => res.redirect("/my-account"));
-
-app.post("/new-post", (req, res) => res.redirect("/new-post"));
-
-/////////////// Logout
-
-app.get("/logout", (req, res) => {
-    req.logOut();
-    res.redirect("/my-feed");
-})
-
-/////////////// handles any unsupported node routing over to angular routing
-app.get("/*", checkAuthentication, (req, res) => {
+app.all("*", (req, res) => {
     res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
 })
 
-/////////////// Login Function
-
-app.post("/login", [
-    check("username").isEmail().normalizeEmail().stripLow().trim().escape(),
-    check("password").stripLow().trim().escape()
-], function(req, res, next) {
-    blackPines.login(req, res, next, Customer);
-});
-
-/////////////// Register Function
-
-app.post("/register", [
-    check("firstName").stripLow().trim().escape(),
-    check("lastName").stripLow().trim().escape(),
-    check("username").isEmail().normalizeEmail().stripLow().trim().escape(),
-    check("password").isLength({ min: 8 }).stripLow().trim().escape(),
-], function(req, res) {
-    blackPines.register(req, res, Customer);
-})
+/////////////////////////////////////////////////////////////////////////////////////////
+//                              Serving the application                                //
+/////////////////////////////////////////////////////////////////////////////////////////
 
 const port = process.env.PORT || 3000;
 

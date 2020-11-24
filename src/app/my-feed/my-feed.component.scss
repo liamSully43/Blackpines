@@ -22,7 +22,7 @@
     border-top-right-radius: 5px;
 }
 
-.twitter-header, .linkedin-header, .facebook-header {
+.twitter-header {
     border-radius: 3px;
     margin-bottom: 20px;
 }
@@ -52,17 +52,38 @@
 }
 
 main {
-    display: flex;
+    display: block;
     background-color: $off-primary;
+
+    .message {
+        color: $secondary;
+        font-size: 16px;
+    }
 }
 
 .feeds {
-    width: 100%;
-    margin-right: 20px;
+    width: 75%;
+    min-width: 500px;
+    margin: auto;
+
+    .loading-container {
+        height: 100%;
+        margin-top: 150px;
+    }
 }
 
-.feeds:last-of-type {
-    margin-right: 0px;
+.load-account-post {
+    position: absolute;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+}
+
+@media(max-width: 900px) {
+    .feeds {
+        width: 80%;
+        min-width: 0px;
+    }
 }
 
 @media(max-width: 1000px) {

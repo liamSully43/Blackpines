@@ -25,6 +25,20 @@
             <div *ngFor="let post of facebookFeed">
                 <app-feed-posts [post]=post [search]="false"></app-feed-posts>
             </div>
+            <ng-template #twitterFeedBlock>
+                <p *ngIf="twitterFeedError" class="error">{{ twitterFeedError }}</p> <!-- error message -->
+                <!-- feed -->
+                <div *ngFor="let post of twitterFeed">
+                    <app-feed-posts [post]=post [search]="false" [user]="user" (showPost)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
+                </div>
+            </ng-template>
         </div>
     </main>
 </div>
+<div class="load-account-post" *ngIf="loading">
+    <app-loading></app-loading> <!-- loading circle for loading posts and accounts-->
+</div>
+
+<!-- post & account previews -->
+<app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-twitter-account>
+<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>

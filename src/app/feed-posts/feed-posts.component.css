@@ -1,18 +1,32 @@
-.posts, .posts-single {
-  width: 100%;
-  margin-bottom: 20px;
+.results {
+  width: calc(100% - 22px);
+  height: auto;
+  padding: 10px;
   background-color: #fff;
-  color: #232323;
+  border: solid 1px lightgrey;
   border-radius: 5px;
+  margin: auto;
+  margin-bottom: 20px;
+  cursor: pointer;
 }
 
-.posts section, .posts-single section {
-  display: block;
-  padding: 5px 10px;
+.results .retweet-name {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 10px;
 }
 
-.posts section img, .posts section div, .posts-single section img, .posts-single section div {
-  display: inline-block;
+.results .retweet-name .retweet-pic {
+  color: #232323;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+.results .delete-post {
+  background-color: #d60000;
+  float: right;
+  border-radius: 0px;
+  margin: 0px;
 }
 
 .results .media-container {
@@ -84,21 +98,28 @@
   width: 45px;
   height: auto;
   border-radius: 100%;
+  display: inline-block;
+  margin-right: 10px;
 }
 
-.posts section div, .posts-single section div {
-  width: 60%;
+.results .profile-headers {
+  display: inline-block;
   vertical-align: top;
-  padding-top: 10px;
-  padding-left: 10px;
+  padding-top: 5px;
 }
 
-.posts .tweet-text, .posts .time, .posts-single .tweet-text, .posts-single .time {
-  width: calc(100% - 22px);
-  padding: 5px 10px;
+.results .profile-headers p, .results .profile-headers img {
+  display: inline-block;
+  width: auto;
 }
 
-.posts .time, .posts-single .time {
+.results .profile-headers img {
+  margin-left: 10px;
+  vertical-align: bottom;
+}
+
+.results .profile-headers p:nth-of-type(2) {
+  display: block;
   font-size: 14px;
   color: grey;
 }

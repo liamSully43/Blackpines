@@ -7,57 +7,42 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class SideNavComponent implements OnInit {
 
-  @Input() feed; // used to detect if the feed toggle html is needed
-  
-  // used to pass back what platforms should be connected
-  @Input() twitter: any = {
-    connected: false,
-    feed: false,
-  };
-  @Input() linkedin: any = {
-    connected: false,
-    feed: false,
-  };
-  @Input() facebook: any = {
-    connected: false,
-    feed: false,
-  };
+  myFeed: boolean = true;
 
-  @Output() toggleFeedMethod = new EventEmitter<string>(); // passes what feed option the user has selected to /my-feed or /my-posts
-  @Output() platformFeeds = new EventEmitter<object>(); // passes back the value of a platform check box to /my-feed, /my-posts or /new-post to toggle the components/html on those pages
-  @Output() toggleSearchMethod = new EventEmitter<string>(); // passes back what search type the user has selected for /search
+  @Input() user: any = false;
 
-  platformArray = [];
+  @Output() activityFeed = new EventEmitter<boolean>();
+  @Output() viewUser = new EventEmitter<Object>();
 
   constructor() { }
 
   ngOnInit(): void { }
 
-  // toggles the checkboxes when clicked - necessary for custom checkboxes
-  toggle(cb) {
-    const checkbox = (<HTMLInputElement>cb.srcElement); // the visible green "checkbox"
-    const input = cb.path[1].childNodes[0]; // the hidden actual checkbox
-    if(checkbox.classList.contains("active-cb")) {
-        checkbox.classList.remove("active-cb");
-    }
-    else {
-        checkbox.classList.add("active-cb");
-    }
-    input.checked = !input.checked
-    const platform = {
-      name: cb.path[0].id,
-      active: input.checked
-    };
-    this.platformFeeds.next(platform);
+  ngOnChanges() {
+    const url = this.user.profile_image_url.replace("normal", "200x200");
+    this.user.profile_image_url = url;
+    this.user.followersRounded = this.roundNumbers(this.user.followers_count);
+    this.user.followingRounded = this.roundNumbers(this.user.friends_count);
   }
 
-  // passes back what feed formatting the user wants
-  toggleFeed(e) {
-    if(e.path[0].value === "Single Feed") {
-      this.toggleFeedMethod.next("single");
+  roundNumbers(num) {
+    if(num >= 1000 && num <= 999999) {
+      num = Math.floor(num/1000)
+      num += "K";
     }
-    else {
-      this.toggleFeedMethod.next("multi");
+    if(num >= 1000000) {
+      num = Math.floor(num/1000000);
+      num += "M";
     }
+    return num;
+  }
+
+  toggleFeed() {
+    this.myFeed = !this.myFeed;
+    this.activityFeed.next(this.myFeed);
+  }
+
+  viewAccount() {
+    this.viewUser.next(this.user);
   }
 }

@@ -14,7 +14,7 @@
             <div class="results-overflow">
                 <!-- user results -->
                 <ng-container *ngIf='searchType == "Users"; else twitterElse'>
-                    <div *ngFor="let user of twitterResults" class="results">
+                    <div *ngFor="let user of twitterResults" class="results" (click)="showTwitterAccount(user)">
                         <img width="50" height="50" src="{{ user.profile_image_url }}" />
                         <div class="profile-headers">
                             <p>{{ user.name }}</p>
@@ -32,12 +32,14 @@
                 
                 <!-- tweet results -->
                 <ng-template #twitterElse>
-                    <app-feed-posts *ngFor="let post of twitterResults" [post]="post" [search]="true" (showPost)="showPost($event)" ></app-feed-posts>
+                    <app-feed-posts *ngFor="let post of twitterResults" [post]="post" [search]="true" [user]="user" (showPost)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
                 </ng-template>
 
+                <div *ngIf="loading; else showMessages" class="loading-container">
+                    <app-loading></app-loading>
+                </div>
                 <!-- search messages -->
-                <div *ngIf="loading; else loaded" class="loading"></div>
-                <ng-template #loaded>
+                <ng-template #showMessages>
                     <p *ngIf="twitterResults.length < 1 && !firstSearch && !failedSearch" class="no-results">No Results Found.</p> <!-- no results found -->
                     <p *ngIf="firstSearch" class="no-results">Search for tweets or users.</p> <!-- default message -->
                     <p *ngIf="failedSearch" class="no-results error">Something went wrong please try again later.</p> <!-- error message -->

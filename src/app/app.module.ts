@@ -7,7 +7,6 @@ import { IndexComponent } from './index/index.component';
 import { EntryComponent } from './entry/entry.component';
 import { MissingPageComponent } from './missing-page/missing-page.component';
 import { MyFeedComponent } from './my-feed/my-feed.component';
-import { MyPostsComponent } from './my-posts/my-posts.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { NewPostComponent } from './new-post/new-post.component';
 import { HeaderComponent } from './header/header.component';
@@ -24,6 +23,7 @@ import { FacebookPostComponent } from './facebook-post/facebook-post.component';
 import { FacebookAccountComponent } from './facebook-account/facebook-account.component';
 import { LinkedinAccountComponent } from './linkedin-account/linkedin-account.component';
 import { TwitterAccountComponent } from './twitter-account/twitter-account.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,6 @@ import { TwitterAccountComponent } from './twitter-account/twitter-account.compo
     EntryComponent,
     MissingPageComponent,
     MyFeedComponent,
-    MyPostsComponent,
     MyAccountComponent,
     NewPostComponent,
     HeaderComponent,
@@ -47,7 +46,8 @@ import { TwitterAccountComponent } from './twitter-account/twitter-account.compo
     FacebookPostComponent,
     FacebookAccountComponent,
     LinkedinAccountComponent,
-    TwitterAccountComponent
+    TwitterAccountComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

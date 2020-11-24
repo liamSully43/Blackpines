@@ -40,6 +40,7 @@ main {
 .search-bar input {
   -ms-flex-preferred-size: 85%;
       flex-basis: 85%;
+  min-width: 10px;
   padding: 10px;
   border: solid 1px lightgrey;
   border-right: 0px;
@@ -59,11 +60,16 @@ main {
 .search-bar button {
   -ms-flex-preferred-size: 15%;
       flex-basis: 15%;
+  min-width: 90px;
   padding: 10px 0px;
 }
 
+.search-bar input:focus ~ select {
+  border-color: #009a7f;
+}
+
 section {
-  width: 75%;
+  width: 60%;
   height: calc(100% - 58px);
   margin: auto;
   margin-top: 20px;
@@ -84,10 +90,86 @@ section .results-overflow .results {
   border-radius: 5px;
   margin: auto;
   margin-bottom: 20px;
+  cursor: pointer;
+}
+
+section .results-overflow .results img {
+  border-radius: 100%;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+section .results-overflow .results .profile-headers {
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 5px;
+}
+
+section .results-overflow .results .profile-headers p, section .results-overflow .results .profile-headers img {
+  display: inline-block;
+  width: auto;
+}
+
+section .results-overflow .results .profile-headers img {
+  margin-left: 10px;
+  vertical-align: bottom;
+}
+
+section .results-overflow .results .profile-headers p:nth-of-type(2) {
+  display: block;
+  font-size: 14px;
+  color: grey;
+}
+
+section .results-overflow .results .text {
+  color: #232323;
+  margin: 10px 0px;
+}
+
+section .results-overflow .results .followers {
+  color: #232323;
+}
+
+section .results-overflow .results .followers p {
+  font-size: 13px;
+  color: grey;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+section .results-overflow .results .followers p span {
+  font-size: 16px;
+  color: #232323;
+}
+
+section .results-overflow .results .followers .following {
+  background-color: #009a7f;
+  border: solid 1px #007a63;
+  border-radius: 3px;
+  padding: 1px 3px;
+  color: #fff;
+}
+
+section .results-overflow .results .time {
+  font-size: 14px;
+  color: grey;
 }
 
 section .results-overflow .results:last-of-type {
   margin-bottom: 0px;
+}
+
+section .results-overflow .results:hover {
+  background-color: #f7f7f7;
+}
+
+section .results-overflow .no-results {
+  margin-top: 10px;
+}
+
+section .results-overflow .loading-container {
+  width: 100%;
+  height: 200px;
 }
 
 section .results-box:last-of-type {

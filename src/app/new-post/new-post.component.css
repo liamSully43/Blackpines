@@ -1,3 +1,79 @@
+.side-nav {
+  background-color: #fff;
+}
+
+input[type=checkbox] {
+  background-color: #009a7f;
+  display: none;
+}
+
+.checkbox {
+  width: 11px;
+  height: 11px;
+  background-color: #fff;
+  border: solid 1px grey;
+  border-radius: 3px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.active-cb {
+  background-color: #009a7f;
+}
+
+.checkbox-container li {
+  color: lightgrey;
+}
+
+.checkbox-container .checkbox, .checkbox-container .active-cb {
+  background-color: #fff !important;
+  border-color: lightgrey;
+  cursor: auto;
+}
+
+@media (max-width: 700px) {
+  .side-nav {
+    display: block;
+    width: calc(100% - 21px);
+    height: auto;
+    padding: 10px;
+  }
+  ul {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 0px;
+  }
+  ul li, ul div, ul select {
+    -ms-flex-preferred-size: 25%;
+        flex-basis: 25%;
+    text-align: center;
+    margin-bottom: 0px;
+  }
+  ul .checkbox {
+    width: 8px;
+    height: 8px;
+  }
+  ul div li {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575px) {
+  ul li, ul div, ul select {
+    -ms-flex-preferred-size: calc(100% / 3);
+        flex-basis: calc(100% / 3);
+  }
+}
+
+@media (max-width: 355px) {
+  .side-nav {
+    padding: 10px 5px;
+    width: calc(100% - 11px);
+    font-size: 12px;
+  }
+}
+
 main {
   width: calc(100% - 40px);
   padding-bottom: 0px;

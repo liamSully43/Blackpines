@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-search',
@@ -14,13 +14,19 @@ export class SearchComponent implements OnInit {
     feed: false,
   };
 
+  user: any = {};
+
   twitterResults = [];
   firstSearch = true;
   failedSearch = false;
-  loading = false;
-
+  
   searchType = "Users";
-
+  
+  twitterPosts: any = [];
+  linkedinPosts: any = [];
+  facebookPosts: any = [];
+  
+  twitterPostsError: any = false;
   tweet: any = false;
   
   twitterAccount: any = false;
@@ -38,6 +44,7 @@ export class SearchComponent implements OnInit {
         connected: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false,
         feed: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false
       }
+      this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
     })
   }
 
@@ -56,7 +63,6 @@ export class SearchComponent implements OnInit {
   search() {
     const searchTerm = (<HTMLInputElement>document.querySelector(".search")).value;
     if(searchTerm.length < 1) return;
-
     this.loading = true;
     this.failedSearch = false;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
@@ -93,6 +99,10 @@ export class SearchComponent implements OnInit {
               following += "M";
               user.friends_count = following;
             }
+
+            // this swaps a lower quality version of the image for a better quality version
+            let url = user.profile_image_url.replace("normal", "200x200");
+            user.profile_image_url = url;
           }
           this.twitterResults = result.results;
         }
@@ -112,7 +122,8 @@ export class SearchComponent implements OnInit {
     this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const postId = id
-    this.http.post("api/getTwitterPost", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
+    this.http.post("api/twitter/tweet/get", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
+      this.loading = false;
       if(result.success) {
         this.expand = true;
         setTimeout(() => {
@@ -125,6 +136,7 @@ export class SearchComponent implements OnInit {
       }
       else {
         this.twitterPostsError = result.post;
+
       }
     }))
   }

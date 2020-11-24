@@ -11,7 +11,30 @@
     margin-bottom: 20px;
     cursor: pointer;
 
-    img {
+    .retweet-name {
+        font-size: 14px;
+        color: grey;
+        margin-bottom: 10px;
+
+        .retweet-pic {
+            color: $secondary;
+            border-radius: 100%;
+            vertical-align: middle;
+        }
+    }
+
+    .delete-post {
+        background-color: $close;
+        float: right;
+        border-radius: 0px;
+        margin: 0px;
+    }
+
+    .delete-post:hover {
+        background-color: $close-hover;
+    }
+
+    .profile-pic {
         border-radius: 100%;
         display: inline-block;
         margin-right: 10px;
@@ -41,7 +64,7 @@
 
     .text {
         color: $secondary;
-        margin: 10px 0px;
+        margin-top: 10px;
     }
 
     // used for users & not posts
@@ -222,9 +245,11 @@
     }
 
     .time {
+        margin-top: 15px;
         font-size: 14px;
         color: grey;
     }
+}
 
 .results:hover {
     background-color: #f7f7f7;

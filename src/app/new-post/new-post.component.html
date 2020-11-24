@@ -1,10 +1,39 @@
-<app-header [new]="true"></app-header>
+<app-header [new]="true"></app-header> <!-- header/nav -->
 <div class="main-content">
-    <app-side-nav [feed]="false" [twitter]="twitter" [linkedin]="linkedin" [facebook]="facebook" (platformFeeds)="togglePlatforms($event)"></app-side-nav>
+    <!-- side navigation -->
+    <nav class="side-nav">
+        <ul>
+            <!-- If platform is connected render the checkbox & checkbox cover -->
+            <li *ngIf="twitter.connected; else elseTwitter" ><input type="checkbox" class="twitter-checkbox input-checkbox" name="twitter-checkbox" checked /><div class="checkbox twitter-label active-cb" id="twitter" (click)="togglePlatforms($event)" ></div> Twitter</li>
+            <!-- If the platform isn't connected then render the checkbox & checkbox cover within the "checkbox-container" to prevent the user from selecting a platform they aren't connected to -->
+            <ng-template #elseTwitter>
+                <div class="checkbox-container">
+                    <li><input type="checkbox" class="twitter-checkbox input-checkbox" name="twitter-checkbox" disabled /><div class="checkbox twitter-label" id="twitter"></div> Twitter</li>
+                </div>
+            </ng-template>
+    
+            <li *ngIf="linkedin.connected; else elseLinkedin"><input type="checkbox" class="linkedin-checkbox input-checkbox" name="linkedin-checkbox" checked /><div class="checkbox linkedin-label active-cb" id="linkedin" (click)="togglePlatforms($event)" ></div> Linkedin</li>
+            <ng-template #elseLinkedin>
+                <div class="checkbox-container">
+                    <li><input type="checkbox" class="linkedin-checkbox input-checkbox" name="linkedin-checkbox" disabled /><div class="checkbox linkedin-label" id="linkedin"></div> Linkedin</li>
+                </div>
+            </ng-template>
+    
+            <li *ngIf="facebook.connected; else elseFacebook"><input type="checkbox" class="facebook-checkbox input-checkbox" name="facebook-checkbox" checked /><div class="checkbox facebook-label active-cb" id="facebook" (click)="togglePlatforms($event)" ></div> Facebook</li>
+            <ng-template #elseFacebook>
+                <div class="checkbox-container">
+                    <li><input type="checkbox" class="facebook-checkbox input-checkbox" name="facebook-checkbox" disabled /><div class="checkbox facebook-label" id="facebook"></div> Facebook</li>
+                </div>
+            </ng-template>
+        </ul>
+    </nav>
     <main>
+        <!-- form that has all platform posts in one container - the primary post doesn't get posted & instead each platform post get's posted to their respective platform -->
         <form method="POST" action="/new-post" (submit)="newPost($event)">
             <div class="primary-input-container">
+                <!-- primary input -->
                 <textarea class="primary-input" placeholder="Type your post here" name="primary-post" (keydown)="onPrimaryInput($event)"></textarea>
+                <!-- buttons/menu -->
                 <div class="menu">
                     <div class="button-container">
                         <button class="submit" >Post</button>
@@ -19,9 +48,12 @@
                         </select>
                     </div>
                 </div>
+                <!-- errors show here if there are any -->
                 <p class="error"></p>
             </div>
+            <!-- platform posts/containers -->
             <div class="platform-input-container">
+                <!-- twitter post/container -->
                 <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !twitter.feed}">
                     <app-platform-headers *ngIf="twitter.feed" platform="twitter"></app-platform-headers>
                     <div class="character-limit-container" title="Maximum limit of 280 characters">
@@ -38,6 +70,7 @@
                     </div>
                 </div>
                 
+                <!-- linkedin post/container -->
                 <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !linkedin.feed}">
                     <app-platform-headers *ngIf="linkedin.feed" platform="linkedin"></app-platform-headers>
                     <div class="character-limit-container" title="Maximum limit of 700 characters">
@@ -55,6 +88,7 @@
                     </div>
                 </div>
 
+                <!-- facebook post/container -->
                 <div *ngIf="user !== false" class="input-containers" [ngClass]="{'hide' : !facebook.feed}">
                     <app-platform-headers *ngIf="facebook.feed" platform="facebook"></app-platform-headers>
                     <div class="character-limit-container fb" title="Maximum limit of 63000 characters">
