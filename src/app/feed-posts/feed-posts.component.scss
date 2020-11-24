@@ -154,8 +154,13 @@
         .image-containers:only-child {
             padding: 0px !important;
             flex-basis: 100%;
-            max-width: 100%;
+            max-width: 650px;
             max-height: 100%;
+            margin: auto;
+
+            .image-item {
+                border-radius: 20px !important;
+            }
         }
     }
 

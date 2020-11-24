@@ -2,6 +2,11 @@
 
 .main-content {
     background-color: $off-primary;
+    display: flex;
+}
+
+.noscroll {
+    overflow: hidden;
 }
 
 .platform-icon, .twitter-header {
@@ -20,7 +25,30 @@
 .twitter-header {
     border-radius: 3px;
     margin-bottom: 20px;
-    background-color: $twitter;
+}
+
+.main-preview {
+    animation: mainPreview 0.5s;
+    flex-basis: 60%;
+}
+
+@keyframes mainPreview {
+    from {
+        flex-basis: 100%;        
+    }
+
+    to {
+        flex-basis: 60%;
+    }
+}
+
+.linkedin-header {
+    background-color: $linkedin;
+}
+
+.feeds-preview {
+    animation: feedsPreview 0.5s;
+    width: 90%;
 }
 
 main {
@@ -58,9 +86,46 @@ main {
     }
 }
 
+@media(max-width: 1000px) {
+    .feeds {
+        width: 99% !important;
+    }
+}
+
+@media(max-width: 950px) {
+
+    .noscroll {
+        height: calc(100vh - 50px);
+    }
+
+    .main-content {
+        display: block;
+    }
+
+    .mainPreview, .feedsPreview {
+        animation: none !important;
+    }
+
+    .mainPreview {
+        flex-basis: 100% !important;
+    }
+
+    .feedsPreview {
+        width: 75% !important;
+    }
+
+    .load-account-post {
+        position: absolute;
+        top: 0px;
+        width: 100vw;
+        height: 100vh;
+    }
+}
+
 @media(max-width: 575px) {
     .feeds {
-        width: 90%;
+        width: 95% !important;
+        min-width: 0px;
     }
 
     main {

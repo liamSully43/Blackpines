@@ -13,14 +13,6 @@ export class SearchComponent implements OnInit {
     connected: false,
     feed: false,
   };
-  linkedin = {
-    connected: false,
-    feed: false,
-  };
-  facebook = {
-    connected: false,
-    feed: false,
-  };
 
   user: any = {};
 
@@ -41,6 +33,7 @@ export class SearchComponent implements OnInit {
   
   // used to render the loading circle, set to true when the user request info from an api, and is then set to false when data is returned
   loading: any = false;
+  expand: boolean = false;
 
   constructor(private http: HttpClient) { }
 
@@ -125,42 +118,53 @@ export class SearchComponent implements OnInit {
   }
 
   showPost(id) {
-    this.close();
+    this.clear();
     this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const postId = id
     this.http.post("api/twitter/tweet/get", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
       this.loading = false;
       if(result.success) {
-        let time = result.post.created_at;
-        let date = result.post.created_at;
-        this.tweet = result.post;
-        this.tweet.time = time.substr(11, 5);
-        this.tweet.date = date.substr(4, 6);
-        console.log(this.tweet);
+        this.expand = true;
+        setTimeout(() => {
+          let time = result.post.created_at;
+          let date = result.post.created_at;
+          this.tweet = result.post
+          this.tweet.time = time.substr(11, 5);
+          this.tweet.date = date.substr(4, 6);
+        }, 500);
       }
       else {
-        this,this.twitterPostsError = result.post;
-        console.log(result.post);
+        this.twitterPostsError = result.post;
+
       }
     }))
   }
 
   showTwitterAccount(user) {
-    this.twitterAccount = user
+    this.clear();
+    this.expand = true;
+    setTimeout(() => this.twitterAccount = user, 500);
   }
 
   fetchUser(user) {
+    this.clear();
     this.loading = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
     this.http.get("api/twitter/tweet/get", { headers, params }).subscribe((result => {
       this.loading = false;
-      this.twitterAccount = result
+      this.expand = true;
+      setTimeout(() => this.twitterAccount = result, 500);
     }));
   }
 
   close() {
+    this.expand = false;
+    this.clear();
+  }
+
+  clear() {
     this.tweet = false;
     this.twitterAccount = false;
   }

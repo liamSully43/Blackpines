@@ -29,86 +29,6 @@
   margin: 0px;
 }
 
-.results .delete-post:hover {
-  background-color: #b70000;
-}
-
-.results .profile-pic {
-  border-radius: 100%;
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.results .profile-headers {
-  display: inline-block;
-  vertical-align: top;
-  padding-top: 5px;
-}
-
-.results .profile-headers p, .results .profile-headers img {
-  display: inline-block;
-  width: auto;
-}
-
-.results .profile-headers img {
-  margin-left: 10px;
-  vertical-align: bottom;
-}
-
-.results .profile-headers p:nth-of-type(2) {
-  display: block;
-  font-size: 14px;
-  color: grey;
-}
-
-.results .text {
-  color: #232323;
-  margin-top: 10px;
-}
-
-.results .followers {
-  color: #232323;
-}
-
-.results .followers p {
-  font-size: 13px;
-  color: grey;
-  display: inline-block;
-  margin-right: 20px;
-}
-
-.results .followers p span {
-  font-size: 16px;
-  color: #232323;
-}
-
-.results .followers .following {
-  background-color: #f0f0f0;
-  border: solid 1px lightgrey;
-  border-radius: 3px;
-  padding: 1px 3px;
-}
-
-.results .links-container {
-  margin-top: 15px;
-}
-
-.results .links-container .user-links {
-  text-decoration: none;
-  color: #009a7f;
-  display: block;
-}
-
-.results .links-container .user-links:hover {
-  color: #007a63;
-}
-
-@media (max-width: 425px) {
-  .results .links-container .user-links {
-    font-size: 12px;
-  }
-}
-
 .results .media-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -156,8 +76,13 @@
   padding: 0px !important;
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
-  max-width: 100%;
+  max-width: 650px;
   max-height: 100%;
+  margin: auto;
+}
+
+.results .media-container .image-containers:only-child .image-item {
+  border-radius: 20px !important;
 }
 
 .results .quoted-tweet {
@@ -173,81 +98,28 @@
   width: 45px;
   height: auto;
   border-radius: 100%;
+  display: inline-block;
   margin-right: 10px;
 }
 
-.results .quoted-tweet .profile-headers p {
-  font-size: 14px;
-}
-
-.results .quoted-tweet .profile-headers p:nth-of-type(2) {
-  font-size: 12px;
-}
-
-@media (max-width: 425px) {
-  .results .quoted-tweet .profile-headers p {
-    font-size: 12px;
-  }
-  .results .quoted-tweet .profile-headers p:nth-of-type(2) {
-    font-size: 10px;
-  }
-}
-
-.results .quoted-tweet .profile-headers img {
-  height: 15px;
-  width: auto;
-}
-
-.results .quoted-tweet .text {
-  font-size: 16px;
-}
-
-@media (max-width: 425px) {
-  .results .quoted-tweet .text {
-    font-size: 14px;
-  }
-}
-
-.results .quoted-tweet .user-links {
-  font-size: 14px;
-}
-
-@media (max-width: 425px) {
-  .results .quoted-tweet .user-links {
-    font-size: 12px;
-  }
-}
-
-.results .quoted-tweet .media-container {
-  margin-bottom: 0px;
-}
-
-.results .mentioned-users {
-  width: 100%;
-  margin: 10px 0px;
-}
-
-.results .mentioned-users .user {
-  width: auto;
+.results .profile-headers {
   display: inline-block;
-  color: #009a7f;
-  font-size: 14px;
+  vertical-align: top;
+  padding-top: 5px;
+}
+
+.results .profile-headers p, .results .profile-headers img {
+  display: inline-block;
+  width: auto;
+}
+
+.results .profile-headers img {
   margin-left: 10px;
-  cursor: pointer;
+  vertical-align: bottom;
 }
 
-.results .mentioned-users .user:first-of-type {
-  margin-left: 0px;
-}
-
-@media (max-width: 425px) {
-  .results .mentioned-users .user {
-    font-size: 12px;
-  }
-}
-
-.results .time {
-  margin-top: 15px;
+.results .profile-headers p:nth-of-type(2) {
+  display: block;
   font-size: 14px;
   color: grey;
 }

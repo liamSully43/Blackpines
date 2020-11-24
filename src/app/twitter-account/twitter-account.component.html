@@ -1,6 +1,5 @@
 <div class="preview-background">
     <div class="account-preview">
-        
         <!-- error message if the user's account cannot be requested -->
         <p *ngIf="!account; else profile" class="error">An error occured when trying to load this profile, please try again later</p>
         <ng-template #profile>

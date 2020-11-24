@@ -1,6 +1,6 @@
 <app-header [search]="true"></app-header>
 <div class="main-content">
-    <main>
+    <main [ngClass]="{'main-border' : expand}">
         <form action="/search" method="GET" class="search-bar" (submit)="submitForm($event)">
             <input placeholder="Search" name="search" class="search" />
             <select *ngIf="search" (change)="toggleSearch()">
@@ -9,7 +9,7 @@
             </select>
             <button type="submit" class="submit">Search</button>
         </form>
-        <section>
+        <section [ngClass]="{'section-preview' : expand}">
             <app-platform-headers platform="twitter"></app-platform-headers>
             <div class="results-overflow">
                 <!-- user results -->
@@ -47,15 +47,10 @@
             </div>
         </section>
     </main>
+    
+    <!-- post & account previews -->
+    <div class="content-previews" *ngIf="expand">
+        <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showPost($event)"></app-twitter-account>
+        <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
+    </div>
 </div>
-
-<!-- post & account previews -->
-<app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showPost($event)"></app-twitter-account>
-<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
-<!--
-<app-linkedin-account></app-linkedin-account>
-<app-linkedin-post></app-linkedin-post>
-
-<app-facebook-account></app-facebook-account>
-<app-facebook-post></app-facebook-post>
--->

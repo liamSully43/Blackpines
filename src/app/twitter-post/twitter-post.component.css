@@ -1,19 +1,10 @@
-.preview-background {
-  position: absolute;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(33, 33, 33, 0.5);
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
-}
-
 .post-preview {
   width: 80%;
   max-width: 600px;
   height: auto;
   max-height: 90% !important;
+  margin: auto;
+  margin-top: 30px;
   overflow: auto;
   padding: 20px;
   background-color: #fff;
@@ -163,8 +154,13 @@
   padding: 0px !important;
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
-  max-width: 100%;
+  max-width: 650px;
   max-height: 100%;
+  margin: auto;
+}
+
+.post-preview .media-container .image-containers:only-child .image-item {
+  border-radius: 20px !important;
 }
 
 .post-preview .quoted-tweet {
@@ -386,5 +382,21 @@
 
 .post-preview::-webkit-scrollbar-thumb:hover {
   background-color: #007a63;
+}
+
+@media (max-width: 950px) {
+  .preview-background {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(33, 33, 33, 0.5);
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+  }
+  .preview-background .post-preview {
+    margin: 0px;
+  }
 }
 /*# sourceMappingURL=twitter-post.component.css.map */

@@ -1,5 +1,12 @@
 .main-content {
   background-color: #f0f0f0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.noscroll {
+  overflow: hidden;
 }
 
 .platform-icon, .twitter-header {
@@ -26,9 +33,11 @@ main {
   background-color: #f0f0f0;
 }
 
-main .message {
-  color: #232323;
-  font-size: 16px;
+.main-preview {
+  -webkit-animation: mainPreview 0.5s;
+          animation: mainPreview 0.5s;
+  -ms-flex-preferred-size: 60%;
+      flex-basis: 60%;
 }
 
 .feeds {
@@ -42,17 +51,70 @@ main .message {
   margin-top: 150px;
 }
 
-.load-account-post {
-  position: absolute;
-  top: 0px;
-  width: 100vw;
-  height: 100vh;
+.feeds {
+  width: 75%;
+  min-width: 300px;
+  margin: auto;
 }
 
-@media (max-width: 900px) {
-  .feeds {
-    width: 80%;
-    min-width: 0px;
+.feeds .loading-container {
+  height: 100%;
+  margin-top: 150px;
+}
+
+.feeds-preview {
+  -webkit-animation: feedsPreview 0.5s;
+          animation: feedsPreview 0.5s;
+  width: 90%;
+}
+
+@-webkit-keyframes feedsPreview {
+  from {
+    width: 75%;
+  }
+  to {
+    width: 90%;
+  }
+}
+
+@keyframes feedsPreview {
+  from {
+    width: 75%;
+  }
+  to {
+    width: 90%;
+  }
+}
+
+.load-account-post {
+  height: 100%;
+  width: 100%;
+  margin-right: 20px;
+}
+
+@media (max-width: 950px) {
+  .noscroll {
+    height: calc(100vh - 50px);
+  }
+  .main-content {
+    display: block;
+  }
+  .mainPreview, .feedsPreview {
+    -webkit-animation: none !important;
+            animation: none !important;
+  }
+  .mainPreview {
+    -ms-flex-preferred-size: 100% !important;
+        flex-basis: 100% !important;
+  }
+  .feedsPreview {
+    width: 75% !important;
+  }
+  .load-account-post {
+    position: absolute;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
   }
 }
 
