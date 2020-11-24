@@ -1,0 +1,383 @@
+.account-preview {
+  width: 80%;
+  max-width: 600px;
+  height: 90% !important;
+  max-height: 850px;
+  margin: auto;
+  margin-top: 30px;
+  overflow: auto;
+  background-color: #fff;
+  border-radius: 25px;
+}
+
+.account-preview .banner {
+  width: 100%;
+  height: 110px;
+  background-color: #009a7f;
+  background-image: linear-gradient(45deg, #009a7f, #007a63);
+  -webkit-box-shadow: 0px -30px 200px lightgrey;
+          box-shadow: 0px -30px 200px lightgrey;
+}
+
+.account-preview img.banner {
+  height: auto;
+  min-width: 100%;
+  min-height: 50px;
+}
+
+.account-preview .account-info {
+  padding: 20px;
+  padding-top: 0px;
+}
+
+.account-preview .account-info .close {
+  width: 13px;
+  position: relative;
+  top: 5px;
+  float: right;
+  color: #d60000;
+  cursor: pointer;
+}
+
+.account-preview .account-info .close:hover {
+  color: #b70000;
+}
+
+.account-preview .account-info .profile-pic-container {
+  position: relative;
+  height: 50px;
+  width: 20%;
+}
+
+.account-preview .account-info .profile-pic-container .profile-pic {
+  border: solid 4px #fff;
+  border-radius: 100%;
+  position: absolute;
+  top: -40px;
+  background-color: #fff;
+}
+
+.account-preview .account-info .following, .account-preview .account-info .follow {
+  font-size: 14px;
+  border-radius: 3px;
+  padding: 1px 3px;
+  float: right;
+  cursor: pointer;
+}
+
+.account-preview .account-info .following {
+  background-color: #009a7f;
+  border: solid 1px #007a63;
+  color: #fff;
+}
+
+.account-preview .account-info .following:hover {
+  background-color: #007a63;
+}
+
+.account-preview .account-info .follow {
+  background-color: #f0f0f0;
+  border: solid 1px lightgrey;
+}
+
+.account-preview .account-info .follow:hover {
+  background-color: #009a7f;
+  border: solid 1px #007a63;
+  color: #fff;
+}
+
+.account-preview .account-info .name, .account-preview .account-info .handle, .account-preview .account-info .followers {
+  color: #232323;
+  font-size: 17px;
+}
+
+.account-preview .account-info .name {
+  font-weight: 600;
+  display: inline-block;
+}
+
+.account-preview .account-info .handle {
+  font-weight: 400;
+  display: block;
+}
+
+.account-preview .account-info .verified {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.account-preview .account-info .description {
+  margin-top: 20px;
+  color: #232323;
+}
+
+.account-preview .account-info .info {
+  margin-top: 20px;
+  color: #232323;
+  width: 100%;
+}
+
+.account-preview .account-info .info p, .account-preview .account-info .info a {
+  display: inline-block;
+  width: auto;
+  margin: 5px 0px;
+}
+
+.account-preview .account-info .info p {
+  color: #232323;
+  margin-right: 20px;
+}
+
+.account-preview .account-info .info p img {
+  vertical-align: bottom;
+}
+
+.account-preview .account-info .info a {
+  color: #009a7f;
+}
+
+.account-preview .account-info .info a:hover {
+  color: #007a63;
+}
+
+.account-preview .account-info .info-interaction {
+  margin-top: 20px;
+  color: darkgrey;
+  width: 100%;
+  padding-bottom: 20px;
+  border-bottom: solid 1px lightgrey;
+}
+
+.account-preview .account-info .info-interaction span {
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.account-preview .account-info .info-interaction span:last-of-type {
+  margin-right: 0px;
+}
+
+.account-preview .account-info .info-interaction span:hover {
+  color: #009a7f;
+}
+
+.account-preview .account-info .info-interaction .active-title {
+  color: #232323;
+  text-decoration: underline;
+}
+
+.account-preview .account-info .results-container .loading {
+  width: 35px;
+  height: 35px;
+  border: solid 4px #009a7f;
+  border-bottom-color: rgba(0, 0, 0, 0);
+  border-radius: 100%;
+  -webkit-animation: loading 1s infinite linear;
+          animation: loading 1s infinite linear;
+  margin: auto;
+  margin-top: 20px;
+}
+
+@-webkit-keyframes loading {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes loading {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+.account-preview .account-info .results-container .results {
+  width: calc(100% - 22px);
+  height: auto;
+  padding: 10px;
+  background-color: #fff;
+  border: solid 1px lightgrey;
+  border-radius: 5px;
+  margin: auto;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.account-preview .account-info .results-container .results .retweet-name {
+  font-size: 14px;
+  color: grey;
+  margin-bottom: 10px;
+}
+
+.account-preview .account-info .results-container .results .retweet-name .retweet-pic {
+  color: #232323;
+  border-radius: 100%;
+  vertical-align: middle;
+}
+
+.account-preview .account-info .results-container .results .profile-pic {
+  border-radius: 100%;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.account-preview .account-info .results-container .results .profile-headers {
+  display: inline-block;
+  vertical-align: top;
+  padding-top: 5px;
+}
+
+.account-preview .account-info .results-container .results .profile-headers p, .account-preview .account-info .results-container .results .profile-headers img {
+  display: inline-block;
+  width: auto;
+}
+
+.account-preview .account-info .results-container .results .profile-headers img {
+  margin-left: 10px;
+  vertical-align: bottom;
+}
+
+.account-preview .account-info .results-container .results .profile-headers p:nth-of-type(2) {
+  display: block;
+  font-size: 14px;
+  color: grey;
+}
+
+.account-preview .account-info .results-container .results .text {
+  color: #232323;
+  margin-top: 10px;
+}
+
+.account-preview .account-info .results-container .results .quoted-tweet {
+  padding: 10px;
+  border: solid 1px lightgrey;
+  border-radius: 10px;
+  width: calc(100% - 22px);
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.account-preview .account-info .results-container .results .quoted-tweet .users-profile-pic {
+  width: 45px;
+  height: auto;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+
+.account-preview .account-info .results-container .results .quoted-tweet .profile-headers p {
+  font-size: 14px;
+}
+
+.account-preview .account-info .results-container .results .quoted-tweet .profile-headers p:nth-of-type(2) {
+  font-size: 12px;
+}
+
+@media (max-width: 425px) {
+  .account-preview .account-info .results-container .results .quoted-tweet .profile-headers p {
+    font-size: 12px;
+  }
+  .account-preview .account-info .results-container .results .quoted-tweet .profile-headers p:nth-of-type(2) {
+    font-size: 10px;
+  }
+}
+
+.account-preview .account-info .results-container .results .quoted-tweet .profile-headers img {
+  height: 15px;
+  width: auto;
+}
+
+.account-preview .account-info .results-container .results .quoted-tweet .text {
+  font-size: 16px;
+}
+
+@media (max-width: 425px) {
+  .account-preview .account-info .results-container .results .quoted-tweet .text {
+    font-size: 14px;
+  }
+}
+
+.account-preview .account-info .results-container .results .quoted-tweet .user-links {
+  font-size: 14px;
+}
+
+@media (max-width: 425px) {
+  .account-preview .account-info .results-container .results .quoted-tweet .user-links {
+    font-size: 12px;
+  }
+}
+
+.account-preview .account-info .results-container .results .quoted-tweet .media-container {
+  margin-bottom: 0px;
+}
+
+.account-preview .account-info .results-container .results .time {
+  margin-top: 15px;
+  font-size: 14px;
+  color: grey;
+}
+
+.account-preview .account-info .results-container .results .follow-container {
+  float: right;
+}
+
+.account-preview .account-info .results-container .results:hover {
+  background-color: #f7f7f7;
+}
+
+@media (max-width: 450px) {
+  .account-preview .account-info .name, .account-preview .account-info .handle {
+    font-size: 14px;
+  }
+  .account-preview .account-info .info {
+    font-size: 3.8vw;
+    margin-top: 10px;
+  }
+  .account-preview .account-info .info-interaction {
+    margin-top: 10px;
+    font-size: 3.8vw;
+  }
+}
+
+.account-preview::-webkit-scrollbar {
+  width: 5px;
+}
+
+.account-preview::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.account-preview::-webkit-scrollbar-thumb {
+  background-color: #009a7f;
+  border-radius: 5px;
+}
+
+.account-preview::-webkit-scrollbar-thumb:hover {
+  background-color: #007a63;
+}
+
+@media (max-width: 950px) {
+  .preview-background {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(33, 33, 33, 0.5);
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+  }
+  .preview-background .account-preview {
+    margin: 0px;
+  }
+}
+/*# sourceMappingURL=twitter-account.component.css.map */

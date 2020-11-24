@@ -5,6 +5,21 @@ main {
     flex-basis: 100%;
 }
 
+// used as a divider betweet the results & the result preview
+.main-border {
+    animation: border 0.5s;
+    border-right: solid 1px $accent;
+}
+
+@keyframes border {
+    from {
+        border-right: solid 1px rgba($color: $accent, $alpha: 0);
+    }
+    to {
+        border-right: solid 1px $accent;
+    }
+}
+
 .search-bar {
     display: flex;
     padding: 0px 20%;
@@ -154,10 +169,57 @@ section {
     }
 }
 
+.section-preview {
+    animation: sectionPreview 0.5s;
+    width: 90%;
+}
+
+@keyframes sectionPreview {
+    from {
+        width: 60%;       
+    }
+
+    to {
+        width: 90%;
+    }
+}
+
+.content-previews {
+    height: calc(100vh - 70px);
+    background-color: $off-primary;
+    padding: 0%;
+    animation: contentPreview 0.5s;
+    flex-basis: 40%;
+}
+
+@keyframes contentPreview {
+    from {
+        flex-basis: 0%;      
+    }
+
+    to {
+        flex-basis: 40%;
+    }
+}
+
 @media(max-width: 1024px) {
     .submit {
         flex-basis: 20% !important;
         font-size: 14px;
+    }
+}
+
+@media(max-width: 950px) {
+    .section-preview, .content-previews {
+        animation: none;
+    }
+
+    .section-preview {
+        width: 60%;
+    }
+
+    .content-previews {
+        position: absolute;
     }
 }
 
