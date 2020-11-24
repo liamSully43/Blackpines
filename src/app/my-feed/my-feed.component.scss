@@ -25,6 +25,18 @@
 .twitter-header {
     border-radius: 3px;
     margin-bottom: 20px;
+    background-color: $twitter;
+}
+
+main {
+    display: block;
+    background-color: $off-primary;
+    flex-basis: 100%;
+
+    .message {
+        color: $secondary;
+        font-size: 16px;
+    }
 }
 
 .main-preview {
@@ -42,28 +54,9 @@
     }
 }
 
-.linkedin-header {
-    background-color: $linkedin;
-}
-
-.feeds-preview {
-    animation: feedsPreview 0.5s;
-    width: 90%;
-}
-
-main {
-    display: block;
-    background-color: $off-primary;
-
-    .message {
-        color: $secondary;
-        font-size: 16px;
-    }
-}
-
 .feeds {
     width: 75%;
-    min-width: 500px;
+    min-width: 300px;
     margin: auto;
 
     .loading-container {
@@ -72,17 +65,40 @@ main {
     }
 }
 
-.load-account-post {
-    position: absolute;
-    top: 0px;
-    width: 100vw;
-    height: 100vh;
+.feeds-preview {
+    animation: feedsPreview 0.5s;
+    width: 90%;
 }
 
-@media(max-width: 900px) {
-    .feeds {
-        width: 80%;
-        min-width: 0px;
+@keyframes feedsPreview {
+    from {
+        width: 75%;       
+    }
+
+    to {
+        width: 90%;
+    }
+}
+
+.load-account-post {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.content-previews {
+    flex-basis: 40%;
+    animation: previewsExpand 0.5s;
+    overflow: auto;
+}
+
+@keyframes previewsExpand {
+    from {
+        flex-basis: 0%;
+    }
+    to {
+        flex-basis: 40%;
     }
 }
 

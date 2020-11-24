@@ -136,7 +136,6 @@ export class SearchComponent implements OnInit {
       }
       else {
         this.twitterPostsError = result.post;
-
       }
     }))
   }

@@ -24,6 +24,7 @@ import { FacebookAccountComponent } from './facebook-account/facebook-account.co
 import { LinkedinAccountComponent } from './linkedin-account/linkedin-account.component';
 import { TwitterAccountComponent } from './twitter-account/twitter-account.component';
 import { LoadingComponent } from './loading/loading.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { LoadingComponent } from './loading/loading.component';
     FacebookAccountComponent,
     LinkedinAccountComponent,
     TwitterAccountComponent,
-    LoadingComponent
+    LoadingComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
