@@ -1,3 +1,4 @@
+<app-error *ngIf="error !== false" [error]="error" (closeError)="close()"></app-error>
 <app-header [feed]="true"></app-header>
 <div class="main-content" [ngClass]="{'noscroll' : expand}">
     <app-side-nav *ngIf="twitter.connected && user.twitter" [user]="user.twitter" (activityFeed)="toggleFeed($event)" (viewUser)="showTwitterAccount($event)" ></app-side-nav>
@@ -11,20 +12,6 @@
             <div class="loading-container" *ngIf="loadingFeed; else twitterFeedBlock">
                 <app-loading></app-loading>
             </div>
-        </div>
-
-        <div *ngIf="linkedin.feed" class="feeds">
-            <app-platform-headers platform="linkedin"></app-platform-headers>
-            <div *ngFor="let post of linkedinFeed">
-                <app-feed-posts [post]=post></app-feed-posts>
-            </div>
-        </div>
-
-        <div *ngIf="facebook.feed" class="feeds">
-            <app-platform-headers platform="facebook"></app-platform-headers>
-            <div *ngFor="let post of facebookFeed">
-                <app-feed-posts [post]=post [search]="false"></app-feed-posts>
-            </div>
             <ng-template #twitterFeedBlock>
                 <p *ngIf="twitterFeedError" class="error">{{ twitterFeedError }}</p> <!-- error message -->
                 <!-- feed -->
@@ -34,11 +21,13 @@
             </ng-template>
         </div>
     </main>
+    <div class="content-previews" *ngIf="loading || twitterAccount !== false || tweet !== false">
+        <div class="load-account-post" *ngIf="loading">
+            <app-loading></app-loading> <!-- loading circle for loading posts and accounts-->
+        </div>
+    
+        <!-- post & account previews -->
+        <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-twitter-account>
+        <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
+    </div>
 </div>
-<div class="load-account-post" *ngIf="loading">
-    <app-loading></app-loading> <!-- loading circle for loading posts and accounts-->
-</div>
-
-<!-- post & account previews -->
-<app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" (closePreview)="close()" (showTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-twitter-account>
-<app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>

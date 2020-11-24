@@ -131,7 +131,6 @@ export class TwitterAccountComponent implements OnInit {
         }
       }
       else {
-        console.log("err");
         this.showError();
       }
     });

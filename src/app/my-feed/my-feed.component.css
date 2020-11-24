@@ -31,6 +31,13 @@
 main {
   display: block;
   background-color: #f0f0f0;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+
+main .message {
+  color: #232323;
+  font-size: 16px;
 }
 
 .main-preview {
@@ -40,15 +47,24 @@ main {
       flex-basis: 60%;
 }
 
-.feeds {
-  width: 75%;
-  min-width: 500px;
-  margin: auto;
+@-webkit-keyframes mainPreview {
+  from {
+    flex-basis: 100%;
+  }
+  to {
+    flex-basis: 60%;
+  }
 }
 
-.feeds .loading-container {
-  height: 100%;
-  margin-top: 150px;
+@keyframes mainPreview {
+  from {
+    -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+  }
+  to {
+    -ms-flex-preferred-size: 60%;
+        flex-basis: 60%;
+  }
 }
 
 .feeds {
@@ -89,7 +105,43 @@ main {
 .load-account-post {
   height: 100%;
   width: 100%;
-  margin-right: 20px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.content-previews {
+  -ms-flex-preferred-size: 40%;
+      flex-basis: 40%;
+  -webkit-animation: previewsExpand 0.5s;
+          animation: previewsExpand 0.5s;
+  overflow: auto;
+}
+
+@-webkit-keyframes previewsExpand {
+  from {
+    flex-basis: 0%;
+  }
+  to {
+    flex-basis: 40%;
+  }
+}
+
+@keyframes previewsExpand {
+  from {
+    -ms-flex-preferred-size: 0%;
+        flex-basis: 0%;
+  }
+  to {
+    -ms-flex-preferred-size: 40%;
+        flex-basis: 40%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .feeds {
+    width: 99% !important;
+  }
 }
 
 @media (max-width: 950px) {
@@ -120,7 +172,8 @@ main {
 
 @media (max-width: 575px) {
   .feeds {
-    width: 90%;
+    width: 95% !important;
+    min-width: 0px;
   }
   main {
     display: block !important;
