@@ -97,6 +97,8 @@
   text-decoration: none;
   color: #009a7f;
   display: block;
+  white-space: nowrap;
+  max-width: 1%;
 }
 
 .results .links-container .user-links:hover {

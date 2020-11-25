@@ -30,11 +30,15 @@ button {
   margin-top: 30px;
 }
 
-.account img {
+.account a {
+  text-decoration: none;
+}
+
+.account a img {
   border-radius: 100%;
   display: block;
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
 }
 
 .account p {
@@ -91,12 +95,12 @@ button {
     width: 80%;
     margin: 0px;
   }
-  .side-nav .account img {
-    width: 50px;
+  .side-nav .account a img {
     height: auto;
-    display: inline-block;
-    margin: 0px;
+    margin: 0px !important;
     vertical-align: middle;
+    width: 50px;
+    display: inline-block;
   }
   .side-nav .account .name-container {
     display: inline-block;
@@ -151,10 +155,11 @@ button {
 }
 
 @media (max-width: 380px) {
-  .account img {
+  .account a {
     float: right;
     position: relative;
     right: 125px;
+    margin: 0px !important;
   }
   .account .name-container {
     display: none !important;
@@ -166,6 +171,23 @@ button {
     padding: 10px 5px;
     width: calc(100% - 11px);
     font-size: 12px;
+  }
+}
+
+@media (max-width: 270px) {
+  .account a img {
+    width: 35px !important;
+    vertical-align: super !important;
+  }
+}
+
+@media (max-width: 245px) {
+  .account a img {
+    display: none !important;
+  }
+  .submit {
+    height: calc(100% - 10px) !important;
+    margin-top: -5px !important;
   }
 }
 /*# sourceMappingURL=side-nav.component.css.map */

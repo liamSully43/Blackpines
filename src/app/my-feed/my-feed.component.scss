@@ -90,7 +90,6 @@ main {
 .content-previews {
     flex-basis: 40%;
     animation: previewsExpand 0.5s;
-    overflow: auto;
 }
 
 @keyframes previewsExpand {
@@ -111,7 +110,7 @@ main {
 @media(max-width: 950px) {
 
     .noscroll {
-        height: calc(100vh - 50px);
+        height: calc(100vh - 70px);
     }
 
     .main-content {

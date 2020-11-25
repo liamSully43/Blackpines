@@ -101,6 +101,8 @@
             text-decoration: none;
             color: $accent;
             display: block;
+            white-space: nowrap;
+            max-width: 1%;
         }
     
         .user-links:hover {

@@ -115,7 +115,6 @@ main .message {
       flex-basis: 40%;
   -webkit-animation: previewsExpand 0.5s;
           animation: previewsExpand 0.5s;
-  overflow: auto;
 }
 
 @-webkit-keyframes previewsExpand {
@@ -146,7 +145,7 @@ main .message {
 
 @media (max-width: 950px) {
   .noscroll {
-    height: calc(100vh - 50px);
+    height: calc(100vh - 70px);
   }
   .main-content {
     display: block;

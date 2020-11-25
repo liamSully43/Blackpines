@@ -259,10 +259,15 @@ section .results-box:last-of-type {
   .content-previews {
     position: absolute;
   }
+  .main-border {
+    -webkit-animation: none;
+            animation: none;
+    border-right: none;
+  }
 }
 
 @media (max-width: 800px) {
-  .search-bar, section {
+  .search-bar, section, .section-preview {
     width: 100%;
     padding: 0px;
   }
