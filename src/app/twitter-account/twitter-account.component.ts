@@ -9,6 +9,7 @@ import { HttpClient, HttpHeaders, HttpParams } from  '@angular/common/http';
 export class TwitterAccountComponent implements OnInit {
 
   @Input() account;
+  @Input() userId;
 
   @Output() closePreview = new EventEmitter();
   @Output() showTweet = new EventEmitter<string>();

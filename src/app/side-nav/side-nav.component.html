@@ -5,7 +5,9 @@
     </select>
     <div class="clear-float"></div>
     <div class="account" *ngIf="user || user !== {}">
-        <img src="{{ user.profile_image_url }}" width="60%" height="auto" />
+        <a href="/my-account" title="Click to edit your account">
+            <img src="{{ user.profile_image_url }}" width="60%" height="auto" alt="{{ user.name }}'s profile picture" />
+        </a>
         <div class="name-container">
             <p class="name">{{ user.name }}</p>
             <p class="handle">@{{ user.screen_name }}</p>

@@ -3,8 +3,8 @@
 .account-preview {
     width: 80%;
     max-width: 600px;
-    height: 90% !important;
-    max-height: 850px;
+    height: 85vh !important;
+    max-height: 900px;
     margin: auto;
     margin-top: 30px;
     overflow: auto;
@@ -56,12 +56,22 @@
             }
         }
 
-        .following, .follow {
+        .edit-link > img, .following, .follow {
             font-size: 14px;
             border-radius: 3px;
             padding: 1px 3px;
             float: right;
             cursor: pointer;
+        }
+
+        .edit-link > img {
+            background-color: $secondary;
+            padding: 0px;
+            border-radius: 0px;
+        }
+
+        .edit-link > img:hover {
+            background-color: $accent;
         }
 
         .following {

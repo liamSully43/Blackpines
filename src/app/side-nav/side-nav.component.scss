@@ -31,11 +31,15 @@ button {
     width: 100%;
     margin-top: 30px;
     
-    img {
-        border-radius: 100%;
-        display: block;
-        margin: auto;
-        margin-bottom: 20px;
+    a {
+        text-decoration: none;
+
+        img {
+            border-radius: 100%;
+            display: block;
+            margin: auto;
+            margin-bottom: 20px !important;
+        }
     }
 
     p {
@@ -92,12 +96,15 @@ button {
             width: 80%;
             margin: 0px;
     
-            img {
-                width: 50px;
-                height: auto;
-                display: inline-block;
-                margin: 0px;
-                vertical-align: middle;
+            a {
+                
+                img {
+                    height: auto;
+                    margin: 0px !important;
+                    vertical-align: middle;
+                    width: 50px;
+                    display: inline-block;
+                }
             }
 
             .name-container {
@@ -165,10 +172,11 @@ button {
 @media(max-width: 380px) {
     .account {
 
-        img {
+        a {
             float: right;
             position: relative;
             right: 125px;
+            margin: 0px !important;
         }
 
         .name-container {
@@ -182,5 +190,31 @@ button {
         padding: 10px 5px;
         width: calc(100% - 11px);
         font-size: 12px;
+    }
+}
+
+@media(max-width: 270px) {
+    .account {
+        a {
+            img {
+                width: 35px !important;
+                vertical-align: super !important;
+            }
+        }
+    }
+}
+
+@media(max-width: 245px) {
+    .account {
+        a {
+            img {
+                display: none !important;
+            }
+        }
+    }
+
+    .submit {
+        height: calc(100% - 10px) !important;
+        margin-top: -5px !important;
     }
 }

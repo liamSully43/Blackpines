@@ -2,6 +2,16 @@
   background-color: #fff;
 }
 
+.side-nav ul {
+  list-style-type: none;
+  padding: 0px;
+  margin-top: 5px;
+}
+
+.side-nav ul li {
+  margin-bottom: 5px;
+}
+
 input[type=checkbox] {
   background-color: #009a7f;
   display: none;

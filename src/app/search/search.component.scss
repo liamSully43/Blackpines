@@ -231,10 +231,15 @@ section {
     .content-previews {
         position: absolute;
     }
+
+    .main-border {
+        animation: none;
+        border-right: none;
+    }
 }
 
 @media(max-width: 800px) {
-    .search-bar, section {
+    .search-bar, section, .section-preview {
         width: 100%;
         padding: 0px;
     }
