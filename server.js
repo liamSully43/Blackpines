@@ -285,7 +285,7 @@ app.post("/register", [
 /////////////////////////////////////////////////////////////////////////////////////////
 
 app.post("/newpost", [
-    check("tweet").stripLow().trim().escape(),
+    check("post").stripLow().trim().escape(),
     check("linkedin-post").stripLow().trim().escape(),
     check("facebook-post").stripLow().trim().escape(),
 ], (req, res) => {

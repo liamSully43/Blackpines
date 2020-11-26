@@ -159,6 +159,10 @@ main {
     background-color: #777;
 }
 
+.clear:disabled {
+    background-color: $clear-disabled;
+}
+
 .new-post, .new-post:visited, .new-post:hover {
     text-decoration: none;
 }

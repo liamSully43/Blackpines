@@ -59,6 +59,10 @@ main {
     min-width: 300px;
     margin: auto;
 
+    div:first-of-type {
+        margin-top: 10px;
+    }
+
     .loading-container {
         height: 100%;
         margin-top: 150px;

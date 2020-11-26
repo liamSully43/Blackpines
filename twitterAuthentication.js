@@ -131,7 +131,7 @@ function newTweet(req, done) {
         timeout_ms: 60*1000,
         strictSSL: false,
     })
-    T.post("statuses/update", { status: req.body.tweet}, function(err, data, response) {
+    T.post("statuses/update", { status: req.body.post}, function(err, data, response) {
         if(err) {
             console.log(err);
             const result = {
