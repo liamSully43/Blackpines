@@ -73,6 +73,10 @@ main .message {
   margin: auto;
 }
 
+.feeds div:first-of-type {
+  margin-top: 10px;
+}
+
 .feeds .loading-container {
   height: 100%;
   margin-top: 150px;

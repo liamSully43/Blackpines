@@ -79,6 +79,7 @@ section .results-overflow {
   height: calc(100% - 37px);
   overflow: auto;
   padding-right: 10px;
+  margin-top: 10px;
 }
 
 section .results-overflow .results {

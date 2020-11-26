@@ -14,6 +14,8 @@ export class TwitterPostComponent implements OnInit {
   @Output() showUser = new EventEmitter<object>();
   @Output() fetchUserEvent = new EventEmitter<object>();
 
+  headers = new HttpHeaders().set("Authorization", "auth-token");
+
   liked = false;
   error = false;
   success = false;
@@ -66,7 +68,6 @@ export class TwitterPostComponent implements OnInit {
         this.filterTweet(this.tweet.quoted_status, "quoted");
       }
     }
-    console.log(this.tweet);
   }
 
   // rounds numbers to the neares 1000 or million
@@ -129,7 +130,7 @@ export class TwitterPostComponent implements OnInit {
   }
 
   likeTweet() {
-    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const headers = this.headers;
     const id = this.tweet.id_str;
     this.http.post("api/twitter/tweet/like", { headers, id }, {responseType: "json"}).subscribe((liked => {
       if(liked === null) {
@@ -149,7 +150,7 @@ export class TwitterPostComponent implements OnInit {
   }
 
   retweet() {
-    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const headers = this.headers;
       const id = this.tweet.id_str;
       this.http.post("api/twitter/tweet/retweet", { headers, id}, {responseType: "json"}).subscribe((response => {
         if(response === null) {
@@ -183,7 +184,7 @@ export class TwitterPostComponent implements OnInit {
     const reply = <HTMLInputElement><unknown>document.querySelector(".reply");
     const tweet = reply.value;
     if(tweet.length > 0) {
-      const headers = new HttpHeaders().set("Authorization", "auth-token");
+      const headers = this.headers;
       const id = this.tweet.id_str;
       const handle = this.tweet.user.screen_name;
       this.http.post("api/twitter/tweet/reply", { headers, id, tweet, handle }, {responseType: "json"}).subscribe((response => {
