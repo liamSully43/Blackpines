@@ -29,7 +29,7 @@ export class SearchComponent implements OnInit {
   twitterPostsError: any = false;
   tweet: any = false;
   
-  twitterAccount: any = false;
+  twitterAccount: any = false; // this is used to display a user's profile
   
   // used to render the loading circle, set to true when the user request info from an api, and is then set to false when data is returned
   loading: any = false;
@@ -62,7 +62,7 @@ export class SearchComponent implements OnInit {
 
   search() {
     const searchTerm = (<HTMLInputElement>document.querySelector(".search")).value;
-    if(searchTerm.length < 1) return;
+    if(searchTerm.length < 1 || !this.twitter.connected) return; // prevents searches if twitter isn't connected or if there is no search term entered
     this.loading = true;
     this.failedSearch = false;
     const headers = new HttpHeaders().set("Authorization", "auth-token");

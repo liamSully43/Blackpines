@@ -64,6 +64,7 @@
 .results .text {
   color: #232323;
   margin-top: 10px;
+  word-break: break-word;
 }
 
 .results .followers {

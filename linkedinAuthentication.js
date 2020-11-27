@@ -8,11 +8,21 @@ const encrypt = new cryptr(process.env.ENCRYPTION_SECRET_KEY);
 const oauth = new OAuth.OAuth(
     "https://api.linkedin.com/oauth/request_token",
     "https://api.linkedin.com/oauth/access_token",
-    process.env.LINKEDIN_CONSUMER_KEY,
-    process.env.LINKEDIN_CONSUMER_SECRET,
+    process.env.LINKEDIN_CLIENT_ID,
+    process.env.LINKEDIN_CLIENT_SECRET,
     '1.0A',
     null,
     'HMAC-SHA1'
+);
+
+const OAuth2 = OAuth.OAuth2;
+const oauth2 = new OAuth2(
+    process.env.LINKEDIN_CLIENT_ID,
+    process.env.LINKEDIN_CLIENT_SECRET,
+    "https://api.linkedin.com/",
+    null,
+    "oauth2/token",
+    null
 );
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -75,88 +85,62 @@ function update(req, res) {
     console.log("Linkedin profile updated");
 }
 
-function getFeed(req, done) {
-    const user_token = encrypt.decrypt(req.user.linkedinCredentials.token);
-    const user_secret = encrypt.decrypt(req.user.linkedinCredentials.tokenSecret);
-    const user_id = req.user.linkedinCredentials.linkedinID;
-    const access_token = process.env.LINKEDIN_ACCESS_TOKEN
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                     New Post                                        //
+/////////////////////////////////////////////////////////////////////////////////////////
 
-    // https://api.linkedin.com/v1/people/~/network/updates?scope=self&count=50
-    // https://api.linkedin.com/v2/network/id=wW7dsy9tav
-    // https://api.linkedin.com/v2/network/id=${user_id}
-    // https://api.linkedin.com/v2/connections?q=viewer&projection=(elements(*(to~)),paging)&start=0&count=10
-    // http://api.linkedin.com/v1/people/~/connections:(id,first-name,last-name,location:(name),picture-url)
-    // https://api.linkedin.com/v2/connections/urn:li:person:${user_id}
-    // https://api.linkedin.com/v2/me?projection=(id)
-    
-    // LinkedIn scopes: r_organization_social%20r_1st_connections_size%20r_emailaddress%20rw_organization_admin%20r_basicprofile%20w_member_social%20w_organization_social
-    
-    const OAuth2 = OAuth.OAuth2;
-    const clientId = process.env.LINKEDIN_CLIENT_ID;
-    const clientSecret = process.env.LINKEDIN_CLIENT_SECRET;
+function newPost(req, done) {
+    const access_token = encrypt.decrypt(req.user.linkedinCredentials.token);
     const headers = {
-        'Content-Type': 'application/json',
-        "Authorization" : `Bearer ${access_token}`,
+        "Authorization": `Bearer ${process.env.LINKEDIN_ACCESS_TOKEN}`,
+        "author": req.user.linkedinCredentials.linkedinID,
+        "lifecycleState": "PUBLISHED",
+        "specificContent": {
+            "shareCommentary": "first post via API", // user's text/post
+            "shareMediaCategory": "NONE",
+        },
+        "visibility": "PUBLIC",
+        "X-Restli-Protocol-Version": "2.0.0",
     }
-    const oauth2 = new OAuth2(
-        clientId,
-        clientSecret,
-        'https://api.linkedin.com/',
-    );
     oauth2._request(
-        "GET",
-        `https://api.linkedin.com/v2/me?id=(${user_id})`,
+        "POST",
+        `https://api.linkedin.com/v2/ugcPosts`,
         headers,
         null,
-        user_token,
-        function(err, data) {
+        access_token,
+        ////////////////////////////////////////////////// returns: {"message":"Empty entity body is not allowed for create method request","status":400}
+        /*
+        status/post api: https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin
+        */
+        function(err, response, data, other, extra) {
             if(err) {
+                console.log("err");
                 console.log(err);
-                done(err);
+                const message = {
+                    text: "Failed",
+                    success: false,
+                }
+                done(message, "linkedin");
             }
             else {
-                done(data);
+                console.log("success");
+                console.log(response);
+                const message = {
+                    text: "Posted",
+                    success: true,
+                }
+                done(message, "linkedin");
             }
+            // console.log("response");
+            // console.log(response);
+            // console.log("data");
+            // console.log(data);
+            // console.log("other");
+            // console.log(other);
+            // console.log("extra");
+            // console.log(extra);
         }
-    )
-
-    // this results in an 'invalid access token' error - see https://docs.microsoft.com/en-us/linkedin/shared/authentication/authorization-code-flow?context=linkedin/context
-
-
-
-
-
-
-
-
-
-
-
-    
-    /*
-    oauth.get(
-        `https://api.linkedin.com/v2/network/id=wW7dsy9tav`,
-        token,
-        tokenSecret,
-        function(err, data) {
-            if(err) {
-                console.log(err);
-                done(false);
-            }
-            else {
-                done(data);
-            }
-        }
-    ) 
-    fetch(``, {
-        method: "get",
-        headers:  {
-            'Content-Type': 'application/json',
-        }
-    }).then(posts => done(posts)).catch((err) => {
-        console.log(err);
-        done(false);
-    });*/
+    );
 }
 
 /////////////// Exports
@@ -165,5 +149,5 @@ module.exports = {
     callback,
     disconnect,
     update,
-    getFeed,
+    newPost,
 }

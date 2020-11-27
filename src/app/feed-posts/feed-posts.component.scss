@@ -65,6 +65,7 @@
     .text {
         color: $secondary;
         margin-top: 10px;
+        word-break: break-word;
     }
 
     // used for users & not posts

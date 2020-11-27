@@ -33,18 +33,18 @@
             <!-- input/post -->
             <textarea class="primary-input" [ngClass]="{'limit': percentage >= 100}" placeholder="Type your post here" name="primary-post" (keydown)="onPrimaryInput()" maxlength="280"></textarea>
             <section class="platform-container">
-                <div class="platforms">
-                    <app-platform-headers *ngIf="twitter.connected && twitter.feed" [platform]="'twitter'"></app-platform-headers>
+                <div class="platforms" *ngIf="twitter.connected && twitter.feed">
+                    <app-platform-headers [platform]="'twitter'"></app-platform-headers>
                 </div>
-                <div class="platforms">
-                    <app-platform-headers *ngIf="linkedin.connected && linkedin.feed" [platform]="'linkedin'"></app-platform-headers>
+                <div class="platforms" *ngIf="linkedin.connected && linkedin.feed">
+                    <app-platform-headers [platform]="'linkedin'"></app-platform-headers>
                 </div>
-                <div class="platforms">
-                    <app-platform-headers *ngIf="facebook.connected && facebook.feed" [platform]="'facebook'"></app-platform-headers>
+                <div class="platforms" *ngIf="facebook.connected && facebook.feed">
+                    <app-platform-headers [platform]="'facebook'"></app-platform-headers>
                 </div>
                 <div class="char-limit" [ngClass]="{'void': percentage >= 100}">
                     <p>Character Limit</p>
-                    <div class="background"></div>
+                    <span class="background"></span>
                 </div>
             </section>
             <!-- buttons/menu -->
@@ -54,13 +54,18 @@
                     <button class="submit" [disabled]="disabled">Schedule</button>
                     <button class="clear" type="reset" [disabled]="disabled">Clear</button>
                 </div>
+            </div>            
+            <!-- loading cicle for posting -->
+            <div *ngIf="loading" class="loading">
+                <app-loading></app-loading>
             </div>
             <!-- errors show here if there are any -->
-
-            <!-- add loading cicle for posting -->
-
-            <p *ngIf="error" class="error"></p>
-            <p *ngIf="success" class="success">Posted!</p>
+            <div class="messages" *ngFor="let message of messages">
+                <p *ngIf="!message.success; else successMessgaes" class="error">{{ message.text }}</p>
+                <ng-template #successMessgaes>
+                    <p *ngIf="success">{{ message.text }}</p> <!-- the success variable is set to false after 5 seconds to hide success messages - whereas errors will remain constant -->
+                </ng-template>
+            </div>
             <a *ngIf="!twitter.connected && !linkedin.connected && !facebook.connected" href="my-account" >Please connect at least one platform in order to use the posting function</a>
         </form>
     </main>

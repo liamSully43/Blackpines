@@ -54,6 +54,14 @@ function disconnect(req, Customer, done) {
     )
 }
 
+function newPost(req, done) {
+    const message = {
+        text: "Failed to post to Facebook",
+        success: false,
+    }
+    done(message, "facebook");
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //                              Update Facebook Account                                 //
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -69,4 +77,5 @@ module.exports = {
     callback,
     disconnect,
     update,
+    newPost
 }
