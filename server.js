@@ -289,10 +289,20 @@ app.post("/newpost", [
     check("linkedin-post").stripLow().trim().escape(),
     check("facebook-post").stripLow().trim().escape(),
 ], (req, res) => {
-    function callback(result) {
-        res.send(result)
+    let twitter = req.body.twitter;
+    let linkedin = req.body.linkedin;
+    let facebook = req.body.facebook;
+    let messages = [];
+    function callback (message, platform) {
+        messages.push(message);
+        if(platform === "twitter") twitter = false;
+        if(platform === "linkedin") linkedin = false;
+        if(platform === "facebook") facebook = false;
+        if(!twitter && !linkedin && !facebook) res.send(messages);
     }
-    twitterAuth.newTweet(req, callback)
+    if(req.body.twitter) twitterAuth.newTweet(req, callback);
+    if(req.body.linkedin) linkedinAuth.newPost(req, callback);
+    if(req.body.facebook) facebookAuth.newPost(req, callback);
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////

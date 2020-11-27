@@ -134,18 +134,18 @@ function newTweet(req, done) {
     T.post("statuses/update", { status: req.body.post}, function(err, data, response) {
         if(err) {
             console.log(err);
-            const result = {
+            const message = {
+                text: "Something wen't wrong when posting to Twitter, please try again later",
                 success: false,
-                message: "something wen't wrong, please try again later"
             }
-            done(result);
+            done(message, "twitter");
         }
         else {
-            const result = {
+            const message = {
+                text: "Posted to Twitter",
                 success: true,
-                message: ""
             }
-            done(result);
+            done(message, "twitter");
         }
     })
 }

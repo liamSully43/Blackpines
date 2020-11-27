@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { connected } from 'process';
 
 @Component({
   selector: 'app-new-post',
@@ -24,8 +25,9 @@ export class NewPostComponent implements OnInit {
   disabled: boolean = true;
   percentage: number = 0;
 
-  error: boolean = false;
   success: boolean = false;
+  messages: Array<any> = [];
+  loading: boolean = false;
   
   constructor(private http: HttpClient) { }
 
@@ -88,23 +90,38 @@ export class NewPostComponent implements OnInit {
   newPost(e) {
     e.preventDefault();
     const post = e.srcElement[0].value;
+    const connectedOrActive = this.disableButtons();
+    // the user can only post if the post length is more than 0, less than 280 & they are connected to at least one platform
+    const qualify = (post.length > 0 && post.length <= 280 && !connectedOrActive) ? true: false;
+    if(!qualify) return;
+    this.loading = true;
     let headers = new HttpHeaders().set("Authorization", "auth-token");
-    this.http.post("newpost", { headers, post }, {responseType: "json"}).subscribe((post: any) => {
-      if(post.success === false) {
-        (<HTMLElement>document.querySelector(".error")).innerHTML = post.message;
-        this.errorMessage();
+    const twitter = (this.twitter.connected && this.twitter.feed) ? true : false; // passed to the backend to prevent posting to platformms that the user can't or doesn't want to post to
+    const linkedin = (this.linkedin.connected && this.linkedin.feed) ? true : false;
+    const facebook = (this.facebook.connected && this.facebook.feed) ? true : false;
+    this.http.post("newpost", { headers, post, twitter, linkedin, facebook }, {responseType: "json"}).subscribe((messages: Array<any>) => { // will return either success messages or warnings
+      this.loading = false;
+      this.messages = messages;
+      let clear = true;
+      for(let message of this.messages) {
+        if(message.success) {
+          this.success = true;
+          setTimeout(() => this.success = false, 5000);
+        }
+        else {
+          clear = false;
+        }
       }
-      else {
-        this.successMessage();
+      if(clear) {
         e.srcElement.reset();
-        document.querySelector(".background").setAttribute("style", `width: 0%`);
+        this.percentage = 0;
       }
     });
   }
 
   // if all feeds are hidden or no platforms are connected; set disabled to true to disable all buttons and prevent any posting
   disableButtons() {
-    this.disabled = ((
+    return this.disabled = ((
       !this.twitter.feed &&
       !this.linkedin.feed &&
       !this.facebook.feed
@@ -113,15 +130,5 @@ export class NewPostComponent implements OnInit {
       !this.linkedin.connected &&
       !this.twitter.connected
       )) ? true : false;
-  }
-
-  errorMessage() {
-    this.error = true;
-    setTimeout(() => this.error = false, 3000);
-  }
-
-  successMessage() {
-    this.success = true;
-    setTimeout(() => this.success = false, 3000);
   }
 }

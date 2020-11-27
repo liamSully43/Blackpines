@@ -64,8 +64,8 @@ form .platform-container {
 }
 
 form .platform-container div {
-  -ms-flex-preferred-size: 25%;
-      flex-basis: 25%;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
   margin-left: 10px;
 }
 
@@ -114,6 +114,7 @@ form .platform-container .void .background {
 form .menu {
   width: 100%;
   display: inline-block;
+  margin-bottom: 20px;
 }
 
 form .menu .button-container {
@@ -129,19 +130,22 @@ form .menu .button-container button {
   margin-top: 10px;
 }
 
-form .error {
-  display: inline-block;
-  margin-left: 30px;
+form .loading {
+  width: 100%;
+  height: 100px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
 }
 
-form .success {
-  color: #232323;
-  margin-top: 10px;
+form .messages {
+  margin-bottom: 5px;
 }
 
 form a {
   display: block;
   color: #232323;
+  margin-top: 10px;
 }
 
 .platform-input-container {
@@ -210,10 +214,6 @@ form a {
     text-align: center;
     margin-bottom: 0px;
   }
-  ul .checkbox {
-    width: 8px;
-    height: 8px;
-  }
   ul div li {
     width: 100%;
   }
@@ -225,12 +225,14 @@ form a {
         flex-wrap: wrap;
   }
   .platform-container .platforms {
-    -ms-flex-preferred-size: calc(calc(100% / 3) - 7px) !important;
-        flex-basis: calc(calc(100% / 3) - 7px) !important;
+    -webkit-box-flex: 1 !important;
+        -ms-flex: 1 0 30% !important;
+            flex: 1 0 30% !important;
   }
   .platform-container .char-limit {
-    -ms-flex-preferred-size: 100% !important;
-        flex-basis: 100% !important;
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 10%;
+            flex: 0 1 10%;
     height: 27px;
     margin-top: 10px;
     margin-left: 0px !important;
@@ -249,6 +251,10 @@ form a {
     padding: 10px 5px;
     width: calc(100% - 11px);
     font-size: 12px;
+  }
+  .checkbox {
+    width: 8px;
+    height: 8px;
   }
 }
 /*# sourceMappingURL=new-post.component.css.map */

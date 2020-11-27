@@ -65,7 +65,7 @@ form {
         display: flex;
 
         div {
-            flex-basis: 25%;
+            flex-basis: 100%;
             margin-left: 10px;
         }
 
@@ -112,6 +112,7 @@ form {
     .menu {
         width: 100%;
         display: inline-block;
+        margin-bottom: 20px;
 
         .button-container {
             width: 100%;
@@ -124,19 +125,22 @@ form {
         }
     }
 
-    .error {
-        display: inline-block;
-        margin-left: 30px;
+    .loading {
+        width: 100%;
+        height: 100px;
+        display: grid;
+        place-items: center;
     }
 
-    .success {
-        color: $secondary;
-        margin-top: 10px;
+    .messages {
+        margin-bottom: 5px; 
     }
+
 
     a {
         display: block;
         color: $secondary;
+        margin-top: 10px;
     }
 }
 
@@ -202,11 +206,6 @@ form {
             margin-bottom: 0px;
         }
 
-        .checkbox {
-            width: 8px;
-            height: 8px;
-        }
-
         div {
             li {
                 width: 100%;
@@ -218,13 +217,13 @@ form {
 @media(max-width: 550px) {
     .platform-container {
         flex-wrap: wrap;
-        
+
         .platforms {
-            flex-basis: calc(calc(100% / 3) - 7px) !important;
+            flex: 1 0 30% !important;
         }
     
         .char-limit {
-            flex-basis: 100% !important;
+            flex: 0 1 10%;
             height: 27px;
             margin-top: 10px;
             margin-left: 0px !important;
@@ -245,5 +244,10 @@ form {
         padding: 10px 5px;
         width: calc(100% - 11px);
         font-size: 12px;
+    }
+
+    .checkbox {
+        width: 8px;
+        height: 8px;
     }
 }
