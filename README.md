@@ -14,7 +14,7 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can reply to tweets
 
 ## Known Issues
- - Facebook API doesn't pass through an API token secret - if this isn't needed for API requests to Facebook then it won't be a problem
+ - Posting to LinkedIn will always return the error "Empty entity body" with no clear resolution
 
 ## Notes
-/my-feed has had a layout redesign to be more user friendly & straight forward
+Facebook will need to be removed as well, in order to use any of their API endpoints you need to be verified - and they have paused their individual developer verification process due to Covid. I might have to replace LinkedIn & Facebook with other platforms - perhaps Reddit, Pinterest & YouTube
