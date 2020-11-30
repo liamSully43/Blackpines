@@ -14,7 +14,11 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can reply to tweets
 
 ## Known Issues
- - Posting to LinkedIn will always return the error "Empty entity body" with no clear resolution
+None
 
 ## Notes
-Facebook will need to be removed as well, in order to use any of their API endpoints you need to be verified - and they have paused their individual developer verification process due to Covid. I might have to replace LinkedIn & Facebook with other platforms - perhaps Reddit, Pinterest & YouTube
+Blackpines now only supports Twitter, Facebook isn't onboarding any new individual devs to gain real access to the API (other than pulling very basic account info), these means the Facebook API can't be used until post covid. This will also mean Instagram cannot be added either as you need to be setup with the Facebook API to use the Instagram API.
+
+The LinkedIn API doesn't support many of the intended features other than creating new posts, and they have changed the syntax of their API without updating any documentation - making it almost impossible to use.
+
+Blackpines will now be a Twitter account management app that supports connecting up to 5 Twitter accounts at once.
