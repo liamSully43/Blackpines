@@ -37,6 +37,10 @@ main {
         color: $secondary;
         font-size: 16px;
     }
+
+    .message:hover {
+        color: $hover
+    }
 }
 
 .main-preview {

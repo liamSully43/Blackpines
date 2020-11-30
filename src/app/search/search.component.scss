@@ -163,6 +163,14 @@ section {
             width: 100%;
             height: 200px;
         }
+
+        a, a:visited {
+            color: $secondary
+        }
+
+        a:hover {
+            color: $hover;
+        }
     }
 
     .results-box:last-of-type {

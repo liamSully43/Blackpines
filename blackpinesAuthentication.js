@@ -3,8 +3,6 @@ const passport = require("passport");
 const fetch = require("node-fetch");
 const { validationResult } = require("express-validator");
 
-const app = express();
-
 /////////////////////////////////////////////////////////////////////////////////////////
 //                                       Login                                         //
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -35,10 +33,19 @@ function login(req, res, next, Customer) {
                 console.log(err);
                 return res.send(result);
             }
-            // get account information from Platforms
-            const twitter = (req.user.twitterCredentials === null || typeof req.user.twitterCredentials === "undefined") ? false : true;
+            else {
+                const time = new Date();
+                Customer.updateOne(
+                    {_id: req.user._id},
+                    {lastLogIn: time},
+                    {multi: false},
+                    function(err) {if(err) console.log(err)}
+                )
+            }
+            // get account information from Twitter
+            const twitter = (req.user.twitter === null || typeof req.user.twitter === "undefined") ? false : true;
             if(twitter) {
-                fetch(`https://api.twitter.com/1.1/users/show.json?user_id=${req.user.twitterCredentials.twitterID}`, {
+                fetch(`https://api.twitter.com/1.1/users/show.json?user_id=${req.user.twitter.id_str}`, {
                     method: "get",
                     headers: {
                         'Content-Type': 'application/json',
@@ -47,14 +54,18 @@ function login(req, res, next, Customer) {
                 })
                 .then(res => res.json()).then(data => {
                     Customer.updateOne(
-                        {_id: req.user.id},
-                        {twitterProfile: data},
+                        {_id: req.user.id_str},
+                        {twitter: data},
                         {multi: false},
                         function(err) {
-                            if(err) console.log(err)
+                            if(err) {
+                                console.log(err)
+                            }
                         }
                     )
                     return
+                }).catch((err) => {
+                    console.log(err)
                 });
             }
             const result = {
@@ -79,7 +90,8 @@ function register(req, res, Customer) {
         }
         return res.send(result);
     }
-    Customer.register({username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName}, req.body.password, function(err, user) {
+    const time = new Date();
+    Customer.register({username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName, createdAt: time}, req.body.password, function(err, user) {
         if(err) {
             console.log(err);
             const result = {

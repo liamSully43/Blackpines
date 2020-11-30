@@ -137,10 +137,14 @@ form {
     }
 
 
-    a {
+    a, a:visited {
         display: block;
         color: $secondary;
         margin-top: 10px;
+    }
+
+    a:hover {
+        color: $hover;
     }
 }
 

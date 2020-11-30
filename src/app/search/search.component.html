@@ -10,7 +10,7 @@
             <button type="submit" class="submit">Search</button>
         </form>
         <section [ngClass]="{'section-preview' : expand}">
-            <app-platform-headers platform="twitter"></app-platform-headers>
+            <app-platform-headers></app-platform-headers>
             <div class="results-overflow">
                 <!-- user results -->
                 <ng-container *ngIf='searchType == "Users"; else twitterElse'>
@@ -41,7 +41,7 @@
                 <!-- search messages -->
                 <ng-template #showMessages>
                     <p *ngIf="twitterResults.length < 1 && !firstSearch && !failedSearch" class="no-results">No Results Found.</p> <!-- no results found -->
-                    <a *ngIf="!twitter.connected" class="error" href="/my-account">Please connect your Twitter account from the my-account page, to use the search Twitter function</a><!-- no twitter account connected -->
+                    <a *ngIf="!twitter.connected" href="/my-account">Please connect a Twitter account from the my-account page to use the search Twitter function</a><!-- no twitter account connected -->
                     <p *ngIf="firstSearch && twitter.connected" class="no-results">Search for tweets or users.</p> <!-- default message -->
                     <p *ngIf="failedSearch" class="no-results error">Something went wrong please try again later.</p> <!-- error message -->
                 </ng-template>

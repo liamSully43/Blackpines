@@ -136,20 +136,8 @@
         cursor: pointer;
     }
 
-    .facebook {
-        font-size: 17px;
-    }
-
     .twitter:hover {
         background-color: $twitter;
-    }
-
-    .linkedin:hover {
-        background-color: $linkedin;
-    }
-
-    .facebook:hover {
-        background-color: $facebook;
     }
 }
 
@@ -198,10 +186,6 @@ input:invalid {
         display: block;
         color: red;
     }
-}
-
-#facebook {
-    margin-right: 0px;
 }
 
 @keyframes expand {

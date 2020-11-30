@@ -9,12 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class MyAccountComponent implements OnInit {
 
   twitter: boolean = true;
-  linkedin: boolean = true;
-  facebook: boolean = true;
   
   twitterError = false;
-  linkedinError = false;
-  facebookError = false;
 
   user: any = {};
 
@@ -24,40 +20,18 @@ export class MyAccountComponent implements OnInit {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     this.http.get("api/user", { headers }).subscribe(data => {
       this.user = data
-      this.twitter = (typeof this.user.twitterProfile !== "undefined" && this.user.twitterProfile !== null) ? true : false;
-      this.linkedin = (typeof this.user.linkedinProfile !== "undefined" && this.user.linkedinProfile !== null) ? true : false;
-      this.facebook = (typeof this.user.facebookProfile !== "undefined" && this.user.facebookProfile !== null) ? true : false;
+      this.twitter = (typeof this.user.twitter !== "undefined" && this.user.twitter !== null) ? true : false;
     });
   }
 
   disconnect(e) {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
-    switch(e.path[4].id) {
-      case "twitter":
-        this.http.get("api/twitter/account/disconnect", { headers }).subscribe((accountConnected: boolean) => {
-          if(accountConnected) {
-            this.twitterError = true;
-          }
-          this.twitter = accountConnected;
-        });
-        break;
-      case "linkedin":
-        this.http.get("api/linkedin/account/disconnect", { headers }).subscribe((accountConnected: boolean) => {
-          if(accountConnected) {
-            this.linkedinError = true;
-          }
-          this.linkedin = accountConnected;
-        });
-        break;
-      case "facebook":
-        this.http.get("api/facebook/account/disconnect", { headers }).subscribe((accountConnected: boolean) => {
-          if(accountConnected) {
-            this.facebookError = true;
-          }
-          this.facebook = accountConnected;
-        });
-        break;
-    }
+    this.http.get("api/twitter/account/disconnect", { headers }).subscribe((accountConnected: boolean) => {
+      if(accountConnected) {
+        this.twitterError = true;
+      }
+      this.twitter = accountConnected;
+    });
   }
 
   passwordField() {

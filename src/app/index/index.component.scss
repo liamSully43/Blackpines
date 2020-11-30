@@ -49,8 +49,18 @@ main {
     padding: 0px;
 
     section {
-        padding: 10.4% !important;
-        width: 79.2% !important;
+        padding: 5% !important;
+        width: 90% !important;
+    }
+
+    .info {
+        padding: 10% 5% !important;
+    }
+
+    @media(max-width: 900px) {
+        .info {
+            padding: 5% !important;
+        }
     }
 
     .break {
@@ -58,80 +68,138 @@ main {
         height: 1px;
         margin: auto;
         border-bottom: solid 1px $accent;
-    }    
+    }
 }
 
 .info {
     text-align: center;
     font-size: 20px;
     padding-bottom: 200px;
-    
+
     p {
         font-weight: 200;
     }
 }
 
-.platforms {
+.process {
+    display: flex;
+    flex-wrap: wrap;
 
     h1 {
         text-align: center;
         margin-bottom: 100px;
         color: $secondary;
+        flex: 1 0 100%;
+    }
+
+    .guide, .card {
+        flex: 0 1 50%;
+        max-width: 50%;
+        display: grid;
+        place-items: center;
+    }
+
+    .guide {
+        p, a {
+            text-align: center;
+            width: 100%;
+            font-weight: 200;
+
+            strong {
+                font-weight: 400;
+                font-family: "Roboto", "Poppins", Arial, Helvetica, sans-serif;
+            }
+        }
+    }
+
+    .twitter-card {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        display: grid;
+        flex-wrap: wrap;
+        place-items: center;
+        box-shadow: 12px 12px 20px #e2e2e2;
+        background-color: $primary;
+        margin: 20px;
+        padding: 20px 0px;
+        text-decoration: none;
+
+        img {
+            width: 100px;
+            background-color: $accent;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 20px;
+            text-decoration: none;
+            font-weight: 200;
+        }
+    }
+
+    .twitter-card:hover {
+
+        img {
+            background-color: $hover;
+        }
+
+        p {
+            color: $hover;
+        }
+    }
+
+    @media(max-width: 1000px) {
+        .twitter-card {
+            width: 70%;
+        }
     }
 
     @media(max-width: 600px) {
         h1 {
             font-size: 7vw;
         }
+
+        .twitter-card {
+            img {
+                width: 60px;
+                height: 60px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+        }
+
+        .guide {
+
+            p {
+                font-size: 14px;
+            }
+        }
     }
 
-    div {
-        display: flex;
-        flex-wrap: wrap !important;
-        
-        .platform-logos {
-            flex-basis: calc(calc(100% / 3) - 40px);
-            display: grid;
-            flex-wrap: wrap;
-            place-items: center;
-            box-shadow: 12px 12px 20px #e2e2e2;
-            background-color: $primary;
-            margin: 20px;
-            padding: 20px 0px;
-
-            img {
-                width: 100px;
-                background-color: $accent;
-            }
-            
-            a, a:visited {
-                margin-top: 20px;
-                font-size: 20px;
-                text-decoration: none;
-                font-weight: 200;
-            }
-
-            a:hover {
-                color: $accent;
-            }
+    @media(max-width: 420px) {
+        h1 {
+            margin-bottom: 50px;
         }
 
-        @media(max-width: 1150px) {
-            .platform-logos {
-                flex-basis: calc(50% - 40px);
-            }
-
-            .platform-logos:last-of-type {
-                min-width: 416px;
-                margin: auto;
-            }
+        .guide, .card {
+            flex: 1 0 100% !important;
+            min-width: 100%;
         }
 
-        @media(max-width: 600px) {
-            .platform-logos {
-                flex-basis: 100%;
-                min-width: 100% !important;
-                margin: 20px 0px !important;
+        .guide {
+            margin-bottom: 20px;
+        }
+
+        .twitter-card {
+            padding: 10px 0px;
+            width: 100%;
+            max-width: 260px;
+
+            p {
+                margin-top: 10px;
             }
         }
     }
@@ -162,6 +230,12 @@ main {
         border-color: $hover;
         background-color: $hover;
     }
+
+    @media(max-width: 420px) {
+        .join {
+            margin-top: 30px;
+        }
+    }
 }
 
 @media(min-width: 1921px) {
@@ -191,7 +265,7 @@ main {
         font-size: 16px;
         padding: 15px 20px;
     }
-    
+
     .info {
         p {
             font-size: 15px;

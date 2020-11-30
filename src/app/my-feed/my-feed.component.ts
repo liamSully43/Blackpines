@@ -32,10 +32,12 @@ export class MyFeedComponent implements OnInit {
     const headers = this.headers;
     this.http.get("api/user", { headers }).subscribe((data: any) => {
       this.twitter = {
-        connected: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false,
-        feed: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false
+        connected: (typeof data.twitter !== "undefined" && data.twitter !== null) ? true : false,
+        feed: (typeof data.twitter !== "undefined" && data.twitter !== null) ? true : false
       }
-      this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
+      console.log(data.twitter);
+      this.user.twitter = (this.twitter.connected) ? data.twitter : {};
+      console.log(this.user.twitter)
       if(this.twitter.connected) this.getFeed();
     });
   }

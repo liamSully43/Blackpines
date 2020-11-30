@@ -15,21 +15,11 @@ const mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose");
 
 const TwitterStrategy = require("passport-twitter").Strategy;
-const LinkedInStrategy = require("passport-linkedin-oauth2").Strategy;
-const FacebookStrategy = require("passport-facebook").Strategy;
-
-const Twit = require("twit");
-const cryptr = require("cryptr");
-const fetch = require("node-fetch");
-const OAuth = require("oauth");
 
 // custom files
 
 const blackPines = require("./blackpinesAuthentication");
-const twitterAuth = require("./twitterAuthentication");
-const linkedinAuth = require("./linkedinAuthentication");
-const facebookAuth = require("./facebookAuthentication");
-const platformSearch = require("./platformSearch");
+const twitterAPI = require("./twitter");
 
 const app = express();
 
@@ -61,12 +51,7 @@ const newCustomerSchema = new mongoose.Schema({
     lastName: String,
     email: String,
     password: String,
-    twitterCredentials: Object,
-    twitterProfile: Object,
-    linkedinCredentials: Object,
-    linkedinProfile: Object,
-    facebookCredentials: Object,
-    facebookProfile: Object,
+    twitter: Object,
 });
 
 newCustomerSchema.plugin(passportLocalMongoose);
@@ -88,29 +73,6 @@ passport.use(new TwitterStrategy({
 },  function(token, tokenSecret, profile, callback) {
         profile.token = token;
         profile.tokenSecret = tokenSecret;
-        return callback(null, profile);
-}));
-
-passport.use(new LinkedInStrategy({
-    clientID: process.env.LINKEDIN_CLIENT_ID,
-    clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
-    callbackURL: `${host}/linkedin/callback`,
-    scope: ["r_organization_social", "r_1st_connections_size", "r_emailaddress", "rw_organization_admin", "r_basicprofile", "w_member_social", "w_organization_social"],
-},  function(accessToken, refreshToken, profile, callback) {
-        console.log(accessToken);
-        console.log(refreshToken);
-        profile.token = accessToken;
-        profile.tokenSecret = refreshToken;
-        return callback(null, profile);
-}));
-
-passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: `${host}/facebook/callback`,
-},  function(accessToken, refreshToken, profile, callback) {
-        profile.token = accessToken;
-        profile.tokenSecret = refreshToken;
         return callback(null, profile);
 }));
 
@@ -152,7 +114,7 @@ app.all("/*", (req, res, next) => {
 app.get("/twitter", checkAuthentication, passport.authorize("twitter"));
 
 app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter"), function(req, res) {
-    twitterAuth.callback(req, res, Customer);
+    twitterAPI.callback(req, res, Customer);
     res.redirect("/my-account");
 });
 
@@ -162,50 +124,7 @@ app.get("/api/twitter/account/disconnect", function(req, res) {
     function cb (accountConnected) {
         res.send(accountConnected)
     }
-    twitterAuth.disconnect(req, res, Customer, cb);
-})
-
-////////////// linkedin
-// connect
-
-app.get("/linkedin", checkAuthentication, passport.authorize("linkedin"));
-
-app.get("/linkedin/callback", checkAuthentication, passport.authorize("linkedin"), function(req, res) {
-    linkedinAuth.callback(req, res, Customer);
-    res.redirect("/my-account");
-});
-
-app.get("/linkedin/token", (req, res) => {
-    console.log(req);
-    res.send(req);
-})
-
-// disconnect
-
-app.get("/api/linkedin/account/disconnect", function(req, res) {
-    function cb (accountConnected) {
-        res.send(accountConnected)
-    }
-    linkedinAuth.disconnect(req, Customer, cb);
-})
-
-////////////// facebook
-// connect
-
-app.get("/facebook", checkAuthentication, passport.authorize("facebook"));
-
-app.get("/facebook/callback", checkAuthentication, passport.authorize("facebook"), function(req, res) {
-    facebookAuth.callback(req, res, Customer);
-    res.redirect("/my-account");
-});
-
-// disconnect
-
-app.get("/api/facebook/account/disconnect", function(req, res) {
-    function cb (accountConnected) {
-        res.send(accountConnected)
-    }
-    facebookAuth.disconnect(req, Customer, cb);
+    twitterAPI.disconnect(req, res, Customer, cb);
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -286,23 +205,15 @@ app.post("/register", [
 
 app.post("/newpost", [
     check("post").stripLow().trim().escape(),
-    check("linkedin-post").stripLow().trim().escape(),
-    check("facebook-post").stripLow().trim().escape(),
 ], (req, res) => {
     let twitter = req.body.twitter;
-    let linkedin = req.body.linkedin;
-    let facebook = req.body.facebook;
     let messages = [];
     function callback (message, platform) {
         messages.push(message);
         if(platform === "twitter") twitter = false;
-        if(platform === "linkedin") linkedin = false;
-        if(platform === "facebook") facebook = false;
-        if(!twitter && !linkedin && !facebook) res.send(messages);
+        if(!twitter) res.send(messages);
     }
-    if(req.body.twitter) twitterAuth.newTweet(req, callback);
-    if(req.body.linkedin) linkedinAuth.newPost(req, callback);
-    if(req.body.facebook) facebookAuth.newPost(req, callback);
+    if(req.body.twitter) twitterAPI.newTweet(req, callback);
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -332,7 +243,7 @@ app.get("/api/myfeed", (req, res) => {
         }
         res.send(feed)
     }
-    twitterAuth.getFeed(req, cb);
+    twitterAPI.getFeed(req, cb);
 })
 
 /////////////// returns user's twitter posts
@@ -352,7 +263,7 @@ app.get("/api/myposts", (req, res) => {
         }
         res.send(posts);
     }
-    twitterAuth.getPosts(req, callback);
+    twitterAPI.getPosts(req, callback);
 })
 
 app.post("/api/changePassword", [
@@ -396,10 +307,10 @@ app.post("/api/search", [
     }
 
     if(type === "Posts") {
-        platformSearch.searchPosts(req, searchTerm, callbackSuccess, callbackFailed);
+        twitterAPI.searchPosts(req, searchTerm, callbackSuccess, callbackFailed);
     }
     else {
-        platformSearch.searchUsers(req, searchTerm, callbackSuccess, callbackFailed);
+        twitterAPI.searchUsers(req, searchTerm, callbackSuccess, callbackFailed);
     }
 
     // request takes too long
@@ -427,22 +338,22 @@ app.post("/api/search", [
 
 app.post("/api/twitter/tweet/like", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.like(req, cb)
+    twitterAPI.like(req, cb)
 })
 
 app.post("/api/twitter/tweet/retweet", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.retweet(req, cb);
+    twitterAPI.retweet(req, cb);
 })
 
 app.post("/api/twitter/tweet/reply", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.reply(req, cb);
+    twitterAPI.reply(req, cb);
 })
 
 app.post("/api/twitter/tweet/delete", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.deleteTweet(req, cb);
+    twitterAPI.deleteTweet(req, cb);
 })
 
 /////////////// get tweets 
@@ -452,45 +363,37 @@ app.post("/api/twitter/tweet/get", (req, res) => {
     function cb (val) {
         res.send(val);
     }
-    twitterAuth.getTweet(postId, cb);
+    twitterAPI.getTweet(postId, cb);
 })
 
 app.get("/api/twitter/account/get", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.getUser(req, cb);
+    twitterAPI.getUser(req, cb);
 })
 
 app.post("/api/twitter/account/follow", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.follow(req, cb);
+    twitterAPI.follow(req, cb);
 })
 
 app.post("/api/twitter/account/unfollow", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.unfollow(req, cb);
+    twitterAPI.unfollow(req, cb);
 })
 
 app.get("/api/twitter/account/tweets", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.getUsersTweets(req, cb);
+    twitterAPI.getUsersTweets(req, cb);
 })
 
 app.get("/api/twitter/account/followers", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.getUsersFollowers(req, cb);
+    twitterAPI.getUsersFollowers(req, cb);
 })
 
 app.get("/api/twitter/account/following", (req, res) => {
     const cb = val => res.send(val);
-    twitterAuth.getUsersFollowing(req, cb);
-})
-
-app.get("/api/linkedin", (req, res) => {
-    const cb = val => {
-        console.log(val);
-        res.send(val);
-    }
-    linkedinAuth.getFeed(req, cb)
+    twitterAPI.getUsersFollowing(req, cb);
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
