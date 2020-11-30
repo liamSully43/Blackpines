@@ -1,11 +1,11 @@
 # Blackpines
 
 ## Purpose
-This is a backup copy of the code for the Blackpines project (https://blackpines.co.uk), the purpose of this project is to streamline social media management by allowing users to post on multiple different social medial platforms from a single place by utilising the APIs provided by Twitter, LinkedIn & Facebook. This project also was a good excuse to make a MEAN stack application.
+This is a backup copy of the code for the Blackpines project (https://blackpines.co.uk), the purpose of this project is to streamline managing Twitter accounts by allowing users to interact with Twitter using their different accounts all at once, this includes tweeting, deleting tweets, viewing their home feeds, viewing their own tweet feed, interacting with feeds & interacting with accounts & users.
 
 ## Features & Functionality
  - User's can sign up & login to Blackpines
- - User's can connect to their Twitter, LinkedIn & Facebook accounts
+ - User's can connect to their Twitter accounts
  - User's can view the Twitter home timelines
  - User's can view any of their tweets
  - User's can view any twitter account
