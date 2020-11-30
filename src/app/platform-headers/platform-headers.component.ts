@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-platform-headers',
@@ -6,8 +6,6 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./platform-headers.component.scss']
 })
 export class PlatformHeadersComponent implements OnInit {
-
-  @Input() platform: string;
 
   constructor() { }
 

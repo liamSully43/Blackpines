@@ -1,7 +1,32 @@
+/*
+
+Function Index:
+    
+callback
+disconnect
+update
+getFeed
+getPosts
+newTweet
+getTweet
+getUser
+like
+reply
+retweet
+deleteTweet
+follow
+unfollow
+getUsersTweets
+getUsersFollowers
+getUsersFollowing
+searchUsers
+searchPosts
+
+*/
+
 require("dotenv").config();
 const cryptr = require("cryptr");
 const OAuth = require("oauth");
-const oAuthSignature = require("oauth-signature");
 const fetch = require("node-fetch");
 const Twit = require("twit");
 
@@ -24,19 +49,13 @@ const oauth = new OAuth.OAuth(
 function callback(req, res, Customer) {
     const token = encrypt.encrypt(req.account.token);
     const tokenSecret = encrypt.encrypt(req.account.tokenSecret);
-    req.user.twitterCredentials = {
-        token,
-        tokenSecret,
-        twitterID: req.account.id,
-    };
-    req.user.twitterProfile = req.account._json;
+    let twitterAccount = req.account._json;
+    twitterAccount.token = token;
+    twitterAccount.tokenSecret = tokenSecret;
+    req.user.twitter = twitterAccount;
     Customer.updateOne(
         {_id: req.user._id},
-        {twitterCredentials: {
-            token,
-            tokenSecret,
-            twitterID: req.account.id,
-        }, twitterProfile: req.account._json},
+        {twitter: twitterAccount},
         {multi: false},
         function(err) {if(err) console.log(err)}
     )
@@ -47,11 +66,10 @@ function callback(req, res, Customer) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function disconnect(req, res, Customer, done) {
-    req.user.twitterCredentials = null;
-    req.user.twitterProfile = null;
+    req.user.twitter = null;
     Customer.updateOne(
         {_id: req.user._id},
-        {twitterCredentials: null, twitterProfile: null},
+        {twitter: null},
         {multi: false},
         function(err) {
             if(err) {
@@ -79,8 +97,8 @@ function update(req, res) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 const getFeed = (req, done) => {
-    const token = encrypt.decrypt(req.user.twitterCredentials.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const token = encrypt.decrypt(req.user.twitter.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
     let response = oauth.get(
         "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50&include_my_retweet=true&tweet_mode=extended",
         token,
@@ -104,7 +122,7 @@ const getFeed = (req, done) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 const getPosts = (req, done) => {
-    fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=50&user_id=${req.user.twitterCredentials.twitterID}&include_my_retweet=true&tweet_mode=extended`, {
+    fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=50&user_id=${req.user.twitter.id_str}&include_my_retweet=true&tweet_mode=extended`, {
         method: "get",
         headers:  {
             'Content-Type': 'application/json',
@@ -121,8 +139,8 @@ const getPosts = (req, done) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function newTweet(req, done) {
-    const access_token = encrypt.decrypt(req.user.twitterCredentials.token);
-    const access_token_secret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const access_token = encrypt.decrypt(req.user.twitter.token);
+    const access_token_secret = encrypt.decrypt(req.user.twitter.tokenSecret);
     const T = new Twit({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -182,8 +200,8 @@ function getTweet(id, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function getUser(req, done) {
-    const token = encrypt.decrypt(req.user.twitterCredentials.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const token = encrypt.decrypt(req.user.twitter.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
     const id = req.query.id;
     const handle = req.query.handle;
     oauth.get(
@@ -207,8 +225,8 @@ function getUser(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function like(req, done) {
-    const token = encrypt.decrypt(req.user.twitterCredentials.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const token = encrypt.decrypt(req.user.twitter.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
     oauth.post(
         `https://api.twitter.com/1.1/favorites/create.json?id=${req.body.id}`,
         token,
@@ -259,8 +277,8 @@ function reply(req, done) {
     const tweetArray = tweet.split(" ");
     const status = (tweetArray[0] !== `@${handle}`) ? `@${handle} ${tweet}` : tweet;
     
-    const access_token = encrypt.decrypt(req.user.twitterCredentials.token);
-    const access_token_secret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const access_token = encrypt.decrypt(req.user.twitter.token);
+    const access_token_secret = encrypt.decrypt(req.user.twitter.tokenSecret);
     const T = new Twit({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -286,8 +304,8 @@ function reply(req, done) {
 
 function retweet(req, done) {
     const id = req.body.id;    
-    const access_token = encrypt.decrypt(req.user.twitterCredentials.token);
-    const access_token_secret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const access_token = encrypt.decrypt(req.user.twitter.token);
+    const access_token_secret = encrypt.decrypt(req.user.twitter.tokenSecret);
     const T = new Twit({
         consumer_key: process.env.TWITTER_CONSUMER_KEY,
         consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -332,8 +350,8 @@ function retweet(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function deleteTweet(req, done) {
-    const token = encrypt.decrypt(req.user.twitterCredentials.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const token = encrypt.decrypt(req.user.twitter.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
     oauth.post(
         `https://api.twitter.com/1.1/statuses/destroy/${req.body.id}.json?trim_user=true`,
         token,
@@ -357,8 +375,8 @@ function deleteTweet(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function follow(req, done) {
-    const token = encrypt.decrypt(req.user.twitterCredentials.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const token = encrypt.decrypt(req.user.twitter.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
     oauth.post(
         `https://api.twitter.com/1.1/friendships/create.json?user_id=${req.body.id}`,
         token,
@@ -382,8 +400,8 @@ function follow(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function unfollow(req, done) {
-    const token = encrypt.decrypt(req.user.twitterCredentials.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitterCredentials.tokenSecret);
+    const token = encrypt.decrypt(req.user.twitter.token);
+    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
     oauth.post(
         `https://api.twitter.com/1.1/friendships/destroy.json?user_id=${req.body.id}`,
         token,
@@ -481,6 +499,57 @@ const getUsersFollowing = (req, done) => {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//                               Search for Twitter Users                              //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function searchUsers (req, query, done, fail) {
+    const access_token = encrypt.decrypt(req.user.twitter.token);
+    const access_token_secret = encrypt.decrypt(req.user.twitter.tokenSecret);
+    const oauth = new OAuth.OAuth(
+        "https://api.twitter.com/oauth/request_token",
+        "https://api.twitter.com/oauth/access_token",
+        process.env.TWITTER_CONSUMER_KEY,
+        process.env.TWITTER_CONSUMER_SECRET,
+        '1.0A',
+        null,
+        'HMAC-SHA1'
+    );
+    oauth.get(
+        `https://api.twitter.com/1.1/users/search.json?q=${query}&count=100`,
+        access_token,
+        access_token_secret,
+        function(err, data) {
+            if(err) {
+                console.log(err)
+                return fail();
+            }
+            else {
+                const users = Function(`"use strict";return ${data}`)();
+                return done(users);
+            }
+        }
+    )
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                               Search for Twitter Posts                              //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function searchPosts (req, query, done, fail) {
+    fetch(`https://api.twitter.com/1.1/search/tweets.json?q=${query}&result_type=popular&count=100&tweet_mode=extended`, {
+        method: "get",
+        headers:  {
+            'Content-Type': 'application/json',
+            "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+        }
+    }).then(res => res.json()).then(posts => done(posts))
+    .catch((err) => {
+        console.log(err);
+        fail();
+    })
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //                                      Exports                                        //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -502,4 +571,6 @@ module.exports = {
     getUsersTweets,
     getUsersFollowers,
     getUsersFollowing,
+    searchUsers,
+    searchPosts,
 }

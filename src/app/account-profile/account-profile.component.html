@@ -1,6 +1,6 @@
+<!-- Twitter template -->
 <ng-container *ngIf="account">
-    <!-- Twitter template -->
-    <div *ngIf="account.friends_count >= 0" class="platform-sections-connected" id="twitter">
+    <div class="platform-sections-connected" id="twitter">
         <div class="account-info">
             <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
             <ng-template #elseBlock >
@@ -17,47 +17,6 @@
         </div>
         <div class="platform-footers twitter-footer">
             <img src="../../assets/twitter-feed.png" width="auto" height="30" />
-        </div>
-    </div>
-
-    <!-- LinkedIn template -->
-    <div *ngIf="account.provider === 'linkedin'" class="platform-sections-connected" id="twitter">
-        <div class="account-info">
-            <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
-            <ng-template #elseBlock >
-                <div class="default-background"></div>
-            </ng-template>
-            <div class="profile-pic-container">
-                <img width="65" height="65" class="profile-pic" src="{{ account.photos[0].value }}" />
-            </div>
-            <p class="name">{{ account.displayName }}</p>
-            <button name="disconnect clear" class="disconnect" (click)="disconnect($event)">Disconnect</button>
-            <br />
-            <p *ngIf="error" class="error">An error occured when trying to remove the profile, please try again later</p>
-        </div>
-        <div class="platform-footers linkedin-footer">
-            <img src="../../assets/linkedin-feed.png" width="auto" height="30" />
-        </div>
-    </div>
-
-    <!-- Facebook only passes back limited information (just the user's account name & token), hence all of the commented code -->
-    <!-- Facebook template -->
-    <div *ngIf="account.provider === 'facebook'" class="platform-sections-connected" id="twitter">
-        <div class="account-info">
-            <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
-            <ng-template #elseBlock >
-                <div class="default-background"></div>
-            </ng-template>
-            <div class="profile-pic-container">
-                <!-- <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url_https }}" /> -->
-            </div>
-            <p class="name">{{ account.displayName }}</p>
-            <button name="disconnect clear" class="disconnect" (click)="disconnect($event)">Disconnect</button>
-            <br />
-            <p *ngIf="error" class="error">An error occured when trying to remove the profile, please try again later</p>
-        </div>
-        <div class="platform-footers facebook-footer">
-            <img src="../../assets/facebook-feed.png" width="auto" height="30" />
         </div>
     </div>
 </ng-container>

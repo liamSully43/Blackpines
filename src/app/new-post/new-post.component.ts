@@ -17,10 +17,6 @@ export class NewPostComponent implements OnInit {
     connected: false,
     feed: false,
   };
-  facebook = {
-    connected: false,
-    feed: false,
-  };
   user: any = false;
   disabled: boolean = true;
   percentage: number = 0;
@@ -36,16 +32,12 @@ export class NewPostComponent implements OnInit {
     this.http.get("api/user", { headers }).subscribe(data => {
       this.user = data;
       this.twitter = {
-        connected: (typeof this.user.twitterProfile !== "undefined" && this.user.twitterProfile !== null) ? true : false,
-        feed: (typeof this.user.twitterProfile !== "undefined" && this.user.twitterProfile !== null) ? true : false
+        connected: (typeof this.user.twitter !== "undefined" && this.user.twitter !== null) ? true : false,
+        feed: (typeof this.user.twitter !== "undefined" && this.user.twitter !== null) ? true : false
       }
       this.linkedin = {
         connected: (typeof this.user.linkedinProfile !== "undefined" && this.user.linkedinProfile !== null) ? true : false,
         feed: (typeof this.user.linkedinProfile !== "undefined" && this.user.linkedinProfile !== null) ? true : false
-      }
-      this.facebook = {
-        connected: (typeof this.user.facebookProfile !== "undefined" && this.user.facebookProfile !== null) ? true : false,
-        feed: (typeof this.user.facebookProfile !== "undefined" && this.user.facebookProfile !== null) ? true : false,
       }
       this.disableButtons();
     });
@@ -80,9 +72,6 @@ export class NewPostComponent implements OnInit {
       case "linkedin":
         this.linkedin.feed = platformChecked;
         break;
-      case "facebook":
-        this.facebook.feed = platformChecked;
-        break;
     }
     this.disableButtons()
   }
@@ -98,8 +87,7 @@ export class NewPostComponent implements OnInit {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     const twitter = (this.twitter.connected && this.twitter.feed) ? true : false; // passed to the backend to prevent posting to platformms that the user can't or doesn't want to post to
     const linkedin = (this.linkedin.connected && this.linkedin.feed) ? true : false;
-    const facebook = (this.facebook.connected && this.facebook.feed) ? true : false;
-    this.http.post("newpost", { headers, post, twitter, linkedin, facebook }, {responseType: "json"}).subscribe((messages: Array<any>) => { // will return either success messages or warnings
+    this.http.post("newpost", { headers, post, twitter, linkedin }, {responseType: "json"}).subscribe((messages: Array<any>) => { // will return either success messages or warnings
       this.loading = false;
       this.messages = messages;
       let clear = true;
@@ -123,8 +111,7 @@ export class NewPostComponent implements OnInit {
   disableButtons() {
     return this.disabled = ((
       !this.twitter.feed &&
-      !this.linkedin.feed &&
-      !this.facebook.feed
+      !this.linkedin.feed
       ) || (
       !this.twitter.connected &&
       !this.linkedin.connected &&

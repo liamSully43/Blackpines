@@ -4,10 +4,10 @@
     <app-side-nav *ngIf="twitter.connected && user.twitter" [user]="user.twitter" (activityFeed)="toggleFeed($event)" (viewUser)="showTwitterAccount($event)" ></app-side-nav>
     <main  [ngClass]="{'main-preview' : expand}">
         <!-- This will show if the user isn't connected to twitter -->
-        <a href="/my-account" class="message" *ngIf="!twitter.connected">Please connect your twitter account from the My-Account page</a>
+        <a href="/my-account" class="message" *ngIf="!twitter.connected">Please connect at least one Twitter account from the My-Account page</a>
         <!-- If Twitter isn't connected then getFeed() isn't called which in turn will leave the twitter feed array empty and no tweets will show -->
         <div *ngIf="twitter.feed" class="feeds" [ngClass]="{'feeds-preview' : expand}">
-            <app-platform-headers platform="twitter"></app-platform-headers> <!-- headers -->
+            <app-platform-headers></app-platform-headers> <!-- headers -->
             <!-- loading circle -->
             <div class="loading-container" *ngIf="loadingFeed; else twitterFeedBlock">
                 <app-loading></app-loading>

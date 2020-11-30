@@ -23,8 +23,6 @@ export class SearchComponent implements OnInit {
   searchType = "Users";
   
   twitterPosts: any = [];
-  linkedinPosts: any = [];
-  facebookPosts: any = [];
   
   twitterPostsError: any = false;
   tweet: any = false;
@@ -41,10 +39,10 @@ export class SearchComponent implements OnInit {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     this.http.get("api/user", { headers }).subscribe((data: any) => {
       this.twitter = {
-        connected: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false,
-        feed: (typeof data.twitterProfile !== "undefined" && data.twitterProfile !== null) ? true : false
+        connected: (typeof data.twitter !== "undefined" && data.twitter !== null) ? true : false,
+        feed: (typeof data.twitter !== "undefined" && data.twitter !== null) ? true : false
       }
-      this.user.twitter = (this.twitter.connected) ? data.twitterProfile : {};
+      this.user.twitter = (this.twitter.connected) ? data.twitter : {};
     })
   }
 

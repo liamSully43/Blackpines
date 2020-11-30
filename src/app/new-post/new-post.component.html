@@ -11,20 +11,6 @@
                     <li><input type="checkbox" class="twitter-checkbox input-checkbox" name="twitter-checkbox" disabled /><div class="checkbox twitter-label" id="twitter"></div> Twitter</li>
                 </div>
             </ng-template>
-    
-            <li *ngIf="linkedin.connected; else elseLinkedin"><input type="checkbox" class="linkedin-checkbox input-checkbox" name="linkedin-checkbox" checked /><div class="checkbox linkedin-label active-cb" id="linkedin" (click)="togglePlatforms($event)" ></div> Linkedin</li>
-            <ng-template #elseLinkedin>
-                <div class="checkbox-container">
-                    <li><input type="checkbox" class="linkedin-checkbox input-checkbox" name="linkedin-checkbox" disabled /><div class="checkbox linkedin-label" id="linkedin"></div> Linkedin</li>
-                </div>
-            </ng-template>
-    
-            <li *ngIf="facebook.connected; else elseFacebook"><input type="checkbox" class="facebook-checkbox input-checkbox" name="facebook-checkbox" checked /><div class="checkbox facebook-label active-cb" id="facebook" (click)="togglePlatforms($event)" ></div> Facebook</li>
-            <ng-template #elseFacebook>
-                <div class="checkbox-container">
-                    <li><input type="checkbox" class="facebook-checkbox input-checkbox" name="facebook-checkbox" disabled /><div class="checkbox facebook-label" id="facebook"></div> Facebook</li>
-                </div>
-            </ng-template>
         </ul>
     </nav>
     <main>
@@ -34,13 +20,7 @@
             <textarea class="primary-input" [ngClass]="{'limit': percentage >= 100}" placeholder="Type your post here" name="primary-post" (keydown)="onPrimaryInput()" maxlength="280"></textarea>
             <section class="platform-container">
                 <div class="platforms" *ngIf="twitter.connected && twitter.feed">
-                    <app-platform-headers [platform]="'twitter'"></app-platform-headers>
-                </div>
-                <div class="platforms" *ngIf="linkedin.connected && linkedin.feed">
-                    <app-platform-headers [platform]="'linkedin'"></app-platform-headers>
-                </div>
-                <div class="platforms" *ngIf="facebook.connected && facebook.feed">
-                    <app-platform-headers [platform]="'facebook'"></app-platform-headers>
+                    <app-platform-headers></app-platform-headers>
                 </div>
                 <div class="char-limit" [ngClass]="{'void': percentage >= 100}">
                     <p>Character Limit</p>
@@ -66,7 +46,7 @@
                     <p *ngIf="success">{{ message.text }}</p> <!-- the success variable is set to false after 5 seconds to hide success messages - whereas errors will remain constant -->
                 </ng-template>
             </div>
-            <a *ngIf="!twitter.connected && !linkedin.connected && !facebook.connected" href="my-account" >Please connect at least one platform in order to use the posting function</a>
+            <a *ngIf="!twitter.connected" href="my-account" class="no-account" >Please connect at least one account in order to use the posting function</a>
         </form>
     </main>
 </div>
