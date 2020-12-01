@@ -29,7 +29,7 @@
 }
 
 main {
-    display: block;
+    display: flex;
     background-color: $off-primary;
     flex-basis: 100%;
 
@@ -59,9 +59,10 @@ main {
 }
 
 .feeds {
-    width: 75%;
+    flex-basis: 100%;
+    max-width: 1000px;
     min-width: 300px;
-    margin: auto;
+    margin-left: 10px;
 
     div:first-of-type {
         margin-top: 10px;
@@ -71,6 +72,14 @@ main {
         height: 100%;
         margin-top: 150px;
     }
+}
+
+.feeds:first-of-type {
+    margin-left: 0px;
+}
+
+.feeds:only-child {
+    margin: auto;
 }
 
 .feeds-preview {

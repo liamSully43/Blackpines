@@ -51,7 +51,9 @@ const newCustomerSchema = new mongoose.Schema({
     lastName: String,
     email: String,
     password: String,
-    twitter: Object,
+    twitter: Array,
+    lastLogIn: String,
+    createdAt: String,
 });
 
 newCustomerSchema.plugin(passportLocalMongoose);
@@ -120,7 +122,7 @@ app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter"),
 
 // disconnect
 
-app.get("/api/twitter/account/disconnect", function(req, res) {
+app.post("/api/twitter/account/disconnect", function(req, res) {
     function cb (accountConnected) {
         res.send(accountConnected)
     }
@@ -206,14 +208,11 @@ app.post("/register", [
 app.post("/newpost", [
     check("post").stripLow().trim().escape(),
 ], (req, res) => {
-    let twitter = req.body.twitter;
-    let messages = [];
-    function callback (message, platform) {
-        messages.push(message);
-        if(platform === "twitter") twitter = false;
-        if(!twitter) res.send(messages);
+    let accounts = req.body.accounts;
+    function callback(results) {
+        res.send(results);
     }
-    if(req.body.twitter) twitterAPI.newTweet(req, callback);
+    if(accounts.length > 0) twitterAPI.newTweet(req, callback);
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -229,19 +228,16 @@ app.get("/api/user", (req, res) => {
 /////////////// returns user's twitter home timeline
 
 app.get("/api/myfeed", (req, res) => {
-    function cb(feed) {
-        if(typeof feed === "string") { // checks if the returned value is an error message
-            const result = {
-                success: false,
-                message: feed,
+    function cb(results) {
+        for(let result of results) {
+            if(result.success) {
+                for(let post of result.feed) {
+                    let time = post.created_at.substr(4, 12);
+                    post.created_at = time;
+                }
             }
-            return res.send(result);
         }
-        for(let post of feed) {
-            let time = post.created_at.substr(4, 12);
-            post.created_at = time;
-        }
-        res.send(feed)
+        res.send(results);
     }
     twitterAPI.getFeed(req, cb);
 })
@@ -250,16 +246,13 @@ app.get("/api/myfeed", (req, res) => {
 
 app.get("/api/myposts", (req, res) => {
     function callback(posts) {
-        if(!posts) { // checks if the returned value is an error message
-            const result = {
-                success: false,
-                message: "Unable to fetch your twitter statuses, please try again later",
+        for(post of posts) {
+            if(post.success) {
+                for(let post in posts.feed) {
+                    let time = post.created_at.substr(4, 12);
+                    post.created_at = time;
+                }
             }
-            return res.send(result);
-        }
-        for(let post of posts) {
-            let time = post.created_at.substr(4, 12);
-            post.created_at = time;
         }
         res.send(posts);
     }

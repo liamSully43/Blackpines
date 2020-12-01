@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { connected } from 'process';
 
 @Component({
   selector: 'app-new-post',
@@ -13,10 +12,7 @@ export class NewPostComponent implements OnInit {
     connected: false,
     feed: false,
   };
-  linkedin = {
-    connected: false,
-    feed: false,
-  };
+  connectedAccounts: Array<any> = [];
   user: any = false;
   disabled: boolean = true;
   percentage: number = 0;
@@ -24,20 +20,19 @@ export class NewPostComponent implements OnInit {
   success: boolean = false;
   messages: Array<any> = [];
   loading: boolean = false;
+
+  selectedAccounts = [];
   
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
-    this.http.get("api/user", { headers }).subscribe(data => {
+    this.http.get("api/user", { headers }).subscribe((data: any) => {
       this.user = data;
+      this.connectedAccounts = data.twitter;
       this.twitter = {
-        connected: (typeof this.user.twitter !== "undefined" && this.user.twitter !== null) ? true : false,
-        feed: (typeof this.user.twitter !== "undefined" && this.user.twitter !== null) ? true : false
-      }
-      this.linkedin = {
-        connected: (typeof this.user.linkedinProfile !== "undefined" && this.user.linkedinProfile !== null) ? true : false,
-        feed: (typeof this.user.linkedinProfile !== "undefined" && this.user.linkedinProfile !== null) ? true : false
+        connected: (this.user.twitter.length > 0) ? true : false,
+        feed: (this.user.twitter.length > 0) ? true : false
       }
       this.disableButtons();
     });
@@ -54,25 +49,29 @@ export class NewPostComponent implements OnInit {
     }, 1);
   }
 
-  togglePlatforms(cb) {
+  toggleUser(cb) {
     const checkbox = (<HTMLInputElement>cb.srcElement); // the visible green "checkbox"
     const input = cb.path[1].childNodes[0]; // the hidden actual checkbox
+    const id = cb.path[0].id;
     if(checkbox.classList.contains("active-cb")) {
         checkbox.classList.remove("active-cb");
+        for(let [index, account] of this.selectedAccounts.entries()) {
+          if(account.id_str == id) {
+            this.selectedAccounts.splice(index, 1);
+            break;
+          }
+        }
     }
     else {
         checkbox.classList.add("active-cb");
+        for(let account of this.connectedAccounts) {
+          if(account.id_str == id) {
+            this.selectedAccounts.push(account);
+          }
+        }
     }
     input.checked = !input.checked
-    const platformChecked = input.checked;
-    switch(cb.path[0].id) {
-      case "twitter":
-        this.twitter.feed = platformChecked;
-        break;
-      case "linkedin":
-        this.linkedin.feed = platformChecked;
-        break;
-    }
+    this.twitter.feed = input.checked;
     this.disableButtons()
   }
 
@@ -85,14 +84,13 @@ export class NewPostComponent implements OnInit {
     if(!qualify) return;
     this.loading = true;
     let headers = new HttpHeaders().set("Authorization", "auth-token");
-    const twitter = (this.twitter.connected && this.twitter.feed) ? true : false; // passed to the backend to prevent posting to platformms that the user can't or doesn't want to post to
-    const linkedin = (this.linkedin.connected && this.linkedin.feed) ? true : false;
-    this.http.post("newpost", { headers, post, twitter, linkedin }, {responseType: "json"}).subscribe((messages: Array<any>) => { // will return either success messages or warnings
+    const accounts = this.selectedAccounts;
+    this.http.post("newpost", { headers, post, accounts }, {responseType: "json"}).subscribe((results: Array<any>) => { // will return an array of object results for each Twitter account 
       this.loading = false;
-      this.messages = messages;
+      this.messages = results;
       let clear = true;
-      for(let message of this.messages) {
-        if(message.success) {
+      for(let result of this.messages) {
+        if(result.success) {
           this.success = true;
           setTimeout(() => this.success = false, 5000);
         }
@@ -107,14 +105,18 @@ export class NewPostComponent implements OnInit {
     });
   }
 
+  /*
+  
+  Something wen't wrong when posting to Twitter, please try again later
+  `Posted to @${account.screen_name}'s Twitter`
+
+  */
+
   // if all feeds are hidden or no platforms are connected; set disabled to true to disable all buttons and prevent any posting
   disableButtons() {
     return this.disabled = ((
-      !this.twitter.feed &&
-      !this.linkedin.feed
+      !this.twitter.feed
       ) || (
-      !this.twitter.connected &&
-      !this.linkedin.connected &&
       !this.twitter.connected
       )) ? true : false;
   }

@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders, HttpParams } from  '@angular/common/http';
 export class TwitterAccountComponent implements OnInit {
 
   @Input() account;
-  @Input() userId;
+  @Input() userIds;
 
   @Output() closePreview = new EventEmitter();
   @Output() showTweet = new EventEmitter<string>();
@@ -23,6 +23,8 @@ export class TwitterAccountComponent implements OnInit {
   tweetsTitle = false;
   followingTitle = false;
   followersTitle = false;
+
+  ownAccount: boolean = false;
   
   constructor(private http: HttpClient) { }
 
@@ -38,6 +40,14 @@ export class TwitterAccountComponent implements OnInit {
     // this swaps a lower quality version of the image for a better quality version
     let url = this.account.profile_image_url.replace("normal", "200x200");
     this.account.profile_image_url = url;
+
+    // this detects if the viewed account is one of the user's twitter accounts, if it is the follow button will not be rendered
+    for(let id of this.userIds) {
+      if(this.account.id_str === id) {
+        this.ownAccount = true;
+        break;
+      }
+    }
 
     this.getTweets();
   }

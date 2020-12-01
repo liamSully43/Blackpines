@@ -39,8 +39,8 @@ export class SearchComponent implements OnInit {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     this.http.get("api/user", { headers }).subscribe((data: any) => {
       this.twitter = {
-        connected: (typeof data.twitter !== "undefined" && data.twitter !== null) ? true : false,
-        feed: (typeof data.twitter !== "undefined" && data.twitter !== null) ? true : false
+        connected: (data.twitter.length > 0) ? true : false,
+        feed: (data.twitter.length > 0) ? true : false
       }
       this.user.twitter = (this.twitter.connected) ? data.twitter : {};
     })
@@ -121,12 +121,12 @@ export class SearchComponent implements OnInit {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const postId = id
     this.http.post("api/twitter/tweet/get", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
-      this.loading = false;
       if(result.success) {
         this.expand = true;
         setTimeout(() => {
           let time = result.post.created_at;
           let date = result.post.created_at;
+          this.loading = false;
           this.tweet = result.post
           this.tweet.time = time.substr(11, 5);
           this.tweet.date = date.substr(4, 6);
@@ -140,8 +140,12 @@ export class SearchComponent implements OnInit {
 
   showTwitterAccount(user) {
     this.clear();
+    this.loading = true;
     this.expand = true;
-    setTimeout(() => this.twitterAccount = user, 500);
+    setTimeout(() => {
+      this.loading = false;
+      this.twitterAccount = user
+    }, 500);
   }
 
   fetchUser(user) {
@@ -150,9 +154,11 @@ export class SearchComponent implements OnInit {
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
     this.http.get("api/twitter/tweet/get", { headers, params }).subscribe((result => {
-      this.loading = false;
       this.expand = true;
-      setTimeout(() => this.twitterAccount = result, 500);
+      setTimeout(() => {
+        this.loading = false;
+        this.twitterAccount = result
+      }, 500);
     }));
   }
 

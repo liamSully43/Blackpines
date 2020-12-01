@@ -20,13 +20,13 @@ export class MyAccountComponent implements OnInit {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     this.http.get("api/user", { headers }).subscribe(data => {
       this.user = data
-      this.twitter = (typeof this.user.twitter !== "undefined" && this.user.twitter !== null) ? true : false;
+      this.twitter = (this.user.twitter.length > 0) ? true : false;
     });
   }
 
-  disconnect(e) {
+  disconnect(id) {
     let headers = new HttpHeaders().set("Authorization", "auth-token");
-    this.http.get("api/twitter/account/disconnect", { headers }).subscribe((accountConnected: boolean) => {
+    this.http.post("api/twitter/account/disconnect", { headers, id }).subscribe((accountConnected: boolean) => {
       if(accountConnected) {
         this.twitterError = true;
       }

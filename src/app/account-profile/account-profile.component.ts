@@ -9,7 +9,7 @@ export class AccountProfileComponent implements OnInit {
   @Input() account: any = {};
   @Input() error: boolean;
 
-  @Output() disconnectMethod = new EventEmitter<any>();
+  @Output() disconnectMethod = new EventEmitter<string>();
 
   constructor() { }
 
@@ -19,8 +19,9 @@ export class AccountProfileComponent implements OnInit {
     console.log(this.account);
   }
 
-  disconnect(e) :void {
-    this.disconnectMethod.next(e);
+  disconnect() :void {
+    const id = this.account.id_str;
+    this.disconnectMethod.next(id);
   }
 
 }

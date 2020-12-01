@@ -11,7 +11,7 @@
             </div>
             <p class="name">{{ account.name }}</p>
             <p class="handle">@{{ account.screen_name }}</p>
-            <button name="disconnect clear" class="disconnect" (click)="disconnect($event)">Disconnect</button>
+            <button name="disconnect clear" class="disconnect" (click)="disconnect()">Disconnect</button>
             <br />
             <p *ngIf="error" class="error">An error occured when trying to remove the profile, please try again later</p>
         </div>
