@@ -1,24 +1,26 @@
 <app-error *ngIf="error !== false" [error]="error" (closeError)="close()"></app-error>
 <app-header [feed]="true"></app-header>
 <div class="main-content" [ngClass]="{'noscroll' : expand}">
-    <app-side-nav *ngIf="twitter.connected && user.twitter" [user]="user.twitter" (activityFeed)="toggleFeed($event)" (viewUser)="showTwitterAccount($event)" ></app-side-nav>
+    <app-side-nav *ngIf="twitter.connected && user.twitter.length > 0" [users]="user.twitter" (activityFeed)="toggleFeed($event)" (viewUser)="showTwitterAccount($event)" ></app-side-nav>
     <main  [ngClass]="{'main-preview' : expand}">
         <!-- This will show if the user isn't connected to twitter -->
         <a href="/my-account" class="message" *ngIf="!twitter.connected">Please connect at least one Twitter account from the My-Account page</a>
         <!-- If Twitter isn't connected then getFeed() isn't called which in turn will leave the twitter feed array empty and no tweets will show -->
         <div *ngIf="twitter.feed" class="feeds" [ngClass]="{'feeds-preview' : expand}">
-            <app-platform-headers></app-platform-headers> <!-- headers -->
-            <!-- loading circle -->
-            <div class="loading-container" *ngIf="loadingFeed; else twitterFeedBlock">
-                <app-loading></app-loading>
-            </div>
-            <ng-template #twitterFeedBlock>
-                <p *ngIf="twitterFeedError" class="error">{{ twitterFeedError }}</p> <!-- error message -->
-                <!-- feed -->
-                <div *ngFor="let post of twitterFeed">
-                    <app-feed-posts [post]=post [search]="false" [user]="user" (showPost)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
+            <ng-container *ngFor="let feed of feeds">
+                <app-platform-headers></app-platform-headers> <!-- headers -->
+                <!-- loading circle -->
+                <div class="loading-container" *ngIf="loadingFeed; else twitterFeedBlock">
+                    <app-loading></app-loading>
                 </div>
-            </ng-template>
+                <ng-template #twitterFeedBlock>
+                    <p *ngIf="feed.message" class="error">{{ feed.message }}</p> <!-- error message -->
+                    <!-- feed -->
+                    <div *ngFor="let post of feed.feed">
+                        <app-feed-posts [post]=post [search]="false" [user]="user" (showPost)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
+                    </div>
+                </ng-template>
+            </ng-container>
         </div>
     </main>
     <div class="content-previews" *ngIf="loading || twitterAccount !== false || tweet !== false">
@@ -27,7 +29,7 @@
         </div>
     
         <!-- post & account previews -->
-        <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" [userId]="user.twitter.id_str" (closePreview)="close()" (showTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-twitter-account>
+        <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" [userIds]="user.twitter" (closePreview)="close()" (showTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-twitter-account>
         <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
     </div>
 </div>

@@ -14,8 +14,7 @@ export class MyFeedComponent implements OnInit {
     feed: false,
   };
   tweet: any = false;
-  twitterFeed: any = [];
-  twitterFeedError: any = false;
+  feeds: any = [];
   twitterAccount: any = false;
   error: any = false;
   expand: boolean = false;
@@ -32,12 +31,10 @@ export class MyFeedComponent implements OnInit {
     const headers = this.headers;
     this.http.get("api/user", { headers }).subscribe((data: any) => {
       this.twitter = {
-        connected: (typeof data.twitter !== "undefined" && data.twitter !== null) ? true : false,
-        feed: (typeof data.twitter !== "undefined" && data.twitter !== null) ? true : false
+        connected: (data.twitter.length > 0) ? true : false,
+        feed: (data.twitter.length > 0) ? true : false
       }
-      console.log(data.twitter);
       this.user.twitter = (this.twitter.connected) ? data.twitter : {};
-      console.log(this.user.twitter)
       if(this.twitter.connected) this.getFeed();
     });
   }
@@ -53,33 +50,21 @@ export class MyFeedComponent implements OnInit {
 
   getFeed() {
     this.loadingFeed = true;
-    this.twitterFeed = [];
+    this.feeds = [];
     const headers = this.headers;
     this.http.get("api/myfeed", { headers }).subscribe((feed: any) => {
       this.loadingFeed = false;
-      if(feed.success === false) {
-        this.twitterFeedError = feed.message;
-      }
-      else {
-        this.twitterFeed = feed
-        this.twitterFeedError = false;
-      }
+      this.feeds = feed;
     })
   }
 
   getPosts() {
     this.loadingFeed = true;
-    this.twitterFeed = [];
+    this.feeds = [];
     const headers = this.headers;
     this.http.get("api/myposts", { headers }).subscribe((posts: any) => {
       this.loadingFeed = false;
-      if(posts.success === false) {
-        this.twitterFeedError = posts.message;
-      }
-      else {
-        this.twitterFeed = posts;
-        this.twitterFeedError = false;
-      }
+      this.feeds = posts;
     })
   }
 

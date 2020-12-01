@@ -52,10 +52,10 @@ function callback(req, res, Customer) {
     let twitterAccount = req.account._json;
     twitterAccount.token = token;
     twitterAccount.tokenSecret = tokenSecret;
-    req.user.twitter = twitterAccount;
+    req.user.twitter.push(twitterAccount);
     Customer.updateOne(
         {_id: req.user._id},
-        {twitter: twitterAccount},
+        { $push: { twitter: { $each: [twitterAccount] } } }, // pushes the new account to the array of Twitter accounts
         {multi: false},
         function(err) {if(err) console.log(err)}
     )
@@ -66,21 +66,27 @@ function callback(req, res, Customer) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function disconnect(req, res, Customer, done) {
-    req.user.twitter = null;
-    Customer.updateOne(
-        {_id: req.user._id},
-        {twitter: null},
-        {multi: false},
-        function(err) {
-            if(err) {
-                console.log(err)
-                done(true);
-            }
-            else {
-                done(false);
-            }
+    const id = req.body.id;
+    for(let accounts of req.user.twitter) {
+        if(accounts.id_str === id) {
+            accounts = null;
+            Customer.updateOne(
+                {_id: req.user._id,},
+                { $pull: { twitter: { id_str: id } } }, // pulls/removes the user selected Twitter account
+                {multi: false},
+                function(err) {
+                    if(err) {
+                        console.log(err)
+                        done(true);
+                    }
+                    else {
+                        done(false);
+                    }
+                }
+            )
+            break;
         }
-    )
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -97,24 +103,40 @@ function update(req, res) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 const getFeed = (req, done) => {
-    const token = encrypt.decrypt(req.user.twitter.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
-    let response = oauth.get(
-        "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50&include_my_retweet=true&tweet_mode=extended",
-        token,
-        tokenSecret,
-        function(err, data) {
-            if(err) {
-                console.log(err);
-                done("Unable to fetch your twitter home timeline, please try again later");
-            }
-            else {
-                const feed = Function(`"use strict";return ${data}`)();
-                done(feed);
-            }
+    let feeds = [];
+    const callback = () => {
+        if(feeds.length === req.user.twitter.length) {
+            done(feeds);
         }
-    )
-    return response;
+    }
+    for(let account of req.user.twitter) {
+        const token = encrypt.decrypt(account.token);
+        const tokenSecret = encrypt.decrypt(account.tokenSecret);;
+        oauth.get(
+            "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50&include_my_retweet=true&tweet_mode=extended",
+            token,
+            tokenSecret,
+            function(err, data) {
+                if(err) {
+                    console.log(err);
+                    const res = {
+                        message: "Unable to fetch your twitter home timeline, please try again later",
+                        success: false, 
+                    }
+                    feeds.push(res);
+                }
+                else {
+                    const feed = Function(`"use strict";return ${data}`)();
+                    const res = {
+                        feed,
+                        success: true,
+                    }
+                    feeds.push(res);
+                };
+                callback();
+            }
+        )
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -122,16 +144,36 @@ const getFeed = (req, done) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 const getPosts = (req, done) => {
-    fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=50&user_id=${req.user.twitter.id_str}&include_my_retweet=true&tweet_mode=extended`, {
-        method: "get",
-        headers:  {
-            'Content-Type': 'application/json',
-            "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+    let feeds = [];
+    const callback = () => {
+        if(feeds.length === req.user.twitter.length) {
+            done(feeds);
         }
-    }).then(res => res.json()).then(posts => done(posts)).catch((err) => {
-        console.log(err);
-        done(false)
-    });
+    }
+    for(let account of req.user.twitter) {
+        fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=50&user_id=${account.id_str}&include_my_retweet=true&tweet_mode=extended`, {
+            method: "get",
+            headers:  {
+                'Content-Type': 'application/json',
+                "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+            }
+        }).then(res => res.json()).then(posts => {
+            const result = {
+                feed: posts,
+                success: true,
+            }
+            feeds.push(result);
+            callback();
+        }).catch((err) => {
+            console.log(err);
+            const result = {
+                message: "Something went wrong, please try again later",
+                success: false,
+            }
+            feeds.push(result);
+            callback();
+        });
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -139,33 +181,42 @@ const getPosts = (req, done) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function newTweet(req, done) {
-    const access_token = encrypt.decrypt(req.user.twitter.token);
-    const access_token_secret = encrypt.decrypt(req.user.twitter.tokenSecret);
-    const T = new Twit({
-        consumer_key: process.env.TWITTER_CONSUMER_KEY,
-        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-        access_token,
-        access_token_secret,
-        timeout_ms: 60*1000,
-        strictSSL: false,
-    })
-    T.post("statuses/update", { status: req.body.post}, function(err, data, response) {
-        if(err) {
-            console.log(err);
-            const message = {
-                text: "Something wen't wrong when posting to Twitter, please try again later",
-                success: false,
-            }
-            done(message, "twitter");
+    let results = [];
+    const callback = () => {
+        if(results.length === req.body.accounts.length) {
+            done(results);
         }
-        else {
-            const message = {
-                text: "Posted to Twitter",
-                success: true,
+    }
+    for(let account of req.body.accounts) {
+        const access_token = encrypt.decrypt(account.token);
+        const access_token_secret = encrypt.decrypt(account.tokenSecret);
+        const T = new Twit({
+            consumer_key: process.env.TWITTER_CONSUMER_KEY,
+            consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+            access_token,
+            access_token_secret,
+            timeout_ms: 60*1000,
+            strictSSL: false,
+        })
+        T.post("statuses/update", { status: req.body.post}, function(err) {
+            if(err) {
+                console.log(err);
+                const message = {
+                    text: `Unable to post to @${account.screen_name}'s Twitter, please try again later`,
+                    success: false,
+                }
+                results.push(message);
             }
-            done(message, "twitter");
-        }
-    })
+            else {
+                const message = {
+                    text: `Posted to @${account.screen_name}'s Twitter`,
+                    success: true,
+                }
+                results.push(message);
+            }
+            callback();
+        })
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -503,8 +554,8 @@ const getUsersFollowing = (req, done) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function searchUsers (req, query, done, fail) {
-    const access_token = encrypt.decrypt(req.user.twitter.token);
-    const access_token_secret = encrypt.decrypt(req.user.twitter.tokenSecret);
+    const access_token = process.env.TWITTER_TOKEN;
+    const access_token_secret = process.env.TWITTER_TOKEN_SECRET;
     const oauth = new OAuth.OAuth(
         "https://api.twitter.com/oauth/request_token",
         "https://api.twitter.com/oauth/access_token",

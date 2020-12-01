@@ -4,15 +4,16 @@
         <option>My Posts</option>
     </select>
     <div class="clear-float"></div>
-    <div class="account" *ngIf="user || user !== {}">
-        <a href="/my-account" title="Click to edit your account">
-            <img src="{{ user.profile_image_url }}" width="60%" height="auto" alt="{{ user.name }}'s profile picture" />
-        </a>
-        <div class="name-container">
-            <p class="name">{{ user.name }}</p>
-            <p class="handle">@{{ user.screen_name }}</p>
+    <section *ngFor="let account of users">
+        <div class="account">
+            <a href="/my-account" title="Click to edit your account">
+                <img src="{{ account.profile_image_url }}" width="60%" height="auto" alt="{{ account.name }}'s profile picture" />
+            </a>
+            <div class="name-container">
+                <p class="name">{{ account.name }}</p>
+                <p class="handle">@{{ account.screen_name }}</p>
+            </div>
         </div>
-        <p class="following-info">{{ user.followingRounded }} Following | {{ user.followersRounded }} Followers</p>
-    </div>
-    <button class="submit" (click)="viewAccount()">View Account</button>
+        <button class="submit" (click)="viewAccount()">View Account</button>
+    </section>
 </nav>

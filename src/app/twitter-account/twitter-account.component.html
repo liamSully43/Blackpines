@@ -18,7 +18,7 @@
                 </div>
 
                 <!-- follow/following -->
-                <a class="edit-link" *ngIf="account.id_str == userId; else followBlock" href="/my-account" title="Click to edit your profile"><img src="../../assets/edit.PNG" width="20" height="auto" alt="Click to edit your profile" /></a>
+                <a class="edit-link" *ngIf="!ownAccount; else followBlock" href="/my-account" title="Click to edit your profile"><img src="../../assets/edit.PNG" width="20" height="auto" alt="Click to edit your profile" /></a>
                 <ng-template #followBlock>
                     <p (click)="unfollow()" *ngIf="account.following; else follow" class="following">Following</p>
                     <ng-template #follow>

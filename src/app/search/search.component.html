@@ -51,7 +51,8 @@
     
     <!-- post & account previews -->
     <div class="content-previews" *ngIf="expand">
-        <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" [userId]="user.twitter.id_str" (closePreview)="close()" (showTweet)="showPost($event)"></app-twitter-account>
+        <app-loading *ngIf="loading"></app-loading>
+        <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" [userIds]="user.twitter" (closePreview)="close()" (showTweet)="showPost($event)"></app-twitter-account>
         <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
     </div>
 </div>

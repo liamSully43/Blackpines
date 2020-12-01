@@ -20,7 +20,10 @@
         </form>
         <div class="break"></div>
         <!-- connect to platforms -->
-        <a href="/twitter" class="platform-links twitter">Connect With Twitter</a>
+        <a *ngIf="user.twitter.length < 1; else multipleTwitterAccounts" href="/twitter" class="platform-links twitter">Connect With Twitter</a>
+        <ng-template #multipleTwitterAccounts>
+            <a href="/twitter" class="platform-links twitter">Connect Another Twitter Account</a>
+        </ng-template>
     </nav>
     <main>
         <!-- twitter account details -->
@@ -31,7 +34,9 @@
             </div>
             <!-- account info container -->
             <ng-template #elseTwitter>
-                <app-account-profile *ngIf="user !== {}" [account]="user.twitter" (disconnectMethod)="disconnect($event)" [error]="twitterError" ></app-account-profile>
+                <ng-template *ngFor="let account of user.twitter">
+                    <app-account-profile *ngIf="user !== {}" [account]="account" (disconnectMethod)="disconnect($event)" [error]="twitterError" ></app-account-profile>
+                </ng-template>
             </ng-template>
         </div>
     </main>

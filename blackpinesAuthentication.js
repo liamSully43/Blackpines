@@ -35,38 +35,41 @@ function login(req, res, next, Customer) {
             }
             else {
                 const time = new Date();
+                const lastLogIn = String(time).substr(0, 28);
                 Customer.updateOne(
                     {_id: req.user._id},
-                    {lastLogIn: time},
+                    {lastLogIn},
                     {multi: false},
                     function(err) {if(err) console.log(err)}
                 )
             }
             // get account information from Twitter
-            const twitter = (req.user.twitter === null || typeof req.user.twitter === "undefined") ? false : true;
-            if(twitter) {
-                fetch(`https://api.twitter.com/1.1/users/show.json?user_id=${req.user.twitter.id_str}`, {
-                    method: "get",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
-                    }
-                })
-                .then(res => res.json()).then(data => {
-                    Customer.updateOne(
-                        {_id: req.user.id_str},
-                        {twitter: data},
-                        {multi: false},
-                        function(err) {
-                            if(err) {
-                                console.log(err)
-                            }
+            if(req.user.twitter.length < 1) {
+                let accounts = [];
+                for(let account of req.user.twitter) {
+                    fetch(`https://api.twitter.com/1.1/users/show.json?user_id=${account.id_str}`, {
+                        method: "get",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
                         }
-                    )
-                    return
-                }).catch((err) => {
-                    console.log(err)
-                });
+                    })
+                    .then(res => res.json()).then(data => {
+                        accounts.push(data);
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+                }
+                Customer.updateOne(
+                    {_id: req.user.id_str},
+                    {twitter: accounts},
+                    {multi: false},
+                    function(err) {
+                        if(err) {
+                            console.log(err)
+                        }
+                    }
+                )
             }
             const result = {
                 success: true,
@@ -91,7 +94,8 @@ function register(req, res, Customer) {
         return res.send(result);
     }
     const time = new Date();
-    Customer.register({username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName, createdAt: time}, req.body.password, function(err, user) {
+    const createdAt = String(time).substr(0, 28);
+    Customer.register({username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName, createdAt}, req.body.password, function(err, user) {
         if(err) {
             console.log(err);
             const result = {
