@@ -1,29 +1,12 @@
-.platform-icon, .twitter-header, .linkedin-header, .facebook-header {
+.platform-icon {
   width: calc(100% - 2px);
   height: auto;
   padding-left: 3px;
   background-color: #1ba1f2;
   padding-top: 3px;
-}
-
-.platform-icon {
+  border-radius: 3px;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-}
-
-.twitter-header, .linkedin-header, .facebook-header {
-  border-radius: 3px;
-}
-
-.twitter-header {
   background-color: #1ba1f2;
-}
-
-.linkedin-header {
-  background-color: #0177b5;
-}
-
-.facebook-header {
-  background-color: #4367b2;
 }
 /*# sourceMappingURL=platform-headers.component.css.map */

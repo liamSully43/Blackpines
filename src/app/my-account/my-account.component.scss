@@ -149,16 +149,6 @@ main {
     display: flex;
 }
 
-.platform-containers {
-    flex-basis: calc(100% / 3);
-    height: auto;
-    margin-left: 20px;
-}
-
-.platform-containers:nth-of-type(1) {
-    margin-left: 0px !important;
-}
-
 input:focus {
     border-color: $accent !important;
 }
@@ -168,8 +158,22 @@ input:invalid {
     border-width: 1px 0px;
 }
 
-.platform-sections {
+.platform-sections, .platform-sections-connected-container {
+    flex-basis: 100%;
+    max-width: 450px;
     height: calc(100% - 4px);
+    margin: 0px 10px;
+}
+
+.platform-sections:first-of-type, .platform-sections-connected-container:first-of-type {
+    margin-left: auto;
+}
+
+.platform-sections:last-of-type, .platform-sections-connected-container:last-of-type {
+    margin-right: auto;
+}
+
+.platform-sections {
     background-color: #ccc;
     border: dashed 2px grey;
     border-radius: 30px;

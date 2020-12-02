@@ -20,24 +20,22 @@
         </form>
         <div class="break"></div>
         <!-- connect to platforms -->
-        <a *ngIf="user.twitter.length < 1; else multipleTwitterAccounts" href="/twitter" class="platform-links twitter">Connect With Twitter</a>
+        <a *ngIf="!twitter; else multipleTwitterAccounts" href="/twitter" class="platform-links twitter">Connect With Twitter</a>
         <ng-template #multipleTwitterAccounts>
             <a href="/twitter" class="platform-links twitter">Connect Another Twitter Account</a>
         </ng-template>
     </nav>
     <main>
-        <!-- twitter account details -->
-        <div class="platform-containers" id="twitter">
-            <!-- placeholder container for account's that are not connected -->
-            <div *ngIf="!twitter; else elseTwitter" class="platform-sections">
-                <img src="../../assets/twitter-logo.png" class="platform-logos" width="100" height="100" alt="Twitter" title="Twitter" />
-            </div>
-            <!-- account info container -->
-            <ng-template #elseTwitter>
-                <ng-template *ngFor="let account of user.twitter">
-                    <app-account-profile *ngIf="user !== {}" [account]="account" (disconnectMethod)="disconnect($event)" [error]="twitterError" ></app-account-profile>
-                </ng-template>
-            </ng-template>
+        <!-- placeholder container for account's that are not connected -->
+        <div *ngIf="!twitter; else elseTwitter" class="platform-sections">
+            <img src="../../assets/twitter-logo.png" class="platform-logos" width="100" height="100" alt="Twitter" title="Twitter" />
         </div>
+        <!-- account info container -->
+        <ng-template #elseTwitter>
+            <div class="platform-sections-connected-container" *ngFor="let account of user.twitter">
+                <app-account-profile *ngIf="user !== {}" [account]="account" (disconnectMethod)="disconnect($event)" [error]="twitterError" ></app-account-profile>
+            </div>
+        </ng-template>
     </main>
 </div>
+<app-error *ngIf="error" [error]="errorMessage"></app-error>

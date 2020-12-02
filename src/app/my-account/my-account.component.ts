@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-my-account',
@@ -14,10 +15,33 @@ export class MyAccountComponent implements OnInit {
 
   user: any = {};
 
-  constructor(private http: HttpClient) { }
+  headers = new HttpHeaders().set("Authorization", "auth-token");
+
+  error: boolean = false;
+  errorMessage: String = "";
+
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
-    let headers = new HttpHeaders().set("Authorization", "auth-token");
+    this.route.params.subscribe(params => {
+      console.log(params);
+    })
+    this.route.url.subscribe(params => {
+      console.log(params[0]);
+    })
+    this.route.data.subscribe(params => {
+      console.log(params.success);
+      if(!params.success) {
+        this.showError("Account already added, please try another account");
+      }
+      if(params.success === null) {
+        this.showError("Server error, please try again later");
+      }
+    });
+    const headers = this.headers;
     this.http.get("api/user", { headers }).subscribe(data => {
       this.user = data
       this.twitter = (this.user.twitter.length > 0) ? true : false;
@@ -25,12 +49,18 @@ export class MyAccountComponent implements OnInit {
   }
 
   disconnect(id) {
-    let headers = new HttpHeaders().set("Authorization", "auth-token");
-    this.http.post("api/twitter/account/disconnect", { headers, id }).subscribe((accountConnected: boolean) => {
-      if(accountConnected) {
-        this.twitterError = true;
+    let headers = this.headers;
+    this.http.post("api/twitter/account/disconnect", { headers, id }).subscribe((accountRemoved: boolean) => {
+      if(!accountRemoved) {
+        this.showError("Unable to remove account, please try again later");
+        return
       }
-      this.twitter = accountConnected;
+      for(let [index, account] of this.user.twitter.entries()) {
+        if(account.id_str == id) {
+          this.user.twitter.splice(index, 1);
+          break;
+        }
+      }
     });
   }
 
@@ -53,7 +83,7 @@ export class MyAccountComponent implements OnInit {
         (<HTMLInputElement>document.querySelector(".same-password")).innerHTML = "Please enter a new password";
     }
     else {
-      let headers = new HttpHeaders().set("Authorization", "auth-token");
+      const headers = this.headers;
       const username = this.user.username;
       this.http.post("api/changePassword", { headers, username, oldPassword, newPassword}, {responseType: "json"}).subscribe((result: any) => {
         (<HTMLInputElement>document.querySelector(".same-password")).innerHTML = result.message;
@@ -67,5 +97,11 @@ export class MyAccountComponent implements OnInit {
       })
 
     }
+  }
+
+  showError(err) {
+    this.errorMessage = err;
+    this.error = true;
+    setTimeout(() => !this.error, 5000);
   }
 }

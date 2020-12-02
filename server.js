@@ -116,15 +116,34 @@ app.all("/*", (req, res, next) => {
 app.get("/twitter", checkAuthentication, passport.authorize("twitter"));
 
 app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter"), function(req, res) {
-    twitterAPI.callback(req, res, Customer);
-    res.redirect("/my-account");
+    const accountAlreadyAdded = twitterAPI.callback(req, res, Customer);
+    let route = "";
+    console.log(accountAlreadyAdded);
+    switch(accountAlreadyAdded) {
+        case true:
+            route = ""; // new account added - nothing to add to the URL
+            break;
+        case false:
+            let string = encodeURIComponent("account already exists");
+            route = `?error=${string}`; // account already added
+            break;
+        case null:
+            string = encodeURIComponent("server error");
+            route = `?error=${string}`; // server error
+            break;
+        default:
+            route = ""; // best not to add errors/messages
+            break;
+    }
+    console.log(route);
+    res.redirect(`/my-account${route}`);
 });
 
 // disconnect
 
 app.post("/api/twitter/account/disconnect", function(req, res) {
-    function cb (accountConnected) {
-        res.send(accountConnected)
+    function cb (accountRemoved) {
+        res.send(accountRemoved);
     }
     twitterAPI.disconnect(req, res, Customer, cb);
 })
@@ -177,7 +196,11 @@ app.get("/search", checkAuthentication, (req, res) => {
     res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
 })
 
+// loading my-account page or redirected after succesfully adding a new Twitter account
 app.get("/my-account", checkAuthentication, (req, res) => {
+    const query = req.query.error;
+    console.log(query);
+    console.log(req.url);
     res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
 })
 
@@ -245,16 +268,16 @@ app.get("/api/myfeed", (req, res) => {
 /////////////// returns user's twitter posts
 
 app.get("/api/myposts", (req, res) => {
-    function callback(posts) {
-        for(post of posts) {
-            if(post.success) {
-                for(let post in posts.feed) {
+    function callback(feeds) {
+        for(feed of feeds) {
+            if(feed.success) {
+                for(let post of feed.feed) {
                     let time = post.created_at.substr(4, 12);
                     post.created_at = time;
                 }
             }
         }
-        res.send(posts);
+        res.send(feeds);
     }
     twitterAPI.getPosts(req, callback);
 })

@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: "entry", component: EntryComponent },
   { path: "my-feed", component: MyFeedComponent },
   { path: "new-post", component: NewPostComponent },
-  { path: "my-account", component: MyAccountComponent },
+  { path: "my-account?error=account%20already%20exists", pathMatch: "full", component: MyAccountComponent, data: { success: false } }, // server error
+  { path: "my-account", component: MyAccountComponent, data: { success: true } },
   { path: "search", component: SearchComponent },
   { path: '**', component: MissingPageComponent },
 ];

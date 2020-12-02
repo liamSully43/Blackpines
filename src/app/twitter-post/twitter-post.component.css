@@ -80,6 +80,7 @@
   color: #232323;
   margin-top: 15px;
   font-size: 20px;
+  word-break: break-word;
 }
 
 @media (max-width: 415px) {
