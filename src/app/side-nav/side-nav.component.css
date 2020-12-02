@@ -57,13 +57,6 @@ button {
   margin-bottom: 5px;
 }
 
-.account .following-info {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid lightgrey;
-  font-size: 11px;
-}
-
 @media (max-width: 900px) {
   .side-nav {
     -ms-flex-preferred-size: 3% !important;
@@ -113,14 +106,6 @@ button {
   .side-nav .account .name-container .handle {
     text-align: left;
   }
-  .side-nav .account .following-info {
-    border-top: 0px;
-    margin: 0px;
-    padding: 0px;
-    display: inline-block;
-    margin-left: 20px;
-    font-size: 12px;
-  }
   .side-nav button {
     position: absolute;
     right: 0px;
@@ -140,17 +125,11 @@ button {
   .name-container p {
     font-size: 13px !important;
   }
-  .following-info {
-    margin-left: 10px !important;
-  }
 }
 
 @media (max-width: 560px) {
   select {
     margin-right: 20px !important;
-  }
-  .following-info {
-    display: none !important;
   }
 }
 

@@ -13,6 +13,7 @@ export class ErrorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    setTimeout(() => this.close, 5000);
   }
 
   close() {

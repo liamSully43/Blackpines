@@ -47,6 +47,11 @@ const oauth = new OAuth.OAuth(
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function callback(req, res, Customer) {
+    for(let account of req.user.twitter) {
+        if(account.id_str == req.account._json.id_str) {
+            return false;
+        }
+    }
     const token = encrypt.encrypt(req.account.token);
     const tokenSecret = encrypt.encrypt(req.account.tokenSecret);
     let twitterAccount = req.account._json;
@@ -55,9 +60,15 @@ function callback(req, res, Customer) {
     req.user.twitter.push(twitterAccount);
     Customer.updateOne(
         {_id: req.user._id},
-        { $push: { twitter: { $each: [twitterAccount] } } }, // pushes the new account to the array of Twitter accounts
+        { $push: { twitter: twitterAccount } }, // pushes the new account to the array of Twitter accounts
         {multi: false},
-        function(err) {if(err) console.log(err)}
+        function(err) {
+            if(err) {
+                console.log(err)
+                return null;
+            }
+            return true;
+        }
     )
 }
 
@@ -67,9 +78,9 @@ function callback(req, res, Customer) {
 
 function disconnect(req, res, Customer, done) {
     const id = req.body.id;
-    for(let accounts of req.user.twitter) {
-        if(accounts.id_str === id) {
-            accounts = null;
+    for(let [i, account] of req.user.twitter.entries()) {
+        if(account.id_str === id) {
+            req.user.twitter.splice(i, 1);
             Customer.updateOne(
                 {_id: req.user._id,},
                 { $pull: { twitter: { id_str: id } } }, // pulls/removes the user selected Twitter account
@@ -77,10 +88,10 @@ function disconnect(req, res, Customer, done) {
                 function(err) {
                     if(err) {
                         console.log(err)
-                        done(true);
+                        done(false);
                     }
                     else {
-                        done(false);
+                        done(true);
                     }
                 }
             )

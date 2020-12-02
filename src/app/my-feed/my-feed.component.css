@@ -29,7 +29,9 @@
 }
 
 main {
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   background-color: #f0f0f0;
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
@@ -38,6 +40,10 @@ main {
 main .message {
   color: #232323;
   font-size: 16px;
+}
+
+main .message:hover {
+  color: #007a63;
 }
 
 .main-preview {
@@ -68,9 +74,11 @@ main .message {
 }
 
 .feeds {
-  width: 75%;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  max-width: 1000px;
   min-width: 300px;
-  margin: auto;
+  margin-left: 10px;
 }
 
 .feeds div:first-of-type {
@@ -80,6 +88,14 @@ main .message {
 .feeds .loading-container {
   height: 100%;
   margin-top: 150px;
+}
+
+.feeds:first-of-type {
+  margin-left: 0px;
+}
+
+.feeds:only-child {
+  margin: auto;
 }
 
 .feeds-preview {

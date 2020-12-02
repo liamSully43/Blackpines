@@ -173,6 +173,14 @@ section .results-overflow .loading-container {
   height: 200px;
 }
 
+section .results-overflow a, section .results-overflow a:visited {
+  color: #232323;
+}
+
+section .results-overflow a:hover {
+  color: #007a63;
+}
+
 section .results-box:last-of-type {
   margin-right: 0px;
 }

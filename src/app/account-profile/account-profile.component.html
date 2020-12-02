@@ -1,6 +1,6 @@
 <!-- Twitter template -->
 <ng-container *ngIf="account">
-    <div class="platform-sections-connected" id="twitter">
+    <div class="platform-sections-connected">
         <div class="account-info">
             <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
             <ng-template #elseBlock >
@@ -14,9 +14,6 @@
             <button name="disconnect clear" class="disconnect" (click)="disconnect()">Disconnect</button>
             <br />
             <p *ngIf="error" class="error">An error occured when trying to remove the profile, please try again later</p>
-        </div>
-        <div class="platform-footers twitter-footer">
-            <img src="../../assets/twitter-feed.png" width="auto" height="30" />
         </div>
     </div>
 </ng-container>

@@ -266,6 +266,7 @@
 .account-preview .account-info .results-container .results .text {
   color: #232323;
   margin-top: 10px;
+  word-break: break-word;
 }
 
 .account-preview .account-info .results-container .results .quoted-tweet {

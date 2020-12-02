@@ -51,8 +51,18 @@ main {
 }
 
 main section {
-  padding: 10.4% !important;
-  width: 79.2% !important;
+  padding: 5% !important;
+  width: 90% !important;
+}
+
+main .info {
+  padding: 10% 5% !important;
+}
+
+@media (max-width: 900px) {
+  main .info {
+    padding: 5% !important;
+  }
 }
 
 main .break {
@@ -72,29 +82,48 @@ main .break {
   font-weight: 200;
 }
 
-.platforms h1 {
-  text-align: center;
-  margin-bottom: 100px;
-  color: #232323;
-}
-
-@media (max-width: 600px) {
-  .platforms h1 {
-    font-size: 7vw;
-  }
-}
-
-.platforms div {
+.process {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap !important;
-      flex-wrap: wrap !important;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
-.platforms div .platform-logos {
-  -ms-flex-preferred-size: calc(calc(100% / 3) - 40px);
-      flex-basis: calc(calc(100% / 3) - 40px);
+.process h1 {
+  text-align: center;
+  margin-bottom: 100px;
+  color: #232323;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 100%;
+          flex: 1 0 100%;
+}
+
+.process .guide, .process .card {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 50%;
+          flex: 0 1 50%;
+  max-width: 50%;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.process .guide p, .process .guide a {
+  text-align: center;
+  width: 100%;
+  font-weight: 200;
+}
+
+.process .guide p strong, .process .guide a strong {
+  font-weight: 400;
+  font-family: "Roboto", "Poppins", Arial, Helvetica, sans-serif;
+}
+
+.process .twitter-card {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
   display: -ms-grid;
   display: grid;
   -ms-flex-wrap: wrap;
@@ -105,41 +134,71 @@ main .break {
   background-color: #fff;
   margin: 20px;
   padding: 20px 0px;
+  text-decoration: none;
 }
 
-.platforms div .platform-logos img {
+.process .twitter-card img {
   width: 100px;
   background-color: #009a7f;
 }
 
-.platforms div .platform-logos a, .platforms div .platform-logos a:visited {
+.process .twitter-card p {
   margin-top: 20px;
   font-size: 20px;
   text-decoration: none;
   font-weight: 200;
 }
 
-.platforms div .platform-logos a:hover {
-  color: #009a7f;
+.process .twitter-card:hover img {
+  background-color: #007a63;
 }
 
-@media (max-width: 1150px) {
-  .platforms div .platform-logos {
-    -ms-flex-preferred-size: calc(50% - 40px);
-        flex-basis: calc(50% - 40px);
-  }
-  .platforms div .platform-logos:last-of-type {
-    min-width: 416px;
-    margin: auto;
+.process .twitter-card:hover p {
+  color: #007a63;
+}
+
+@media (max-width: 1000px) {
+  .process .twitter-card {
+    width: 70%;
   }
 }
 
 @media (max-width: 600px) {
-  .platforms div .platform-logos {
-    -ms-flex-preferred-size: 100%;
-        flex-basis: 100%;
-    min-width: 100% !important;
-    margin: 20px 0px !important;
+  .process h1 {
+    font-size: 7vw;
+  }
+  .process .twitter-card img {
+    width: 60px;
+    height: 60px;
+  }
+  .process .twitter-card p {
+    font-size: 16px;
+  }
+  .process .guide p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .process h1 {
+    margin-bottom: 50px;
+  }
+  .process .guide, .process .card {
+    -webkit-box-flex: 1 !important;
+        -ms-flex: 1 0 100% !important;
+            flex: 1 0 100% !important;
+    min-width: 100%;
+  }
+  .process .guide {
+    margin-bottom: 20px;
+  }
+  .process .twitter-card {
+    padding: 10px 0px;
+    width: 100%;
+    max-width: 260px;
+  }
+  .process .twitter-card p {
+    margin-top: 10px;
   }
 }
 
@@ -170,6 +229,12 @@ main .break {
   color: #fff;
   border-color: #007a63;
   background-color: #007a63;
+}
+
+@media (max-width: 420px) {
+  .join-container .join {
+    margin-top: 30px;
+  }
 }
 
 @media (min-width: 1921px) {

@@ -142,10 +142,14 @@ form .messages {
   margin-bottom: 5px;
 }
 
-form a {
+form a, form a:visited {
   display: block;
   color: #232323;
   margin-top: 10px;
+}
+
+form a:hover {
+  color: #007a63;
 }
 
 .platform-input-container {
