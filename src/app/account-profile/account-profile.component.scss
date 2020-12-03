@@ -33,6 +33,28 @@
                 background-color: $primary;
             }
         }
+
+        .edit {
+            margin-right: 10px;
+        }
+
+        .edit > img {
+            font-size: 14px;
+            border-radius: 3px;
+            padding: 1px 3px;
+            float: right;
+            cursor: pointer;
+        }
+
+        .edit > img {
+            background-color: $secondary;
+            padding: 0px;
+            border-radius: 0px;
+        }
+
+        .edit > img:hover {
+            background-color: $accent;
+        }
     
         .name, .handle {
             margin-left: 10px;
@@ -48,7 +70,70 @@
             font-weight: 400;
         }
     
+        .verified {
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .description {
+            margin-top: 20px;
+            margin-left: 20px;
+            color: $secondary;
+        }
+
+        .info, .info-interaction {
+            margin-left: 10px;
+        }
+
+        .info {
+            margin-top: 20px;
+            color: $secondary;
+            width: 100%;
+
+            p, a {
+                display: inline-block;
+                width: auto;
+                margin: 5px 0px;
+            }
     
+            p {
+                color: $secondary;
+                margin-right: 20px;
+    
+                img {
+                    vertical-align: bottom;
+                }
+            }
+    
+            a {
+                color: $accent;
+            }
+    
+            a:hover {
+                color: $hover;
+            }
+        }
+
+        .info-interaction {
+            margin-top: 20px;
+            width: 100%;
+            padding-bottom: 20px;
+
+            a, a:visited, span {
+                margin-right: 10px;
+                color: $secondary;
+            }
+
+            a:hover {
+                color: $hover;
+            }
+
+            span:last-of-type {
+                margin-right: 0px;
+            }
+        }
+
         .disconnect {
             width: 35%;
             border: none;

@@ -19,6 +19,7 @@ export class MyAccountComponent implements OnInit {
 
   error: boolean = false;
   errorMessage: String = "";
+  maxAccounts: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -26,25 +27,27 @@ export class MyAccountComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      console.log(params);
-    })
-    this.route.url.subscribe(params => {
-      console.log(params[0]);
-    })
-    this.route.data.subscribe(params => {
-      console.log(params.success);
-      if(!params.success) {
-        this.showError("Account already added, please try another account");
+    this.route.queryParams.subscribe(params => {
+      if(params.error === "account already exists") {
+        this.showError("This account has already been added, please try adding a different account");
       }
-      if(params.success === null) {
-        this.showError("Server error, please try again later");
+      else if(params.error === "max accounts") {
+        this.showError("Maximum number of accounts added");
       }
-    });
+      else if(params.error === "server error") {
+        this.showError("An error occured, please try again later");
+      }
+    })
     const headers = this.headers;
     this.http.get("api/user", { headers }).subscribe(data => {
       this.user = data
       this.twitter = (this.user.twitter.length > 0) ? true : false;
+      this.maxAccounts = (this.user.twitter.length >= 5) ? true : false;
+      const email = this.user.username;
+      if(email.length > 30) { // any email over 30 characters will need to be truncated
+        this.user.username = email.subStr(0, 28); // cut at 28 characters in order to fit the '...' on the end without the email breaking onto the next line
+        this.user.username += "...";
+      }
     });
   }
 
@@ -61,6 +64,11 @@ export class MyAccountComponent implements OnInit {
           break;
         }
       }
+      console.log(this.user.twitter.length);
+      if(this.user.twitter.length < 1) {
+        this.twitter = false;
+        console.log(this.twitter);
+      };
     });
   }
 
@@ -101,7 +109,16 @@ export class MyAccountComponent implements OnInit {
 
   showError(err) {
     this.errorMessage = err;
+    console.log(this.errorMessage);
     this.error = true;
-    setTimeout(() => !this.error, 5000);
+    setTimeout(() => {
+      this.error = false;
+      this.errorMessage = "";
+    }, 5000);
+  }
+
+  closeError() {
+    this.error = false;
+    this.errorMessage = "";
   }
 }

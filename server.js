@@ -116,27 +116,31 @@ app.all("/*", (req, res, next) => {
 app.get("/twitter", checkAuthentication, passport.authorize("twitter"));
 
 app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter"), function(req, res) {
-    const accountAlreadyAdded = twitterAPI.callback(req, res, Customer);
-    let route = "";
-    console.log(accountAlreadyAdded);
-    switch(accountAlreadyAdded) {
-        case true:
-            route = ""; // new account added - nothing to add to the URL
-            break;
-        case false:
-            let string = encodeURIComponent("account already exists");
-            route = `?error=${string}`; // account already added
-            break;
-        case null:
-            string = encodeURIComponent("server error");
-            route = `?error=${string}`; // server error
-            break;
-        default:
-            route = ""; // best not to add errors/messages
-            break;
+    function cb(val) {
+        let route = "";
+        switch(val) {
+            case 200:
+                route = ""; // new account added - nothing to add to the URL
+                break;
+            case 400:
+                let string = encodeURIComponent("account already exists");
+                route = `?error=${string}`; // account already added
+                break;
+            case 450:
+                string = encodeURIComponent("max accounts");
+                route = `?error=${string}`; // max number of accounts added
+                break;
+            case 500:
+                string = encodeURIComponent("server error");
+                route = `?error=${string}`; // server error
+                break;
+            default:
+                route = ""; // best not to add unnecessary errors/messages
+                break;
+        }
+        res.redirect(`/my-account${route}`);
     }
-    console.log(route);
-    res.redirect(`/my-account${route}`);
+    twitterAPI.callback(req, res, Customer, cb);
 });
 
 // disconnect
@@ -199,8 +203,6 @@ app.get("/search", checkAuthentication, (req, res) => {
 // loading my-account page or redirected after succesfully adding a new Twitter account
 app.get("/my-account", checkAuthentication, (req, res) => {
     const query = req.query.error;
-    console.log(query);
-    console.log(req.url);
     res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
 })
 
@@ -279,6 +281,7 @@ app.get("/api/myposts", (req, res) => {
         }
         res.send(feeds);
     }
+    console.log(req.user.twitter);
     twitterAPI.getPosts(req, callback);
 })
 

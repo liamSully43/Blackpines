@@ -18,6 +18,8 @@ function login(req, res, next, Customer) {
             return res.send(result);
         }
         if(!customer) {
+            console.log(req.body.username);
+            console.log(req.body.password);
             const result = {
                 success: false,
                 message: "Invalid email or password, please try again",
@@ -43,9 +45,23 @@ function login(req, res, next, Customer) {
                     function(err) {if(err) console.log(err)}
                 )
             }
-            // get account information from Twitter
-            if(req.user.twitter.length < 1) {
+            // get account information from Twitter and update the database
+            if(req.user.twitter.length > 0) {
                 let accounts = [];
+                const updateDatabase = () => {
+                    if(accounts.length !== req.user.twitter.length) return;
+                    Customer.updateOne(
+                        {_id: req.user._id},
+                        {$set: { twitter: accounts }},
+                        {multi: false},
+                        function(err) {
+                            if(err) {
+                                return console.log(err)
+                            }
+                            req.user.twitter = accounts;
+                        }
+                    )
+                }
                 for(let account of req.user.twitter) {
                     fetch(`https://api.twitter.com/1.1/users/show.json?user_id=${account.id_str}`, {
                         method: "get",
@@ -55,21 +71,14 @@ function login(req, res, next, Customer) {
                         }
                     })
                     .then(res => res.json()).then(data => {
+                        data.token = account.token;
+                        data.tokenSecret = account.tokenSecret;
                         accounts.push(data);
+                        updateDatabase();
                     }).catch((err) => {
                         console.log(err);
                     });
                 }
-                Customer.updateOne(
-                    {_id: req.user.id_str},
-                    {twitter: accounts},
-                    {multi: false},
-                    function(err) {
-                        if(err) {
-                            console.log(err)
-                        }
-                    }
-                )
             }
             const result = {
                 success: true,
