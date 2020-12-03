@@ -18,7 +18,7 @@
 
     .info:nth-of-type(2) {
         word-break: break-all;
-        font-size: clamp(10px, 0.7vmax, 16px);
+        font-size: 14px;
         font-weight: 400;
     }
 
@@ -119,25 +119,35 @@
         }
     }
 
-    .platform-links, .platform-links:visited {
-        background-color: $accent;
+    .connect-twitter, .connect-twitter:visited {
+        width: calc(100% - 60px);
+        height: auto;
         display: block;
+        background-color: $accent;
         color: $primary;
         text-decoration: none;
-        height: auto;
-        width: calc(100% - 60px);
         padding: 10px;
         margin: 0px 20px;
         margin-top: 15px !important;
         border-radius: 10px;
-        font-size: 18px;
+        font-size: 15px;
         text-align: center;
         box-shadow: #dbdbdb 2px 2px 7px;
         cursor: pointer;
     }
 
-    .twitter:hover {
+    .connect-twitter:hover {
         background-color: $twitter;
+    }
+
+    .ct-disabled {
+        font-size: 13px;
+        background-color: $disabled;
+        cursor: auto;
+    }
+
+    .ct-disabled:hover {
+        background-color: $disabled;
     }
 }
 
@@ -171,6 +181,7 @@ input:invalid {
 
 .platform-sections:last-of-type, .platform-sections-connected-container:last-of-type {
     margin-right: auto;
+    margin-bottom: 0px;
 }
 
 .platform-sections {
@@ -208,4 +219,11 @@ input:invalid {
     to {
         height: 0px;
     }
+}
+
+.error-field {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
 }

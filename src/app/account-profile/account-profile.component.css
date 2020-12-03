@@ -34,6 +34,28 @@
   background-color: #fff;
 }
 
+.platform-sections-connected .account-info .edit {
+  margin-right: 10px;
+}
+
+.platform-sections-connected .account-info .edit > img {
+  font-size: 14px;
+  border-radius: 3px;
+  padding: 1px 3px;
+  float: right;
+  cursor: pointer;
+}
+
+.platform-sections-connected .account-info .edit > img {
+  background-color: #232323;
+  padding: 0px;
+  border-radius: 0px;
+}
+
+.platform-sections-connected .account-info .edit > img:hover {
+  background-color: #009a7f;
+}
+
 .platform-sections-connected .account-info .name, .platform-sections-connected .account-info .handle {
   margin-left: 10px;
   color: #232323;
@@ -46,6 +68,70 @@
 
 .platform-sections-connected .account-info .handle {
   font-weight: 400;
+}
+
+.platform-sections-connected .account-info .verified {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.platform-sections-connected .account-info .description {
+  margin-top: 20px;
+  margin-left: 20px;
+  color: #232323;
+}
+
+.platform-sections-connected .account-info .info, .platform-sections-connected .account-info .info-interaction {
+  margin-left: 10px;
+}
+
+.platform-sections-connected .account-info .info {
+  margin-top: 20px;
+  color: #232323;
+  width: 100%;
+}
+
+.platform-sections-connected .account-info .info p, .platform-sections-connected .account-info .info a {
+  display: inline-block;
+  width: auto;
+  margin: 5px 0px;
+}
+
+.platform-sections-connected .account-info .info p {
+  color: #232323;
+  margin-right: 20px;
+}
+
+.platform-sections-connected .account-info .info p img {
+  vertical-align: bottom;
+}
+
+.platform-sections-connected .account-info .info a {
+  color: #009a7f;
+}
+
+.platform-sections-connected .account-info .info a:hover {
+  color: #007a63;
+}
+
+.platform-sections-connected .account-info .info-interaction {
+  margin-top: 20px;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.platform-sections-connected .account-info .info-interaction a, .platform-sections-connected .account-info .info-interaction a:visited, .platform-sections-connected .account-info .info-interaction span {
+  margin-right: 10px;
+  color: #232323;
+}
+
+.platform-sections-connected .account-info .info-interaction a:hover {
+  color: #007a63;
+}
+
+.platform-sections-connected .account-info .info-interaction span:last-of-type {
+  margin-right: 0px;
 }
 
 .platform-sections-connected .account-info .disconnect {

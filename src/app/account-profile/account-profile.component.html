@@ -9,8 +9,27 @@
             <div class="profile-pic-container">
                 <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url_https }}" />
             </div>
+            <p class="edit" title="Click to edit your profile"><img src="../../assets/edit.PNG" width="20" height="auto" alt="Click to edit your profile" /></p>
+
             <p class="name">{{ account.name }}</p>
+            <img *ngIf="account.verified" src="../../assets/verified.png" width="20" height="20" alt="User is verified" class="verified" />
             <p class="handle">@{{ account.screen_name }}</p>
+
+            <!-- user's profile description -->
+            <p *ngIf="account.description" class="description">{{ account.description }}</p>
+                
+            <div class="info">
+                <p *ngIf="account.location"><img src="../../assets/pin.png" width="auto" height="20" /> {{ account.location }}</p>
+                <a *ngIf="account.entities.url" href="{{account.entities.url.urls[0].expanded_url}}">{{ account.entities.url.urls[0].display_url }}</a>
+            </div>
+
+            <!-- links to the user's tweets, followers & who they're following -->
+            <div class="info-interaction">
+                <a href="my-feed">{{ account.statusesRounded }} Tweets</a>
+                <span>{{ account.followingRounded }} Following</span>
+                <span>{{ account.followersRounded }} Followers</span>
+            </div>
+            <br />
             <button name="disconnect clear" class="disconnect" (click)="disconnect()">Disconnect</button>
             <br />
             <p *ngIf="error" class="error">An error occured when trying to remove the profile, please try again later</p>

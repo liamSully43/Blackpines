@@ -46,11 +46,14 @@ const oauth = new OAuth.OAuth(
 //                             Twitter API Callback                                    //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function callback(req, res, Customer) {
+function callback(req, res, Customer, done) {
     for(let account of req.user.twitter) {
         if(account.id_str == req.account._json.id_str) {
-            return false;
+            return done(400);
         }
+    }
+    if(req.user.twitter.length >= 5) {
+        return done(450);
     }
     const token = encrypt.encrypt(req.account.token);
     const tokenSecret = encrypt.encrypt(req.account.tokenSecret);
@@ -65,9 +68,9 @@ function callback(req, res, Customer) {
         function(err) {
             if(err) {
                 console.log(err)
-                return null;
+                return done(500);
             }
-            return true;
+            return done(200);
         }
     )
 }

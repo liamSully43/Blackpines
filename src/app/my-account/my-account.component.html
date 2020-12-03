@@ -20,9 +20,12 @@
         </form>
         <div class="break"></div>
         <!-- connect to platforms -->
-        <a *ngIf="!twitter; else multipleTwitterAccounts" href="/twitter" class="platform-links twitter">Connect With Twitter</a>
+        <a *ngIf="!twitter; else multipleTwitterAccounts" href="/twitter" class="connect-twitter">Connect Your Twitter Account</a>
         <ng-template #multipleTwitterAccounts>
-            <a href="/twitter" class="platform-links twitter">Connect Another Twitter Account</a>
+            <a *ngIf="!maxAccounts; else maxAccountsButton" href="/twitter" class="connect-twitter">Connect Another Twitter Account</a>
+            <ng-template #maxAccountsButton>
+                <a class="connect-twitter ct-disabled" disabled>Max Twitter Account Limit Reached</a>
+            </ng-template>
         </ng-template>
     </nav>
     <main>
@@ -38,4 +41,6 @@
         </ng-template>
     </main>
 </div>
-<app-error *ngIf="error" [error]="errorMessage"></app-error>
+<div *ngIf="error" class="error-field">
+    <app-error [error]="errorMessage" (closeError)="closeError()"></app-error>
+</div>
