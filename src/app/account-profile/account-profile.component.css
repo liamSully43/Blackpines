@@ -34,28 +34,6 @@
   background-color: #fff;
 }
 
-.platform-sections-connected .account-info .edit {
-  margin-right: 10px;
-}
-
-.platform-sections-connected .account-info .edit > img {
-  font-size: 14px;
-  border-radius: 3px;
-  padding: 1px 3px;
-  float: right;
-  cursor: pointer;
-}
-
-.platform-sections-connected .account-info .edit > img {
-  background-color: #232323;
-  padding: 0px;
-  border-radius: 0px;
-}
-
-.platform-sections-connected .account-info .edit > img:hover {
-  background-color: #009a7f;
-}
-
 .platform-sections-connected .account-info .name, .platform-sections-connected .account-info .handle {
   margin-left: 10px;
   color: #232323;
@@ -107,18 +85,14 @@
   vertical-align: bottom;
 }
 
-.platform-sections-connected .account-info .info a {
-  color: #009a7f;
-}
-
 .platform-sections-connected .account-info .info a:hover {
   color: #007a63;
 }
 
 .platform-sections-connected .account-info .info-interaction {
-  margin-top: 20px;
-  width: 100%;
+  margin: 20px 10px;
   padding-bottom: 20px;
+  border-bottom: 1px solid #009a7f;
 }
 
 .platform-sections-connected .account-info .info-interaction a, .platform-sections-connected .account-info .info-interaction a:visited, .platform-sections-connected .account-info .info-interaction span {
@@ -134,26 +108,212 @@
   margin-right: 0px;
 }
 
-.platform-sections-connected .account-info .disconnect {
-  width: 35%;
-  border: none;
-  padding: 10px;
-  border-radius: 10px;
-  background-color: darkgrey;
-  color: #fff;
-  font-size: 16px;
-  margin: 10px;
-  -webkit-box-shadow: #dbdbdb 2px 2px 7px;
-          box-shadow: #dbdbdb 2px 2px 7px;
+.update-twitter-form {
+  margin: 0px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.update-twitter-form .update-title {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 calc(100% - 12px);
+          flex: 1 0 calc(100% - 12px);
+  margin-bottom: 10px;
+}
+
+.update-twitter-form .profile-pic-new, .update-twitter-form .banner-pic-new {
+  background-color: #009a7f;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-bottom: 10px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.update-twitter-form .profile-pic-new label, .update-twitter-form .banner-pic-new label {
+  width: 35px;
+  height: 35px;
+  padding: 0px;
+  margin: 0px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 100%;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
   cursor: pointer;
 }
 
-.platform-sections-connected .account-info .disconnect:hover {
+.update-twitter-form .profile-pic-new label input, .update-twitter-form .banner-pic-new label input {
+  visibility: hidden;
+  position: absolute;
+}
+
+.update-twitter-form .profile-pic-new label span, .update-twitter-form .banner-pic-new label span {
+  color: #f0f0f0;
+  font-size: 20px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+}
+
+.update-twitter-form .profile-pic-new label:hover, .update-twitter-form .banner-pic-new label:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.update-twitter-form .profile-pic-new label:hover span, .update-twitter-form .banner-pic-new label:hover span {
+  color: #fff;
+}
+
+.update-twitter-form .profile-pic-new {
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+}
+
+.update-twitter-form .banner-pic-new {
+  height: 100px;
+  width: calc(100% - 110px);
+  margin-left: 10px;
+  border-radius: 10px;
+}
+
+.update-twitter-form input {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 calc(50% - 17px);
+          flex: 0 1 calc(50% - 17px);
+  max-width: calc(50% - 17px);
+  margin-bottom: 10px;
+  border-color: #232323;
+}
+
+.update-twitter-form input:focus {
+  border: solid 1px #009a7f;
+}
+
+.update-twitter-form input:nth-of-type(odd) {
+  margin-right: 5px;
+}
+
+.update-twitter-form input:nth-of-type(even) {
+  margin-left: 5px;
+}
+
+.update-twitter-form input[type=text], .update-twitter-form input[type=color], .update-twitter-form textarea {
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 1px darkgrey;
+}
+
+.update-twitter-form input[type=color] {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.update-twitter-form textarea {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 calc(100% - 12px);
+          flex: 1 0 calc(100% - 12px);
+  max-height: 100px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin-bottom: 10px;
+}
+
+.update-twitter-form .advanced-options-selector {
+  background-color: darkgrey;
+  cursor: pointer;
+}
+
+.update-twitter-form .advanced-options-selector:hover {
+  background-color: #009a7f;
+}
+
+.update-twitter-form label {
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: text-bottom;
+  font-size: 14px;
+  padding-top: 4px;
+}
+
+.update-twitter-form .advanced-options {
+  padding-top: 10px;
+  overflow: hidden;
+  height: 0px;
+}
+
+.update-twitter-form .advanced-options-expanded {
+  -webkit-animation: expanded 0.5s;
+          animation: expanded 0.5s;
+  height: 80px;
+}
+
+@-webkit-keyframes expanded {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 80px;
+  }
+}
+
+@keyframes expanded {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 80px;
+  }
+}
+
+.button-container {
+  margin: 0px 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.button-container button {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 calc(50% - 10px);
+          flex: 0 1 calc(50% - 10px);
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  -webkit-box-shadow: #dbdbdb 2px 2px 7px;
+          box-shadow: #dbdbdb 2px 2px 7px;
+}
+
+.button-container .update {
+  margin-right: 10px;
+}
+
+.button-container .update:disabled {
+  background-color: #4bbba6;
+}
+
+.button-container .disconnect {
+  background-color: darkgrey;
+  color: #fff;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.button-container .disconnect:hover {
   background-color: grey;
 }
 
-.platform-sections-connected .error {
-  width: calc(100% - 20px);
+.button-container .error {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 100%;
+          flex: 1 0 100%;
   padding: 0px 10px;
   font-size: 14px;
   margin-top: 10px;

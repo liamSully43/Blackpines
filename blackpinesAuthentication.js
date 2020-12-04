@@ -18,8 +18,6 @@ function login(req, res, next, Customer) {
             return res.send(result);
         }
         if(!customer) {
-            console.log(req.body.username);
-            console.log(req.body.password);
             const result = {
                 success: false,
                 message: "Invalid email or password, please try again",

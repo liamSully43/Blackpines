@@ -163,8 +163,14 @@
   background-color: #1ba1f2;
 }
 
-.side-nav .connect-twitter:disabled {
+.side-nav .ct-disabled {
   font-size: 13px;
+  background-color: #4bbba6;
+  cursor: auto;
+}
+
+.side-nav .ct-disabled:hover {
+  background-color: #4bbba6;
 }
 
 main {
