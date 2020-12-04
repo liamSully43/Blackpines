@@ -33,28 +33,6 @@
                 background-color: $primary;
             }
         }
-
-        .edit {
-            margin-right: 10px;
-        }
-
-        .edit > img {
-            font-size: 14px;
-            border-radius: 3px;
-            padding: 1px 3px;
-            float: right;
-            cursor: pointer;
-        }
-
-        .edit > img {
-            background-color: $secondary;
-            padding: 0px;
-            border-radius: 0px;
-        }
-
-        .edit > img:hover {
-            background-color: $accent;
-        }
     
         .name, .handle {
             margin-left: 10px;
@@ -106,19 +84,16 @@
                 }
             }
     
-            a {
-                color: $accent;
-            }
-    
+            // the default colour is dictated by the profile_link_color var sent back from the Twitter API
             a:hover {
                 color: $hover;
             }
         }
 
         .info-interaction {
-            margin-top: 20px;
-            width: 100%;
+            margin: 20px 10px;
             padding-bottom: 20px;
+            border-bottom: 1px solid $accent;
 
             a, a:visited, span {
                 margin-right: 10px;
@@ -132,28 +107,186 @@
             span:last-of-type {
                 margin-right: 0px;
             }
+        }   
+    }
+}
+
+.update-twitter-form {
+    margin: 0px 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .update-title {
+        flex: 1 0 calc(100% - 12px);
+        margin-bottom: 10px;
+    }
+
+    .profile-pic-new, .banner-pic-new {
+        background-color: $accent;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-bottom: 10px;
+        display: grid;
+        place-items: center;
+
+        label {
+            width: 35px;
+            height: 35px;
+            padding: 0px;
+            margin: 0px;
+            background-color: rgba($color: #000, $alpha: 0.4);
+            border-radius: 100%;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+
+            input {
+                visibility: hidden;
+                position: absolute;
+            }
+
+            span {
+                color: $off-primary;
+                font-size: 20px;
+                display: grid;
+                place-items: center;
+            }
         }
 
-        .disconnect {
-            width: 35%;
-            border: none;
-            padding: 10px;
-            border-radius: 10px;
-            background-color: darkgrey;
-            color: $primary;
-            font-size: 16px;
-            margin: 10px;
-            box-shadow: #dbdbdb 2px 2px 7px;
-            cursor: pointer;
-        }
-    
-        .disconnect:hover {
-            background-color: grey;
+        label:hover {
+            background-color: rgba($color: #000, $alpha: 0.6);
+
+            span {
+                color: $primary
+            }
         }
     }
 
+    .profile-pic-new {
+        height: 100px;
+        width: 100px;
+        border-radius: 100%;
+    }
+
+    .banner-pic-new {
+        height: 100px;
+        width: calc(100% - 110px);
+        margin-left: 10px;
+        border-radius: 10px;
+    }
+
+    input {
+        flex: 0 1 calc(50% - 17px);
+        max-width: calc(50% - 17px);
+        margin-bottom: 10px;
+        border-color: $secondary;
+    }
+
+    input:focus {
+        border:solid 1px $accent;
+    }
+
+    input:nth-of-type(odd) {
+        margin-right: 5px;
+    }
+
+    input:nth-of-type(even) {
+        margin-left: 5px;
+    }
+
+    input[type=text], input[type=color], textarea {
+        padding: 5px;
+        border-radius: 5px;
+        border: solid 1px darkgrey;
+    }
+
+    input[type=color] {
+        background-color: $primary;
+        cursor: pointer;
+    }
+
+    textarea {
+        flex: 1 0 calc(100% - 12px);
+        max-height: 100px;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-bottom: 10px;
+    }
+
+    .advanced-options-selector {
+        background-color: darkgrey;
+        cursor: pointer;
+    }
+
+    .advanced-options-selector:hover {
+        background-color: $accent;
+    }
+
+    label {
+        margin-left: 10px;
+        display: inline-block;
+        vertical-align: text-bottom;
+        font-size: 14px;
+        padding-top: 4px;
+    }
+
+    .advanced-options {
+        padding-top: 10px;
+        overflow: hidden;
+        height: 0px;
+    }
+
+    .advanced-options-expanded {
+        animation: expanded 0.5s;
+        height: 80px;
+    }
+
+    @keyframes expanded {
+        from {
+            height: 0px;
+        }
+
+        to {
+            height: 80px;
+        }
+    }
+}
+
+.button-container {
+    margin: 0px 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+    button {
+        flex: 0 1 calc(50% - 10px);
+        border: none;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 16px;
+        box-shadow: #dbdbdb 2px 2px 7px;
+    }
+    
+    .update {
+        margin-right: 10px;
+    }
+
+    .update:disabled {
+        background-color: $disabled;
+    }
+
+    .disconnect {
+        background-color: darkgrey;
+        color: $primary;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    .disconnect:hover {
+        background-color: grey;
+    }
+
     .error {
-        width: calc(100% - 20px);
+        flex: 1 0 100%;
         padding: 0px 10px;
         font-size: 14px;
         margin-top: 10px;

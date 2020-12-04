@@ -281,7 +281,6 @@ app.get("/api/myposts", (req, res) => {
         }
         res.send(feeds);
     }
-    console.log(req.user.twitter);
     twitterAPI.getPosts(req, callback);
 })
 
