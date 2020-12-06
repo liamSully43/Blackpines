@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-account-profile',
@@ -11,12 +12,13 @@ export class AccountProfileComponent implements OnInit {
 
   @Output() disconnectMethod = new EventEmitter<string>();
 
-  expanded:boolean = false;
+  bannerProvided: boolean = false;
 
-  profile_pic:any = "";
-  banner_pic:string = "";
+  disableButton:boolean = true;
 
-  constructor() { }
+  headers = new HttpHeaders().set("Authorization", "auth-token");
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {}
 
@@ -26,12 +28,12 @@ export class AccountProfileComponent implements OnInit {
     this.account.followersRounded = this.roundNumbers(this.account.followers_count);
     const profilePic = this.account.profile_image_url_https.replace("normal", "200x200");
     this.account.profile_image_url_https = profilePic;
-    this.profile_pic = `url(${profilePic})`;
     if(this.account.profile_banner_url) {
-      this.banner_pic = this.account.profile_banner_url;
+      const bannerPic = this.account.profile_banner_url.replace("normal", "200x200");
+      this.account.profile_banner_url = bannerPic;
+      this.bannerProvided = true;
     }
     console.log(this.account);
-    setTimeout(() => console.log(this.profile_pic), 5000);
   }
 
   roundNumbers(num) {
@@ -46,32 +48,105 @@ export class AccountProfileComponent implements OnInit {
     return num;
   }
 
-  disconnect() :void {
-    const id = this.account.id_str;
-    this.disconnectMethod.next(id);
-  }
-
   updateAccount(e) {
     e.preventDefault;
     console.log("form submitted");
   }
 
   updatePhoto(e) {
-    console.log(e);
-    // const img = JSON.stringify(e.srcElement.files[0].name);
     const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]); // read file as data url
-    reader.onload = (event) => { // called once readAsDataURL is completed
-      console.log(event);
-      this.profile_pic = reader.result; // not updating profile_pic
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      this.account.profile_image_url_https = reader.result;
+    }
+    this.disableButton = false;
+  }
+  
+  updateBanner(e) {
+    const reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = () => {
+      this.account.profile_banner_url = reader.result;
+      this.bannerProvided = true;
+    }
+    this.disableButton = false;
+  }
+  
+  updateFields(field, e) {
+    switch(field) {
+        case "name":
+          this.account.name = e.target.value;
+          this.disableButton = false; // this needs to be added to each case, in case the default path is used and nothing is actually updated
+          break;
+        case "location":
+          this.account.location = e.target.value;
+          this.disableButton = false;
+          break;
+        case "url":
+          if(this.account.entities.url) {
+            this.account.entities.url.urls[0].display_url = e.target.value;
+          }
+          else {
+            // this matches the patter Twitter provides of 'url.urls[0].display_url'
+            const newUrl = {
+              urls: [{
+                display_url: e.target.value,
+                expanded_url: e.target.value,
+              }]
+            };
+            this.account.entities.url = newUrl;
+          }
+          this.disableButton = false;
+          break;
+        case "colour":
+          this.account.profile_link_color = e.target.value.replace("#", ""); // removes the hash - Twitter passes back no hash by default
+          this.disableButton = false;
+          break;
+        case "bio":
+          this.account.description = e.target.value;
+          this.disableButton = false;
+          break;
+        default:
+          break;
     }
   }
 
-  updateBanner(e) {
-    this.banner_pic = e.srcElement.files[0].name;
+  updateAccountInfo() {
+    const headers = this.headers;
+    const url = (this.account.entities.url) ? this.account.entities.url.urls[0].display_url : null;
+    const userUpdate = {
+      name: this.account.name,
+      location: this.account.location,
+      url,
+      profile_link_color: this.account.profile_link_color,
+      description: this.account.description,
+      // profilePic: this.account.profile_image_url_https,
+      // banner: this.account.profile_banner_url 
+    }
+    const id = this.account.id_str;
+    console.log(userUpdate)
+    this.http.post("api/twitter/account/update", { headers, userUpdate, id }).subscribe((res: any) => {
+      if(res.success) {
+        this.showSuccess();
+        console.log("updated");
+      }
+      else {
+        this.showError();
+        console.log(res.message);
+      }
+    })
   }
 
-  expand() {
-    this.expanded = !this.expanded;
+  disconnect() :void {
+    const id = this.account.id_str;
+    this.disconnectMethod.next(id);
+  }
+
+  showSuccess() {
+
+  }
+
+  showError() {
+
   }
 }

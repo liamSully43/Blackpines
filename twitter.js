@@ -29,6 +29,7 @@ const cryptr = require("cryptr");
 const OAuth = require("oauth");
 const fetch = require("node-fetch");
 const Twit = require("twit");
+const { urlencoded } = require("body-parser");
 
 const encrypt = new cryptr(process.env.ENCRYPTION_SECRET_KEY);
 
@@ -107,9 +108,58 @@ function disconnect(req, res, Customer, done) {
 //                              Update Twitter Account                                 //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function update(req, res) {
-    // update user's twitter account
-    console.log("Twitter profile updated");
+function update(req, done) {
+    const userUpdate = req.body.userUpdate;
+    const id = req.body.id;
+    let user = {};
+    for(account of req.user.twitter) {
+        if(account.id_str === id) {
+            user = account;
+            break;
+        }
+    }
+    const token = encrypt.decrypt(user.token);
+    const tokenSecret = encrypt.decrypt(user.tokenSecret);
+    let query = "?";
+    for(let key in userUpdate) {
+        query += `${key}=${userUpdate[key]}&`;
+    }
+    queryEncoded = encodeURI(query);
+    oauth.post(
+        `https://api.twitter.com/1.1/account/update_profile.json${queryEncoded}`,
+        token,
+        tokenSecret,
+        null,
+        "application/json",
+        function(err, data) {
+            if(err) {
+                console.log(err);
+                const result = {
+                    res: false,
+                    message: err,
+                }
+                done(result);
+            }
+            else {
+                // update the session with the new details
+                for(account of req.user.twitter) {
+                    if(account.id_str === id) {
+                        account.name = userUpdate.name;
+                        account.entities.url.urls[0].display_url = userUpdate.url;
+                        account.entities.url.urls[0].expanded_url = userUpdate.url;
+                        account.location = userUpdate.location;
+                        account.description = userUpdate.description;
+                        break;
+                    }
+                }
+                const result = {
+                    res: true,
+                    message: "working",
+                }
+                done(result);
+            }
+        }
+    )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
