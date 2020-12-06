@@ -414,6 +414,11 @@ app.get("/api/twitter/account/following", (req, res) => {
     twitterAPI.getUsersFollowing(req, cb);
 })
 
+app.post("/api/twitter/account/update", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAPI.update(req, cb);
+})
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //                                      404                                            //
 /////////////////////////////////////////////////////////////////////////////////////////

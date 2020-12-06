@@ -2,14 +2,13 @@
 <ng-container *ngIf="account">
     <div class="platform-sections-connected">
         <div class="account-info">
-            <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
+            <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="150" src="{{ account.profile_banner_url }}" />
             <ng-template #elseBlock >
                 <div class="default-background"></div>
             </ng-template>
             <div class="profile-pic-container">
                 <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url_https }}" />
             </div>
-            <p class="edit" title="Click to edit your profile"><img src="../../assets/edit.PNG" width="20" height="auto" alt="Click to edit your profile" /></p>
 
             <p class="name">{{ account.name }}</p>
             <img *ngIf="account.verified" src="../../assets/verified.png" width="20" height="20" alt="User is verified" class="verified" />
@@ -20,7 +19,7 @@
                 
             <div class="info">
                 <p *ngIf="account.location"><img src="../../assets/pin.png" width="auto" height="20" /> {{ account.location }}</p>
-                <a *ngIf="account.entities.url" href="{{account.entities.url.urls[0].expanded_url}}" [ngStyle]="{'color': '#' + account.profile_link_color}" >{{ account.entities.url.urls[0].display_url }}</a>
+                <a *ngIf="account.entities.url" href="{{account.entities.url.urls[0].expanded_url}}" [ngStyle]="{'color': '#' + account.profile_link_color}" target="_blank" >{{ account.entities.url.urls[0].display_url }}</a>
             </div>
 
             <!-- links to the user's tweets, followers & who they're following -->
@@ -29,67 +28,31 @@
                 <span>{{ account.followingRounded }} Following</span>
                 <span>{{ account.followersRounded }} Followers</span>
             </div>
-            <form class="update-twitter-form">
-                <p class="update-title">Update Twitter Account:</p>
+            <div class="update-twitter-form">
+                <p class="update-title">Update Twitter Account -</p>
                 <br />
-                <div class="profile-pic-new" [ngStyle]="{'background-image': profile_pic}">
+                <div class="profile-pic-new">
+                    <img width="100" height="100" src="{{ account.profile_image_url_https }}" alt="Preview of @{{ account.screen_name }}'s profile picture" />
                     <label>
                         <input (change)="updatePhoto($event)" type="file" accept="image/*"/>
                         <span class="plus">&#43;</span>
                     </label>
                 </div>
-                <div class="banner-pic-new" [ngStyle]="{'background-image': 'url(' + banner_pic + ')'}">
+                <div class="banner-pic-new">
+                    <img *ngIf="bannerProvided" width="320" height="100" src="{{ account.profile_banner_url }}" alt="Preview of @{{ account.screen_name }}'s profile banner" />
                     <label>
                         <input (change)="updateBanner($event)" type="file" accept="image/*"/>
                         <span class="plus">&#43;</span>
                     </label>
                 </div>
-                <input type="text" placeholder="Update name" />
-                <input type="text" placeholder="Update location" />
-                <input type="text" placeholder="Update website URL" />
-                <input type="color" value="#{{ account.profile_link_color }}" title="Change colour of the URL link" />
-                <textarea type="text" placeholder="Update bio" maxlength="160"></textarea>
-                <img (click)="expand()" id="ad-opt-img" class="advanced-options-selector" src="../../assets/settings-cog.png" width="25" height="25" />
-                <label for="ad-opt-img"> - Advanced Options</label>
-                <div [ngClass]="{'advanced-options-expanded': expanded}" class="advanced-options">
-                    <input type="checkbox" class="sleep-time-enabled" />
-                    <input type="text" placeholder="" class="sleep-time-start" placeholder="Start of sleep time" />
-                    <input type="text" placeholder="" class="sleep-time-end" placeholder="End of sleep time" />
-                    <select>
-                        <option>English UK</option>
-                        <option>English US</option>
-                        <option>French</option>
-                        <option>Arabic</option>
-                        <option>Japanese</option>
-                        <option>Spanish</option>
-                        <option>German</option>
-                        <option>Italian</option>
-                        <option>Indonesian</option>
-                        <option>Portuguese</option>
-                        <option>Korean</option>
-                        <option>Turkish</option>
-                        <option>Russian</option>
-                        <option>Dutch</option>
-                        <option>Filipino</option>
-                        <option>Malay</option>
-                        <option>Traditional Chinese</option>
-                        <option>Simplified Chinese</option>
-                        <option>Hindi</option>
-                        <option>Norwegian</option>
-                        <option>Swedish</option>
-                        <option>Finnish</option>
-                        <option>Danish</option>
-                        <option>Polish</option>
-                        <option>Hungarian</option>
-                        <option>Farsi</option>
-                        <option>Hebrew</option>
-                        <option>Urdu</option>
-                        <option>Thai</option>
-                    </select>
-                </div>
-            </form>
+                <input type="text" placeholder="Update name" (keyup)="updateFields('name', $event)"/>
+                <input type="text" placeholder="Update location" (keyup)="updateFields('location', $event)"/>
+                <input type="text" placeholder="Update website URL" (keyup)="updateFields('url', $event)"/>
+                <input type="color" value="#{{ account.profile_link_color }}" title="Change colour of your URL link" (change)="updateFields('colour', $event)"/>
+                <textarea type="text" placeholder="Update bio" maxlength="160" (keyup)="updateFields('bio', $event)"></textarea>
+            </div>
             <div class="button-container">
-                <button name="update" class="submit update" disabled >Update Account</button>
+                <button name="update" class="submit update" [disabled]="disableButton" (click)="updateAccountInfo()">Update Account</button>
                 <button name="disconnect clear" class="disconnect" (click)="disconnect()">Disconnect</button>
                 <br />
                 <p *ngIf="error" class="error">An error occured when trying to remove the profile, please try again later</p>
