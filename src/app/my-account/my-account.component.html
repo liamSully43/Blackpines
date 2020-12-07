@@ -36,7 +36,7 @@
         <!-- account info container -->
         <ng-template #elseTwitter>
             <div class="platform-sections-connected-container" *ngFor="let account of user.twitter">
-                <app-account-profile *ngIf="user !== {}" [account]="account" (disconnectMethod)="disconnect($event)" [error]="twitterError" ></app-account-profile>
+                <app-account-profile *ngIf="user !== {}" [account]="account" (disconnectMethod)="disconnect($event)"></app-account-profile>
             </div>
         </ng-template>
     </main>

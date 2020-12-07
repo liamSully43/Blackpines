@@ -56,7 +56,7 @@
 
 .platform-sections-connected .account-info .description {
   margin-top: 20px;
-  margin-left: 20px;
+  margin-left: 10px;
   color: #232323;
 }
 
@@ -83,6 +83,10 @@
 
 .platform-sections-connected .account-info .info p img {
   vertical-align: bottom;
+}
+
+.platform-sections-connected .account-info .info a, .platform-sections-connected .account-info .info a:visited {
+  color: #009a7f;
 }
 
 .platform-sections-connected .account-info .info a:hover {
@@ -117,22 +121,32 @@
       flex-wrap: wrap;
 }
 
+.update-twitter-form .updated {
+  border: solid 1px #009a7f;
+}
+
 .update-twitter-form .update-title {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 calc(100% - 12px);
           flex: 1 0 calc(100% - 12px);
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  color: grey;
 }
 
 .update-twitter-form .profile-pic-new, .update-twitter-form .banner-pic-new {
-  background-color: #009a7f;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  position: relative;
   margin-bottom: 10px;
   display: -ms-grid;
   display: grid;
   place-items: center;
+  overflow: hidden;
+}
+
+.update-twitter-form .profile-pic-new img, .update-twitter-form .banner-pic-new img {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  font-size: 12px;
 }
 
 .update-twitter-form .profile-pic-new label, .update-twitter-form .banner-pic-new label {
@@ -146,6 +160,7 @@
   display: grid;
   place-items: center;
   cursor: pointer;
+  z-index: 1;
 }
 
 .update-twitter-form .profile-pic-new label input, .update-twitter-form .banner-pic-new label input {
@@ -177,9 +192,11 @@
 
 .update-twitter-form .banner-pic-new {
   height: 100px;
-  width: calc(100% - 110px);
+  width: calc(100% - 114px);
   margin-left: 10px;
   border-radius: 10px;
+  background-color: #009a7f;
+  background-image: linear-gradient(45deg, #009a7f, #007a63);
 }
 
 .update-twitter-form input {
@@ -196,22 +213,25 @@
 }
 
 .update-twitter-form input:nth-of-type(odd) {
-  margin-right: 5px;
-}
-
-.update-twitter-form input:nth-of-type(even) {
   margin-left: 5px;
 }
 
-.update-twitter-form input[type=text], .update-twitter-form input[type=color], .update-twitter-form textarea {
+.update-twitter-form input:nth-of-type(even) {
+  margin-right: 5px;
+}
+
+.update-twitter-form input:first-of-type {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 calc(100% - 12px);
+          flex: 1 0 calc(100% - 12px);
+  max-width: calc(100% - 12px);
+  margin-left: 0px;
+}
+
+.update-twitter-form input[type=text], .update-twitter-form textarea {
   padding: 5px;
   border-radius: 5px;
   border: solid 1px darkgrey;
-}
-
-.update-twitter-form input[type=color] {
-  background-color: #fff;
-  cursor: pointer;
 }
 
 .update-twitter-form textarea {
@@ -221,53 +241,6 @@
   max-height: 100px;
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 10px;
-}
-
-.update-twitter-form .advanced-options-selector {
-  background-color: darkgrey;
-  cursor: pointer;
-}
-
-.update-twitter-form .advanced-options-selector:hover {
-  background-color: #009a7f;
-}
-
-.update-twitter-form label {
-  margin-left: 10px;
-  display: inline-block;
-  vertical-align: text-bottom;
-  font-size: 14px;
-  padding-top: 4px;
-}
-
-.update-twitter-form .advanced-options {
-  padding-top: 10px;
-  overflow: hidden;
-  height: 0px;
-}
-
-.update-twitter-form .advanced-options-expanded {
-  -webkit-animation: expanded 0.5s;
-          animation: expanded 0.5s;
-  height: 80px;
-}
-
-@-webkit-keyframes expanded {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 80px;
-  }
-}
-
-@keyframes expanded {
-  from {
-    height: 0px;
-  }
-  to {
-    height: 80px;
-  }
 }
 
 .button-container {
@@ -310,12 +283,15 @@
   background-color: grey;
 }
 
+.button-container .success, .button-container .error {
+  margin-top: 10px;
+}
+
 .button-container .error {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 100%;
           flex: 1 0 100%;
   padding: 0px 10px;
   font-size: 14px;
-  margin-top: 10px;
 }
 /*# sourceMappingURL=account-profile.component.css.map */

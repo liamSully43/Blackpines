@@ -19,7 +19,7 @@
                 
             <div class="info">
                 <p *ngIf="account.location"><img src="../../assets/pin.png" width="auto" height="20" /> {{ account.location }}</p>
-                <a *ngIf="account.entities.url" href="{{account.entities.url.urls[0].expanded_url}}" [ngStyle]="{'color': '#' + account.profile_link_color}" target="_blank" >{{ account.entities.url.urls[0].display_url }}</a>
+                <a *ngIf="account.entities.url" href="{{account.entities.url.urls[0].expanded_url}}" target="_blank" >{{ account.entities.url.urls[0].display_url }}</a>
             </div>
 
             <!-- links to the user's tweets, followers & who they're following -->
@@ -45,17 +45,17 @@
                         <span class="plus">&#43;</span>
                     </label>
                 </div>
-                <input type="text" placeholder="Update name" (keyup)="updateFields('name', $event)"/>
-                <input type="text" placeholder="Update location" (keyup)="updateFields('location', $event)"/>
-                <input type="text" placeholder="Update website URL" (keyup)="updateFields('url', $event)"/>
-                <input type="color" value="#{{ account.profile_link_color }}" title="Change colour of your URL link" (change)="updateFields('colour', $event)"/>
-                <textarea type="text" placeholder="Update bio" maxlength="160" (keyup)="updateFields('bio', $event)"></textarea>
+                <input type="text" placeholder="Update name" (keydown)="updateFields('name', $event)" class="form-fields" value="{{ name }}"/>
+                <input type="text" placeholder="Update location" (keydown)="updateFields('location', $event)" class="form-fields" value="{{ location }}"/>
+                <input type="text" placeholder="Update website URL" (keydown)="updateFields('url', $event)" class="form-fields" value="{{ url }}"/>
+                <textarea type="text" placeholder="Update bio" maxlength="160" (keydown)="updateFields('bio', $event)" class="form-fields">{{ description }}</textarea>
             </div>
             <div class="button-container">
                 <button name="update" class="submit update" [disabled]="disableButton" (click)="updateAccountInfo()">Update Account</button>
                 <button name="disconnect clear" class="disconnect" (click)="disconnect()">Disconnect</button>
                 <br />
-                <p *ngIf="error" class="error">An error occured when trying to remove the profile, please try again later</p>
+                <p *ngIf="error" class="error">{{ errorMessage }}</p>
+                <p *ngIf="success" class="success">Account updated</p>
             </div>
         </div>
     </div>

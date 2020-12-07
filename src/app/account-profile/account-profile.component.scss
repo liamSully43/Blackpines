@@ -84,7 +84,10 @@
                 }
             }
     
-            // the default colour is dictated by the profile_link_color var sent back from the Twitter API
+            a, a:visited {
+                color: $accent;
+            }
+
             a:hover {
                 color: $hover;
             }
@@ -201,22 +204,23 @@
     }
 
     input:nth-of-type(odd) {
-        margin-right: 5px;
-    }
-
-    input:nth-of-type(even) {
         margin-left: 5px;
     }
 
-    input[type=text], input[type=color], textarea {
+    input:nth-of-type(even) {
+        margin-right: 5px;
+    }
+
+    input:first-of-type {
+        flex: 1 0 calc(100% - 12px);
+        max-width: calc(100% - 12px);
+        margin-left: 0px;
+    }
+
+    input[type=text], textarea {
         padding: 5px;
         border-radius: 5px;
         border: solid 1px darkgrey;
-    }
-
-    input[type=color] {
-        background-color: $primary;
-        cursor: pointer;
     }
 
     textarea {
@@ -260,10 +264,13 @@
         background-color: grey;
     }
 
+    .success, .error {
+        margin-top: 10px;
+    }
+
     .error {
         flex: 1 0 100%;
         padding: 0px 10px;
         font-size: 14px;
-        margin-top: 10px;
     }
 }

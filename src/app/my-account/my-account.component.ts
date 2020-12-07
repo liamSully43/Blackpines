@@ -10,8 +10,6 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class MyAccountComponent implements OnInit {
 
   twitter: boolean = true;
-  
-  twitterError = false;
 
   user: any = {};
 
@@ -64,10 +62,8 @@ export class MyAccountComponent implements OnInit {
           break;
         }
       }
-      console.log(this.user.twitter.length);
       if(this.user.twitter.length < 1) {
         this.twitter = false;
-        console.log(this.twitter);
       };
     });
   }

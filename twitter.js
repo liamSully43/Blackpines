@@ -80,7 +80,7 @@ function callback(req, res, Customer, done) {
 //                              Disconnect From Twitter                                //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function disconnect(req, res, Customer, done) {
+function disconnect(req, Customer, done) {
     const id = req.body.id;
     for(let [i, account] of req.user.twitter.entries()) {
         if(account.id_str === id) {
@@ -122,21 +122,31 @@ function update(req, done) {
     const tokenSecret = encrypt.decrypt(user.tokenSecret);
     let query = "?";
     for(let key in userUpdate) {
-        query += `${key}=${userUpdate[key]}&`;
+        // Unsupported characters in the Twitter API
+        userUpdate[key] = userUpdate[key].replace(/\[|\]|<|>/gi, " "); // replaces [ ] < >
+        
+        let encodeQuery = encodeURIComponent(userUpdate[key], "UTF-8");
+        // encodeURIComponent either skips or misses these for some reason
+        encodeQuery = encodeQuery.replace("!", "%21");
+        encodeQuery = encodeQuery.replace("*", "%2a");
+        encodeQuery = encodeQuery.replace("(", "%28");
+        encodeQuery = encodeQuery.replace(")", "%29");
+
+        query += `${key}=${encodeQuery}&`;
     }
-    queryEncoded = encodeURI(query);
     oauth.post(
-        `https://api.twitter.com/1.1/account/update_profile.json${queryEncoded}`,
+        `https://api.twitter.com/1.1/account/update_profile.json${query}`,
         token,
         tokenSecret,
         null,
         "application/json",
-        function(err, data) {
+        function(err) {
             if(err) {
-                console.log(err);
+                const error = Function(`"use strict";return ${err.data}`)();
+                const message = (error.errors[0].code === 32) ? "Something went wrong, please try again later" : error.errors[0].message;
                 const result = {
-                    res: false,
-                    message: err,
+                    success: false,
+                    message,
                 }
                 done(result);
             }
@@ -153,7 +163,7 @@ function update(req, done) {
                     }
                 }
                 const result = {
-                    res: true,
+                    success: true,
                     message: "working",
                 }
                 done(result);
@@ -175,7 +185,7 @@ const getFeed = (req, done) => {
     }
     for(let account of req.user.twitter) {
         const token = encrypt.decrypt(account.token);
-        const tokenSecret = encrypt.decrypt(account.tokenSecret);;
+        const tokenSecret = encrypt.decrypt(account.tokenSecret);
         oauth.get(
             "https://api.twitter.com/1.1/statuses/home_timeline.json?count=50&include_my_retweet=true&tweet_mode=extended",
             token,
