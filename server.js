@@ -149,7 +149,7 @@ app.post("/api/twitter/account/disconnect", function(req, res) {
     function cb (accountRemoved) {
         res.send(accountRemoved);
     }
-    twitterAPI.disconnect(req, res, Customer, cb);
+    twitterAPI.disconnect(req, Customer, cb);
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -247,7 +247,17 @@ app.post("/newpost", [
 /////////////// returns logged in user's account details to the front-end
 
 app.get("/api/user", (req, res) => {
-    res.send(req.user);
+    // filter out sensitive info that doesn't have a use on the front-end by deep cloning the req.user object
+    let filteredUser = JSON.parse(JSON.stringify(req.user));
+    if(filteredUser.twitter) {
+        for(let twitterAccount of filteredUser.twitter) {
+            twitterAccount.token = undefined;
+            twitterAccount.tokenSecret = undefined;
+        }
+    }
+    filteredUser.salt = undefined;
+    filteredUser.hash = undefined;
+    res.send(filteredUser);
 });
 
 /////////////// returns user's twitter home timeline

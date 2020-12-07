@@ -8,9 +8,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AccountProfileComponent implements OnInit {
   @Input() account: any = {};
-  @Input() error: boolean;
 
   @Output() disconnectMethod = new EventEmitter<string>();
+
+  error: boolean = false;
+  errorMessage:string = "";
+  success: boolean = false;
+
+  name:string = "";
+  location:string = "";
+  url:string = "";
+  description:string = "";
 
   bannerProvided: boolean = false;
 
@@ -33,6 +41,9 @@ export class AccountProfileComponent implements OnInit {
       this.account.profile_banner_url = bannerPic;
       this.bannerProvided = true;
     }
+    for(const url of this.account.entities.description.urls) {
+      this.account.description = this.account.description.replace(url.url, url.display_url); // swaps the Twitter provided shortened url with the actual url
+    }
     console.log(this.account);
   }
 
@@ -46,11 +57,6 @@ export class AccountProfileComponent implements OnInit {
       num += "M";
     }
     return num;
-  }
-
-  updateAccount(e) {
-    e.preventDefault;
-    console.log("form submitted");
   }
 
   updatePhoto(e) {
@@ -73,18 +79,28 @@ export class AccountProfileComponent implements OnInit {
   }
   
   updateFields(field, e) {
-    switch(field) {
+    setTimeout(() => {
+      if(e.key === "[" || e.key === "]") {
+        this.showError("Square bracket characters are not supported and will be removed when updating your account information.");
+      }
+      if(e.key === "<" || e.key === ">") {
+        this.showError("Less-than & greater-than characters are not supported and will be removed when updating your account information.");
+      }
+      switch(field) {
         case "name":
-          this.account.name = e.target.value;
+          this.account.name = e.target.value.replace(/\[|\]|<|>/gi, " "); // replaces [ ] < >
+          this.name = e.target.value.replace(/\[|\]|<|>/gi, " ");
           this.disableButton = false; // this needs to be added to each case, in case the default path is used and nothing is actually updated
           break;
         case "location":
-          this.account.location = e.target.value;
+          this.account.location = e.target.value.replace(/\[|\]|<|>/gi, " "); // replaces [ ] < >
+          this.location = e.target.value.replace(/\[|\]|<|>/gi, " ");
           this.disableButton = false;
           break;
         case "url":
           if(this.account.entities.url) {
-            this.account.entities.url.urls[0].display_url = e.target.value;
+            this.account.entities.url.urls[0].display_url = e.target.value.replace(/\[|\]|<|>/gi, " "); // replaces [ ] < >
+            this.url = e.target.value.replace(/\[|\]|<|>/gi, " ");
           }
           else {
             // this matches the patter Twitter provides of 'url.urls[0].display_url'
@@ -98,17 +114,15 @@ export class AccountProfileComponent implements OnInit {
           }
           this.disableButton = false;
           break;
-        case "colour":
-          this.account.profile_link_color = e.target.value.replace("#", ""); // removes the hash - Twitter passes back no hash by default
-          this.disableButton = false;
-          break;
         case "bio":
-          this.account.description = e.target.value;
+          this.account.description = e.target.value.replace(/\[|\]|<|>/gi, " "); // replaces [ ] < >
+          this.description = e.target.value.replace(/\[|\]|<|>/gi, " ");
           this.disableButton = false;
           break;
         default:
           break;
-    }
+      }
+    }, 1);
   }
 
   updateAccountInfo() {
@@ -118,21 +132,22 @@ export class AccountProfileComponent implements OnInit {
       name: this.account.name,
       location: this.account.location,
       url,
-      profile_link_color: this.account.profile_link_color,
       description: this.account.description,
       // profilePic: this.account.profile_image_url_https,
       // banner: this.account.profile_banner_url 
     }
+    for(let key in userUpdate) {
+      let string = userUpdate[key];
+      string.replace("/", " ");
+      userUpdate[key] = string;
+    }
     const id = this.account.id_str;
-    console.log(userUpdate)
     this.http.post("api/twitter/account/update", { headers, userUpdate, id }).subscribe((res: any) => {
       if(res.success) {
         this.showSuccess();
-        console.log("updated");
       }
       else {
-        this.showError();
-        console.log(res.message);
+        this.showError(res.message);
       }
     })
   }
@@ -143,10 +158,20 @@ export class AccountProfileComponent implements OnInit {
   }
 
   showSuccess() {
-
+    this.success = true;
+    this.name = "";
+    this.location = "";
+    this.url = "";
+    this.description = "";
+    setTimeout(() => this.success = false, 5000);
   }
 
-  showError() {
-
+  showError(msg) {
+    this.errorMessage = msg;
+    this.error = true;
+    setTimeout(() => {
+      this.error = false;
+      this.errorMessage = "";
+    }, 5000);
   }
 }
