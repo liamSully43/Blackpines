@@ -54,8 +54,7 @@
                 <button name="update" class="submit update" [disabled]="disableButton" (click)="updateAccountInfo()">Update Account</button>
                 <button name="disconnect clear" class="disconnect" (click)="disconnect()">Disconnect</button>
                 <br />
-                <p *ngIf="error" class="error">{{ errorMessage }}</p>
-                <p *ngIf="success" class="success">Account updated</p>
+                <p *ngFor="let message of messages" [ngClass]="{'error' : !message.success}">{{ message.message }}</p>
             </div>
         </div>
     </div>

@@ -27,6 +27,7 @@ app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'dist/Blackpines')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(express.json({limit: '700kb'}));
 app.use(flash());
 
 app.use(session({
