@@ -264,13 +264,12 @@
         background-color: grey;
     }
 
-    .success, .error {
+    p {
+        font-size: 14px;
         margin-top: 10px;
     }
 
     .error {
         flex: 1 0 100%;
-        padding: 0px 10px;
-        font-size: 14px;
     }
 }

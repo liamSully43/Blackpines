@@ -11,14 +11,16 @@ export class AccountProfileComponent implements OnInit {
 
   @Output() disconnectMethod = new EventEmitter<string>();
 
-  error: boolean = false;
-  errorMessage:string = "";
-  success: boolean = false;
+  messages: Array<any> = [];
 
   name:string = "";
   location:string = "";
   url:string = "";
   description:string = "";
+  photoChanged:boolean = false;
+  bannerChanged:boolean = false;
+  newPhoto: any;
+  newBanner: any;
 
   bannerProvided: boolean = false;
 
@@ -60,10 +62,14 @@ export class AccountProfileComponent implements OnInit {
   }
 
   updatePhoto(e) {
+    console.log(e);
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
     reader.onload = () => {
+      console.log(typeof reader.result);
       this.account.profile_image_url_https = reader.result;
+      this.newPhoto = e.target.files[0];
+      this.photoChanged = true;
     }
     this.disableButton = false;
   }
@@ -74,6 +80,8 @@ export class AccountProfileComponent implements OnInit {
     reader.onload = () => {
       this.account.profile_banner_url = reader.result;
       this.bannerProvided = true;
+      this.newBanner = e.target.files[0].name;
+      this.bannerChanged = true;
     }
     this.disableButton = false;
   }
@@ -81,10 +89,13 @@ export class AccountProfileComponent implements OnInit {
   updateFields(field, e) {
     setTimeout(() => {
       if(e.key === "[" || e.key === "]") {
-        this.showError("Square bracket characters are not supported and will be removed when updating your account information.");
+        this.messages.push("Square bracket characters are not supported and will be removed when updating your account information.");
+        setTimeout(() => this.messages = [], 5000);
+        
       }
       if(e.key === "<" || e.key === ">") {
-        this.showError("Less-than & greater-than characters are not supported and will be removed when updating your account information.");
+        this.messages.push("Less-than & greater-than characters are not supported and will be removed when updating your account information.");
+        setTimeout(() => this.messages = [], 5000);
       }
       switch(field) {
         case "name":
@@ -133,8 +144,6 @@ export class AccountProfileComponent implements OnInit {
       location: this.account.location,
       url,
       description: this.account.description,
-      // profilePic: this.account.profile_image_url_https,
-      // banner: this.account.profile_banner_url 
     }
     for(let key in userUpdate) {
       let string = userUpdate[key];
@@ -142,36 +151,17 @@ export class AccountProfileComponent implements OnInit {
       userUpdate[key] = string;
     }
     const id = this.account.id_str;
-    this.http.post("api/twitter/account/update", { headers, userUpdate, id }).subscribe((res: any) => {
-      if(res.success) {
-        this.showSuccess();
-      }
-      else {
-        this.showError(res.message);
-      }
+    const newImage = (this.photoChanged) ? this.account.profile_image_url_https : true; // if the image or banner is not updated - pass through true for the callback function
+    const newBanner = (this.bannerChanged) ? this.newBanner : true;
+    this.http.post("api/twitter/account/update", { headers, userUpdate, id, newImage, newBanner }).subscribe((res: any) => {
+      this.messages = res;
+      console.log(this.messages);
+      setTimeout(() => this.messages = [], 7000);
     })
   }
 
   disconnect() :void {
     const id = this.account.id_str;
     this.disconnectMethod.next(id);
-  }
-
-  showSuccess() {
-    this.success = true;
-    this.name = "";
-    this.location = "";
-    this.url = "";
-    this.description = "";
-    setTimeout(() => this.success = false, 5000);
-  }
-
-  showError(msg) {
-    this.errorMessage = msg;
-    this.error = true;
-    setTimeout(() => {
-      this.error = false;
-      this.errorMessage = "";
-    }, 5000);
   }
 }
