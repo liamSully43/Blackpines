@@ -2,7 +2,8 @@
 
 .platform-sections-connected {
     width: 100%;
-    height: 100%;
+    height: auto;
+    min-height: 650px;
     display: block;
     background-color: $primary;
     border: solid 2px $accent;
@@ -119,84 +120,20 @@
     display: flex;
     flex-wrap: wrap;
 
-    .updated { // added to form elements when they have been changed
-        border: solid 1px $accent;
-    }
-
     .update-title {
         flex: 1 0 calc(100% - 12px);
         margin-bottom: 20px;
         color: grey;
     }
 
-    .profile-pic-new, .banner-pic-new {
-        position: relative;
-        margin-bottom: 10px;
-        display: grid;
-        place-items: center;
-        overflow: hidden;
-
-        img {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            font-size: 12px; // alt tag text
-        }
-        
-        label {
-            width: 35px;
-            height: 35px;
-            padding: 0px;
-            margin: 0px;
-            background-color: rgba($color: #000, $alpha: 0.4);
-            border-radius: 100%;
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            z-index: 1;
-
-            input {
-                visibility: hidden;
-                position: absolute;
-            }
-
-            span {
-                color: $off-primary;
-                font-size: 20px;
-                display: grid;
-                place-items: center;
-            }
-        }
-
-        label:hover {
-            background-color: rgba($color: #000, $alpha: 0.6);
-
-            span {
-                color: $primary
-            }
-        }
-    }
-
-    .profile-pic-new {
-        height: 100px;
-        width: 100px;
-        border-radius: 100%;
-    }
-
-    .banner-pic-new {
-        height: 100px;
-        width: calc(100% - 114px);
-        margin-left: 10px;
-        border-radius: 10px;
-        background-color: $accent;
-        background-image: $bg-grad;
-    }
-
-    input {
+    input, textarea {
         flex: 0 1 calc(50% - 17px);
         max-width: calc(50% - 17px);
         margin-bottom: 10px;
         border-color: $secondary;
+        padding: 5px;
+        border-radius: 5px;
+        border: solid 1px darkgrey;
     }
 
     input:focus {
@@ -217,17 +154,11 @@
         margin-left: 0px;
     }
 
-    input[type=text], textarea {
-        padding: 5px;
-        border-radius: 5px;
-        border: solid 1px darkgrey;
-    }
-
     textarea {
         flex: 1 0 calc(100% - 12px);
+        max-width: calc(100% - 12px);
         max-height: 100px;
         font-family: Arial, Helvetica, sans-serif;
-        margin-bottom: 10px;
     }
 }
 

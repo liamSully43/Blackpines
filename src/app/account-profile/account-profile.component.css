@@ -1,6 +1,7 @@
 .platform-sections-connected {
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 650px;
   display: block;
   background-color: #fff;
   border: solid 2px #009a7f;
@@ -121,10 +122,6 @@
       flex-wrap: wrap;
 }
 
-.update-twitter-form .updated {
-  border: solid 1px #009a7f;
-}
-
 .update-twitter-form .update-title {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 calc(100% - 12px);
@@ -133,79 +130,16 @@
   color: grey;
 }
 
-.update-twitter-form .profile-pic-new, .update-twitter-form .banner-pic-new {
-  position: relative;
-  margin-bottom: 10px;
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
-
-.update-twitter-form .profile-pic-new img, .update-twitter-form .banner-pic-new img {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  font-size: 12px;
-}
-
-.update-twitter-form .profile-pic-new label, .update-twitter-form .banner-pic-new label {
-  width: 35px;
-  height: 35px;
-  padding: 0px;
-  margin: 0px;
-  background-color: rgba(0, 0, 0, 0.4);
-  border-radius: 100%;
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  z-index: 1;
-}
-
-.update-twitter-form .profile-pic-new label input, .update-twitter-form .banner-pic-new label input {
-  visibility: hidden;
-  position: absolute;
-}
-
-.update-twitter-form .profile-pic-new label span, .update-twitter-form .banner-pic-new label span {
-  color: #f0f0f0;
-  font-size: 20px;
-  display: -ms-grid;
-  display: grid;
-  place-items: center;
-}
-
-.update-twitter-form .profile-pic-new label:hover, .update-twitter-form .banner-pic-new label:hover {
-  background-color: rgba(0, 0, 0, 0.6);
-}
-
-.update-twitter-form .profile-pic-new label:hover span, .update-twitter-form .banner-pic-new label:hover span {
-  color: #fff;
-}
-
-.update-twitter-form .profile-pic-new {
-  height: 100px;
-  width: 100px;
-  border-radius: 100%;
-}
-
-.update-twitter-form .banner-pic-new {
-  height: 100px;
-  width: calc(100% - 114px);
-  margin-left: 10px;
-  border-radius: 10px;
-  background-color: #009a7f;
-  background-image: linear-gradient(45deg, #009a7f, #007a63);
-}
-
-.update-twitter-form input {
+.update-twitter-form input, .update-twitter-form textarea {
   -webkit-box-flex: 0;
       -ms-flex: 0 1 calc(50% - 17px);
           flex: 0 1 calc(50% - 17px);
   max-width: calc(50% - 17px);
   margin-bottom: 10px;
   border-color: #232323;
+  padding: 5px;
+  border-radius: 5px;
+  border: solid 1px darkgrey;
 }
 
 .update-twitter-form input:focus {
@@ -228,19 +162,13 @@
   margin-left: 0px;
 }
 
-.update-twitter-form input[type=text], .update-twitter-form textarea {
-  padding: 5px;
-  border-radius: 5px;
-  border: solid 1px darkgrey;
-}
-
 .update-twitter-form textarea {
   -webkit-box-flex: 1;
       -ms-flex: 1 0 calc(100% - 12px);
           flex: 1 0 calc(100% - 12px);
+  max-width: calc(100% - 12px);
   max-height: 100px;
   font-family: Arial, Helvetica, sans-serif;
-  margin-bottom: 10px;
 }
 
 .button-container {
@@ -283,7 +211,8 @@
   background-color: grey;
 }
 
-.button-container .success, .button-container .error {
+.button-container p {
+  font-size: 14px;
   margin-top: 10px;
 }
 
@@ -291,7 +220,5 @@
   -webkit-box-flex: 1;
       -ms-flex: 1 0 100%;
           flex: 1 0 100%;
-  padding: 0px 10px;
-  font-size: 14px;
 }
 /*# sourceMappingURL=account-profile.component.css.map */
