@@ -31,20 +31,6 @@
             <div class="update-twitter-form">
                 <p class="update-title">Update Twitter Account -</p>
                 <br />
-                <div class="profile-pic-new">
-                    <img width="100" height="100" src="{{ account.profile_image_url_https }}" alt="Preview of @{{ account.screen_name }}'s profile picture" />
-                    <label>
-                        <input (change)="updatePhoto($event)" type="file" accept="image/*"/>
-                        <span class="plus">&#43;</span>
-                    </label>
-                </div>
-                <div class="banner-pic-new">
-                    <img *ngIf="bannerProvided" width="320" height="100" src="{{ account.profile_banner_url }}" alt="Preview of @{{ account.screen_name }}'s profile banner" />
-                    <label>
-                        <input (change)="updateBanner($event)" type="file" accept="image/*"/>
-                        <span class="plus">&#43;</span>
-                    </label>
-                </div>
                 <input type="text" placeholder="Update name" (keydown)="updateFields('name', $event)" class="form-fields" value="{{ name }}"/>
                 <input type="text" placeholder="Update location" (keydown)="updateFields('location', $event)" class="form-fields" value="{{ location }}"/>
                 <input type="text" placeholder="Update website URL" (keydown)="updateFields('url', $event)" class="form-fields" value="{{ url }}"/>
@@ -54,7 +40,7 @@
                 <button name="update" class="submit update" [disabled]="disableButton" (click)="updateAccountInfo()">Update Account</button>
                 <button name="disconnect clear" class="disconnect" (click)="disconnect()">Disconnect</button>
                 <br />
-                <p *ngFor="let message of messages" [ngClass]="{'error' : !message.success}">{{ message.message }}</p>
+                <p [ngClass]="{'error' : !message.success}">{{ message.text }}</p>
             </div>
         </div>
     </div>

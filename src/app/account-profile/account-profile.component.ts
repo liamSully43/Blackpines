@@ -11,18 +11,12 @@ export class AccountProfileComponent implements OnInit {
 
   @Output() disconnectMethod = new EventEmitter<string>();
 
-  messages: Array<any> = [];
+  message: any = {};
 
   name:string = "";
   location:string = "";
   url:string = "";
   description:string = "";
-  photoChanged:boolean = false;
-  bannerChanged:boolean = false;
-  newPhoto: any;
-  newBanner: any;
-
-  bannerProvided: boolean = false;
 
   disableButton:boolean = true;
 
@@ -41,7 +35,6 @@ export class AccountProfileComponent implements OnInit {
     if(this.account.profile_banner_url) {
       const bannerPic = this.account.profile_banner_url.replace("normal", "200x200");
       this.account.profile_banner_url = bannerPic;
-      this.bannerProvided = true;
     }
     for(const url of this.account.entities.description.urls) {
       this.account.description = this.account.description.replace(url.url, url.display_url); // swaps the Twitter provided shortened url with the actual url
@@ -60,42 +53,19 @@ export class AccountProfileComponent implements OnInit {
     }
     return num;
   }
-
-  updatePhoto(e) {
-    console.log(e);
-    const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      console.log(typeof reader.result);
-      this.account.profile_image_url_https = reader.result;
-      this.newPhoto = e.target.files[0];
-      this.photoChanged = true;
-    }
-    this.disableButton = false;
-  }
-  
-  updateBanner(e) {
-    const reader = new FileReader();
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = () => {
-      this.account.profile_banner_url = reader.result;
-      this.bannerProvided = true;
-      this.newBanner = e.target.files[0].name;
-      this.bannerChanged = true;
-    }
-    this.disableButton = false;
-  }
   
   updateFields(field, e) {
     setTimeout(() => {
       if(e.key === "[" || e.key === "]") {
-        this.messages.push("Square bracket characters are not supported and will be removed when updating your account information.");
-        setTimeout(() => this.messages = [], 5000);
+        this.message.success = false;
+        this.message.text = "Square bracket characters are not supported and will be removed when updating your account information.";
+        setTimeout(() => this.message = {}, 5000);
         
       }
       if(e.key === "<" || e.key === ">") {
-        this.messages.push("Less-than & greater-than characters are not supported and will be removed when updating your account information.");
-        setTimeout(() => this.messages = [], 5000);
+        this.message.success = false;
+        this.message.text = "Less-than & greater-than characters are not supported and will be removed when updating your account information.";
+        setTimeout(() => this.message = {}, 5000);
       }
       switch(field) {
         case "name":
@@ -145,18 +115,11 @@ export class AccountProfileComponent implements OnInit {
       url,
       description: this.account.description,
     }
-    for(let key in userUpdate) {
-      let string = userUpdate[key];
-      string.replace("/", " ");
-      userUpdate[key] = string;
-    }
     const id = this.account.id_str;
-    const newImage = (this.photoChanged) ? this.account.profile_image_url_https : true; // if the image or banner is not updated - pass through true for the callback function
-    const newBanner = (this.bannerChanged) ? this.newBanner : true;
-    this.http.post("api/twitter/account/update", { headers, userUpdate, id, newImage, newBanner }).subscribe((res: any) => {
-      this.messages = res;
-      console.log(this.messages);
-      setTimeout(() => this.messages = [], 7000);
+    this.http.post("api/twitter/account/update", { headers, userUpdate, id }).subscribe((res: any) => {
+      this.message = res;
+      console.log(this.message);
+      setTimeout(() => this.message = {}, 7000);
     })
   }
 

@@ -29,7 +29,6 @@ const cryptr = require("cryptr");
 const OAuth = require("oauth");
 const fetch = require("node-fetch");
 const Twit = require("twit");
-const fs = require("fs");
 
 const encrypt = new cryptr(process.env.ENCRYPTION_SECRET_KEY);
 
@@ -120,33 +119,10 @@ function update(req, done) {
         }
     }
     // prevents any API calls in case a Twitter account match is not found
-    if(user.token === "undefined") return done([{
+    if(user.token === "undefined") return done({
         success: false,
-        message: "Something went wrong, please try again later"
-    }])
-    // the callback function called whenever an API is returned - when all APIs return, it will return any messages to the front-end
-    let responseMessages = []; // messages to be sent back to the front-end
-    let accountInfoUpdated = userUpdate; // text fields to be updated
-    let profilePicUpdated = req.body.newImage; // user's profile image
-    let bannerUpdated = req.body.newBanner; // user's banner image
-    function callback() {
-        if(accountInfoUpdated === true && profilePicUpdated === true && bannerUpdated === true) {
-            // if all API calls are made and are successful then only one message needs to be sent back
-            let completeSuccess = true;
-            for(let message of responseMessages) {
-                if(!message.success) {
-                    completeSuccess = false;
-                    break;
-                }
-            }
-            if(completeSuccess) responseMessages = [{
-                success: true,
-                message: "Twitter account updated",
-            }]
-            return done(responseMessages)
-        }
-    } 
-    // update Twitter account's text fields - i.e name, location, url & bio
+        text: "Something went wrong, please try again later"
+    })
     const token = encrypt.decrypt(user.token);
     const tokenSecret = encrypt.decrypt(user.tokenSecret);
     // add each field to the query & encode
@@ -155,18 +131,16 @@ function update(req, done) {
         // Unsupported characters in the Twitter API
         userUpdate[key] = userUpdate[key].replace(/\[|\]|<|>/gi, " "); // replaces [ ] < > with a space
         
-        let encodeQuery = encodeURIComponent(userUpdate[key], "UTF-8");
+        let encodedQuery = encodeURIComponent(userUpdate[key], "UTF-8");
         // encodeURIComponent either skips or misses these for some reason
-        encodeQuery = encodeQuery.replace("!", "%21");
-        encodeQuery = encodeQuery.replace("*", "%2a");
-        encodeQuery = encodeQuery.replace("(", "%28");
-        encodeQuery = encodeQuery.replace(")", "%29");
+        encodedQuery = encodedQuery.replace("!", "%21");
+        encodedQuery = encodedQuery.replace("*", "%2a");
+        encodedQuery = encodedQuery.replace("(", "%28");
+        encodedQuery = encodedQuery.replace(")", "%29");
 
-        query += `${key}=${encodeQuery}&`;
+        query += `${key}=${encodedQuery}&`;
     }
-    ////////////////////////////////////////////////
-    //         Profile text fields update         //
-    ////////////////////////////////////////////////
+    // Update Twitter account
     oauth.post(
         `https://api.twitter.com/1.1/account/update_profile.json${query}`,
         token,
@@ -174,16 +148,14 @@ function update(req, done) {
         null,
         "application/json",
         function(err) {
-            accountInfoUpdated = true; // allows te callback to be sent
             if(err) {
                 const error = Function(`"use strict";return ${err.data}`)();
-                const text = (error.errors[0].code === 32) ? ["Something went wrong, please try again later"] : [error.errors[0].message];
-                const result = {
+                const text = (error.errors[0].code === 32) ? "Something went wrong, please try again later" : error.errors[0].message;
+                const message = {
                     success: false,
-                    message: text,
+                    text,
                 }
-                responseMessages.push(result);
-                callback();
+                done(message)
             }
             else {
                 // update the session with the new details
@@ -197,133 +169,14 @@ function update(req, done) {
                         break;
                     }
                 }
-                const result = {
+                const message = {
                     success: true,
-                    message: "Twitter account information updated",
+                    text: "Twitter account successfully updated",
                 }
-                responseMessages.push(result);
-                callback();
+                done(message);
             }
         }
     )
-    ////////////////////////////////////////////////
-    //           Profile picture update           //
-    ////////////////////////////////////////////////
-    if(typeof profilePicUpdated === "string") {
-        const bitmap = fs.readFileSync(profilePicUpdated);
-        const data64Cut = new Buffer.from(bitmap).toString('base64');
-        oauth.post(
-            `https://api.twitter.com/1.1/account/update_profile_image.json?image=${data64Cut}`,
-            token,
-            tokenSecret,
-            null,
-            "application/json",
-            function(err) {
-                profilePicUpdated = true; // allows the callback to be sent
-                if(err) {
-                    console.log(err);
-                    const result = {
-                        success: false,
-                        message: "Something went wrong, please try again later"
-                    }
-                    responseMessages.push(result);
-                    callback();
-                }
-                else {
-                    // update the session with the new details
-                    for(account of req.user.twitter) {
-                        if(account.id_str === id) {
-                            account.profile_image_url_https = profilePicUpdated
-                            break;
-                        }
-                    }
-                    const result = {
-                        success: true,
-                        message: "Profile picture updated",
-                    }
-                    responseMessages.push(result);
-                    callback();
-                }
-            }
-        )
-
-
-        /*oauth.post(
-            `https://upload.twitter.com/1.1/media/upload.json?media=${base64[1]}`,
-            token,
-            tokenSecret,
-            null,
-            "application/json",
-            function(err) {
-                profilePicUpdated = true; // allows te callback to be sent
-                if(err) {
-                    console.log(err);
-                    const result = {
-                        success: false,
-                        message: "Something went wrong, please try again later"
-                    }
-                    responseMessages.push(result);
-                    callback();
-                }
-                else {
-                    console.log("success")
-                    // update the session with the new details
-                    // for(account of req.user.twitter) {
-                    //     if(account.id_str === id) {
-                    //         account.profile_image_url_https = profilePicUpdated
-                    //         break;
-                    //     }
-                    // }
-                    const result = {
-                        success: true,
-                        message: "Profile picture updated",
-                    }
-                    responseMessages.push(result);
-                    callback();
-                }
-            }
-        )*/
-    }
-    ////////////////////////////////////////////////
-    //            Profile banner update           //
-    ////////////////////////////////////////////////
-    if(typeof bannerUpdated === "string" && false) {
-        oauth.post(
-            `https://api.twitter.com/1.1/account/update_profile.json${query}`,
-            token,
-            tokenSecret,
-            null,
-            "application/json",
-            function(err) {
-                bannerUpdated = true; // allows te callback to be sent
-                if(err) {
-                    const error = Function(`"use strict";return ${err.data}`)();
-                    const messages = (error.errors[0].code === 32) ? ["Something went wrong, please try again later"] : [error.errors[0].message];
-                    responseMessages.push(messages);
-                    callback();
-                }
-                else {
-                    // update the session with the new details
-                    for(account of req.user.twitter) {
-                        if(account.id_str === id) {
-                            account.name = userUpdate.name;
-                            account.entities.url.urls[0].display_url = userUpdate.url;
-                            account.entities.url.urls[0].expanded_url = userUpdate.url;
-                            account.location = userUpdate.location;
-                            account.description = userUpdate.description;
-                            break;
-                        }
-                    }
-                    const result = {
-                        success: true,
-                        message: "Twitter account information updated",
-                    }
-                    responseMessages.push(result);
-                    callback();
-                }
-            }
-        )
-    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

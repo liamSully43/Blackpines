@@ -173,6 +173,8 @@ input:invalid {
     max-width: 450px;
     height: calc(100% - 4px);
     margin: 0px 10px;
+    display: grid;
+    place-items: center;
 }
 
 .platform-sections:first-of-type, .platform-sections-connected-container:first-of-type {
@@ -185,6 +187,7 @@ input:invalid {
 }
 
 .platform-sections {
+    max-height: 650px;
     background-color: #ccc;
     border: dashed 2px grey;
     border-radius: 30px;
