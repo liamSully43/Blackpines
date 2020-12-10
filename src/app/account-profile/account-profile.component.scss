@@ -15,10 +15,14 @@
         display: block;
     
         .default-background {
-            width: 100%;
-            height: 150px;
+            width: auto;
+            height: auto;
             background-color: $accent;
             background-image: $bg-grad;
+
+            img {
+                opacity: 0;
+            }
         }
     
         .profile-pic-container {
@@ -202,5 +206,68 @@
 
     .error {
         flex: 1 0 100%;
+    }
+}
+
+@media(max-width: 1860px) { // change width of location & website URL to be 100%
+    .a5 {
+        flex: 1 0 calc(100% - 12px) !important;
+        max-width: calc(100% - 12px) !important;
+        margin: 0px;
+        margin-bottom: 10px;
+    }
+}
+
+@media(max-width: 1530px) { // change width of location & website URL to be 100%
+    .a4 {
+        flex: 1 0 calc(100% - 12px) !important;
+        max-width: calc(100% - 12px) !important;
+        margin: 0px;
+        margin-bottom: 10px;
+    }
+}
+
+@media(max-width: 1414px) { // hide the account info so that the card can replace it
+    .a5 {
+        display: none;
+    }
+}
+
+@media(max-width: 1200px) {
+    // change width of location & website URL to be 100%
+    .a3 {
+        flex: 1 0 calc(100% - 12px) !important;
+        max-width: calc(100% - 12px) !important;
+        margin: 0px;
+        margin-bottom: 10px;
+    }
+
+    // hide the account info so that the card can replace it
+    .a4 {
+        display: none;
+    }
+}
+
+@media(max-width: 1000px) { // hide the account info so that the card can replace it
+    .a3 {
+        display: none;
+    }
+}
+
+@media(max-width: 875px) { // change width of location & website URL to be 100%
+    .a2 {
+        flex: 1 0 calc(100% - 12px) !important;
+        max-width: calc(100% - 12px) !important;
+        margin: 0px;
+        margin-bottom: 10px;
+    }
+}
+
+@media(max-width: 400px) { // change width of location & website URL to be 100%
+    .a1 {
+        flex: 1 0 calc(100% - 12px) !important;
+        max-width: calc(100% - 12px) !important;
+        margin: 0px;
+        margin-bottom: 10px;
     }
 }

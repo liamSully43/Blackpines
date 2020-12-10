@@ -8,8 +8,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class AccountProfileComponent implements OnInit {
   @Input() account: any = {};
+  @Input() count: number;
 
-  @Output() disconnectMethod = new EventEmitter<string>();
+  @Output() disconnectMethod = new EventEmitter<any>();
 
   message: any = {};
 
@@ -30,12 +31,6 @@ export class AccountProfileComponent implements OnInit {
     this.account.statusesRounded = this.roundNumbers(this.account.statuses_count);
     this.account.followingRounded = this.roundNumbers(this.account.friends_count);
     this.account.followersRounded = this.roundNumbers(this.account.followers_count);
-    const profilePic = this.account.profile_image_url_https.replace("normal", "200x200");
-    this.account.profile_image_url_https = profilePic;
-    if(this.account.profile_banner_url) {
-      const bannerPic = this.account.profile_banner_url.replace("normal", "200x200");
-      this.account.profile_banner_url = bannerPic;
-    }
     for(const url of this.account.entities.description.urls) {
       this.account.description = this.account.description.replace(url.url, url.display_url); // swaps the Twitter provided shortened url with the actual url
     }
@@ -123,8 +118,13 @@ export class AccountProfileComponent implements OnInit {
     })
   }
 
-  disconnect() :void {
+  disconnect(e) :void {
     const id = this.account.id_str;
-    this.disconnectMethod.next(id);
+    const element = e.path[5];
+    const val = {
+      id,
+      element
+    }
+    this.disconnectMethod.next(val);
   }
 }
