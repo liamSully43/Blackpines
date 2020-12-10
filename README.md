@@ -14,7 +14,7 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can reply to tweets
 
 ## Known Issues
- - When updating a user's Twitter profile, if the user includes a forward slash the Twitter API call falls, this is likely because the API thinks it's a different route/endpoint. I have already tryed encoding and the replace method but neither work correctly.
+ - Twitter accounts that have no website/url will have their URL set to null, this causes problems when updating their accounts as the code cannot filter characters from null
 
 ## Notes
 Max number of Twitter accounts that can be connected has been set to 5
