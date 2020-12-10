@@ -28,15 +28,30 @@
             </ng-template>
         </ng-template>
     </nav>
-    <main>
+    <main class="main{{ accountsConnected }}">
         <!-- placeholder container for account's that are not connected -->
         <div *ngIf="!twitter; else elseTwitter" class="platform-sections">
             <img src="../../assets/twitter-logo.png" class="platform-logos" width="100" height="100" alt="Twitter" title="Twitter" />
         </div>
         <!-- account info container -->
         <ng-template #elseTwitter>
-            <div class="platform-sections-connected-container" *ngFor="let account of user.twitter">
-                <app-account-profile *ngIf="user !== {}" [account]="account" (disconnectMethod)="disconnect($event)"></app-account-profile>
+            <div class="platform-sections-connected-container container{{ accountsConnected }}" *ngFor="let account of user.twitter">
+                <div class="card{{ accountsConnected }} cards">
+                    <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
+                    <ng-template #elseBlock >
+                        <div class="default-background">
+                            <img src="../../assets/default-blank.png" width="100%" height="auto" alt="default user banner" /> <!-- the file size is 564 bytes as it's only needed for it's size/ratio -->
+                        </div>
+                    </ng-template>
+                    <div class="profile-pic-container">
+                        <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url_https }}" />
+                    </div>
+
+                    <p class="name">{{ account.name }}</p>
+                    <img *ngIf="account.verified" src="../../assets/verified.png" width="20" height="20" alt="User is verified" class="verified" />
+                    <p class="handle">@{{ account.screen_name }}</p>
+                </div>
+                <app-account-profile *ngIf="user !== {}" [account]="account" [count]="accountsConnected" (disconnectMethod)="disconnect($event)"></app-account-profile>
             </div>
         </ng-template>
     </main>

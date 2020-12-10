@@ -157,6 +157,7 @@ main {
     background-color: $off-primary;
     padding: 20px;
     display: flex;
+    overflow: hidden;
 }
 
 input:focus {
@@ -206,6 +207,81 @@ input:invalid {
     }
 }
 
+.platform-sections-connected-container {
+
+    .cards {
+        width: 100%;
+        padding-bottom: 10px;
+        background-color: $primary;
+        border: solid 2px $accent;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        overflow: hidden;
+        display: none;
+        cursor: pointer;
+    }
+
+    .cards:hover {
+        background-color: $off-primary;
+    }
+
+    .default-background {
+        width: auto;
+        height: auto;
+        background-color: $accent;
+        background-image: $bg-grad;
+
+        img {
+            opacity: 0;
+        }
+    }
+
+    .profile-pic-container {
+        position: relative;
+        height: 50px;
+
+        .profile-pic {
+            border: solid 4px $primary;
+            border-radius: 100%;
+            position: absolute;
+            left: 10px;
+            top: -40px;
+            background-color: $primary;
+        }
+    }
+
+    .name, .handle {
+        margin: 0px 10px;
+        color: $secondary;
+        font-size: 17px;
+    }
+
+    .name {
+        font-weight: 600;
+    }
+
+    .handle {
+        font-weight: 400;
+    }
+
+    .verified {
+        display: inline-block;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
+}
+
+.disconnect {
+    position: relative;
+    animation: disconnect 0.5s;
+    bottom: -120%;
+}
+
+@keyframes disconnect {
+    from { bottom: 0%; }
+    to { bottom: -120%; }
+}
+
 @keyframes expand {
     from {
         height: 0px;
@@ -229,4 +305,56 @@ input:invalid {
     height: 100%;
     position: absolute;
     top: 0px;
+}
+
+@media(max-width: 1414px) {
+    .card5 {
+        display: block !important;
+    }
+}
+
+@media(max-width: 1200px) {
+    
+    .main4 {
+        flex-wrap: wrap;
+    }
+
+    .container4 {
+        height: auto;
+        flex: 0 1 calc(50% - 5px);
+        margin: 0px;
+    }
+
+    .container4:nth-of-type(odd) {
+        margin-right: 5px;
+    }
+
+    .container4:nth-of-type(even) {
+        margin-left: 5px;
+    }
+    
+    .card4 {
+        display: block !important;
+    }
+}
+
+@media(max-width: 1000px) {
+    .main3 {
+        display: grid;
+        place-items: center;
+    }
+    
+    .platform-sections-connected-container:first-of-type, .platform-sections-connected-container:last-of-type {
+        margin: 0px;
+    }
+
+    .container3 {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+    }
+
+    .card3 {
+        display: block !important;
+    }
 }

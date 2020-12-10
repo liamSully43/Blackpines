@@ -129,6 +129,8 @@ function update(req, done) {
     let query = "?";
     for(let key in userUpdate) {
         // Unsupported characters in the Twitter API
+        console.log(userUpdate);
+        console.log(key);
         userUpdate[key] = userUpdate[key].replace(/\[|\]|<|>/gi, " "); // replaces [ ] < > with a space
         
         let encodedQuery = encodeURIComponent(userUpdate[key], "UTF-8");

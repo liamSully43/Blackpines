@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-my-account',
@@ -12,6 +12,7 @@ export class MyAccountComponent implements OnInit {
   twitter: boolean = true;
 
   user: any = {};
+  accountsConnected: number = 0;
 
   headers = new HttpHeaders().set("Authorization", "auth-token");
 
@@ -38,27 +39,36 @@ export class MyAccountComponent implements OnInit {
     })
     const headers = this.headers;
     this.http.get("api/user", { headers }).subscribe(data => {
-      this.user = data
+      this.user = data;
+      this.accountsConnected = this.user.twitter.length;
       this.twitter = (this.user.twitter.length > 0) ? true : false;
       this.maxAccounts = (this.user.twitter.length >= 5) ? true : false;
       const email = this.user.username;
-      if(email.length > 30) { // any email over 30 characters will need to be truncated
-        this.user.username = email.subStr(0, 28); // cut at 28 characters in order to fit the '...' on the end without the email breaking onto the next line
+      if(email.length > 25) { // any email over 25 characters will need to be truncated
+        this.user.username = email.subStr(0, 22); // cut at 22 characters in order to fit the '...' on the end without the email breaking onto the next line
         this.user.username += "...";
+      }
+      for(let account of this.user.twitter) {
+        const profilePic = account.profile_image_url_https.replace("normal", "200x200");
+        account.profile_image_url_https = profilePic;
       }
     });
   }
 
-  disconnect(id) {
+  disconnect(val) {
     let headers = this.headers;
+    const id = val.id
+    const element = val.element
     this.http.post("api/twitter/account/disconnect", { headers, id }).subscribe((accountRemoved: boolean) => {
+      console.log(accountRemoved);
       if(!accountRemoved) {
         this.showError("Unable to remove account, please try again later");
         return
       }
       for(let [index, account] of this.user.twitter.entries()) {
         if(account.id_str == id) {
-          this.user.twitter.splice(index, 1);
+          element.classList.add("disconnect");
+          setTimeout(() => this.user.twitter.splice(index, 1), 500);
           break;
         }
       }
