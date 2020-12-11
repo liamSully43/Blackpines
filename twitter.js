@@ -128,19 +128,19 @@ function update(req, done) {
     // add each field to the query & encode
     let query = "?";
     for(let key in userUpdate) {
-        // Unsupported characters in the Twitter API
-        console.log(userUpdate);
-        console.log(key);
-        userUpdate[key] = userUpdate[key].replace(/\[|\]|<|>/gi, " "); // replaces [ ] < > with a space
+        if(userUpdate[key] !== null) {
+            // Unsupported characters in the Twitter API
+            userUpdate[key] = userUpdate[key].replace(/\[|\]|<|>/gi, " "); // replaces [ ] < > with a space
         
-        let encodedQuery = encodeURIComponent(userUpdate[key], "UTF-8");
-        // encodeURIComponent either skips or misses these for some reason
-        encodedQuery = encodedQuery.replace("!", "%21");
-        encodedQuery = encodedQuery.replace("*", "%2a");
-        encodedQuery = encodedQuery.replace("(", "%28");
-        encodedQuery = encodedQuery.replace(")", "%29");
+            let encodedQuery = encodeURIComponent(userUpdate[key], "UTF-8");
+            // encodeURIComponent either skips or misses these for some reason
+            encodedQuery = encodedQuery.replace("!", "%21");
+            encodedQuery = encodedQuery.replace("*", "%2a");
+            encodedQuery = encodedQuery.replace("(", "%28");
+            encodedQuery = encodedQuery.replace(")", "%29");
 
-        query += `${key}=${encodedQuery}&`;
+            query += `${key}=${encodedQuery}&`;
+        }
     }
     // Update Twitter account
     oauth.post(
@@ -163,6 +163,14 @@ function update(req, done) {
                 // update the session with the new details
                 for(account of req.user.twitter) {
                     if(account.id_str === id) {
+                        if(typeof account.entities.url === "undefined") {
+                            account.entities.url = {
+                                urls: [{
+                                    display_url: "",
+                                    expanded_url: "",
+                                }]
+                            }
+                        }
                         account.name = userUpdate.name;
                         account.entities.url.urls[0].display_url = userUpdate.url;
                         account.entities.url.urls[0].expanded_url = userUpdate.url;

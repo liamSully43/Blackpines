@@ -185,12 +185,20 @@ function changePassword(req, Customer, done) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//                                       Logout                                        //
+//                                 Delete Account                                      //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function logout(req, res) {
-    req.logout();
-    res.redirect("/entry");
+function deleteAccount(req, Customer, done) {
+    const id = req.user._id;
+    Customer.deleteOne({_id: id}, (err) => {
+        if(err) {
+            console.log(err);
+            done(false);
+        }
+        else {
+            done(true);
+        }
+    });
 }
 
 /////////////// Exports
@@ -199,5 +207,5 @@ module.exports = {
     login,
     register,
     changePassword,
-    logout,
+    deleteAccount,
 }

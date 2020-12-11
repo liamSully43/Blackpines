@@ -184,8 +184,25 @@ app.post("/new-post", (req, res) => res.redirect("/new-post"));
 
 app.get("/logout", (req, res) => {
     req.logOut();
-    res.redirect("/my-feed");
+    res.redirect("/entry");
 })
+
+///////////////////////////////////////////////////////////////////// Delete account
+
+app.post("/delete-account", (req, res) => {
+    const callback = success => {
+        if(success) {
+            res.redirect("/logout");
+        }
+        else {
+            const error = encodeURIComponent("account not deleted");
+            res.redirect(`/my-account?error=${error}`);
+        }
+    }
+    blackPines.deleteAccount(req, Customer, callback);
+})
+
+////////////////////////////////////////////////////////////////////////////////////
 
 /////////////// passes node routing over to angular routing
 

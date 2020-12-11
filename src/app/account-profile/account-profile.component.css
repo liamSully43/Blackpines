@@ -60,9 +60,9 @@
 }
 
 .platform-sections-connected .account-info .description {
-  margin-top: 20px;
-  margin-left: 10px;
+  margin: 20px 20px 0px 10px;
   color: #232323;
+  width: calc(100% - 20px);
 }
 
 .platform-sections-connected .account-info .info, .platform-sections-connected .account-info .info-interaction {
@@ -71,14 +71,15 @@
 
 .platform-sections-connected .account-info .info {
   margin-top: 20px;
+  margin-right: 10px;
   color: #232323;
-  width: 100%;
+  width: calc(100% - 20px);
 }
 
 .platform-sections-connected .account-info .info p, .platform-sections-connected .account-info .info a {
   display: inline-block;
   width: auto;
-  margin: 5px 0px;
+  margin: 0px;
 }
 
 .platform-sections-connected .account-info .info p {
@@ -237,14 +238,49 @@
   }
 }
 
+@media (max-width: 1800px) {
+  .a5 .account-info .info, .a5 .account-info .description {
+    margin-top: 10px;
+  }
+  .a5 .account-info .info-interaction {
+    margin: 10px;
+    padding-bottom: 10px;
+  }
+  .a5 .account-info .update-title {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 1650px) {
+  .a5 .account-info .name, .a5 .account-info .handle {
+    font-size: 15px;
+  }
+  .a5 .account-info .description, .a5 .account-info .info, .a5 .account-info .info-interaction, .a5 .account-info .update-title {
+    font-size: 13px;
+  }
+  .a5 .account-info .info p {
+    margin-right: 10px;
+  }
+  .a5 .account-info button {
+    font-size: 12px;
+  }
+}
+
 @media (max-width: 1530px) {
-  .a4 {
+  .a4 .account-info .update-twitter-form input {
     -webkit-box-flex: 1 !important;
         -ms-flex: 1 0 calc(100% - 12px) !important;
             flex: 1 0 calc(100% - 12px) !important;
     max-width: calc(100% - 12px) !important;
     margin: 0px;
     margin-bottom: 10px;
+  }
+  .a4 .description, .a4 .info {
+    margin-top: 10px !important;
+  }
+  .a4 .info-interaction {
+    margin: 10px !important;
+    padding-bottom: 10px !important;
   }
 }
 
@@ -254,8 +290,26 @@
   }
 }
 
+@media (max-width: 1350px) {
+  .a4 .account-info .name, .a4 .account-info .handle {
+    font-size: 15px;
+  }
+  .a4 .account-info .description, .a4 .account-info .info, .a4 .account-info .info-interaction, .a4 .account-info .update-title {
+    font-size: 13px;
+  }
+  .a4 .account-info .info p {
+    margin-right: 10px;
+  }
+  .a4 .account-info .update-title {
+    margin-bottom: 10px;
+  }
+  .a4 .account-info button {
+    font-size: 12px;
+  }
+}
+
 @media (max-width: 1200px) {
-  .a3 {
+  .a3 .account-info .update-twitter-form input {
     -webkit-box-flex: 1 !important;
         -ms-flex: 1 0 calc(100% - 12px) !important;
             flex: 1 0 calc(100% - 12px) !important;
@@ -263,8 +317,33 @@
     margin: 0px;
     margin-bottom: 10px;
   }
+  .a3 .description, .a3 .info {
+    margin-top: 10px !important;
+  }
+  .a3 .info-interaction {
+    margin: 10px !important;
+    padding-bottom: 10px !important;
+  }
   .a4 {
     display: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .a3 .account-info .name, .a3 .account-info .handle {
+    font-size: 15px;
+  }
+  .a3 .account-info .description, .a3 .account-info .info, .a3 .account-info .info-interaction, .a3 .account-info .update-title {
+    font-size: 13px;
+  }
+  .a3 .account-info .info p {
+    margin-right: 10px;
+  }
+  .a3 .account-info .update-title {
+    margin-bottom: 10px;
+  }
+  .a3 .account-info button {
+    font-size: 12px;
   }
 }
 
@@ -274,8 +353,18 @@
   }
 }
 
+@media (max-width: 900px) {
+  .a2 .description, .a2 .info {
+    margin-top: 10px !important;
+  }
+  .a2 .info-interaction {
+    margin: 10px !important;
+    padding-bottom: 10px !important;
+  }
+}
+
 @media (max-width: 875px) {
-  .a2 {
+  .a2 .account-info .update-twitter-form input {
     -webkit-box-flex: 1 !important;
         -ms-flex: 1 0 calc(100% - 12px) !important;
             flex: 1 0 calc(100% - 12px) !important;
@@ -285,8 +374,37 @@
   }
 }
 
-@media (max-width: 400px) {
-  .a1 {
+@media (max-width: 800px) {
+  .a2 .account-info .name, .a2 .account-info .handle {
+    font-size: 15px;
+  }
+  .a2 .account-info .description, .a2 .account-info .info, .a2 .account-info .info-interaction, .a2 .account-info .update-title {
+    font-size: 13px;
+  }
+  .a2 .account-info .info p {
+    margin-right: 10px;
+  }
+  .a2 .account-info .update-title {
+    margin-bottom: 10px;
+  }
+  .a2 .account-info button {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 700px) {
+  .a1, .a2, .a3, .a4, .a5 {
+    -webkit-box-flex: 1 !important;
+        -ms-flex: 1 0 100% !important;
+            flex: 1 0 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+  }
+}
+
+@media (max-width: 350px) {
+  .update-twitter-form input {
     -webkit-box-flex: 1 !important;
         -ms-flex: 1 0 calc(100% - 12px) !important;
             flex: 1 0 calc(100% - 12px) !important;

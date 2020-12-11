@@ -7,7 +7,7 @@
         <p class="info">{{ user.username }}</p>
         <div class="break"></div>
         <!-- password reset form -->
-        <p class="side-nav-buttons password-button" (click)="passwordField()">Change Password</p>
+        <button class="side-nav-buttons password-button" (click)="passwordField()">Change Password</button>
         <div class="password-form">
             <input type="password" name="oldPassword" class="old-password" placeholder="Old password" />
             <input type="password" name="newPassword" class="new-password" placeholder="New password" />
@@ -27,6 +27,7 @@
                 <a class="connect-twitter ct-disabled" disabled>Max Twitter Account Limit Reached</a>
             </ng-template>
         </ng-template>
+        <button class="delete" (click)="toggleDeleteBox()">Delete Account</button>
     </nav>
     <main class="main{{ accountsConnected }}">
         <!-- placeholder container for account's that are not connected -->
@@ -36,7 +37,7 @@
         <!-- account info container -->
         <ng-template #elseTwitter>
             <div class="platform-sections-connected-container container{{ accountsConnected }}" *ngFor="let account of user.twitter">
-                <div class="card{{ accountsConnected }} cards">
+                <div class="card{{ accountsConnected }} cards" title="Click to view the full account details">
                     <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
                     <ng-template #elseBlock >
                         <div class="default-background">
@@ -59,3 +60,4 @@
 <div *ngIf="error" class="error-field">
     <app-error [error]="errorMessage" (closeError)="closeError()"></app-error>
 </div>
+<app-delete-account *ngIf="deleteBox" (closeDelete)="toggleDeleteBox()" ></app-delete-account>
