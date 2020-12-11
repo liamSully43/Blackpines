@@ -20,6 +20,7 @@ import { TwitterPostComponent } from './twitter-post/twitter-post.component';
 import { TwitterAccountComponent } from './twitter-account/twitter-account.component';
 import { LoadingComponent } from './loading/loading.component';
 import { ErrorComponent } from './error/error.component';
+import { DeleteAccountComponent } from './delete-account/delete-account.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ErrorComponent } from './error/error.component';
     TwitterPostComponent,
     TwitterAccountComponent,
     LoadingComponent,
-    ErrorComponent
+    ErrorComponent,
+    DeleteAccountComponent
   ],
   imports: [
     BrowserModule,

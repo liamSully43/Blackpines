@@ -17,9 +17,9 @@
 }
 
 .side-nav .info:nth-of-type(2) {
-  word-break: break-all;
   font-size: 14px;
   font-weight: 400;
+  overflow: hidden;
 }
 
 .side-nav .break {
@@ -48,6 +48,10 @@
 
 .side-nav .side-nav-buttons:hover {
   background-color: #007a63;
+}
+
+.side-nav .password-button {
+  width: calc(100% - 40px);
 }
 
 .side-nav .logout {
@@ -173,6 +177,24 @@
   background-color: #4bbba6;
 }
 
+.side-nav .delete {
+  width: calc(100% - 40px);
+  height: auto;
+  padding: 10px;
+  margin: 15px 20px 0px 20px;
+  background-color: #d60000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.side-nav .delete:hover {
+  background-color: #b70000;
+}
+
 main {
   width: 600px;
   height: auto;
@@ -181,6 +203,7 @@ main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  place-items: center;
   overflow: hidden;
 }
 
@@ -364,8 +387,35 @@ input:invalid {
 }
 
 @media (max-width: 1414px) {
+  .main5 {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .container5 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 calc(50% - 5px);
+            flex: 0 1 calc(50% - 5px);
+    max-width: 450px;
+    height: auto;
+    margin: auto;
+  }
+  .container5:nth-of-type(odd) {
+    margin-right: 5px;
+  }
+  .container5:nth-of-type(even) {
+    margin-left: 5px;
+  }
+  .container5:last-of-type {
+    margin: auto;
+  }
   .card5 {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -ms-flex-wrap: wrap !important;
+        flex-wrap: wrap !important;
     display: block !important;
+    height: auto;
   }
 }
 
@@ -377,15 +427,18 @@ input:invalid {
   .container4 {
     height: auto;
     -webkit-box-flex: 0;
-        -ms-flex: 0 1 calc(50% - 5px);
-            flex: 0 1 calc(50% - 5px);
+        -ms-flex: 0 1 calc(50% - 10px);
+            flex: 0 1 calc(50% - 10px);
     margin: 0px;
   }
   .container4:nth-of-type(odd) {
-    margin-right: 5px;
+    margin-right: 10px;
   }
   .container4:nth-of-type(even) {
-    margin-left: 5px;
+    margin-left: 10px;
+  }
+  .container4:first-of-type {
+    margin-left: 0px;
   }
   .card4 {
     display: block !important;
@@ -398,16 +451,81 @@ input:invalid {
     display: grid;
     place-items: center;
   }
-  .platform-sections-connected-container:first-of-type, .platform-sections-connected-container:last-of-type {
-    margin: 0px;
-  }
   .container3 {
     width: 100%;
     max-width: 400px;
     height: auto;
   }
+  .container3:first-of-type, .container3:last-of-type {
+    margin: 0px;
+  }
   .card3 {
     display: block !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .side-nav {
+    height: 90px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+  }
+  .side-nav .info:first-of-type {
+    padding: 0px 10px;
+  }
+  .side-nav .info:nth-of-type(2) {
+    -webkit-box-flex: 0 !important;
+        -ms-flex: 0 1 53% !important;
+            flex: 0 1 53% !important;
+    text-align: left !important;
+  }
+  .side-nav .break {
+    display: none;
+  }
+  .side-nav .password-button, .side-nav form, .side-nav .connect-twitter, .side-nav .delete {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 calc(25% - 25px);
+            flex: 0 1 calc(25% - 25px);
+    margin: 0px 10px !important;
+    font-size: 14px;
+  }
+  .side-nav .ct-disabled {
+    font-size: 12px;
+  }
+  .side-nav .logout {
+    width: 100%;
+    height: 100%;
+    margin: 0px !important;
+  }
+  .side-nav .password-form {
+    position: absolute;
+    background-color: #fff;
+    top: 200px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-top-color: #fff;
+    -webkit-box-shadow: 5px 5px 10px #f0f0f0;
+            box-shadow: 5px 5px 10px #f0f0f0;
+    z-index: 1;
+  }
+  main {
+    display: block !important;
+    width: calc(100% - 40px);
+  }
+  .container1, .container2, .container3, .container4, .container5 {
+    margin: auto !important;
+  }
+  .card0, .card1, .card2, .card3, .card4, .card5 {
+    display: none !important;
+  }
+}
+
+@media (max-width: 550px) {
+  .password-button, .logout, .connect-twitter, .delete {
+    font-size: 3vw;
   }
 }
 /*# sourceMappingURL=my-account.component.css.map */

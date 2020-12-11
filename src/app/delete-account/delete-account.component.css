@@ -1,0 +1,63 @@
+div {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  background-color: rgba(35, 35, 35, 0.4);
+  z-index: 999;
+}
+
+form {
+  width: 80%;
+  max-width: 550px;
+  height: auto;
+  padding: 20px;
+  background-color: #fff;
+  color: #232323;
+  border-radius: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+form p {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 100%;
+          flex: 1 0 100%;
+  margin-bottom: 30px;
+}
+
+form button {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 calc(50% - 10px);
+          flex: 0 1 calc(50% - 10px);
+  cursor: pointer;
+}
+
+form button[type=clear] {
+  margin-right: 10px;
+}
+
+form button[type=submit] {
+  margin-left: 10px;
+  background-color: #d60000;
+  font-size: 16px;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: none;
+}
+
+form button[type=submit]:hover {
+  background-color: #b70000;
+}
+/*# sourceMappingURL=delete-account.component.css.map */

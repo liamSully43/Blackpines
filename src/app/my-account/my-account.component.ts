@@ -20,6 +20,8 @@ export class MyAccountComponent implements OnInit {
   errorMessage: String = "";
   maxAccounts: boolean = false;
 
+  deleteBox: boolean = false;
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
@@ -27,12 +29,19 @@ export class MyAccountComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
+      // Shows when a user trys to add the same Twitter account multiple times
       if(params.error === "account already exists") {
         this.showError("This account has already been added, please try adding a different account");
       }
+      // When a user trys to add more than 5 Twitter accounts
       else if(params.error === "max accounts") {
         this.showError("Maximum number of accounts added");
       }
+      // When a user is unable to delete their Blackpines account
+      else if(params.error === "account not deleted") {
+        this.showError("Unable to delete your account at this time, please try again later");
+      }
+      // When there is some other kind of server or general error
       else if(params.error === "server error") {
         this.showError("An error occured, please try again later");
       }
@@ -45,7 +54,7 @@ export class MyAccountComponent implements OnInit {
       this.maxAccounts = (this.user.twitter.length >= 5) ? true : false;
       const email = this.user.username;
       if(email.length > 25) { // any email over 25 characters will need to be truncated
-        this.user.username = email.subStr(0, 22); // cut at 22 characters in order to fit the '...' on the end without the email breaking onto the next line
+        this.user.username = email.substring (0, 22); // cut at 22 characters in order to fit the '...' on the end without the email breaking onto the next line
         this.user.username += "...";
       }
       for(let account of this.user.twitter) {
@@ -126,5 +135,9 @@ export class MyAccountComponent implements OnInit {
   closeError() {
     this.error = false;
     this.errorMessage = "";
+  }
+
+  toggleDeleteBox() {
+    this.deleteBox = !this.deleteBox;
   }
 }

@@ -60,9 +60,9 @@
         }
 
         .description {
-            margin-top: 20px;
-            margin-left: 10px;
+            margin: 20px 20px 0px 10px;
             color: $secondary;
+            width: calc(100% - 20px);
         }
 
         .info, .info-interaction {
@@ -71,13 +71,14 @@
 
         .info {
             margin-top: 20px;
+            margin-right: 10px;
             color: $secondary;
-            width: 100%;
+            width: calc(100% - 20px);
 
             p, a {
                 display: inline-block;
                 width: auto;
-                margin: 5px 0px;
+                margin: 0px;
             }
     
             p {
@@ -218,12 +219,77 @@
     }
 }
 
+@media(max-width: 1800px) {
+    .a5 {
+
+        .account-info {
+
+            .info, .description {
+                margin-top: 10px;
+            }
+        
+            .info-interaction {
+                margin: 10px;
+                padding-bottom: 10px;
+            }
+        
+            .update-title {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+
+@media(max-width: 1650px) {
+    .a5 {
+        
+        .account-info {
+
+            .name, .handle {
+                font-size: 15px;
+            }
+
+            .description, .info, .info-interaction, .update-title {
+                font-size: 13px;
+            }
+
+            .info {
+                p {
+                    margin-right: 10px;
+                }
+            }
+
+            button {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
 @media(max-width: 1530px) { // change width of location & website URL to be 100%
     .a4 {
-        flex: 1 0 calc(100% - 12px) !important;
-        max-width: calc(100% - 12px) !important;
-        margin: 0px;
-        margin-bottom: 10px;
+
+        .account-info {
+
+            .update-twitter-form {
+
+                input {
+                    flex: 1 0 calc(100% - 12px) !important;
+                    max-width: calc(100% - 12px) !important;
+                    margin: 0px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+
+        .description, .info {
+            margin-top: 10px !important;
+        }
+
+        .info-interaction {
+            margin: 10px !important;
+            padding-bottom: 10px !important;
+        }
     }
 }
 
@@ -233,18 +299,94 @@
     }
 }
 
+@media(max-width: 1350px) {
+    .a4 {
+        .account-info {
+
+            .name, .handle {
+                font-size: 15px;
+            }
+
+            .description, .info, .info-interaction, .update-title {
+                font-size: 13px;
+            }
+
+            .info {
+                p {
+                    margin-right: 10px;
+                }
+            }
+
+            .update-title {
+                margin-bottom: 10px;
+            }
+
+            button {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
 @media(max-width: 1200px) {
     // change width of location & website URL to be 100%
     .a3 {
-        flex: 1 0 calc(100% - 12px) !important;
-        max-width: calc(100% - 12px) !important;
-        margin: 0px;
-        margin-bottom: 10px;
+
+        .account-info {
+
+            .update-twitter-form {
+
+                input {
+                    flex: 1 0 calc(100% - 12px) !important;
+                    max-width: calc(100% - 12px) !important;
+                    margin: 0px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+
+        .description, .info {
+            margin-top: 10px !important;
+        }
+
+        .info-interaction {
+            margin: 10px !important;
+            padding-bottom: 10px !important;
+        }
     }
 
     // hide the account info so that the card can replace it
     .a4 {
         display: none;
+    }
+}
+
+@media(max-width: 1100px) {
+    .a3 {
+        .account-info {
+
+            .name, .handle {
+                font-size: 15px;
+            }
+
+            .description, .info, .info-interaction, .update-title {
+                font-size: 13px;
+            }
+
+            .info {
+                p {
+                    margin-right: 10px;
+                }
+            }
+
+            .update-title {
+                margin-bottom: 10px;
+            }
+
+            button {
+                font-size: 12px;
+            }
+        }
     }
 }
 
@@ -254,20 +396,85 @@
     }
 }
 
-@media(max-width: 875px) { // change width of location & website URL to be 100%
+@media(max-width: 900px) {
     .a2 {
-        flex: 1 0 calc(100% - 12px) !important;
-        max-width: calc(100% - 12px) !important;
-        margin: 0px;
-        margin-bottom: 10px;
+
+        .description, .info {
+            margin-top: 10px !important;
+        }
+
+        .info-interaction {
+            margin: 10px !important;
+            padding-bottom: 10px !important;
+        }
     }
 }
 
-@media(max-width: 400px) { // change width of location & website URL to be 100%
-    .a1 {
-        flex: 1 0 calc(100% - 12px) !important;
-        max-width: calc(100% - 12px) !important;
-        margin: 0px;
-        margin-bottom: 10px;
+@media(max-width: 875px) { // change width of location & website URL to be 100%
+    .a2 {
+        .account-info {
+
+            .update-twitter-form {
+
+                input {
+                    flex: 1 0 calc(100% - 12px) !important;
+                    max-width: calc(100% - 12px) !important;
+                    margin: 0px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}
+
+
+@media(max-width: 800px) {
+    .a2 {
+
+        .account-info {
+
+            .name, .handle {
+                font-size: 15px;
+            }
+
+            .description, .info, .info-interaction, .update-title {
+                font-size: 13px;
+            }
+
+            .info {
+                p {
+                    margin-right: 10px;
+                }
+            }
+
+            .update-title {
+                margin-bottom: 10px;
+            }
+
+            button {
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+@media(max-width: 700px) {
+    .a1, .a2, .a3, .a4, .a5 {
+        flex: 1 0 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        display: block;
+    } 
+}
+
+@media(max-width: 350px) { // change width of location & website URL to be 100%
+    .update-twitter-form {
+
+        input {
+            flex: 1 0 calc(100% - 12px) !important;
+            max-width: calc(100% - 12px) !important;
+            margin: 0px;
+            margin-bottom: 10px;
+        }
     }
 }
