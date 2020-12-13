@@ -20,7 +20,7 @@
         </form>
         <div class="break"></div>
         <!-- connect to platforms -->
-        <a *ngIf="!twitter; else multipleTwitterAccounts" href="/twitter" class="connect-twitter">Connect Your Twitter Account</a>
+        <a *ngIf="accountsConnected < 1; else multipleTwitterAccounts" href="/twitter" class="connect-twitter">Connect Your Twitter Account</a>
         <ng-template #multipleTwitterAccounts>
             <a *ngIf="!maxAccounts; else maxAccountsButton" href="/twitter" class="connect-twitter">Connect Another Twitter Account</a>
             <ng-template #maxAccountsButton>
@@ -31,7 +31,7 @@
     </nav>
     <main class="main{{ accountsConnected }}">
         <!-- placeholder container for account's that are not connected -->
-        <div *ngIf="!twitter; else elseTwitter" class="platform-sections">
+        <div *ngIf="accountsConnected < 1; else elseTwitter" class="platform-sections">
             <img src="../../assets/twitter-logo.png" class="platform-logos" width="100" height="100" alt="Twitter" title="Twitter" />
         </div>
         <!-- account info container -->

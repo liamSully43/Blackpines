@@ -416,9 +416,14 @@ input:invalid {
 // Mobile view
 @media(max-width: 700px) {
     .side-nav {
-        height: 90px;
+        height: 75px;
         display: flex;
         flex-wrap: wrap;
+        padding: 10px 0px !important;
+
+        .info {
+            margin-bottom: 0px;
+        }
 
         .info:first-of-type {
             padding: 0px 10px;
@@ -434,13 +439,20 @@ input:invalid {
         }
 
         .password-button, form, .connect-twitter, .delete {
-            flex: 0 1 calc(25% - 25px);
+            flex: 0 1 calc(25% - 23px) !important;
             margin: 0px 10px !important;
-            font-size: 14px;
         }
 
-        .ct-disabled {
+        .password-button, .logout, .connect-twitter, .ct-disabled, .delete {
+            height: 35px !important;
+            padding: 5px !important;
             font-size: 12px;
+        }
+
+        .connect-twitter, .ct-disabled {
+            height: 25px !important;
+            max-height: 25px !important;
+            font-size: 11px;
         }
 
         .logout {
@@ -452,11 +464,12 @@ input:invalid {
         .password-form {
             position: absolute;
             background-color: $primary;
-            top: 200px;
+            top: 165px;
+            border: solid 1px lightgrey;
+            border-top: 0px;
             border-bottom-left-radius: 20px;
             border-bottom-right-radius: 20px;
             border-top-color: $primary;
-            box-shadow: 5px 5px 10px $off-primary;
             z-index: 1;
         }
     }
@@ -475,8 +488,61 @@ input:invalid {
     }
 }
 
+@media(max-width: 642px) {
+    .password-form {
+        top: 145px !important;
+    }
+}
+
 @media(max-width: 550px) {
     .password-button, .logout, .connect-twitter, .delete {
         font-size: 3vw;
+    }
+}
+
+@media(max-width: 505px) {
+    .password-button, .logout, .connect-twitter, .delete {
+        font-size: 2.3vw !important;
+    }
+
+    .password-button, form, .connect-twitter, .delete {
+        flex: 0 1 calc(25% - 13px) !important;
+        margin: 0px 5px !important;
+    }
+
+    .ct-disabled {
+        font-size: 2vw !important;
+    }
+}
+
+@media(max-width: 400px) {
+    .info {
+        height: 16px;
+        font-size: 12px;
+        padding: 0px 10px;
+    }
+
+    .password-button, form, .connect-twitter, .delete {
+        flex: 0 1 calc(25% - 13px);
+        margin: 0px 5px !important;
+    }
+}
+
+@media(max-width: 350px) {
+    .side-nav {
+
+        .info {
+            font-size: 12px;
+        }
+
+        .info:nth-of-type(2) {
+            padding: 0px 5px;
+        }
+
+        .password-button, form, .connect-twitter, .delete {
+            flex: 0 1 calc(25% - 13px) !important;
+            margin: 0px 5px !important;
+            font-size: 2.4vw !important;
+        }
     }
 }

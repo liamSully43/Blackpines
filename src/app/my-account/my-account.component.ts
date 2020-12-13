@@ -50,8 +50,8 @@ export class MyAccountComponent implements OnInit {
     this.http.get("api/user", { headers }).subscribe(data => {
       this.user = data;
       this.accountsConnected = this.user.twitter.length;
-      this.twitter = (this.user.twitter.length > 0) ? true : false;
-      this.maxAccounts = (this.user.twitter.length >= 5) ? true : false;
+      this.twitter = (this.accountsConnected > 0) ? true : false;
+      this.maxAccounts = (this.accountsConnected >= 5) ? true : false;
       const email = this.user.username;
       if(email.length > 25) { // any email over 25 characters will need to be truncated
         this.user.username = email.substring (0, 22); // cut at 22 characters in order to fit the '...' on the end without the email breaking onto the next line
@@ -77,11 +77,15 @@ export class MyAccountComponent implements OnInit {
       for(let [index, account] of this.user.twitter.entries()) {
         if(account.id_str == id) {
           element.classList.add("disconnect");
-          setTimeout(() => this.user.twitter.splice(index, 1), 500);
+          setTimeout(() => {
+            this.user.twitter.splice(index, 1);
+            this.maxAccounts = false;
+            this.accountsConnected--;
+          }, 500);
           break;
         }
       }
-      if(this.user.twitter.length < 1) {
+      if(this.accountsConnected < 1) {
         this.twitter = false;
       };
     });
