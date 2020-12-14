@@ -12,9 +12,10 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can make tweets from Blackpines
  - User's can Search for tweets & Twitter accounts
  - User's can reply to tweets
+ - User's can update their Twitter account information
 
 ## Known Issues
- - Twitter accounts that have no website/url will have their URL set to null, this causes problems when updating their accounts as the code cannot filter characters from null
+None
 
 ## Notes
 Max number of Twitter accounts that can be connected has been set to 5
