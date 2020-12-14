@@ -116,7 +116,7 @@ app.all("/*", (req, res, next) => {
 
 app.get("/twitter", checkAuthentication, passport.authorize("twitter"));
 
-app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter"), function(req, res) {
+app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter", { failureRedirect: '/my-account' }), function(req, res) { //failureRedirect is used to redirect the user if they reject the connection
     function cb(val) {
         let route = "";
         switch(val) {
