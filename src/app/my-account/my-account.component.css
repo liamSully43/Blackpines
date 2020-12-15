@@ -1,3 +1,7 @@
+html {
+  overflow: hidden;
+}
+
 .side-nav {
   -ms-flex-preferred-size: auto !important;
       flex-basis: auto !important;
@@ -379,11 +383,36 @@ input:invalid {
   }
 }
 
+.preview-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(35, 35, 35, 0.3);
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.preview-container section {
+  width: 100%;
+  max-width: 450px;
+  cursor: auto;
+}
+
 .error-field {
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0px;
+}
+
+@media (min-width: 1414px) {
+  .preview5 {
+    display: none;
+  }
 }
 
 @media (max-width: 1414px) {
@@ -417,6 +446,15 @@ input:invalid {
     display: block !important;
     height: auto;
   }
+  .preview5 {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .preview4 {
+    display: none;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -445,6 +483,12 @@ input:invalid {
   }
 }
 
+@media (min-width: 1000px) {
+  .preview3 {
+    display: none;
+  }
+}
+
 @media (max-width: 1000px) {
   .main3 {
     display: -ms-grid;
@@ -466,12 +510,16 @@ input:invalid {
 
 @media (max-width: 700px) {
   .side-nav {
-    height: 90px;
+    height: 75px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
+    padding: 10px 0px !important;
+  }
+  .side-nav .info {
+    margin-bottom: 0px;
   }
   .side-nav .info:first-of-type {
     padding: 0px 10px;
@@ -486,14 +534,20 @@ input:invalid {
     display: none;
   }
   .side-nav .password-button, .side-nav form, .side-nav .connect-twitter, .side-nav .delete {
-    -webkit-box-flex: 0;
-        -ms-flex: 0 1 calc(25% - 25px);
-            flex: 0 1 calc(25% - 25px);
+    -webkit-box-flex: 0 !important;
+        -ms-flex: 0 1 calc(25% - 23px) !important;
+            flex: 0 1 calc(25% - 23px) !important;
     margin: 0px 10px !important;
-    font-size: 14px;
   }
-  .side-nav .ct-disabled {
+  .side-nav .password-button, .side-nav .logout, .side-nav .connect-twitter, .side-nav .ct-disabled, .side-nav .delete {
+    height: 35px !important;
+    padding: 5px !important;
     font-size: 12px;
+  }
+  .side-nav .connect-twitter, .side-nav .ct-disabled {
+    height: 25px !important;
+    max-height: 25px !important;
+    font-size: 11px;
   }
   .side-nav .logout {
     width: 100%;
@@ -503,29 +557,83 @@ input:invalid {
   .side-nav .password-form {
     position: absolute;
     background-color: #fff;
-    top: 200px;
+    top: 165px;
+    border: solid 1px lightgrey;
+    border-top: 0px;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
     border-top-color: #fff;
-    -webkit-box-shadow: 5px 5px 10px #f0f0f0;
-            box-shadow: 5px 5px 10px #f0f0f0;
     z-index: 1;
   }
   main {
     display: block !important;
     width: calc(100% - 40px);
   }
-  .container1, .container2, .container3, .container4, .container5 {
+  .platform-sections-connected-container {
     margin: auto !important;
   }
-  .card0, .card1, .card2, .card3, .card4, .card5 {
+  .cards {
     display: none !important;
+  }
+  .preview-container {
+    display: none !important;
+  }
+}
+
+@media (max-width: 642px) {
+  .password-form {
+    top: 145px !important;
   }
 }
 
 @media (max-width: 550px) {
   .password-button, .logout, .connect-twitter, .delete {
     font-size: 3vw;
+  }
+}
+
+@media (max-width: 505px) {
+  .password-button, .logout, .connect-twitter, .delete {
+    font-size: 2.3vw !important;
+  }
+  .password-button, form, .connect-twitter, .delete {
+    -webkit-box-flex: 0 !important;
+        -ms-flex: 0 1 calc(25% - 13px) !important;
+            flex: 0 1 calc(25% - 13px) !important;
+    margin: 0px 5px !important;
+  }
+  .ct-disabled {
+    font-size: 2vw !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .info {
+    height: 16px;
+    font-size: 12px;
+    padding: 0px 10px;
+  }
+  .password-button, form, .connect-twitter, .delete {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 1 calc(25% - 13px);
+            flex: 0 1 calc(25% - 13px);
+    margin: 0px 5px !important;
+  }
+}
+
+@media (max-width: 350px) {
+  .side-nav .info {
+    font-size: 12px;
+  }
+  .side-nav .info:nth-of-type(2) {
+    padding: 0px 5px;
+  }
+  .side-nav .password-button, .side-nav form, .side-nav .connect-twitter, .side-nav .delete {
+    -webkit-box-flex: 0 !important;
+        -ms-flex: 0 1 calc(25% - 13px) !important;
+            flex: 0 1 calc(25% - 13px) !important;
+    margin: 0px 5px !important;
+    font-size: 2.4vw !important;
   }
 }
 /*# sourceMappingURL=my-account.component.css.map */

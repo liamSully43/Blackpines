@@ -393,12 +393,13 @@
 }
 
 @media (max-width: 700px) {
-  .a1, .a2, .a3, .a4, .a5 {
+  .platform-sections-connected {
     -webkit-box-flex: 1 !important;
         -ms-flex: 1 0 100% !important;
             flex: 1 0 100% !important;
     max-width: 100% !important;
-    height: auto !important;
+    min-height: auto;
+    padding-bottom: 10px;
     display: block;
   }
 }

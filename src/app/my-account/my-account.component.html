@@ -37,7 +37,7 @@
         <!-- account info container -->
         <ng-template #elseTwitter>
             <div class="platform-sections-connected-container container{{ accountsConnected }}" *ngFor="let account of user.twitter">
-                <div class="card{{ accountsConnected }} cards" title="Click to view the full account details">
+                <div class="card{{ accountsConnected }} cards" title="Click to view the full account details" (click)="showPreview(account)">
                     <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
                     <ng-template #elseBlock >
                         <div class="default-background">
@@ -53,6 +53,11 @@
                     <p class="handle">@{{ account.screen_name }}</p>
                 </div>
                 <app-account-profile *ngIf="user !== {}" [account]="account" [count]="accountsConnected" (disconnectMethod)="disconnect($event)"></app-account-profile>
+            </div>
+            <div class="preview-container preview{{ accountsConnected }}" *ngIf="previewAccount !== false" (click)="closePreview()">
+                <section (click)="stopPropagation($event)">
+                    <app-account-profile [account]="previewAccount" (disconnectMethod)="disconnect($event)" ></app-account-profile>
+                </section>
             </div>
         </ng-template>
     </main>

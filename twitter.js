@@ -645,8 +645,10 @@ const getUsersFollowing = (req, done) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function searchUsers (req, query, done, fail) {
-    const access_token = process.env.TWITTER_TOKEN;
-    const access_token_secret = process.env.TWITTER_TOKEN_SECRET;
+    const accountIndex = Math.floor(Math.random() * req.user.twitter.length);
+    const account = req.user.twitter[accountIndex];
+    const access_token = encrypt.decrypt(account.token);
+    const access_token_secret = encrypt.decrypt(account.tokenSecret);
     const oauth = new OAuth.OAuth(
         "https://api.twitter.com/oauth/request_token",
         "https://api.twitter.com/oauth/access_token",
@@ -678,17 +680,34 @@ function searchUsers (req, query, done, fail) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function searchPosts (req, query, done, fail) {
-    fetch(`https://api.twitter.com/1.1/search/tweets.json?q=${query}&result_type=popular&count=100&tweet_mode=extended`, {
-        method: "get",
-        headers:  {
-            'Content-Type': 'application/json',
-            "authorization": `Bearer ${process.env.TWITTER_BEARER_TOKEN}`,
+    const accountIndex = Math.floor(Math.random() * req.user.twitter.length);
+    const account = req.user.twitter[accountIndex];
+    const access_token = encrypt.decrypt(account.token);
+    const access_token_secret = encrypt.decrypt(account.tokenSecret);
+    const oauth = new OAuth.OAuth(
+        "https://api.twitter.com/oauth/request_token",
+        "https://api.twitter.com/oauth/access_token",
+        process.env.TWITTER_CONSUMER_KEY,
+        process.env.TWITTER_CONSUMER_SECRET,
+        '1.0A',
+        null,
+        'HMAC-SHA1'
+    );
+    oauth.get(
+        `https://api.twitter.com/1.1/search/tweets.json?q=${query}&result_type=popular&count=100&tweet_mode=extended`,
+        access_token,
+        access_token_secret,
+        function(err, data) {
+            if(err) {
+                console.log(err)
+                return fail();
+            }
+            else {
+                const tweets = Function(`"use strict";return ${data}`)();
+                return done(tweets);
+            }
         }
-    }).then(res => res.json()).then(posts => done(posts))
-    .catch((err) => {
-        console.log(err);
-        fail();
-    })
+    )
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
