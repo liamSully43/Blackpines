@@ -20,6 +20,8 @@ export class MyAccountComponent implements OnInit {
   errorMessage: String = "";
   maxAccounts: boolean = false;
 
+  previewAccount: any = false;
+
   deleteBox: boolean = false;
 
   constructor(
@@ -81,6 +83,7 @@ export class MyAccountComponent implements OnInit {
             this.user.twitter.splice(index, 1);
             this.maxAccounts = false;
             this.accountsConnected--;
+            this.closePreview();
           }, 500);
           break;
         }
@@ -126,9 +129,16 @@ export class MyAccountComponent implements OnInit {
     }
   }
 
+  showPreview(account) {
+    this.previewAccount = account;
+  }
+
+  closePreview() {
+    this.previewAccount = false;
+  }
+
   showError(err) {
     this.errorMessage = err;
-    console.log(this.errorMessage);
     this.error = true;
     setTimeout(() => {
       this.error = false;
@@ -143,5 +153,9 @@ export class MyAccountComponent implements OnInit {
 
   toggleDeleteBox() {
     this.deleteBox = !this.deleteBox;
+  }
+
+  stopPropagation(e) {
+    e.stopPropagation();
   }
 }

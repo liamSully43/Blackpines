@@ -14,11 +14,6 @@ body, html, h1, h2, h3, h4, h5, h6, p, a {
     font-weight: 400;
 }
 
-html {
-    height: calc(auto - 1px);
-    background-color: $off-primary;
-}
-
 body {
     height: 90vh !important;
     font-family: "Roboto", Arial, Helvetica, sans-serif;
@@ -167,13 +162,6 @@ main {
     text-decoration: none;
 }
 
-@media (max-width: 950px) {
-    .side-nav {
-        border-right: none !important;
-        border-bottom: solid 1px lightgray;
-    }
-}
-
 @media(max-width: 700px){
     *::-webkit-scrollbar {
         width: 5px;
@@ -181,5 +169,10 @@ main {
 
     .main-content {
         display: block;
+    }
+
+    .side-nav {
+        border-right: none !important;
+        border-bottom: solid 1px lightgray;
     }
 }
