@@ -8,23 +8,28 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 })
 export class SearchComponent implements OnInit {
 
-  // connected should always be set to true - the platforms don't need to rely on what the user is connected to as not user spcecific credential's are necessary
   twitter = {
     connected: false,
     feed: false,
   };
 
   user: any = {};
+  searchQuery: string;
 
-  twitterResults = [];
+  tweets = {
+    lastQuery: "",
+    results: [],
+  };
+  users = {
+    lastQuery: "",
+    results: [],
+  };
   firstSearch = true;
   failedSearch = false;
   
   searchType = "Users";
   
-  twitterPosts: any = [];
-  
-  twitterPostsError: any = false;
+  twitterTweetsError: any = false;
   tweet: any = false;
   
   twitterAccount: any = false; // this is used to display a user's profile
@@ -48,8 +53,7 @@ export class SearchComponent implements OnInit {
 
   toggleSearch = () => {
     const type = <HTMLSelectElement><unknown>document.querySelector("select");
-    this.searchType = type.value; // Users or Posts
-    this.twitterResults = []; // used to prevent an errors - the data pased back from search queries will vary depending on if users or posts are searched for
+    this.searchType = type.value; // Users or Tweets
     this.search(); // called to update results based off of type of search
   }
 
@@ -59,13 +63,27 @@ export class SearchComponent implements OnInit {
   }
 
   search() {
-    const searchTerm = (<HTMLInputElement>document.querySelector(".search")).value;
-    if(searchTerm.length < 1 || !this.twitter.connected) return; // prevents searches if twitter isn't connected or if there is no search term entered
+    const query = this.searchQuery;
+    if(query.length < 1 || !this.twitter.connected) return; // prevents searches if twitter isn't connected or if there is no search term entered
+    // prevents unnecessary searches if the search term matches the previously searched term for the current type of search shown/selected
+    if((this.searchType === "Users" && this.users.lastQuery === query) || (this.searchType === "Tweets" && this.tweets.lastQuery === query)) return;
+    if(this.searchType === "Users") {
+      this.users = {
+        lastQuery: query,
+        results: [],
+      }
+    }
+    else {
+      this.tweets = {
+        lastQuery: query,
+        results: [],
+      }
+    }
     this.loading = true;
     this.failedSearch = false;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const type = this.searchType;
-    this.http.post("api/search", { headers, searchTerm, type }, {responseType: "json"}).subscribe(((result: any) => {
+    this.http.post("api/search", { headers, query, type }, {responseType: "json"}).subscribe(((result: any) => {
       this.firstSearch = false;
       this.loading = false;
       if(result.success) {
@@ -102,14 +120,13 @@ export class SearchComponent implements OnInit {
             let url = user.profile_image_url.replace("normal", "200x200");
             user.profile_image_url = url;
           }
-          this.twitterResults = result.results;
+          this.users.results = result.results;
         }
         else { // if posts were searched for
-          this.twitterResults = result.results.statuses;
+          this.tweets.results = result.results.statuses;
         }
       }
       else {
-        this.twitterResults = [];
         this.failedSearch = true;
       }
     }))
@@ -133,7 +150,7 @@ export class SearchComponent implements OnInit {
         }, 500);
       }
       else {
-        this.twitterPostsError = result.post;
+        this.twitterTweetsError = result.post;
       }
     }))
   }
@@ -160,6 +177,10 @@ export class SearchComponent implements OnInit {
         this.twitterAccount = result
       }, 500);
     }));
+  }
+
+  setSearchQuery(e) {
+    this.searchQuery = e.target.value;
   }
 
   close() {
