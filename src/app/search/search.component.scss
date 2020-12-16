@@ -257,3 +257,15 @@ section {
         flex-basis: calc(85% - 90px);
     }
 }
+
+@media(max-width: 700px) {
+    main {
+        height: calc(100% - 40px);
+    }
+}
+
+@media(max-width: 642px) {
+    main {
+        height: calc(100% - 20px);
+    }
+}

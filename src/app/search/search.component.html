@@ -2,10 +2,10 @@
 <div class="main-content">
     <main [ngClass]="{'main-border' : expand}">
         <form action="/search" method="GET" class="search-bar" (submit)="submitForm($event)">
-            <input placeholder="Search" name="search" class="search" />
+            <input placeholder="Search" name="search" class="search" (change)="setSearchQuery($event)" />
             <select *ngIf="search" (change)="toggleSearch()">
                 <option>Users</option>
-                <option>Posts</option>
+                <option>Tweets</option>
             </select>
             <button type="submit" class="submit">Search</button>
         </form>
@@ -14,7 +14,7 @@
             <div class="results-overflow">
                 <!-- user results -->
                 <ng-container *ngIf='searchType == "Users"; else twitterElse'>
-                    <div *ngFor="let user of twitterResults" class="results" (click)="showTwitterAccount(user)">
+                    <div *ngFor="let user of users.results" class="results" (click)="showTwitterAccount(user)">
                         <img width="50" height="50" src="{{ user.profile_image_url }}" />
                         <div class="profile-headers">
                             <p>{{ user.name }}</p>
@@ -32,7 +32,7 @@
                 
                 <!-- tweet results -->
                 <ng-template #twitterElse>
-                    <app-feed-posts *ngFor="let post of twitterResults" [post]="post" [search]="true" [user]="user" (showPost)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
+                    <app-feed-posts *ngFor="let post of tweets.results" [post]="post" [search]="true" [user]="user" (showPost)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
                 </ng-template>
 
                 <div *ngIf="loading; else showMessages" class="loading-container">
@@ -40,7 +40,12 @@
                 </div>
                 <!-- search messages -->
                 <ng-template #showMessages>
-                    <p *ngIf="twitterResults.length < 1 && !firstSearch && !failedSearch" class="no-results">No Results Found.</p> <!-- no results found -->
+
+                    <!-- no results found -->
+                    <p *ngIf="searchType === 'Tweets' && tweets.results.length < 1 && !firstSearch && !failedSearch" class="no-results">No Tweets Found.</p>
+                    <p *ngIf="searchType === 'Users' && users.results.length < 1 && !firstSearch && !failedSearch" class="no-results">No Users Found.</p>
+                    
+                    
                     <a *ngIf="!twitter.connected" href="/my-account">Please connect a Twitter account from the my-account page to use the search Twitter function</a><!-- no twitter account connected -->
                     <p *ngIf="firstSearch && twitter.connected" class="no-results">Search for tweets or users.</p> <!-- default message -->
                     <p *ngIf="failedSearch" class="no-results error">Something went wrong please try again later.</p> <!-- error message -->

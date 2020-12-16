@@ -20,7 +20,7 @@ getUsersTweets
 getUsersFollowers
 getUsersFollowing
 searchUsers
-searchPosts
+searchTweets
 
 */
 
@@ -676,10 +676,10 @@ function searchUsers (req, query, done, fail) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//                               Search for Twitter Posts                              //
+//                               Search for Twitter Tweets                              //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function searchPosts (req, query, done, fail) {
+function searchTweets (req, query, done, fail) {
     const accountIndex = Math.floor(Math.random() * req.user.twitter.length);
     const account = req.user.twitter[accountIndex];
     const access_token = encrypt.decrypt(account.token);
@@ -733,5 +733,5 @@ module.exports = {
     getUsersFollowers,
     getUsersFollowing,
     searchUsers,
-    searchPosts,
+    searchTweets,
 }

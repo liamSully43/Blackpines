@@ -323,9 +323,9 @@ app.post("/api/changePassword", [
 })
 
 app.post("/api/search", [
-    check("searchTerm").stripLow().trim().escape(),
+    check("query").stripLow().trim().escape(),
 ], (req, res) => {
-    const searchTerm = req.body.searchTerm // the user's searched term
+    const searchTerm = req.body.query // the user's searched term
     const type = req.body.type; // if the user is searching for posts or users
 
     let failSafeCalled = false; // used to prevent the complete function from returning data if the failsafe is called after a timeout 
@@ -352,8 +352,8 @@ app.post("/api/search", [
         complete();
     }
 
-    if(type === "Posts") {
-        twitterAPI.searchPosts(req, searchTerm, callbackSuccess, callbackFailed);
+    if(type === "Tweets") {
+        twitterAPI.searchTweets(req, searchTerm, callbackSuccess, callbackFailed);
     }
     else {
         twitterAPI.searchUsers(req, searchTerm, callbackSuccess, callbackFailed);
