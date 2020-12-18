@@ -44,8 +44,6 @@
                     <!-- no results found -->
                     <p *ngIf="searchType === 'Tweets' && tweets.results.length < 1 && !firstSearch && !failedSearch" class="no-results">No Tweets Found.</p>
                     <p *ngIf="searchType === 'Users' && users.results.length < 1 && !firstSearch && !failedSearch" class="no-results">No Users Found.</p>
-                    
-                    
                     <a *ngIf="!twitter.connected" href="/my-account">Please connect a Twitter account from the my-account page to use the search Twitter function</a><!-- no twitter account connected -->
                     <p *ngIf="firstSearch && twitter.connected" class="no-results">Search for tweets or users.</p> <!-- default message -->
                     <p *ngIf="failedSearch" class="no-results error">Something went wrong please try again later.</p> <!-- error message -->
@@ -58,6 +56,7 @@
     <div class="content-previews" *ngIf="expand">
         <app-loading *ngIf="loading"></app-loading>
         <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" [userIds]="user.twitter" (closePreview)="close()" (showTweet)="showPost($event)"></app-twitter-account>
-        <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
+        <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" [accounts]="user.twitter" (close)="close()" (updateTweet)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
     </div>
 </div>
+<app-error *ngIf="twitterTweetsError !== false" [error]="twitterTweetsError" (closeError)="close()" ></app-error>

@@ -409,7 +409,7 @@ app.post("/api/twitter/tweet/get", (req, res) => {
     function cb (val) {
         res.send(val);
     }
-    twitterAPI.getTweet(postId, cb);
+    twitterAPI.getTweet(req, postId, cb);
 })
 
 app.get("/api/twitter/account/get", (req, res) => {

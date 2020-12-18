@@ -89,6 +89,11 @@
         <!-- time & date of tweet -->
         <p class="time" >{{ tweet.time }} | {{ tweet.date }}</p>
         <a class="preview" href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" target="_blank" rel="nofollow" >View Tweet</a>
+
+        <!-- user's Twitter accounts -->
+        <div class="twitter-accounts-container">
+            <img *ngFor="let user of accounts" width="50" height="50" src="{{ user.profile_image_url }}" alt="@{{ user.screen_name }}" title="@{{ user.screen_name }}" id="{{ user.id_str }}" (click)="toggleAccount($event)" />
+        </div>
         
         <!-- comments, retweets & likes -->
         <div class="user-interaction">
@@ -117,7 +122,6 @@
         </form>
 
         <!-- Error & success messages -->
-        <p *ngIf="error" class="error">An error occured, please try again later</p>
-        <p *ngIf="success" class="success">Tweet sent</p>
+        <p *ngFor="let message of messages" [ngClass]="{'error': message.success === null}" >{{ message.message }}</p>
     </div>
 </div>
