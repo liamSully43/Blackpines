@@ -150,6 +150,7 @@ export class SearchComponent implements OnInit {
         }, 500);
       }
       else {
+        this.loading = false;
         this.twitterTweetsError = result.post;
       }
     }))
@@ -168,14 +169,17 @@ export class SearchComponent implements OnInit {
   fetchUser(user) {
     this.clear();
     this.loading = true;
+    this.expand = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
-    this.http.get("api/twitter/tweet/get", { headers, params }).subscribe((result => {
-      this.expand = true;
-      setTimeout(() => {
-        this.loading = false;
-        this.twitterAccount = result
-      }, 500);
+    this.http.get("api/twitter/account/get", { headers, params }).subscribe(((result: any) => {
+      this.loading = false;
+      if(result.success) {
+        this.twitterAccount = result.user
+      }
+      else {
+        this.twitterTweetsError = result.message;
+      }
     }));
   }
 
@@ -191,6 +195,7 @@ export class SearchComponent implements OnInit {
   clear() {
     this.tweet = false;
     this.twitterAccount = false;
+    this.twitterTweetsError = false;
   }
 
 }

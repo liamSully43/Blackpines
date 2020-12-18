@@ -49,7 +49,6 @@ export class TwitterAccountComponent implements OnInit {
       }
     }
 
-    this.getTweets();
   }
 
   // rounds the number of following & followers to the neares 1000 or million
@@ -105,6 +104,7 @@ export class TwitterAccountComponent implements OnInit {
       this.loading = false;
       if(res.success) {
         this.accounts = [];
+        console.log(res.tweets);
         for(let tweet of res.tweets) {
           if(tweet.retweeted_status) {
             const user = tweet.user;
@@ -124,16 +124,16 @@ export class TwitterAccountComponent implements OnInit {
     
           // replaces shortened hrefs from the tweet text
           for(let url of tweet.entities.urls) {
-            const text = tweet.text.replace(url.url, "");
-            tweet.text = text;
+            const text = tweet.full_text.replace(url.url, "");
+            tweet.full_text = text;
           }
           
           // replaces shortened image hrefs from the tweet text
           for(const prop in tweet.entities) {
             if(prop === "media") { // the media property only shows up if an image is used, unlike the url or hashtag properties
               for(let url of tweet.extended_entities.media) {
-                const text = tweet.text.replace(url.url, "📷");
-                tweet.text = text;
+                const text = tweet.full_text.replace(url.url, "📷");
+                tweet.full_text = text;
               }
               break;
             }

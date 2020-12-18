@@ -247,9 +247,42 @@
         font-size: 15px;
     }
 
+    .twitter-accounts-container {
+        width: 100%;
+        display: flex;
+        margin-top: 10px;
+
+        img {
+            margin-right: 5px;
+            padding: 3px;
+            opacity: 0.8;
+            border: solid 4px $primary;
+            border-radius: 100%;
+            cursor: pointer;
+            
+            &:hover {
+                border-color: $off-primary;
+                opacity: 1;
+            }
+        }
+
+        img:last-of-type {
+            margin: 0px;
+        }
+
+        .selected {
+            border-color: $accent;
+            opacity: 1;
+            
+            &:hover {
+                border-color: $hover;
+            }
+        }
+    }
+
     .user-interaction {
         display: flex;
-        margin-top: 20px;
+        margin-top: 10px;
         padding: 10px 0px;
         border-top: solid 1px lightgrey;
         border-bottom: solid 1px lightgrey;

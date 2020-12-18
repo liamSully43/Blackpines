@@ -85,7 +85,7 @@
                             </ng-template>
 
                             <!-- tweet text -->
-                            <p class="text">{{ tweet.text }}</p>
+                            <p class="text">{{ tweet.full_text }}</p>
 
                             <!-- quote tweet if the original tweet is a quote tweet -->
                             <div *ngIf="tweet.quoted_status" class="quoted-tweet">
@@ -95,7 +95,7 @@
                                     <img class="verified" *ngIf="tweet.quoted_status.user.verified" width="20" height="20" src="../../assets/verified.png" />
                                     <p>@{{ tweet.quoted_status.user.screen_name }}</p>
                                 </div>
-                                <p class="text">{{ tweet.quoted_status.text }}</p>
+                                <p class="text">{{ tweet.quoted_status.full_text }}</p>
                             </div>
 
                             <!-- time & date of tweet -->

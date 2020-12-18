@@ -29,7 +29,7 @@
         </div>
     
         <!-- post & account previews -->
-        <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" [userIds]="user.twitter" (closePreview)="close()" (showTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-twitter-account>
-        <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" (close)="close()" (updateTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
+        <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount.user" [userIds]="user.twitter" (closePreview)="close()" (showTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)"></app-twitter-account>
+        <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" [accounts]="user.twitter" (close)="close()" (updateTweet)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
     </div>
 </div>
