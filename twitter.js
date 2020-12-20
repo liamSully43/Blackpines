@@ -398,9 +398,9 @@ function like(req, done) {
             }
         }
     }
-    let response = [];
+    let messages = [];
     const cb = () => {
-        if(response.length === req.body.accounts.length) return done(response);
+        if(messages.length === req.body.accounts.length) return done(messages);
     }
     for(let account of accounts) {
         const token = encrypt.decrypt(account.token);
@@ -427,17 +427,17 @@ function like(req, done) {
                                     console.log(err);
                                     const res = {
                                         success: null,
-                                        message: `@${account.screen_name} was unable to dislike the tweet`,
+                                        message: `@${account.screen_name} was unable to unlike the tweet`,
                                     }
-                                    response.push(res);
+                                    messages.push(res);
                                     cb();
                                 }
                                 else {
                                     const res = {
                                         success: false,
-                                        message: `@${account.screen_name} disliked the tweet`,
+                                        message: `@${account.screen_name} unliked the tweet`,
                                     }
-                                    response.push(res);
+                                    messages.push(res);
                                     cb();
                                 }
                             }
@@ -448,7 +448,7 @@ function like(req, done) {
                             success: null,
                             message: `@${account.screen_name} was unable to like the tweet`,
                         }
-                        response.push(res);
+                        messages.push(res);
                         cb();
                     }
                 }
@@ -457,7 +457,7 @@ function like(req, done) {
                         success: true,
                         message: `@${account.screen_name} liked the tweet`,
                     }
-                    response.push(res);
+                    messages.push(res);
                     cb();
                 }
             }
@@ -470,31 +470,56 @@ function like(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function reply(req, done) {
-    const id = req.body.id;
-    const tweet = req.body.tweet;
-    const handle = req.body.handle;
-    const tweetArray = tweet.split(" ");
-    const status = (tweetArray[0] !== `@${handle}`) ? `@${handle} ${tweet}` : tweet;
-    
-    const access_token = encrypt.decrypt(req.user.twitter.token);
-    const access_token_secret = encrypt.decrypt(req.user.twitter.tokenSecret);
-    const T = new Twit({
-        consumer_key: process.env.TWITTER_CONSUMER_KEY,
-        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-        access_token,
-        access_token_secret,
-        timeout_ms: 60*1000,
-        strictSSL: false,
-    })
-    T.post("statuses/update", { in_reply_to_status_id: id, status: status}, function(err, data, response) {
-        if(err) {
-            console.log(err);
-            done(false);
+    const id = req.body.id; // tweet id
+    const tweet = req.body.tweet; // reply text
+    const handle = req.body.handle; // original poster's handle
+    const tweetArray = tweet.split(" "); // array of words in the user's reply
+    const status = (tweetArray[0] !== `@${handle}`) ? `@${handle} ${tweet}` : tweet; // Twitter requires the original poster's handle at the beginning of the reply
+
+    let accounts = [];
+    for(let id of req.body.accounts) {
+        for(let twitAccount of req.user.twitter) {
+            if(id === twitAccount.id_str) {
+                accounts.push(twitAccount);
+                break;
+            }
         }
-        else {
-            done(true);
-        }
-    })
+    }
+    let messages = [];
+    const cb = () => {
+        if(messages.length === req.body.accounts.length) return done(messages);
+    }
+    for(let account of accounts) {
+        const access_token = encrypt.decrypt(account.token);
+        const access_token_secret = encrypt.decrypt(account.tokenSecret);
+        const T = new Twit({
+            consumer_key: process.env.TWITTER_CONSUMER_KEY,
+            consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+            access_token,
+            access_token_secret,
+            timeout_ms: 60*1000,
+            strictSSL: false,
+        })
+        T.post("statuses/update", { in_reply_to_status_id: id, status: status}, function(err, data, response) {
+            if(err) {
+                console.log(err);
+                const res = {
+                    success: false,
+                    message: `Unable to add @${account.screen_name}'s reply`,
+                }
+                messages.push(res);
+                cb();
+            }
+            else {
+                const res = {
+                    success: true,
+                    message: `@${account.screen_name} replied to the tweet`,
+                }
+                messages.push(res);
+                cb();
+            }
+        })
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -502,46 +527,81 @@ function reply(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function retweet(req, done) {
-    const id = req.body.id;    
-    const access_token = encrypt.decrypt(req.user.twitter.token);
-    const access_token_secret = encrypt.decrypt(req.user.twitter.tokenSecret);
-    const T = new Twit({
-        consumer_key: process.env.TWITTER_CONSUMER_KEY,
-        consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-        access_token,
-        access_token_secret,
-        timeout_ms: 60*1000,
-        strictSSL: false,
-    })
-    T.post("statuses/retweet/:id", { id }, function(err, data, response) {
-        if(err) {
-            console.log(err);
-            if(err.allErrors[0].code === 327) {
-                oauth.post(
-                    `https://api.twitter.com/1.1/statuses/unretweet/${id}.json?trim_user=true`,
-                    access_token,
-                    access_token_secret,
-                    null,
-                    "application/json",
-                    function(err, data) {
-                        if(err) {
-                            console.log(err);
-                            return done(null);
+    let accounts = [];
+    for(let id of req.body.accounts) {
+        for(let twitAccount of req.user.twitter) {
+            if(id === twitAccount.id_str) {
+                accounts.push(twitAccount);
+                break;
+            }
+        }
+    }
+    let messages = [];
+    const cb = () => {
+        if(messages.length === req.body.accounts.length) return done(messages);
+    }
+    const id = req.body.id; // tweet id
+    for(let account of accounts) {
+        const access_token = encrypt.decrypt(account.token);
+        const access_token_secret = encrypt.decrypt(account.tokenSecret);
+        const T = new Twit({
+            consumer_key: process.env.TWITTER_CONSUMER_KEY,
+            consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+            access_token,
+            access_token_secret,
+            timeout_ms: 60*1000,
+            strictSSL: false,
+        })
+        T.post("statuses/retweet/:id", { id }, function(err, data, response) {
+            if(err) {
+                console.log(err);
+                if(err.allErrors[0].code === 327) {
+                    oauth.post(
+                        `https://api.twitter.com/1.1/statuses/unretweet/${id}.json?trim_user=true`,
+                        access_token,
+                        access_token_secret,
+                        null,
+                        "application/json",
+                        function(err, data) {
+                            if(err) {
+                                console.log(err);
+                                const res = {
+                                    success: null,
+                                    message: `@${account.screen_name} was unable to un-retweet the tweet`,
+                                }
+                                messages.push(res);
+                                return cb();
+                            }
+                            else {
+                                const res = {
+                                    success: false,
+                                    message: `@${account.screen_name} un-retweeted the tweet`,
+                                }
+                                messages.push(res);
+                                return cb();
+                            }
                         }
-                        else {
-                            return done(false);
-                        }
+                    )
+                }
+                else {
+                    const res = {
+                        success: null,
+                        message: `@${account.screen_name} was unable to retweet the tweet`,
                     }
-                )
+                    messages.push(res);
+                    cb();
+                }
             }
             else {
-                done(null);
+                const res = {
+                    success: true,
+                    message: `@${account.screen_name} retweeted the tweet`,
+                }
+                messages.push(res);
+                cb();
             }
-        }
-        else {
-            done(true);
-        }
-    })
+        })
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
