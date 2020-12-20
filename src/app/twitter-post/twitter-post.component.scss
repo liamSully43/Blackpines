@@ -251,6 +251,7 @@
         width: 100%;
         display: flex;
         margin-top: 10px;
+        border: solid 1px transparent;
 
         img {
             margin-right: 5px;
@@ -277,6 +278,10 @@
             &:hover {
                 border-color: $hover;
             }
+        }
+
+        &.none-selected {
+            border-color: $close;
         }
     }
 
@@ -377,6 +382,12 @@
                 flex-basis: 30% !important;
             }
         }
+    }
+
+    .messages {
+        margin-top: 10px;
+        font-size: 14px;
+        color: $secondary;
     }
 }
 

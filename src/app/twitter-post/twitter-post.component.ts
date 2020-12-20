@@ -17,8 +17,10 @@ export class TwitterPostComponent implements OnInit {
 
   headers = new HttpHeaders().set("Authorization", "auth-token");
 
-  liked = false;
-  likesCount = 0;
+  liked: boolean = false;
+  likesCount: number = 0;
+  retweeted: boolean = false;
+  retweetCount: number = 0;
   messages: any = [];
 
   links = [];
@@ -27,7 +29,8 @@ export class TwitterPostComponent implements OnInit {
   imgUrlsQuote = [];
 
   quoteTweet: any = false;
-  selectedUsers = [];
+  selectedUsers: Array<any> = [];
+  noUsersSelected: boolean = false;
 
   constructor(private http: HttpClient) { }
 
@@ -144,17 +147,24 @@ export class TwitterPostComponent implements OnInit {
   }
 
   likeTweet() {
+    // if no users are selected
+    if(this.selectedUsers.length < 1) {
+      this.noUsersSelected = true;
+      const message = {
+        success: false,
+        message: "Please select at least one user",
+      }
+      this.messages.push(message);
+      this.clearMessages();
+      return;
+    }
     const headers = this.headers;
     const id = this.tweet.id_str;
     const accounts = this.selectedUsers;
     this.http.post("api/twitter/tweet/like", { headers, id, accounts }, {responseType: "json"}).subscribe(((messages: any) => {
-      // removes the selected class from each account that was selected by the user
-      document.querySelectorAll(".selected").forEach(ele => {
-        ele.classList.remove("selected");
-      })
-      this.selectedUsers = [];
-
-      this.messages.push(messages);
+      this.deselectUsers(); // deselects users
+      this.messages = messages;
+      // updates the like count
       for(let message of messages) {
         if(message.success) {
           this.likesCount++;
@@ -167,32 +177,87 @@ export class TwitterPostComponent implements OnInit {
           this.tweet.likesRounded = this.roundNumbers(this.tweet.favorite_count);
         }
       }
-      if(this.likesCount < 0) this.likesCount = 0;
-      this.liked = (this.likesCount > 0) ? true: false; 
+      if(this.likesCount < 0) this.likesCount = 0; // prevents any erros with showning if the user has liked the tweet - if the user unlikes a tweet they've previously liked then the counter will go to -1
+      this.liked = (this.likesCount > 0) ? true: false; // highlights the like button if at least 1 account has liked the tweet 
+      this.clearMessages();
+    }));
+  }
+
+  retweet() {
+    if(this.selectedUsers.length < 1) {
+      this.noUsersSelected = true;
+      const message = {
+        success: false,
+        message: "Please select at least one user",
+      }
+      this.messages.push(message);
+      this.clearMessages();
+      return;
+    }
+    const headers = this.headers;
+    const id = this.tweet.id_str;
+    const accounts = this.selectedUsers;
+    this.http.post("api/twitter/tweet/retweet", { headers, id, accounts }, {responseType: "json"}).subscribe(((messages: any) => {
+      this.deselectUsers();
+      this.messages = messages;
+      // updates the retweet count
+      for(let message of messages) {
+        if(message.success) {
+          this.retweetCount++;
+          this.tweet.retweet_count++;
+          this.tweet.retweetsRounded = this.roundNumbers(this.tweet.retweet_count);
+        }
+        else if (!message.success) {
+          this.retweetCount--;
+          this.tweet.retweet_count--;
+          this.tweet.retweetsRounded = this.roundNumbers(this.tweet.retweet_count);
+        }
+      }
+      if(this.retweetCount < 0) this.retweetCount = 0; // prevents any erros with showning if the user has retweeted the tweet - if the user unretweets a tweet they've previously retweeted then the counter will go to -1
+      this.retweeted = (this.retweetCount > 0) ? true: false; // highlights the retweet button if at least 1 account has liked the tweet 
       this.clearMessages();
     }))
   }
 
-  retweet() {
-    const headers = this.headers;
-    const id = this.tweet.id_str;
-    const accounts = this.selectedUsers;
-    this.http.post("api/twitter/tweet/retweet", { headers, id, accounts }, {responseType: "json"}).subscribe((response => {
-      if(response === null) {
-        // this.errorThrown();
+  addReply(e) {
+    e.preventDefault();
+    if(this.selectedUsers.length < 1) {
+      this.noUsersSelected = true;
+      const message = {
+        success: false,
+        message: "Please select at least one user",
       }
-      else if(response) {
-        (<HTMLImageElement>document.querySelector(".retweet")).classList.add("selected");
-        // this.successThrown();
-        this.tweet.retweet_count++;
-        this.tweet.retweetsRounded = this.roundNumbers(this.tweet.retweet_count);
-      }
-      else {
-        (<HTMLImageElement>document.querySelector(".retweet")).classList.remove("selected");
-        this.tweet.retweet_count--;
-        this.tweet.retweetsRounded = this.roundNumbers(this.tweet.retweet_count);
-      }
-    }))
+      this.messages.push(message);
+      this.clearMessages();
+      return;
+    }
+    const reply = <HTMLInputElement><unknown>document.querySelector(".reply");
+    const tweet = reply.value;
+    if(tweet.length > 0) {
+      const headers = this.headers;
+      const id = this.tweet.id_str;
+      const handle = this.tweet.user.screen_name;
+      const accounts = this.selectedUsers;
+      this.http.post("api/twitter/tweet/reply", { headers, id, tweet, handle, accounts }, {responseType: "json"}).subscribe((messages => {
+        this.deselectUsers();
+        this.messages = messages;
+        for(let message of this.messages) {
+          if(message.success) {
+            reply.value = "";
+            break;
+          }
+        }
+        this.clearMessages();
+      }));
+    }
+  }
+
+  // removes the selected class from each account that was selected by the user
+  deselectUsers() {
+    document.querySelectorAll(".selected").forEach(ele => {
+      ele.classList.remove("selected");
+    });
+    this.selectedUsers = [];
   }
 
   // checks the length of the reply to prevent user's from being able to reply to tweets with an empty tweet
@@ -202,27 +267,6 @@ export class TwitterPostComponent implements OnInit {
       const tweet = reply.value;
       (<HTMLButtonElement>document.querySelector(".submit")).disabled = (tweet.length < 1) ? true : false;
     }, 1); // 1 milisecond delay required to update value with user's input, otherwise the last character they typed does not get included
-  }
-
-  addReply(e) {
-    e.preventDefault();
-    const reply = <HTMLInputElement><unknown>document.querySelector(".reply");
-    const tweet = reply.value;
-    if(tweet.length > 0) {
-      const headers = this.headers;
-      const id = this.tweet.id_str;
-      const handle = this.tweet.user.screen_name;
-      const accounts = this.selectedUsers;
-      this.http.post("api/twitter/tweet/reply", { headers, id, tweet, handle, accounts }, {responseType: "json"}).subscribe((response => {
-        if(response) {
-          // this.successThrown();
-          reply.value = "";
-        }
-        else {
-          // this.errorThrown();
-        }
-      }));
-    }
   }
 
   expandTweet() {
@@ -249,6 +293,9 @@ export class TwitterPostComponent implements OnInit {
   }
 
   clearMessages() {
-    setTimeout(() => this.messages = [], 5000);
+    setTimeout(() => {
+      this.noUsersSelected = false;
+      this.messages = []
+    }, 7000);
   }
 }

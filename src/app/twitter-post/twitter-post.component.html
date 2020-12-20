@@ -91,7 +91,7 @@
         <a class="preview" href="https://twitter.com/{{ tweet.user.screen_name }}/status/{{ tweet.id_str }}" target="_blank" rel="nofollow" >View Tweet</a>
 
         <!-- user's Twitter accounts -->
-        <div class="twitter-accounts-container">
+        <div class="twitter-accounts-container" [ngClass]="{'none-selected' : noUsersSelected}">
             <img *ngFor="let user of accounts" width="50" height="50" src="{{ user.profile_image_url }}" alt="@{{ user.screen_name }}" title="@{{ user.screen_name }}" id="{{ user.id_str }}" (click)="toggleAccount($event)" />
         </div>
         
@@ -103,7 +103,7 @@
                 </a>
             </div>
             <div>
-                <img class="retweet" src="../../assets/retweet.png" width="auto" height="20" title="retweet" (click)="retweet()" />
+                <img class="retweet" [ngClass]="{'selected' : retweeted}" src="../../assets/retweet.png" width="auto" height="20" title="retweet" (click)="retweet()" />
                 <p>{{ tweet.retweetsRounded }}</p>
             </div>
             <div>
@@ -122,6 +122,6 @@
         </form>
 
         <!-- Error & success messages -->
-        <p *ngFor="let message of messages" [ngClass]="{'error': message.success === null}" >{{ message.message }}</p>
+        <p *ngFor="let message of messages" class="messages" [ngClass]="{'error': message.success === null}" >{{ message.message }}</p>
     </div>
 </div>
