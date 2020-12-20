@@ -11,13 +11,14 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can view any twitter account
  - User's can make tweets from Blackpines
  - User's can Search for tweets & Twitter accounts
- - User's can reply to tweets
  - User's can update their Twitter account information
+ - User's can reply to tweets with multiple accounts
+ - User's can retweet tweets with multiple accounts
+ - User's can like tweets with multiple accounts
 
 ## Known Issues
 None
 
 ## Notes
 Max number of Twitter accounts that can be connected has been set to 5
-Will likely need to re-code or refactor the TS for /search as most of the code is still structured around the old structure of Blackpines - i.e. the old multi-platform features
 Will also likely need to re-code /entry as the values from the fields are saved using the DOM rather than saving them to a variable
