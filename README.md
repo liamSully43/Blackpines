@@ -15,6 +15,7 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can reply to tweets with multiple accounts
  - User's can retweet tweets with multiple accounts
  - User's can like tweets with multiple accounts
+ - User's can follow accounts using multiple accounts
 
 ## Known Issues
 None
