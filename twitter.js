@@ -2,7 +2,7 @@
 
 Function Index:
     
-callback
+callback,
 disconnect
 update
 getFeed
@@ -16,6 +16,7 @@ retweet
 deleteTweet
 follow
 unfollow
+checkIfFollowing
 getUsersTweets
 getUsersFollowers
 getUsersFollowing
@@ -634,8 +635,16 @@ function deleteTweet(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function follow(req, done) {
-    const token = encrypt.decrypt(req.user.twitter.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
+    let user = {};
+    for(let account of req.user.twitter) {
+        if(req.body.userId === account.id_str) {
+            user = account;
+            break;
+        }
+    }
+    if(user === {}) return done(null);
+    const token = encrypt.decrypt(user.token);
+    const tokenSecret = encrypt.decrypt(user.tokenSecret);
     oauth.post(
         `https://api.twitter.com/1.1/friendships/create.json?user_id=${req.body.id}`,
         token,
@@ -659,8 +668,16 @@ function follow(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function unfollow(req, done) {
-    const token = encrypt.decrypt(req.user.twitter.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
+    let user = {};
+    for(let account of req.user.twitter) {
+        if(req.body.userId === account.id_str) {
+            user = account;
+            break;
+        }
+    }
+    if(user === {}) return done(null);
+    const token = encrypt.decrypt(user.token);
+    const tokenSecret = encrypt.decrypt(user.tokenSecret);
     oauth.post(
         `https://api.twitter.com/1.1/friendships/destroy.json?user_id=${req.body.id}`,
         token,
@@ -677,6 +694,50 @@ function unfollow(req, done) {
             }
         }
     )
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                      Check if user is following Twit account                        //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function checkIfFollowing(req, done) {
+    const id = req.query.id;
+    const accounts = req.user.twitter;
+    let response = [];
+    const cb = () => {
+        if (response.length === accounts.length) return done(response)
+    }
+    for(let account of accounts) {
+        const token = encrypt.decrypt(account.token);
+        const tokenSecret = encrypt.decrypt(account.tokenSecret);
+        oauth.get(
+            `https://api.twitter.com/1.1/friendships/lookup.json?user_id=${id}`,
+            token,
+            tokenSecret,
+            function(err, data) {
+                if(err) {
+                    console.log(err);
+                    const res = {
+                        success: false,
+                        id: account.id_str,
+                    }
+                    response.push(res);
+                    cb();
+                }
+                else {
+                    const following = Function(`"use strict";return ${data}`)();
+                    const connection = following[0].connections[0];
+                    const res = {
+                        success: true,
+                        id: account.id_str,
+                        connection,
+                    }
+                    response.push(res);
+                    cb();
+                }
+            }
+        )
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -858,6 +919,7 @@ module.exports = {
     deleteTweet,
     follow,
     unfollow,
+    checkIfFollowing,
     getUsersTweets,
     getUsersFollowers,
     getUsersFollowing,

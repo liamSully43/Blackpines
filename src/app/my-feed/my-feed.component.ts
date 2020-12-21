@@ -118,8 +118,8 @@ export class MyFeedComponent implements OnInit {
     this.expand = true;
     const headers = this.headers;
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
-    this.http.get("api/twitter/account/get", { headers, params }).subscribe((result => {
-      if(!result) {
+    this.http.get("api/twitter/account/get", { headers, params }).subscribe(((result: any) => {
+      if(!result.success) {
         this.expand = false;
         this.loading = false;
         this.error = "Something went wrong, please try again later";
@@ -128,7 +128,7 @@ export class MyFeedComponent implements OnInit {
       else {
         setTimeout(() => {
           this.loading = false;
-          this.twitterAccount = result;
+          this.twitterAccount = result.user;
         }, 500);
       }
     }));

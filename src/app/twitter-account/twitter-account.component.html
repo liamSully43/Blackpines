@@ -18,12 +18,14 @@
                 </div>
 
                 <!-- follow/following -->
-                <a class="edit-link" *ngIf="!ownAccount; else followBlock" href="/my-account" title="Click to edit your profile"><img src="../../assets/edit.PNG" width="20" height="auto" alt="Click to edit your profile" /></a>
+                <a class="edit-link" *ngIf="ownAccount; else followBlock" href="/my-account" title="Click to edit your profile"><img src="../../assets/edit.PNG" width="20" height="auto" alt="Click to edit your profile" /></a>
                 <ng-template #followBlock>
-                    <p (click)="unfollow()" *ngIf="account.following; else follow" class="following">Following</p>
-                    <ng-template #follow>
-                        <p (click)="startFollowing()" class="follow">Follow</p>
-                    </ng-template>
+                    <div class="following-container">
+                        <button (click)="toggleFollow()">Follow</button>
+                        <div class="accounts height{{ userIds.length }}" [ngClass]="{'expanded' : expanded}">
+                            <img width="30" height="30" *ngFor="let user of userIds" src="{{ user.profile_image_url }}" [ngClass]="{'selected' : user.following}" title="@{{ user.screen_name }}" (click)="followInteract(user)" />
+                        </div>
+                    </div>
                 </ng-template>
 
                 <!-- name & handle -->
