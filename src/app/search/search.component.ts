@@ -34,8 +34,9 @@ export class SearchComponent implements OnInit {
   
   twitterAccount: any = false; // this is used to display a user's profile
   
-  // used to render the loading circle, set to true when the user request info from an api, and is then set to false when data is returned
-  loading: any = false;
+  // used to render the loading circle, set to true when the user requests info from an api, and is then set to false when data is returned
+  loadingSearch: any = false;
+  loadingResult: any = false;
   expand: boolean = false;
 
   constructor(private http: HttpClient) { }
@@ -79,13 +80,13 @@ export class SearchComponent implements OnInit {
         results: [],
       }
     }
-    this.loading = true;
+    this.loadingSearch = true;
     this.failedSearch = false;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const type = this.searchType;
     this.http.post("api/search", { headers, query, type }, {responseType: "json"}).subscribe(((result: any) => {
       this.firstSearch = false;
-      this.loading = false;
+      this.loadingSearch = false;
       if(result.success) {
         if(this.searchType === "Users") { // if user's was searched for
           let users = result.results;
@@ -134,7 +135,7 @@ export class SearchComponent implements OnInit {
 
   showPost(id) {
     this.clear();
-    this.loading = true;
+    this.loadingResult = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const postId = id
     this.http.post("api/twitter/tweet/get", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
@@ -143,14 +144,14 @@ export class SearchComponent implements OnInit {
         setTimeout(() => {
           let time = result.post.created_at;
           let date = result.post.created_at;
-          this.loading = false;
+          this.loadingResult = false;
           this.tweet = result.post
           this.tweet.time = time.substr(11, 5);
           this.tweet.date = date.substr(4, 6);
         }, 500);
       }
       else {
-        this.loading = false;
+        this.loadingResult = false;
         this.twitterTweetsError = result.post;
       }
     }))
@@ -158,22 +159,22 @@ export class SearchComponent implements OnInit {
 
   showTwitterAccount(user) {
     this.clear();
-    this.loading = true;
+    this.loadingResult = true;
     this.expand = true;
     setTimeout(() => {
-      this.loading = false;
+      this.loadingResult = false;
       this.twitterAccount = user
     }, 500);
   }
 
   fetchUser(user) {
     this.clear();
-    this.loading = true;
+    this.loadingResult = true;
     this.expand = true;
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const params = new HttpParams().set("id", user.userID).set("handle", user.handle);
     this.http.get("api/twitter/account/get", { headers, params }).subscribe(((result: any) => {
-      this.loading = false;
+      this.loadingResult = false;
       if(result.success) {
         this.twitterAccount = result.user
       }

@@ -427,6 +427,11 @@ app.post("/api/twitter/account/unfollow", (req, res) => {
     twitterAPI.unfollow(req, cb);
 })
 
+app.get("/api/twitter/account/following", (req, res) => {
+    const cb = val => res.send(val);
+    twitterAPI.checkIfFollowing(req, cb);
+})
+
 app.get("/api/twitter/account/tweets", (req, res) => {
     const cb = val => res.send(val);
     twitterAPI.getUsersTweets(req, cb);

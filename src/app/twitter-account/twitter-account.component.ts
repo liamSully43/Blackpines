@@ -15,14 +15,17 @@ export class TwitterAccountComponent implements OnInit {
   @Output() showTweet = new EventEmitter<string>();
   @Output() showUser = new EventEmitter<object>();
 
-  loading = false;
+  loading: boolean = false;
   accounts = [];
   tweets = [];
-  error = false;
+  error: boolean = false;
 
-  tweetsTitle = false;
-  followingTitle = false;
-  followersTitle = false;
+  expanded: boolean = false;
+  headers = new HttpHeaders().set("Authorization", "auth-token");
+
+  tweetsTitle: boolean = false;
+  followingTitle: boolean = false;
+  followersTitle: boolean = false;
 
   ownAccount: boolean = false;
   
@@ -31,19 +34,34 @@ export class TwitterAccountComponent implements OnInit {
   ngOnInit(): void {
     document.querySelector("body").addEventListener("keyup", event => (event.key == "Escape") ? this.close() : null); // will close the preview if esc is pressed
     this.getTweets();
+
+    const params = new HttpParams().set("id", this.account.id_str);
+    const headers = this.headers;
+    this.http.get("api/twitter/account/following", { headers, params }).subscribe((following: any) => {
+      for(let account of following) {
+        for(let user of this.userIds) {
+          if(user.id_str === account.id && account.connection === "following") {
+            user.following = true;
+            break;
+          }
+        }
+      }
+    });
   }
 
   ngOnChanges() {
     this.account.followersRounded = this.roundNumbers(this.account.followers_count);
     this.account.followingRounded = this.roundNumbers(this.account.friends_count);
 
+    console.log(this.account);
+    console.log(this.userIds);
+
     // this swaps a lower quality version of the image for a better quality version
     let url = this.account.profile_image_url.replace("normal", "200x200");
     this.account.profile_image_url = url;
-
     // this detects if the viewed account is one of the user's twitter accounts, if it is the follow button will not be rendered
-    for(let id of this.userIds) {
-      if(this.account.id_str === id) {
+    for(let user of this.userIds) {
+      if(this.account.id_str === user.id_str) {
         this.ownAccount = true;
         break;
       }
@@ -64,28 +82,43 @@ export class TwitterAccountComponent implements OnInit {
     return num;
   }
 
-  startFollowing() {
-    const headers = new HttpHeaders().set("Authorization", "auth-token");
+  toggleFollow() {
+    this.expanded = !this.expanded;
+  }
+
+  followInteract(user) {
+    if(user.following) {
+      this.unfollow(user);
+    }
+    else {
+      this.follow(user);
+    }
+  }
+
+  follow(user) {
+    const headers = this.headers;
     const id = this.account.id_str;
-    this.http.post("api/twitter/account/follow", { headers, id }, {responseType: "json"}).subscribe(res => {
+    const userId = user.id_str;
+    this.http.post("api/twitter/account/follow", { headers, id, userId }, {responseType: "json"}).subscribe(res => {
       if(res === null) {
         this.showError();
       }
       else {
-        this.account.following = res;
+        user.following = res;
       }
     });
   }
 
-  unfollow() {
-    const headers = new HttpHeaders().set("Authorization", "auth-token");
+  unfollow(user) {
+    const headers = this.headers;
     const id = this.account.id_str;
-    this.http.post("api/twitter/account/unfollow", { headers, id }, {responseType: "json"}).subscribe(res => {
+    const userId = user.id_str;
+    this.http.post("api/twitter/account/unfollow", { headers, id, userId }, {responseType: "json"}).subscribe(res => {
       if(res === null) {
         this.showError();
       }
       else {
-        this.account.following = res;
+        user.following = res;
       }
     });
   }
@@ -97,7 +130,7 @@ export class TwitterAccountComponent implements OnInit {
     this.tweetsTitle = true;
     this.followersTitle = false;
     this.followingTitle = false;
-    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const headers = this.headers;
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
     this.http.get("api/twitter/account/tweets", { headers, params }).subscribe((res: any) => {
@@ -154,7 +187,7 @@ export class TwitterAccountComponent implements OnInit {
     this.tweetsTitle = false;
     this.followersTitle = false;
     this.followingTitle = true;
-    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const headers = this.headers;
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
     this.http.get("api/twitter/account/following", { headers, params }).subscribe((users: any) => {
@@ -182,7 +215,7 @@ export class TwitterAccountComponent implements OnInit {
     this.tweetsTitle = false;
     this.followersTitle = true;
     this.followingTitle = false;
-    const headers = new HttpHeaders().set("Authorization", "auth-token");
+    const headers = this.headers;
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
     this.http.get("api/twitter/account/followers", { headers, params }).subscribe((users: any) => {
