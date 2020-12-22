@@ -333,6 +333,7 @@
                     border-radius: 100%;
                     display: inline-block;
                     margin-right: 10px;
+                    max-height: 50px;
                 }
             
                 .profile-headers {
@@ -424,16 +425,62 @@
                     font-size: 14px;
                     color: grey;
                 }
-
-                // for account previews only
-
-                .follow-container {
-                    float: right;
-                }
             }
             
             .results:hover {
                 background-color: #f7f7f7;
+            }
+
+            .account-results {
+                display: flex;
+                flex-wrap: wrap;
+
+                .account-details {
+                    display: grid;
+                    place-items: center;
+                    flex: 1;
+
+                    .user-verified {
+                        display: flex;
+
+                        p {
+                            font-size: 15px;
+                        }
+                    }
+
+                    .details {
+                        font-size: 13px;
+                        text-align: center;
+                    }
+
+                    .details:first-of-type {
+                        color: grey;
+                        margin-bottom: 5px;
+                    }
+                }
+
+                .small-followers {
+                    flex: 1 0 100%;
+                    display: none;
+                    padding-top: 5px;
+                    margin-top: 10px;
+                    font-size: 13px;
+                    border-top: solid 1px lightgrey;
+                    text-align: center;
+                }
+
+                @media(max-width: 1200px) {
+                    .account-details {
+                        
+                        .details:last-of-type {
+                            display: none;
+                        }
+                    }
+                    
+                    .small-followers {
+                        display: block;
+                    }
+                }
             }
         }
     }

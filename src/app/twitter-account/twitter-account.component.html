@@ -43,9 +43,9 @@
 
                 <!-- links to the user's tweets, followers & who they're following -->
                 <div class="info-interaction">
-                    <span [ngClass]="{'active-title': tweetsTitle}" (click)="getTweets()">Tweets </span>
-                    <span [ngClass]="{'active-title': followingTitle}" (click)="getFollowing()">{{ account.followingRounded }} Following </span>
-                    <span [ngClass]="{'active-title': followersTitle}" (click)="getFollowers()">{{ account.followersRounded }} Followers</span>
+                    <span [ngClass]="{'active-title': selectedResults === 'tweets'}" (click)="getTweets()">Tweets </span>
+                    <span [ngClass]="{'active-title': selectedResults === 'following'}" (click)="getFollowing()">{{ account.followingRounded }} Following </span>
+                    <span [ngClass]="{'active-title': selectedResults === 'followers'}" (click)="getFollowers()">{{ account.followersRounded }} Followers</span>
                 </div>
 
                 <!-- universal error message -->
@@ -59,64 +59,68 @@
 
                     <!-- results -->
                     <ng-template #loaded>
-
                         <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  tweets -->
 
-                        <div class="results" *ngFor="let tweet of tweets" title="View Tweet" (click)="loadTweet(tweet.id_str)" >
-                            <!-- if the user retweeted a tweet -->
-                            <ng-container *ngIf="tweet.original_user; else nonRetweet">
-                                <p class="retweet-name"><img class="retweet-pic" src="{{ tweet.original_user.profile_image_url }}" height="20" width="auto" alt="{{tweet.original_user.name}}'s profile picture" /> {{tweet.original_user.name}} retweeted</p>
-                                <!-- The rewtweeted user's picture, name, handle & verification badge -->
-                                <img class="profile-pic" width="50" height="50" src="{{ tweet.user.profile_image_url }}" title="View account"/>
-                                <div class="profile-headers" title="View post">
-                                    <p>{{ tweet.user.name }}</p>
-                                    <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
-                                    <p>@{{ tweet.user.screen_name }}</p>
+                        <ng-container *ngIf="selectedResults == 'tweets'; else showAccounts">
+                            <div class="results" *ngFor="let tweet of tweets.results" title="View Tweet" (click)="loadTweet(tweet.id_str)" >
+                                <!-- if the user retweeted a tweet -->
+                                <ng-container *ngIf="tweet.original_user; else nonRetweet">
+                                    <p class="retweet-name"><img class="retweet-pic" src="{{ tweet.original_user.profile_image_url }}" height="20" width="auto" alt="{{tweet.original_user.name}}'s profile picture" /> {{tweet.original_user.name}} retweeted</p>
+                                    <!-- The rewtweeted user's picture, name, handle & verification badge -->
+                                    <img class="profile-pic" width="50" height="50" src="{{ tweet.user.profile_image_url }}" title="View account"/>
+                                    <div class="profile-headers" title="View post">
+                                        <p>{{ tweet.user.name }}</p>
+                                        <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
+                                        <p>@{{ tweet.user.screen_name }}</p>
+                                    </div>
+                                </ng-container>
+    
+                                <!-- if the user didn't retweet a tweet -->
+                                <ng-template #nonRetweet>
+                                    <!-- The user's picture, name, handle & verification badge -->
+                                    <img class="profile-pic" width="50" height="50" src="{{ tweet.user.profile_image_url }}" title="View account"/>
+                                    <div class="profile-headers" title="View post">
+                                        <p>{{ tweet.user.name }}</p>
+                                        <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
+                                        <p>@{{ tweet.user.screen_name }}</p>
+                                    </div>
+                                </ng-template>
+    
+                                <!-- tweet text -->
+                                <p class="text">{{ tweet.full_text }}</p>
+    
+                                <!-- quote tweet if the original tweet is a quote tweet -->
+                                <div *ngIf="tweet.quoted_status" class="quoted-tweet">
+                                    <img class="users-profile-pic" width="60" height="auto" src="{{ tweet.quoted_status.user.profile_image_url }}" title="View account" />
+                                    <div class="profile-headers">
+                                        <p>{{ tweet.quoted_status.user.name }}</p>
+                                        <img class="verified" *ngIf="tweet.quoted_status.user.verified" width="20" height="20" src="../../assets/verified.png" />
+                                        <p>@{{ tweet.quoted_status.user.screen_name }}</p>
+                                    </div>
+                                    <p class="text">{{ tweet.quoted_status.full_text }}</p>
                                 </div>
-                            </ng-container>
-
-                            <!-- if the user didn't retweet a tweet -->
-                            <ng-template #nonRetweet>
-                                <!-- The user's picture, name, handle & verification badge -->
-                                <img class="profile-pic" width="50" height="50" src="{{ tweet.user.profile_image_url }}" title="View account"/>
-                                <div class="profile-headers" title="View post">
-                                    <p>{{ tweet.user.name }}</p>
-                                    <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
-                                    <p>@{{ tweet.user.screen_name }}</p>
-                                </div>
-                            </ng-template>
-
-                            <!-- tweet text -->
-                            <p class="text">{{ tweet.full_text }}</p>
-
-                            <!-- quote tweet if the original tweet is a quote tweet -->
-                            <div *ngIf="tweet.quoted_status" class="quoted-tweet">
-                                <img class="users-profile-pic" width="60" height="auto" src="{{ tweet.quoted_status.user.profile_image_url }}" title="View account" />
-                                <div class="profile-headers">
-                                    <p>{{ tweet.quoted_status.user.name }}</p>
-                                    <img class="verified" *ngIf="tweet.quoted_status.user.verified" width="20" height="20" src="../../assets/verified.png" />
-                                    <p>@{{ tweet.quoted_status.user.screen_name }}</p>
-                                </div>
-                                <p class="text">{{ tweet.quoted_status.full_text }}</p>
+    
+                                <!-- time & date of tweet -->
+                                <p class="time" >{{ tweet.time }} | {{ tweet.date }}</p>
                             </div>
-
-                            <!-- time & date of tweet -->
-                            <p class="time" >{{ tweet.time }} | {{ tweet.date }}</p>
-                        </div>
+                        </ng-container>
 
                         <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// accounts -->
 
-                        <div *ngFor="let user of accounts" class="results account-results" (click)="loadUser(user)" title="Click to view {{ user.name }}'s account">
-                            <img class="profile-pic" width="50" height="auto" src="{{ user.profile_image_url }}" />
-                            <div class="profile-headers">
-                                <p>{{ user.name }}</p>
-                                <img *ngIf="user.verified" src="../../assets/verified.png" width="20" height="20" alt="User is verified" class="verified" />
-                                <p>@{{ user.screen_name }}</p>
+                        <ng-template #showAccounts>
+                            <div *ngFor="let user of accounts" class="results account-results" (click)="loadUser(user)" title="Click to view {{ user.name }}'s account">
+                                <img class="profile-pic" width="50" height="auto" src="{{ user.profile_image_url }}" />
+                                <div class="account-details">
+                                    <div class="user-verified">
+                                        <p>{{ user.name }}</p>
+                                        <img *ngIf="user.verified" src="../../assets/verified.png" width="20" height="20" alt="User is verified" class="verified" />
+                                    </div>
+                                    <p class="details">@{{ user.screen_name }}</p>
+                                    <p class="details">{{ user.followingRounded }} Following | {{ user.followersRounded }} Followers</p>
+                                </div>
+                                <p class="small-followers">{{ user.followingRounded }} Following | {{ user.followersRounded }} Followers</p>
                             </div>
-                            <div class="follow-container">
-                                <p>{{ user.followingRounded }} Following | {{ user.followersRounded }} Followers</p>
-                            </div>
-                        </div>
+                        </ng-template>
                     </ng-template>
                 </div>
             </div>
