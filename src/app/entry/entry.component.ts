@@ -34,7 +34,8 @@ export class EntryComponent implements OnInit {
 
   // swap between login & signup forms
   loginSwap = e => {
-    if(e.path[0].classList[1] === "sign-up-button") {
+    let classes = (e.path) ? e.path[0].classList[1] : e.originalTarget.classList[1]; // browser compatability - firefox uses .originalTarget instead of .path
+    if(classes === "sign-up-button") {
       (<HTMLInputElement>document.querySelector(".sign-up-button")).classList.remove("a");
       (<HTMLInputElement>document.querySelector(".selection")).style.animation = "right 0.2s";
       (<HTMLInputElement>document.querySelector(".selection")).style.marginLeft = "50%";

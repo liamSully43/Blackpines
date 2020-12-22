@@ -51,8 +51,9 @@ export class NewPostComponent implements OnInit {
 
   toggleUser(cb) {
     const checkbox = (<HTMLInputElement>cb.srcElement); // the visible green "checkbox"
-    const input = cb.path[1].childNodes[0]; // the hidden actual checkbox
-    const id = cb.path[0].id;
+    // the hidden actual checkbox
+    const input = (cb.path) ? cb.path[1].childNodes[0] : cb.srcElement.previousElementSibling; // browser compatability - firefox doesn't use .path
+    const id = cb.srcElement.id;
     if(checkbox.classList.contains("active-cb")) {
         checkbox.classList.remove("active-cb");
         for(let [index, account] of this.selectedAccounts.entries()) {

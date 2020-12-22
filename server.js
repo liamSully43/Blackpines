@@ -427,7 +427,7 @@ app.post("/api/twitter/account/unfollow", (req, res) => {
     twitterAPI.unfollow(req, cb);
 })
 
-app.get("/api/twitter/account/following", (req, res) => {
+app.get("/api/twitter/account/isFollowing", (req, res) => {
     const cb = val => res.send(val);
     twitterAPI.checkIfFollowing(req, cb);
 })

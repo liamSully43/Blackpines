@@ -69,7 +69,7 @@ export class MyFeedComponent implements OnInit {
   }
 
   showTweet(id) {
-    this.close();
+    this.clear();
     this.loading = true;
     this.expand = true; // adds the expand animation to preview the tweet and prevents the body from being scrollable when the preview is visible
     const headers = this.headers;
@@ -103,6 +103,7 @@ export class MyFeedComponent implements OnInit {
   }
 
   showTwitterAccount(user) {
+    this.clear();
     console.log(this.user);
     this.loading = true;
     this.expand = true;
@@ -113,7 +114,7 @@ export class MyFeedComponent implements OnInit {
   }
 
   fetchUser(user) {
-    this.close();
+    this.clear();
     this.loading = true;
     this.expand = true;
     const headers = this.headers;
@@ -135,9 +136,13 @@ export class MyFeedComponent implements OnInit {
   }
 
   close() {
+    this.expand = false;
+    this.clear();
+  }
+
+  clear() {
     this.tweet = false;
     this.twitterAccount = false;
     this.error = false;
-    this.expand = false;
   }
 }

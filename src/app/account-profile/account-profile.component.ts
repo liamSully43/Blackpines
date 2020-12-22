@@ -120,7 +120,7 @@ export class AccountProfileComponent implements OnInit {
 
   disconnect(e) :void {
     const id = this.account.id_str;
-    const element = e.path[5];
+    const element = (e.path) ? e.path[5] : e.srcElement.parentNode.parentNode.parentNode.parentNode.parentNode; // browser compatability - firefox doesn't use .path
     const val = {
       id,
       element

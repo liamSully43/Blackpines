@@ -16,16 +16,25 @@ export class TwitterAccountComponent implements OnInit {
   @Output() showUser = new EventEmitter<object>();
 
   loading: boolean = false;
-  accounts = [];
-  tweets = [];
   error: boolean = false;
+
+  selectedResults = "tweets"; // tweets, following, followers
+  tweets = {
+    searched: false,
+    results: [],
+  };
+  followingAccounts = {
+    searched: false,
+    results: [],
+  };
+  followersAccounts = {
+    searched: false,
+    results: [],
+  };
+  accounts = []; // used to display who an account follows & who follows them 
 
   expanded: boolean = false;
   headers = new HttpHeaders().set("Authorization", "auth-token");
-
-  tweetsTitle: boolean = false;
-  followingTitle: boolean = false;
-  followersTitle: boolean = false;
 
   ownAccount: boolean = false;
   
@@ -37,7 +46,7 @@ export class TwitterAccountComponent implements OnInit {
 
     const params = new HttpParams().set("id", this.account.id_str);
     const headers = this.headers;
-    this.http.get("api/twitter/account/following", { headers, params }).subscribe((following: any) => {
+    this.http.get("api/twitter/account/isFollowing", { headers, params }).subscribe((following: any) => {
       for(let account of following) {
         for(let user of this.userIds) {
           if(user.id_str === account.id && account.connection === "following") {
@@ -124,19 +133,17 @@ export class TwitterAccountComponent implements OnInit {
   }
 
   getTweets() {
-    this.tweets = [];
-    this.accounts = [];
+    this.selectedResults = "tweets";
+    if(this.tweets.searched) return;
+    console.log("else");
     this.loading = true;
-    this.tweetsTitle = true;
-    this.followersTitle = false;
-    this.followingTitle = false;
     const headers = this.headers;
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
     this.http.get("api/twitter/account/tweets", { headers, params }).subscribe((res: any) => {
       this.loading = false;
       if(res.success) {
-        this.accounts = [];
+        this.tweets.searched = true;
         console.log(res.tweets);
         for(let tweet of res.tweets) {
           if(tweet.retweeted_status) {
@@ -171,72 +178,77 @@ export class TwitterAccountComponent implements OnInit {
               break;
             }
           }
-          this.tweets.push(tweet);
+          this.tweets.results.push(tweet);
         }
+        console.log(this.tweets);
       }
       else {
         this.showError();
+        this.loading = false;
       }
     });
   }
 
   getFollowing() {
-    this.tweets = [];
-    this.accounts = [];
+    this.selectedResults = "following";
+    if(this.followingAccounts.searched) {
+      this.accounts = this.followingAccounts.results;
+      return;
+    }
     this.loading = true;
-    this.tweetsTitle = false;
-    this.followersTitle = false;
-    this.followingTitle = true;
     const headers = this.headers;
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
     this.http.get("api/twitter/account/following", { headers, params }).subscribe((users: any) => {
       if(users.success) {
+        this.followingAccounts.searched = true;
         console.log(users.accounts.users);
         for(let user of users.accounts.users) {
           user.followersRounded = this.roundNumbers(user.followers_count);
           user.followingRounded = this.roundNumbers(user.friends_count);
-          console.log(user);
         }
+        this.accounts = [];
+        this.followingAccounts.results = [...users.accounts.users];
         this.accounts = [...users.accounts.users];
-        this.loading = false;
       }
       else {
-        this.loading = false;
         this.showError();
       }
+      this.loading = false;
     })
   }
 
   getFollowers() {
-    this.tweets = [];
-    this.accounts = [];
+    this.selectedResults = "followers";
+    if(this.followersAccounts.searched) {
+      this.accounts = this.followersAccounts.results;
+      return;
+    }
     this.loading = true;
-    this.tweetsTitle = false;
-    this.followersTitle = true;
-    this.followingTitle = false;
     const headers = this.headers;
     const id = this.account.id_str;
     const params = new HttpParams().set("id", id);
     this.http.get("api/twitter/account/followers", { headers, params }).subscribe((users: any) => {
       if(users.success) {
+        this.followersAccounts.searched = true;
         console.log(users.accounts.users);
         for(let user of users.accounts.users) {
           user.followersRounded = this.roundNumbers(user.followers_count);
           user.followingRounded = this.roundNumbers(user.friends_count);
-          console.log(user);
         }
+        this.accounts = [];
+        this.followersAccounts.results = [...users.accounts.users];
         this.accounts = [...users.accounts.users];
-        this.loading = false;
       }
       else {
-        this.loading = false;
         this.showError();
       }
+      this.loading = false;
     })
   }
   
   loadUser(user) {
+    console.log(user);
     this.showUser.next(user);
   }
 
