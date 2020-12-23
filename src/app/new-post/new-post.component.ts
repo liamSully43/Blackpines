@@ -10,7 +10,6 @@ export class NewPostComponent implements OnInit {
 
   twitter = {
     connected: false,
-    feed: false,
   };
   connectedAccounts: Array<any> = [];
   user: any = false;
@@ -32,7 +31,6 @@ export class NewPostComponent implements OnInit {
       this.connectedAccounts = data.twitter;
       this.twitter = {
         connected: (this.user.twitter.length > 0) ? true : false,
-        feed: (this.user.twitter.length > 0) ? true : false
       }
       this.disableButtons();
     });
@@ -49,31 +47,31 @@ export class NewPostComponent implements OnInit {
     }, 1);
   }
 
-  toggleUser(cb) {
+  toggleUser(cb, user) {
     const checkbox = (<HTMLInputElement>cb.srcElement); // the visible green "checkbox"
     // the hidden actual checkbox
     const input = (cb.path) ? cb.path[1].childNodes[0] : cb.srcElement.previousElementSibling; // browser compatability - firefox doesn't use .path
-    const id = cb.srcElement.id;
+    const handle = input.id;
+    // deselect account
     if(checkbox.classList.contains("active-cb")) {
         checkbox.classList.remove("active-cb");
+        document.querySelector(`.${handle}`).classList.add("hide");
         for(let [index, account] of this.selectedAccounts.entries()) {
-          if(account.id_str == id) {
+          if(account.id_str === user.id_str) {
             this.selectedAccounts.splice(index, 1);
             break;
           }
         }
     }
+    // select account
     else {
         checkbox.classList.add("active-cb");
-        for(let account of this.connectedAccounts) {
-          if(account.id_str == id) {
-            this.selectedAccounts.push(account);
-          }
-        }
+        document.querySelector(`.${handle}`).classList.remove("hide");
+        this.selectedAccounts.push(user);
     }
     input.checked = !input.checked
-    this.twitter.feed = input.checked;
-    this.disableButtons()
+    this.disableButtons();
+    console.log(this.selectedAccounts);
   }
 
   newPost(e) {
@@ -106,19 +104,13 @@ export class NewPostComponent implements OnInit {
     });
   }
 
-  /*
-  
-  Something wen't wrong when posting to Twitter, please try again later
-  `Posted to @${account.screen_name}'s Twitter`
+  resetCharLimit() {
+    this.percentage = 0;
+    document.querySelector(".background").setAttribute("style", `width: ${this.percentage}%`);
+  }
 
-  */
-
-  // if all feeds are hidden or no platforms are connected; set disabled to true to disable all buttons and prevent any posting
+  // disable posting & scheduling if no accounts are connected
   disableButtons() {
-    return this.disabled = ((
-      !this.twitter.feed
-      ) || (
-      !this.twitter.connected
-      )) ? true : false;
+    return this.disabled = (this.selectedAccounts.length < 1) ? true : false;
   }
 }

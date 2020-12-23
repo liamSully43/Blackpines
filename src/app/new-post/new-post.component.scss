@@ -1,5 +1,9 @@
 @import "../../variables";
 
+.main-content {
+    background-color: $off-primary;
+}
+
 .side-nav {
     background-color: $primary;
     min-width: 90px;
@@ -59,21 +63,32 @@ form {
     height: auto;
     margin: auto;
 
-    .platform-container {
+    .user-container {
         width: 100%;
         min-height: 30px;
+        border-radius: 5px;
         display: flex;
 
-        div {
+        .users {
             flex-basis: 100%;
-            margin-left: 10px;
-        }
+            max-height: 30px;
+            margin-right: 10px;
+            border-radius: 5px;
+            background-image: $bg-grad;
+            background-color: $accent;
 
-        div:first-of-type {
-            margin-left: 0px;
+            img {
+                height: calc(100% - 6px);
+                width: auto;
+                padding: 3px;
+                float: left;
+                border-radius: 100%;
+            }
         }
 
         .char-limit {
+            flex-basis: 100%;
+            min-width: 20%;
             position: relative;
             border: solid 2px $accent;
             border-radius: 100px;
@@ -218,11 +233,17 @@ form {
     }
 }
 
+@media(max-width: 642px) {
+    .main-content {
+        height: calc(100vh - 50px);
+    }
+}
+
 @media(max-width: 550px) {
-    .platform-container {
+    .user-container {
         flex-wrap: wrap;
 
-        .platforms {
+        .users {
             flex: 1 0 30% !important;
         }
     

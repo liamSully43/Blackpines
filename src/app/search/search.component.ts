@@ -136,22 +136,23 @@ export class SearchComponent implements OnInit {
   showPost(id) {
     this.clear();
     this.loadingResult = true;
+    this.expand = true;
+    let animationComplete = false;
+    setTimeout(() => animationComplete = true, 500);
     const headers = new HttpHeaders().set("Authorization", "auth-token");
-    const postId = id
+    const postId = id;
     this.http.post("api/twitter/tweet/get", { headers, postId }, {responseType: "json"}).subscribe(((result: any) => {
       if(result.success) {
-        this.expand = true;
-        setTimeout(() => {
-          let time = result.post.created_at;
-          let date = result.post.created_at;
-          this.loadingResult = false;
-          this.tweet = result.post
-          this.tweet.time = time.substr(11, 5);
-          this.tweet.date = date.substr(4, 6);
-        }, 500);
+        let time = result.post.created_at;
+        let date = result.post.created_at;
+        this.loadingResult = false;
+        this.tweet = result.post
+        this.tweet.time = time.substr(11, 5);
+        this.tweet.date = date.substr(4, 6);
       }
       else {
         this.loadingResult = false;
+        this.expand = false;
         this.twitterTweetsError = result.post;
       }
     }))
