@@ -4,7 +4,7 @@
     width: 80%;
     max-width: 600px;
     height: auto;
-    max-height: 90% !important;
+    max-height: calc(100vh - 180px);
     margin: auto;
     margin-top: 30px;
     overflow: auto;
@@ -254,7 +254,8 @@
         border: solid 1px transparent;
 
         img {
-            margin-right: 5px;
+            width: calc(20% - 13px);
+            max-width: 50px;
             padding: 3px;
             opacity: 0.8;
             border: solid 4px $primary;
@@ -361,6 +362,7 @@
             border: solid 1px #ccc;
             border-radius: 7px;
             flex-basis: 68%;
+            max-width: 68%;
             margin-right: 5%;
             height: auto;
         }
@@ -370,6 +372,12 @@
             padding: 0px 10px !important;
             font-size: 13px;
             height: 30px !important;
+        }
+
+        @media(max-width: 1150px) {
+            .submit {
+                font-size: 1vw;
+            }
         }
 
         @media(max-width: 310px) {

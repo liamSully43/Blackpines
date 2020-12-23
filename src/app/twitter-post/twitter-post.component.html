@@ -92,7 +92,7 @@
 
         <!-- user's Twitter accounts -->
         <div class="twitter-accounts-container" [ngClass]="{'none-selected' : noUsersSelected}">
-            <img *ngFor="let user of accounts" width="50" height="50" src="{{ user.profile_image_url }}" alt="@{{ user.screen_name }}" title="@{{ user.screen_name }}" id="{{ user.id_str }}" (click)="toggleAccount($event)" />
+            <img *ngFor="let user of accounts" src="{{ user.profile_image_url }}" alt="@{{ user.screen_name }}" title="@{{ user.screen_name }}" id="{{ user.id_str }}" (click)="toggleAccount($event)" />
         </div>
         
         <!-- comments, retweets & likes -->
