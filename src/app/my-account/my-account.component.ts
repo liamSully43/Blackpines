@@ -71,7 +71,6 @@ export class MyAccountComponent implements OnInit {
     const id = val.id
     const element = val.element
     this.http.post("api/twitter/account/disconnect", { headers, id }).subscribe((accountRemoved: boolean) => {
-      console.log(accountRemoved);
       if(!accountRemoved) {
         this.showError("Unable to remove account, please try again later");
         return

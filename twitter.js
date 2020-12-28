@@ -277,13 +277,22 @@ const getPosts = (req, done) => {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function newTweet(req, done) {
+    let accounts = [];
+    for(let account of req.body.accounts) {
+        for(let twitAccount of req.user.twitter) {
+            if(account.id_str === twitAccount.id_str) {
+                accounts.push(twitAccount);
+                break;
+            }
+        }
+    }
     let results = [];
     const callback = () => {
         if(results.length === req.body.accounts.length) {
             done(results);
         }
     }
-    for(let account of req.body.accounts) {
+    for(let account of accounts) {
         const access_token = encrypt.decrypt(account.token);
         const access_token_secret = encrypt.decrypt(account.tokenSecret);
         const T = new Twit({

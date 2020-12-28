@@ -245,20 +245,6 @@ app.post("/register", [
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//                              Posting to Platforms                                   //
-/////////////////////////////////////////////////////////////////////////////////////////
-
-app.post("/newpost", [
-    check("post").stripLow().trim().escape(),
-], (req, res) => {
-    let accounts = req.body.accounts;
-    function callback(results) {
-        res.send(results);
-    }
-    if(accounts.length > 0) twitterAPI.newTweet(req, callback);
-})
-
-/////////////////////////////////////////////////////////////////////////////////////////
 //                                   API Requests                                      //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -410,6 +396,26 @@ app.post("/api/twitter/tweet/get", (req, res) => {
         res.send(val);
     }
     twitterAPI.getTweet(req, postId, cb);
+})
+
+/////////////// New tweet
+
+app.post("/api/twitter/tweet/newtweet", [
+    check("post").stripLow().trim().escape(),
+], (req, res) => {
+    function callback(results) {
+        res.send(results);
+    }
+    if(req.body.accounts.length > 0) {
+        twitterAPI.newTweet(req, callback)
+    }
+    else {
+        const message = {
+            text: "Please select at least one account to tweet",
+            success: false,
+        }
+        res.send(message);
+    }
 })
 
 app.get("/api/twitter/account/get", (req, res) => {
