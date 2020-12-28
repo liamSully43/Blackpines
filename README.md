@@ -16,10 +16,10 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can retweet tweets with multiple accounts
  - User's can like tweets with multiple accounts
  - User's can follow accounts using multiple accounts
+ - User's can tweet using multiple accounts at once
 
 ## Known Issues
 None
 
 ## Notes
 Max number of Twitter accounts that can be connected has been set to 5
-Will also likely need to re-code /entry as the values from the fields are saved using the DOM rather than saving them to a variable
