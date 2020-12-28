@@ -8,9 +8,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class NewPostComponent implements OnInit {
 
-  twitter = {
-    connected: false,
-  };
   connectedAccounts: Array<any> = [];
   user: any = false;
   disabled: boolean = true;
@@ -29,9 +26,6 @@ export class NewPostComponent implements OnInit {
     this.http.get("api/user", { headers }).subscribe((data: any) => {
       this.user = data;
       this.connectedAccounts = data.twitter;
-      this.twitter = {
-        connected: (this.user.twitter.length > 0) ? true : false,
-      }
       this.disableButtons();
     });
   }
@@ -71,7 +65,6 @@ export class NewPostComponent implements OnInit {
     }
     input.checked = !input.checked
     this.disableButtons();
-    console.log(this.selectedAccounts);
   }
 
   newPost(e) {
@@ -84,7 +77,7 @@ export class NewPostComponent implements OnInit {
     this.loading = true;
     let headers = new HttpHeaders().set("Authorization", "auth-token");
     const accounts = this.selectedAccounts;
-    this.http.post("newpost", { headers, post, accounts }, {responseType: "json"}).subscribe((results: Array<any>) => { // will return an array of object results for each Twitter account 
+    this.http.post("api/twitter/tweet/newtweet", { headers, post, accounts }, {responseType: "json"}).subscribe((results: Array<any>) => { // will return an array of object results for each Twitter account 
       this.loading = false;
       this.messages = results;
       let clear = true;

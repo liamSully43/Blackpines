@@ -25,7 +25,9 @@ export class AccountProfileComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.account);
+  }
 
   ngOnChanges() {
     this.account.statusesRounded = this.roundNumbers(this.account.statuses_count);
@@ -34,7 +36,6 @@ export class AccountProfileComponent implements OnInit {
     for(const url of this.account.entities.description.urls) {
       this.account.description = this.account.description.replace(url.url, url.display_url); // swaps the Twitter provided shortened url with the actual url
     }
-    console.log(this.account);
   }
 
   roundNumbers(num) {
