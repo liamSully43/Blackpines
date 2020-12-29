@@ -21,6 +21,9 @@ export class FeedPostsComponent implements OnInit {
   links = [];
   imgUrls = [];
 
+  deleteable: boolean = false;
+  accountOftweet = "";
+
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void { }
@@ -63,6 +66,14 @@ export class FeedPostsComponent implements OnInit {
     this.filterPost(this.post, "original");
     if(this.post.quoted_status) {
       this.filterPost(this.post.quoted_status, "quoted");
+    }
+
+    for(let user of this.user.twitter) {
+      if(this.post.user.id_str === user.id_str) {
+        this.deleteable = true;
+        this.accountOftweet = user.id_str
+        break;
+      }
     }
   }
 
@@ -125,7 +136,8 @@ export class FeedPostsComponent implements OnInit {
     e.stopPropagation(); // stops view post from being called
     const headers = new HttpHeaders().set("Authorization", "auth-token");
     const id = this.post.id_str;
-    this.http.post("api/twitter/tweet/delete", { headers, id }).subscribe(res => {
+    const user = this.accountOftweet;
+    this.http.post("api/twitter/tweet/delete", { headers, id, user }).subscribe(res => {
       if(res) {
         (<HTMLElement>document.querySelector(`#a${this.post.id}`)).classList.add("hide");
       }
