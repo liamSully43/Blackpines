@@ -46,7 +46,7 @@ const oauth = new OAuth.OAuth(
 //                             Twitter API Callback                                    //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-function callback(req, res, Customer, done) {
+function callback(req, Customer, done) {
     for(let account of req.user.twitter) {
         if(account.id_str == req.account._json.id_str) {
             return done(400);
@@ -303,7 +303,7 @@ function newTweet(req, done) {
             timeout_ms: 60*1000,
             strictSSL: false,
         })
-        T.post("statuses/update", { status: req.body.post}, function(err) {
+        T.post("statuses/update", { status: req.body.post }, function(err) {
             if(err) {
                 console.log(err);
                 const message = {
@@ -619,8 +619,15 @@ function retweet(req, done) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function deleteTweet(req, done) {
-    const token = encrypt.decrypt(req.user.twitter.token);
-    const tokenSecret = encrypt.decrypt(req.user.twitter.tokenSecret);
+    let account = {};
+    for(let twitAccount of req.user.twitter) {
+        if(twitAccount.id_str === req.body.user) {
+            account = twitAccount;
+            break;
+        }
+    }
+    const token = encrypt.decrypt(account.token);
+    const tokenSecret = encrypt.decrypt(account.tokenSecret);
     oauth.post(
         `https://api.twitter.com/1.1/statuses/destroy/${req.body.id}.json?trim_user=true`,
         token,

@@ -264,40 +264,6 @@ app.get("/api/user", (req, res) => {
     res.send(filteredUser);
 });
 
-/////////////// returns user's twitter home timeline
-
-app.get("/api/myfeed", (req, res) => {
-    function cb(results) {
-        for(let result of results) {
-            if(result.success) {
-                for(let post of result.feed) {
-                    let time = post.created_at.substr(4, 12);
-                    post.created_at = time;
-                }
-            }
-        }
-        res.send(results);
-    }
-    twitterAPI.getFeed(req, cb);
-})
-
-/////////////// returns user's twitter posts
-
-app.get("/api/myposts", (req, res) => {
-    function callback(feeds) {
-        for(feed of feeds) {
-            if(feed.success) {
-                for(let post of feed.feed) {
-                    let time = post.created_at.substr(4, 12);
-                    post.created_at = time;
-                }
-            }
-        }
-        res.send(feeds);
-    }
-    twitterAPI.getPosts(req, callback);
-})
-
 app.post("/api/changePassword", [
     check("oldPassword").stripLow().trim().escape(),
     check("newPassword").isLength({ min: 8 }).stripLow().trim().escape(),
@@ -400,9 +366,7 @@ app.post("/api/twitter/tweet/get", (req, res) => {
 
 /////////////// New tweet
 
-app.post("/api/twitter/tweet/newtweet", [
-    check("post").stripLow().trim().escape(),
-], (req, res) => {
+app.post("/api/twitter/tweet/newtweet", (req, res) => {
     function callback(results) {
         res.send(results);
     }
@@ -456,6 +420,40 @@ app.get("/api/twitter/account/following", (req, res) => {
 app.post("/api/twitter/account/update", (req, res) => {
     const cb = val => res.send(val);
     twitterAPI.update(req, cb);
+})
+
+/////////////// returns user's twitter home timeline
+
+app.get("/api/twitter/account/myfeed", (req, res) => {
+    function cb(results) {
+        for(let result of results) {
+            if(result.success) {
+                for(let post of result.feed) {
+                    let time = post.created_at.substr(4, 12);
+                    post.created_at = time;
+                }
+            }
+        }
+        res.send(results);
+    }
+    twitterAPI.getFeed(req, cb);
+})
+
+/////////////// returns user's twitter posts
+
+app.get("/api/twitter/account/myposts", (req, res) => {
+    function callback(feeds) {
+        for(feed of feeds) {
+            if(feed.success) {
+                for(let post of feed.feed) {
+                    let time = post.created_at.substr(4, 12);
+                    post.created_at = time;
+                }
+            }
+        }
+        res.send(feeds);
+    }
+    twitterAPI.getPosts(req, callback);
 })
 
 /////////////////////////////////////////////////////////////////////////////////////////

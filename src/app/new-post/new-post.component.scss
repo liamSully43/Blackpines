@@ -143,6 +143,14 @@ form {
                 flex-basis: calc(100% / 3);
                 margin-top: 10px;
             }
+
+            .submit {
+                margin-left: auto;
+            }
+
+            .clear {
+                margin-right: auto;
+            }
         }
     }
 

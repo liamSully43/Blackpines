@@ -102,7 +102,7 @@ export class NewPostComponent implements OnInit {
     document.querySelector(".background").setAttribute("style", `width: ${this.percentage}%`);
   }
 
-  // disable posting & scheduling if no accounts are connected
+  // disable posting if no accounts are connected
   disableButtons() {
     return this.disabled = (this.selectedAccounts.length < 1) ? true : false;
   }

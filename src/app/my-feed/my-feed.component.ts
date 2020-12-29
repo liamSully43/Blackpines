@@ -9,12 +9,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 export class MyFeedComponent implements OnInit {
 
   user: any = {};
-  twitter = {
-    connected: false,
-    feed: false,
-  };
   tweet: any = false;
-  feeds: any = [];
+  twitAccounts: number = 0;
+  activeFeed: any = [];
+  homeTimelines: any = [];
+  userTimelines: any = [];
   twitterAccount: any = false;
   error: any = false;
   expand: boolean = false;
@@ -30,12 +29,9 @@ export class MyFeedComponent implements OnInit {
   ngOnInit(): void {
     const headers = this.headers;
     this.http.get("api/user", { headers }).subscribe((data: any) => {
-      this.twitter = {
-        connected: (data.twitter.length > 0) ? true : false,
-        feed: (data.twitter.length > 0) ? true : false
-      }
-      this.user.twitter = (this.twitter.connected) ? data.twitter : {};
-      if(this.twitter.connected) this.getFeed();
+      this.user.twitter = (data.twitter.length > 0) ? data.twitter : {};
+      this.twitAccounts = this.user.twitter.length
+      if(this.twitAccounts > 0) this.getFeed();
     });
   }
 
@@ -49,22 +45,24 @@ export class MyFeedComponent implements OnInit {
   }
 
   getFeed() {
+    if(this.homeTimelines.length > 0) return this.activeFeed = this.homeTimelines;
     this.loadingFeed = true;
-    this.feeds = [];
     const headers = this.headers;
-    this.http.get("api/myfeed", { headers }).subscribe((feed: any) => {
+    this.http.get("api/twitter/account/myfeed", { headers }).subscribe((feed: any) => {
       this.loadingFeed = false;
-      this.feeds = feed;
+      this.homeTimelines = feed;
+      this.activeFeed = feed;
     })
   }
 
   getPosts() {
+    if(this.userTimelines.length > 0) return this.activeFeed = this.userTimelines;
     this.loadingFeed = true;
-    this.feeds = [];
     const headers = this.headers;
-    this.http.get("api/myposts", { headers }).subscribe((posts: any) => {
+    this.http.get("api/twitter/account/myposts", { headers }).subscribe((posts: any) => {
       this.loadingFeed = false;
-      this.feeds = posts;
+      this.userTimelines = posts;
+      this.activeFeed = posts;
     })
   }
 

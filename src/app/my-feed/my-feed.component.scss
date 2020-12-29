@@ -58,19 +58,18 @@ main {
     }
 }
 
+.loading-container {
+    width: 100%;
+    height: 100%;
+}
+
 .feeds {
     flex-basis: 100%;
     max-width: 1000px;
-    min-width: 300px;
     margin-left: 10px;
 
     div:first-of-type {
         margin-top: 10px;
-    }
-
-    .loading-container {
-        height: 100%;
-        margin-top: 150px;
     }
 }
 
