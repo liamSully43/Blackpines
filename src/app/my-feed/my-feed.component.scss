@@ -32,6 +32,7 @@ main {
     display: flex;
     background-color: $off-primary;
     flex-basis: 100%;
+    overflow-y: hidden;
 
     .message {
         color: $secondary;
@@ -46,6 +47,11 @@ main {
 .main-preview {
     animation: mainPreview 0.5s;
     flex-basis: 60%;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+        height: 10px;
+    }
 }
 
 @keyframes mainPreview {
@@ -65,13 +71,67 @@ main {
 
 .feeds {
     flex-basis: 100%;
-    max-width: 1000px;
+    min-width: calc(15vw - 15px);
+    max-height: 100%;
     margin-left: 10px;
+    padding-right: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
 
-    div:first-of-type {
+    .user-headers {
+        width: calc(100% - 6px);
+        height: 20px;
+        margin-bottom: 10px !important;
+        padding: 3px;
+        border-radius: 5px;
+        background-color: $accent;
+        background-image: $bg-grad;
+
+        img {
+            border-radius: 100%;
+            display: inline-block;
+            vertical-align: text-top;
+        }
+
+        p {
+            color: $primary;
+            padding-left: 10px;
+            display: inline-block;
+            font-size: 0.8vw;
+        }
+    }
+
+    &::-webkit-scrollbar {
+        width: 5px;
+        border-radius: 5px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background-color: transparent;
+    }
+
+    div {
+        margin-bottom: 20px;
+    }
+
+    div:last-of-type {
+        margin-bottom: initial;
+    }
+
+    .no-results {
         margin-top: 10px;
+        color: $secondary;
+        padding-bottom: 10px;
+        border-bottom: 1px solid $accent;
+        font-size: 14px;
     }
 }
+
+.max1 {max-width: 1000px}
+.max2 {max-width: calc(50% - 10px)}
+.max3 {max-width: calc(33.333% - 10px)}
+.max4 {max-width: calc(25% - 10px)}
+.max5 {max-width: 20%}
 
 .feeds:first-of-type {
     margin-left: 0px;

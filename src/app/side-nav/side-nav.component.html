@@ -4,16 +4,11 @@
         <option>My Posts</option>
     </select>
     <div class="clear-float"></div>
-    <section *ngFor="let account of users">
-        <div class="account">
-            <a href="/my-account" title="Click to edit your account">
-                <img src="{{ account.profile_image_url }}" width="60%" height="auto" alt="{{ account.name }}'s profile picture" />
-            </a>
-            <div class="name-container">
-                <p class="name">{{ account.name }}</p>
-                <p class="handle">@{{ account.screen_name }}</p>
-            </div>
+    <div class="account" *ngFor="let account of users" (click)="viewAccount(account)" title="View @{{ account.screen_name }}'s account">
+        <img src="{{ account.profile_image_url }}" width="50%" height="auto" alt="{{ account.name }}'s profile picture" title="@{{ account.screen_name }}" />
+        <div class="name-container">
+            <p class="name">{{ account.name }}</p>
+            <p class="handle">@{{ account.screen_name }}</p>
         </div>
-        <button class="submit" (click)="viewAccount()">View Account</button>
-    </section>
+    </div>
 </nav>

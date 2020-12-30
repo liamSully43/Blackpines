@@ -30,7 +30,7 @@ export class SideNavComponent implements OnInit {
     this.activityFeed.next(this.myFeed);
   }
 
-  viewAccount() {
-    this.viewUser.next(this.users);
+  viewAccount(user) {
+    this.viewUser.next(user);
   }
 }

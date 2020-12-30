@@ -8,7 +8,6 @@
     border: solid 1px lightgrey;
     border-radius: 5px;
     margin: auto;
-    margin-bottom: 20px;
     cursor: pointer;
 
     .retweet-name {
@@ -103,7 +102,8 @@
             color: $accent;
             display: block;
             white-space: nowrap;
-            max-width: 1%;
+            max-width: 100%;
+            overflow-x: hidden;
         }
     
         .user-links:hover {
