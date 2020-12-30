@@ -212,7 +212,8 @@ const getFeed = (req, done) => {
                     console.log(err);
                     const res = {
                         message: "Unable to fetch your twitter home timeline, please try again later",
-                        success: false, 
+                        success: false,
+                        user: account,
                     }
                     feeds.push(res);
                 }
@@ -221,6 +222,7 @@ const getFeed = (req, done) => {
                     const res = {
                         feed,
                         success: true,
+                        user: account,
                     }
                     feeds.push(res);
                 };

@@ -135,7 +135,6 @@ export class TwitterAccountComponent implements OnInit {
   getTweets() {
     this.selectedResults = "tweets";
     if(this.tweets.searched) return;
-    console.log("else");
     this.loading = true;
     const headers = this.headers;
     const id = this.account.id_str;
