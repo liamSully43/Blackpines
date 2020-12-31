@@ -1,14 +1,14 @@
-<nav class="side-nav">
+<nav class="side-nav nav{{ users.length }}">
     <select (change)="toggleFeed()">
         <option>My Feed</option>
         <option>My Posts</option>
     </select>
-    <div class="clear-float"></div>
-    <div class="account" *ngFor="let account of users" (click)="viewAccount(account)" title="View @{{ account.screen_name }}'s account">
+    <div class="account acc{{ users.length }}" *ngFor="let account of users" (click)="viewAccount(account)" title="View @{{ account.screen_name }}'s account">
         <img src="{{ account.profile_image_url }}" width="50%" height="auto" alt="{{ account.name }}'s profile picture" title="@{{ account.screen_name }}" />
         <div class="name-container">
             <p class="name">{{ account.name }}</p>
             <p class="handle">@{{ account.screen_name }}</p>
         </div>
     </div>
+    <div class="clear-float"></div>
 </nav>

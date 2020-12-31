@@ -48,89 +48,122 @@ select:hover {
     }
 }
 
+@mixin side-nav-mobile {
+    display: flex;
+    position: relative;
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    height: auto;
+    padding: 10px;
+    border-right: none !important;
+    border-bottom: solid 1px lightgray;
+
+    select {
+        width: 100px !important;
+        display: inline-block !important;
+        margin: 0px;
+        margin-right: 20px;
+    }
+
+    .account {
+        margin: 0px;
+        display: grid;
+        place-items: center;
+
+        img {
+            height: auto;
+            margin: 0px !important;
+            vertical-align: middle;
+            width: 50px;
+            display: inline-block;
+        }
+
+        .name-container {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: 5px;
+
+            .name {
+                display: none;
+            }
+
+            .handle {
+                width: 100%;
+                text-align: center;
+                font-size: 75%;
+            }
+        }
+    }
+
+    .acc1 {width: 100px}
+    .acc2 {width: 100px}
+    .acc3 {width: 100px}
+    .acc4 {width: 110px}
+    .acc5 {width: 120px}
+}
+
+@media(max-width: 1200px) {
+    .nav5 {
+        @include side-nav-mobile();
+    }
+}
+
+@media(max-width: 1000px) {
+    .nav4 {
+        @include side-nav-mobile();
+    }
+}
+
 @media(max-width: 900px) {
-    .side-nav {
+    .nav1, .nav2, .nav3 {
         flex-basis: 3% !important;
     }
 }
 
-@media(max-width: 700px) {
-    .side-nav {
-        display: flex;
-        position: relative;
-        width: calc(100% - 20px);
-        max-width: calc(100% - 20px);
-        height: auto;
-        padding: 10px;
-
-        select {
-            width: 100px !important;
-            display: inline-block !important;
-            margin: 0px;
-            margin-right: 20px;
-        }
-
-        .account {
-            flex: 0 1 100%;
-            margin: 0px;
-            display: grid;
-            place-items: center;
-    
-            img {
-                height: auto;
-                margin: 0px !important;
-                vertical-align: middle;
-                width: 50px;
-                display: inline-block;
-            }
-
-            .name-container {
-                display: inline-block;
-                vertical-align: middle;
-                margin-top: 5px;
-
-                .name {
-                    display: none;
-                }
-    
-                .handle {
-                    width: 100%;
-                    text-align: center;
-                    font-size: 2vw;
-                }
-            }
-        }
+@media(max-width: 850px) {
+    .nav3 {
+        @include side-nav-mobile();
     }
-
 }
+
+@media(max-width: 700px) {
+    .nav1, .nav2 {
+        @include side-nav-mobile();
+    }
+}
+
 @media(max-width: 615px) {
     select {
         display: none;
         margin-right: 10px !important;
     }
+}
 
-    .name-container {
-        margin-left: 10px !important;
+@media(max-width: 600px) {
+    .acc5 {
+        width: 60px;
 
-        p {
-            font-size: 13px !important;
+        .handle {
+            display: none !important;
         }
     }
 }
 
-@media(max-width: 600px) {
-    .handle {
-        display: none !important;
+@media(max-width: 530px) {
+    .acc4 {
+        width: 60px;
+
+        .handle {
+            display: none !important;
+        }
     }
 }
 
-@media(max-width: 380px) {
-    select {
-        margin-right: 5vw;
-        font-size: 4.2vw;
-    }
-    
-    .account {
+@media(max-width: 450px) {
+    .acc3 {
+        width: calc(100% / 3);
+        max-width: 60px;
+
         .name-container {
             display: none !important;
         }
@@ -144,6 +177,23 @@ select:hover {
                 width: 12vw;
             }
         }
+
+        .acc5 {
+            width: 20%;
+            max-width: 60px;
+        }
+
+        .acc4 {
+            width: 25%;
+            max-width: 60px;
+        }
+    }
+}
+
+@media(max-width: 380px) {
+    select {
+        margin-right: 5vw;
+        font-size: 4.2vw;
     }
 }
 
@@ -153,5 +203,24 @@ select:hover {
         width: calc(100% - 10px);
         max-width: calc(100% - 10px);
         font-size: 12px;
+    }
+
+    .acc2 {
+        width: 50%;
+        max-width: 60px;
+
+        .name-container {
+            display: none !important;
+        }
+    }
+}
+
+@media(max-width: 300px) {
+    .acc1 {
+        width: 60px !important;
+
+        .name-container {
+            display: none !important;
+        }
     }
 }

@@ -55,6 +55,7 @@ const newCustomerSchema = new mongoose.Schema({
     twitter: Array,
     lastLogIn: String,
     createdAt: String,
+    resetPasswordCode: String,
 });
 
 newCustomerSchema.plugin(passportLocalMongoose);
@@ -141,7 +142,7 @@ app.get("/twitter/callback", checkAuthentication, passport.authorize("twitter", 
         }
         res.redirect(`/my-account${route}`);
     }
-    twitterAPI.callback(req, res, Customer, cb);
+    twitterAPI.callback(req, Customer, cb);
 });
 
 // disconnect
@@ -172,6 +173,36 @@ app.get("/entry", (req, res) => {
     else {
         res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'), req.flash("password"));
     }
+})
+
+// loads forgot password page
+app.get("/forgot-password", (req, res) => {
+    res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
+})
+
+// api request to send email
+app.post("/forgot-password", (req, res) => {
+    const cb = val => {
+        res.send(val);
+    }
+    blackPines.forgotPassword(req, Customer, cb);
+});
+
+// loads reseting password page
+app.get("/reset-password", (req, res) => {
+    const now = Date.now();
+    // if the current timestamp is greater than the time stamp passed or one of the queries is missing then redirect to /forgot-password
+    if(req.query.ts < now || typeof req.query.cd === "undefined" || typeof req.query.ts === "undefined" || typeof req.query.un === "undefined" ) {
+        return res.redirect("/forgot-password");
+    }
+    res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
+})
+
+
+// API request to reset password
+app.post("/reset-password", (req, res) => {
+    
+    //res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
 })
 
 app.post("/my-feed", (req, res) => res.redirect("/my-feed"));

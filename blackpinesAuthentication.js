@@ -1,7 +1,10 @@
-const express = require("express");
 const passport = require("passport");
 const fetch = require("node-fetch");
 const { validationResult } = require("express-validator");
+const nodemailer = require("nodemailer");
+const cryptr = require("cryptr");
+
+const encrypt = new cryptr(process.env.ENCRYPTION_SECRET_KEY);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 //                                       Login                                         //
@@ -142,6 +145,132 @@ function register(req, res, Customer) {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+//                                   Forgot Password                                   //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+function forgotPassword(req, Customer, done) {
+    const characters = [1,2,3,4,5,6,7,8,9,0,"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "m", "n", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "!", "£", "%", "^", "&", "*", "-", "+", "=", "#", "~", "@"] 
+    let code = "";
+    for(let i = 0; i < 10; i++) {
+        const num = Math.floor(Math.random() * characters.length);
+        code += characters[num];
+    }
+    console.log(code);
+    const encryptedCode = encrypt.encrypt(code);
+    console.log(req.body.email);
+    Customer.updateOne(
+        {username: req.body.email},
+        {resetPasswordCode: encryptedCode},
+        {multi: false},
+        function(err) {
+            if(err) {
+                console.log(err);
+                done(false);
+            }
+            else {
+                const username = req.body.email;
+                const code = encryptedCode;
+                const date = Date.now();
+                const timeStamp = date + 900000;
+                const query = `un=${username}&cd=${code}&ts=${timeStamp}`; // query attached to link in email
+                
+                var transporter = nodemailer.createTransport({
+                    host: 'smtp.ionos.co.uk',
+                    port: 587,
+                    secure: false,
+                    auth: {
+                        user: 'no-reply@blackpines.co.uk',
+                        pass: process.env.EMAIL_PASSWORD,
+                    }
+                });
+        
+                const email = {
+                    to: username,
+                    subject: "Reset Password",
+                    html: `
+                    <head>
+                        <style>
+
+                            section {
+                                width: 100%;
+                                height: 100%;
+                                display: grid;
+                                place-items: center;
+                                background-color: #f0f0f0;
+                                padding: 100px 0px;
+                            }
+
+                            section > div {
+                                width: 40%;
+                                height: auto;
+                                padding: 50px;
+                                display: grid;
+                                margin: auto;
+                                place-items: center;
+                                background-color: #ffffff;
+                                border-radius: 10px;
+                            }
+
+                            h1 {
+                                color: #212121;
+                                font-family: sans-serif;
+                                font-size: 25px;
+                                margin-bottom: 20px;
+                                padding-bottom: 20px;
+                                border-bottom: solid 1px lightgrey;
+                            }
+
+                            p, a, a:visted {
+                                width: 100%;
+                                color: #232323;
+                            }
+
+                            a, a:visted {
+                                text-align: center;
+                                margin: auto;
+                                margin-top: 50px;
+                                padding: 20px 0px;
+                                color: #ffffff !important;
+                                background-color: #009a7f;
+                                font-size: 16px;
+                                text-decoration: none;
+                                border-radius: 10px;
+                            }
+
+                            a:hover {
+                                color: #f0f0f0;
+                                background-color: #007a63;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <section>
+                            <div>
+                                <h1>Password Reset?</h1>
+                                <p>Forgotten your password? Need to reset your password? Not a problem, just click the Reset Password Button below to do so. If you didn't request to reset your password, please just ignore this email. This link will expire after 15 minutes.</p>
+                                <a href="http://localhost:3000/reset-password?${query}">Reset Password</a>
+                            </div>
+                        </section>
+                    </body>
+                    `,
+                };
+                transporter.sendMail(email, function(err){
+                    if(err) {
+                        console.log(err);
+                        done(false);
+                    }
+                    else {
+                        console.log("sent");
+                        console.log(username);
+                        done(true);
+                    }
+                });
+            }
+        }
+    )
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 //                                   Change Password                                   //
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -154,7 +283,9 @@ function changePassword(req, Customer, done) {
         }
         return done(response);
     }
+    console.log(req.user.username);
     Customer.findByUsername(req.body.username).then(function(sanitizedUser) {
+        console.log(sanitizedUser);
         if(sanitizedUser) {
             const oldPassword = req.body.oldPassword;
             const newPassword = req.body.newPassword;
@@ -206,6 +337,7 @@ function deleteAccount(req, Customer, done) {
 module.exports = {
     login,
     register,
+    forgotPassword,
     changePassword,
     deleteAccount,
 }
