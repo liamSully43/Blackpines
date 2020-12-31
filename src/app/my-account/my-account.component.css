@@ -2,6 +2,10 @@ html {
   overflow: hidden;
 }
 
+.main-content {
+  background-color: #f0f0f0;
+}
+
 .side-nav {
   -ms-flex-preferred-size: auto !important;
       flex-basis: auto !important;
@@ -446,9 +450,6 @@ input:invalid {
     display: block !important;
     height: auto;
   }
-  .preview5 {
-    display: none;
-  }
 }
 
 @media (min-width: 1200px) {
@@ -583,6 +584,9 @@ input:invalid {
 @media (max-width: 642px) {
   .password-form {
     top: 145px !important;
+  }
+  .main-content {
+    height: calc(100vh - 50px);
   }
 }
 

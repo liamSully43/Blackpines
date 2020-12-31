@@ -1,8 +1,8 @@
 <app-error *ngIf="error !== false" [error]="error" (closeError)="close()"></app-error>
 <app-header [feed]="true"></app-header>
-<div class="main-content" [ngClass]="{'noscroll' : expand}">
+<div class="main-content main{{ twitAccounts}}" [ngClass]="{'noscroll' : expand}">
     <app-side-nav *ngIf="twitAccounts > 0" [users]="user.twitter" (activityFeed)="toggleFeed($event)" (viewUser)="showTwitterAccount($event)" ></app-side-nav>
-    <main [ngClass]="{'main-preview' : expand}">
+    <main [ngClass]="{'main-preview' : expand}" class="main{{ twitAccounts}}">
         <!-- This will show if the user isn't connected to twitter -->
         <a href="/my-account" class="message" *ngIf="twitAccounts < 1; else showFeedContainer">Please connect at least one Twitter account from the My-Account page</a>
         <ng-template #showFeedContainer>

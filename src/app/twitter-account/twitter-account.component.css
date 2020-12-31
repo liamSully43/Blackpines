@@ -57,7 +57,7 @@
   background-color: #fff;
 }
 
-.account-preview .account-info .edit-link > img, .account-preview .account-info .following, .account-preview .account-info .follow {
+.account-preview .account-info .edit-link > img {
   font-size: 14px;
   border-radius: 3px;
   padding: 1px 3px;
@@ -75,25 +75,183 @@
   background-color: #009a7f;
 }
 
-.account-preview .account-info .following {
-  background-color: #009a7f;
-  border: solid 1px #007a63;
-  color: #fff;
+.account-preview .account-info .following-container {
+  position: relative;
+  float: right;
 }
 
-.account-preview .account-info .following:hover {
+.account-preview .account-info .following-container button {
+  background-color: #009a7f;
+  color: #fff;
+  padding: 3px 6px;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.account-preview .account-info .following-container button:hover {
   background-color: #007a63;
 }
 
-.account-preview .account-info .follow {
-  background-color: #f0f0f0;
-  border: solid 1px lightgrey;
+.account-preview .account-info .following-container .accounts {
+  width: 100%;
+  height: 0px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  position: absolute;
+  overflow: hidden;
 }
 
-.account-preview .account-info .follow:hover {
-  background-color: #009a7f;
-  border: solid 1px #007a63;
-  color: #fff;
+.account-preview .account-info .following-container .accounts img {
+  margin-top: 5px;
+  padding: 2px;
+  border: solid 3px #f0f0f0;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.account-preview .account-info .following-container .accounts img:hover {
+  border: solid 3px #fff;
+}
+
+.account-preview .account-info .following-container .accounts img:last-of-type {
+  margin-bottom: 5px;
+}
+
+.account-preview .account-info .following-container .expanded {
+  background-color: #f0f0f0;
+}
+
+.account-preview .account-info .following-container .expanded .selected {
+  border: solid 3px #009a7f;
+}
+
+.account-preview .account-info .following-container .expanded .selected:hover {
+  border: solid 3px #007a63 !important;
+}
+
+.account-preview .account-info .following-container .height1.expanded {
+  -webkit-animation: expand1 0.5s;
+          animation: expand1 0.5s;
+  height: 50px;
+}
+
+.account-preview .account-info .following-container .height2.expanded {
+  -webkit-animation: expand2 0.5s;
+          animation: expand2 0.5s;
+  height: 95px;
+}
+
+.account-preview .account-info .following-container .height3.expanded {
+  -webkit-animation: expand3 0.5s;
+          animation: expand3 0.5s;
+  height: 140px;
+}
+
+.account-preview .account-info .following-container .height4.expanded {
+  -webkit-animation: expand4 0.5s;
+          animation: expand4 0.5s;
+  height: 185px;
+}
+
+.account-preview .account-info .following-container .height5.expanded {
+  -webkit-animation: expand5 0.5s;
+          animation: expand5 0.5s;
+  height: 230px;
+}
+
+@-webkit-keyframes expand1 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 50px;
+  }
+}
+
+@keyframes expand1 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 50px;
+  }
+}
+
+@-webkit-keyframes expand2 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 95px;
+  }
+}
+
+@keyframes expand2 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 95px;
+  }
+}
+
+@-webkit-keyframes expand3 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 140px;
+  }
+}
+
+@keyframes expand3 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 140px;
+  }
+}
+
+@-webkit-keyframes expand4 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 185px;
+  }
+}
+
+@keyframes expand4 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 185px;
+  }
+}
+
+@-webkit-keyframes expand5 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 230px;
+  }
+}
+
+@keyframes expand5 {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 230px;
+  }
 }
 
 .account-preview .account-info .name, .account-preview .account-info .handle, .account-preview .account-info .followers {
@@ -239,6 +397,7 @@
   border-radius: 100%;
   display: inline-block;
   margin-right: 10px;
+  max-height: 50px;
 }
 
 .account-preview .account-info .results-container .results .profile-headers {
@@ -337,12 +496,66 @@
   color: grey;
 }
 
-.account-preview .account-info .results-container .results .follow-container {
-  float: right;
-}
-
 .account-preview .account-info .results-container .results:hover {
   background-color: #f7f7f7;
+}
+
+.account-preview .account-info .results-container .account-results {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.account-preview .account-info .results-container .account-results .account-details {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+
+.account-preview .account-info .results-container .account-results .account-details .user-verified {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.account-preview .account-info .results-container .account-results .account-details .user-verified p {
+  font-size: 15px;
+}
+
+.account-preview .account-info .results-container .account-results .account-details .details {
+  font-size: 13px;
+  text-align: center;
+}
+
+.account-preview .account-info .results-container .account-results .account-details .details:first-of-type {
+  color: grey;
+  margin-bottom: 5px;
+}
+
+.account-preview .account-info .results-container .account-results .small-followers {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 100%;
+          flex: 1 0 100%;
+  display: none;
+  padding-top: 5px;
+  margin-top: 10px;
+  font-size: 13px;
+  border-top: solid 1px lightgrey;
+  text-align: center;
+}
+
+@media (max-width: 1200px) {
+  .account-preview .account-info .results-container .account-results .account-details .details:last-of-type {
+    display: none;
+  }
+  .account-preview .account-info .results-container .account-results .small-followers {
+    display: block;
+  }
 }
 
 @media (max-width: 450px) {

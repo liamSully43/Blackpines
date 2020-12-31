@@ -1,5 +1,6 @@
 .side-nav {
   background-color: #fff;
+  max-width: 150px;
 }
 
 select, option {
@@ -16,25 +17,13 @@ select:hover {
   color: #009a7f;
 }
 
-button {
-  float: none;
-  width: 100%;
-  min-width: 112px;
-  padding: 10px;
-  font-size: 14px;
-  margin-top: 15px;
-}
-
 .account {
   width: 100%;
-  margin-top: 30px;
+  margin-top: 20px;
+  cursor: pointer;
 }
 
-.account a {
-  text-decoration: none;
-}
-
-.account a img {
+.account img {
   border-radius: 100%;
   display: block;
   margin: auto;
@@ -57,60 +46,258 @@ button {
   margin-bottom: 5px;
 }
 
-@media (max-width: 900px) {
-  .side-nav {
-    -ms-flex-preferred-size: 3% !important;
-        flex-basis: 3% !important;
-  }
-}
-
-@media (max-width: 700px) {
-  .side-nav {
+@media (max-width: 1200px) {
+  .nav5 {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     position: relative;
-    width: calc(100% - 20px);
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
     height: auto;
     padding: 10px;
+    border-right: none !important;
+    border-bottom: solid 1px lightgray;
   }
-  .side-nav select, .side-nav button {
+  .nav5 select {
     width: 100px !important;
     display: inline-block !important;
     margin: 0px;
-  }
-  .side-nav select {
-    margin: 0px;
     margin-right: 20px;
   }
-  .side-nav .account {
-    display: inline-block !important;
-    width: 80%;
+  .nav5 .account {
     margin: 0px;
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
   }
-  .side-nav .account a img {
+  .nav5 .account img {
     height: auto;
     margin: 0px !important;
     vertical-align: middle;
     width: 50px;
     display: inline-block;
   }
-  .side-nav .account .name-container {
+  .nav5 .account .name-container {
     display: inline-block;
     vertical-align: middle;
-    margin-left: 20px;
+    margin-top: 5px;
   }
-  .side-nav .account .name-container .name {
+  .nav5 .account .name-container .name {
+    display: none;
+  }
+  .nav5 .account .name-container .handle {
+    width: 100%;
+    text-align: center;
+    font-size: 75%;
+  }
+  .nav5 .acc1 {
+    width: 100px;
+  }
+  .nav5 .acc2 {
+    width: 100px;
+  }
+  .nav5 .acc3 {
+    width: 100px;
+  }
+  .nav5 .acc4 {
+    width: 110px;
+  }
+  .nav5 .acc5 {
+    width: 120px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .nav4 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    height: auto;
+    padding: 10px;
+    border-right: none !important;
+    border-bottom: solid 1px lightgray;
+  }
+  .nav4 select {
+    width: 100px !important;
+    display: inline-block !important;
     margin: 0px;
+    margin-right: 20px;
   }
-  .side-nav .account .name-container .handle {
-    text-align: left;
+  .nav4 .account {
+    margin: 0px;
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
   }
-  .side-nav button {
-    position: absolute;
-    right: 0px;
-    margin: 5px 10px;
-    height: calc(100% - 30px);
+  .nav4 .account img {
+    height: auto;
+    margin: 0px !important;
+    vertical-align: middle;
+    width: 50px;
+    display: inline-block;
+  }
+  .nav4 .account .name-container {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 5px;
+  }
+  .nav4 .account .name-container .name {
+    display: none;
+  }
+  .nav4 .account .name-container .handle {
+    width: 100%;
+    text-align: center;
+    font-size: 75%;
+  }
+  .nav4 .acc1 {
+    width: 100px;
+  }
+  .nav4 .acc2 {
+    width: 100px;
+  }
+  .nav4 .acc3 {
+    width: 100px;
+  }
+  .nav4 .acc4 {
+    width: 110px;
+  }
+  .nav4 .acc5 {
+    width: 120px;
+  }
+}
+
+@media (max-width: 900px) {
+  .nav1, .nav2, .nav3 {
+    -ms-flex-preferred-size: 3% !important;
+        flex-basis: 3% !important;
+  }
+}
+
+@media (max-width: 850px) {
+  .nav3 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    height: auto;
+    padding: 10px;
+    border-right: none !important;
+    border-bottom: solid 1px lightgray;
+  }
+  .nav3 select {
+    width: 100px !important;
+    display: inline-block !important;
+    margin: 0px;
+    margin-right: 20px;
+  }
+  .nav3 .account {
+    margin: 0px;
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+  }
+  .nav3 .account img {
+    height: auto;
+    margin: 0px !important;
+    vertical-align: middle;
+    width: 50px;
+    display: inline-block;
+  }
+  .nav3 .account .name-container {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 5px;
+  }
+  .nav3 .account .name-container .name {
+    display: none;
+  }
+  .nav3 .account .name-container .handle {
+    width: 100%;
+    text-align: center;
+    font-size: 75%;
+  }
+  .nav3 .acc1 {
+    width: 100px;
+  }
+  .nav3 .acc2 {
+    width: 100px;
+  }
+  .nav3 .acc3 {
+    width: 100px;
+  }
+  .nav3 .acc4 {
+    width: 110px;
+  }
+  .nav3 .acc5 {
+    width: 120px;
+  }
+}
+
+@media (max-width: 700px) {
+  .nav1, .nav2 {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
+    height: auto;
+    padding: 10px;
+    border-right: none !important;
+    border-bottom: solid 1px lightgray;
+  }
+  .nav1 select, .nav2 select {
+    width: 100px !important;
+    display: inline-block !important;
+    margin: 0px;
+    margin-right: 20px;
+  }
+  .nav1 .account, .nav2 .account {
+    margin: 0px;
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+  }
+  .nav1 .account img, .nav2 .account img {
+    height: auto;
+    margin: 0px !important;
+    vertical-align: middle;
+    width: 50px;
+    display: inline-block;
+  }
+  .nav1 .account .name-container, .nav2 .account .name-container {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 5px;
+  }
+  .nav1 .account .name-container .name, .nav2 .account .name-container .name {
+    display: none;
+  }
+  .nav1 .account .name-container .handle, .nav2 .account .name-container .handle {
+    width: 100%;
+    text-align: center;
+    font-size: 75%;
+  }
+  .nav1 .acc1, .nav2 .acc1 {
+    width: 100px;
+  }
+  .nav1 .acc2, .nav2 .acc2 {
+    width: 100px;
+  }
+  .nav1 .acc3, .nav2 .acc3 {
+    width: 100px;
+  }
+  .nav1 .acc4, .nav2 .acc4 {
+    width: 110px;
+  }
+  .nav1 .acc5, .nav2 .acc5 {
+    width: 120px;
   }
 }
 
@@ -119,54 +306,79 @@ button {
     display: none;
     margin-right: 10px !important;
   }
-  .name-container {
-    margin-left: 10px !important;
+}
+
+@media (max-width: 600px) {
+  .acc5 {
+    width: 60px;
   }
-  .name-container p {
-    font-size: 13px !important;
+  .acc5 .handle {
+    display: none !important;
   }
 }
 
-@media (max-width: 560px) {
-  select {
-    margin-right: 20px !important;
+@media (max-width: 530px) {
+  .acc4 {
+    width: 60px;
+  }
+  .acc4 .handle {
+    display: none !important;
+  }
+}
+
+@media (max-width: 450px) {
+  .acc3 {
+    width: calc(100% / 3);
+    max-width: 60px;
+  }
+  .acc3 .name-container {
+    display: none !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .side-nav .account img {
+    width: 12vw;
+  }
+  .side-nav .acc5 {
+    width: 20%;
+    max-width: 60px;
+  }
+  .side-nav .acc4 {
+    width: 25%;
+    max-width: 60px;
   }
 }
 
 @media (max-width: 380px) {
-  .account a {
-    float: right;
-    position: relative;
-    right: 125px;
-    margin: 0px !important;
-  }
-  .account .name-container {
-    display: none !important;
+  select {
+    margin-right: 5vw;
+    font-size: 4.2vw;
   }
 }
 
 @media (max-width: 355px) {
   .side-nav {
     padding: 10px 5px;
-    width: calc(100% - 11px);
+    width: calc(100% - 10px);
+    max-width: calc(100% - 10px);
     font-size: 12px;
   }
-}
-
-@media (max-width: 270px) {
-  .account a img {
-    width: 35px !important;
-    vertical-align: super !important;
+  .acc2 {
+    width: 50%;
+    max-width: 60px;
   }
-}
-
-@media (max-width: 245px) {
-  .account a img {
+  .acc2 .name-container {
     display: none !important;
   }
-  .submit {
-    height: calc(100% - 10px) !important;
-    margin-top: -5px !important;
+}
+
+@media (max-width: 300px) {
+  .acc1 {
+    width: 60px !important;
+  }
+  .acc1 .name-container {
+    display: none !important;
   }
 }
 /*# sourceMappingURL=side-nav.component.css.map */

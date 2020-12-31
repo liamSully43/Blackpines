@@ -97,7 +97,7 @@ main {
             color: $primary;
             padding-left: 10px;
             display: inline-block;
-            font-size: 0.8vw;
+            font-size: 14px;
         }
     }
 
@@ -177,14 +177,52 @@ main {
     }
 }
 
+@mixin mobile-feeds {
+    flex: 1 0 100%;
+    max-width: 100%;
+    margin: 0px;
+    margin-top: 20px;
+    
+    &:first-of-type {
+        margin-top: 0px;
+    }
+}
+
+@media(max-width: 1200px) {
+    .main5 {
+        flex-wrap: wrap;
+    }
+    
+    .max5 {
+        @include mobile-feeds();
+    }
+}
+
 @media(max-width: 1000px) {
-    .feeds {
-        width: 99% !important;
+    .main4 {
+        flex-wrap: wrap;
+    }
+    
+    .max4 {
+        @include mobile-feeds();
+    }
+}
+
+@media(max-width: 850px) {
+    .main3 {
+        flex-wrap: wrap;
+    }
+    
+    .max3 {
+        @include mobile-feeds();
     }
 }
 
 @media(max-width: 700px) {
-
+    .main1, .main2 {
+        flex-wrap: wrap;
+    }
+    
     .noscroll {
         height: calc(100vh - 70px);
     }
@@ -193,15 +231,15 @@ main {
         display: block;
     }
 
-    .mainPreview, .feedsPreview {
+    .main-preview, .feeds-preview {
         animation: none !important;
     }
 
-    .mainPreview {
+    .main-preview {
         flex-basis: 100% !important;
     }
 
-    .feedsPreview {
+    .feeds-preview {
         width: 75% !important;
     }
 
@@ -211,16 +249,23 @@ main {
         width: 100vw;
         height: 100vh;
     }
+    
+    .max1, .max2 {
+        @include mobile-feeds();
+    }
+
+    .max1 {
+        padding: 0px;
+    }
 }
 
 @media(max-width: 575px) {
     .feeds {
-        width: 95% !important;
+        width: 100%;
         min-width: 0px;
     }
 
     main {
         display: block !important;
-        padding: 20px 0px;
     }
 }

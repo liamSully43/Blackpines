@@ -17,7 +17,7 @@
             <div class="clear-float"></div>
             <br />
             <p class="login-error error"></p>
-            <a href="https://twitter.com/account/begin_password_reset" class="forgotten-password" target="_blank">Forgotten Password?</a>
+            <a href="/forgot-password" class="forgotten-password">Forgotten Password?</a>
         </form>
         <form method="POST" action="/my-account" class="index-forms signup-form hide" (submit)="submitRegisterForm($event)">
             <input class="signup-name" name="name" type="text" placeholder="First Name" title="Enter your first name" (keydown)="enableRegister()" />

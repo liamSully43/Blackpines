@@ -1,6 +1,6 @@
 @import '../../variables';
 
-// default styles across all sizes
+// default styles across all screen sizes
 
 .login-page {
     background-attachment: fixed;
@@ -88,15 +88,17 @@
     }
 }
 
-.index-forms > input {
-    display: block;
-    width: 96.5%;
-    font-size: 90%;
-    margin-bottom: 10px;
-    padding: 2.86%;
-    padding-right: 0px;
-    border: solid 1px darkgrey;
-    border-radius: 7px;
+.index-forms {
+    input {
+        display: block;
+        width: 96.5%;
+        font-size: 90%;
+        margin-bottom: 10px;
+        padding: 2.86%;
+        padding-right: 0px;
+        border: solid 1px darkgrey;
+        border-radius: 7px;
+    }
 }
 
 .submit, .clear {

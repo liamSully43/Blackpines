@@ -21,6 +21,8 @@ import { TwitterAccountComponent } from './twitter-account/twitter-account.compo
 import { LoadingComponent } from './loading/loading.component';
 import { ErrorComponent } from './error/error.component';
 import { DeleteAccountComponent } from './delete-account/delete-account.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { DeleteAccountComponent } from './delete-account/delete-account.componen
     TwitterAccountComponent,
     LoadingComponent,
     ErrorComponent,
-    DeleteAccountComponent
+    DeleteAccountComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
