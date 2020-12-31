@@ -19,7 +19,7 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can tweet using multiple accounts at once
 
 ## Known Issues
-None
+Change password feature on /my-account has stopped working - unable to sanitize the user
 
 ## Notes
 Max number of Twitter accounts that can be connected has been set to 5
