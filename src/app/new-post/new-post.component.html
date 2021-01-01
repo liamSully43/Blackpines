@@ -1,7 +1,7 @@
 <app-header [new]="true"></app-header> <!-- header/nav -->
 <div class="main-content">
     <!-- side navigation -->
-    <nav class="side-nav">
+    <nav class="side-nav" *ngIf="connectedAccounts.length > 0">
         <ul>
             <li *ngFor="let account of connectedAccounts">
                 <input type="checkbox" id="bp{{ account.screen_name }}" class="twitter-checkbox input-checkbox" name="twitter-checkbox" checked /> <!-- actual checkbox -->
@@ -10,7 +10,7 @@
             </li>
         </ul>
     </nav>
-    <main>
+    <main [ngClass]="{'no-accounts' : connectedAccounts.length < 1}">
         <!-- main body/content -->
         <form method="POST" action="/new-post" (submit)="newPost($event)" (reset)="resetCharLimit()">
             <!-- input/post -->

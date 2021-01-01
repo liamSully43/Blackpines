@@ -21,7 +21,6 @@ export class ResetPasswordComponent implements OnInit {
 
   message = {
     text: "",
-    success: false,
     show: false,
   }
 
@@ -49,11 +48,11 @@ export class ResetPasswordComponent implements OnInit {
     const password = this.password;
     const username = this.params.un;
     const timestamp = this.params.ts;
-    const code = this.params.cd;
-    this.http.post("/reset-password", { headers, password, username, timestamp, code }).subscribe((res: any) => {
+    const token = this.params.tk;
+    this.http.post("/reset-password", { headers, password, username, timestamp, token }).subscribe((res : any) => {
       this.loading = false;
       if(res.success) {
-        this.success();
+        window.location.href = res.route // either /my-feed or /entry depending on if the user was able to be automatically logged in or not
       }
       else {
         this.fail(res.message);
@@ -61,18 +60,8 @@ export class ResetPasswordComponent implements OnInit {
     })
   }
 
-  success() {
-    this.message.text = "Password updated";
-    this.message.success = true;
-    this.message.show = true;
-    setTimeout(() => {
-      this.message.show = false;
-    }, 5000);
-  }
-
   fail(msg) {
     this.message.text = msg;
-    this.message.success = false;
     this.message.show = true;
     setTimeout(() => {
       this.message.show = false;

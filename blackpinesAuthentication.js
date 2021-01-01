@@ -149,18 +149,15 @@ function register(req, res, Customer) {
 /////////////////////////////////////////////////////////////////////////////////////////
 
 function forgotPassword(req, Customer, done) {
-    const characters = [1,2,3,4,5,6,7,8,9,0,"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "m", "n", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M", "!", "£", "%", "^", "&", "*", "-", "+", "=", "#", "~", "@"] 
-    let code = "";
-    for(let i = 0; i < 10; i++) {
+    const characters = [1,2,3,4,5,6,7,8,9,0,"q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "m", "n", "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Z", "X", "C", "V", "B", "N", "M"]; 
+    let token = "";
+    for(let i = 0; i < 25; i++) {
         const num = Math.floor(Math.random() * characters.length);
-        code += characters[num];
+        token += characters[num];
     }
-    console.log(code);
-    const encryptedCode = encrypt.encrypt(code);
-    console.log(req.body.email);
     Customer.updateOne(
         {username: req.body.email},
-        {resetPasswordCode: encryptedCode},
+        {resetPasswordToken: token},
         {multi: false},
         function(err) {
             if(err) {
@@ -169,18 +166,17 @@ function forgotPassword(req, Customer, done) {
             }
             else {
                 const username = req.body.email;
-                const code = encryptedCode;
                 const date = Date.now();
                 const timeStamp = date + 900000;
-                const query = `un=${username}&cd=${code}&ts=${timeStamp}`; // query attached to link in email
+                const query = `un=${username}&tk=${token}&ts=${timeStamp}`; // query attached to link in email
                 
                 var transporter = nodemailer.createTransport({
-                    host: 'smtp.ionos.co.uk',
+                    host: 'smtp.gmail.com',
                     port: 587,
                     secure: false,
                     auth: {
-                        user: 'no-reply@blackpines.co.uk',
-                        pass: process.env.EMAIL_PASSWORD,
+                        user: 'discoverdrink@gmail.com',
+                        pass: "150425LMS",
                     }
                 });
         
@@ -260,14 +256,72 @@ function forgotPassword(req, Customer, done) {
                         done(false);
                     }
                     else {
-                        console.log("sent");
-                        console.log(username);
                         done(true);
                     }
                 });
             }
         }
     )
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+//                                   Forgot Password                                   //
+/////////////////////////////////////////////////////////////////////////////////////////
+
+async function resetPassword (req, Customer, done) {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()) {
+        const result = {
+            success: false,
+            message: "Your password must be at least 8 characters",
+        }
+        return done(result);
+    }
+    const username = req.body.username;
+    const password = req.body.password;
+    const timestamp = req.body.timestamp;
+    const token = req.body.token;
+    const now = Date.now();
+    if(timestamp < now) {
+        const result = {
+            success: false,
+            message: "Your reset password token has expired, please try again later",
+        }
+        return done(result);
+    }
+    const user = await Customer.findOneAndUpdate({
+        username,
+        resetPasswordToken: token
+    }, {
+        resetPasswordToken: undefined
+    });
+    user.setPassword(password, function(err) {
+        if(err) {
+            console.log(err);
+            const result = {
+                success: false,
+                message: "Something went wrong, please try again later",
+            }
+            return done(result);
+        }
+        user.save();
+        req.login(user, function(err) {
+            if(err) {
+                console.log(err);
+                const result = {
+                    success: true,
+                    route: "/entry"
+                }
+                done(result);
+                return;
+            }
+            const result = {
+                success: true,
+                route: "/my-feed",
+            }
+            done(result);
+        })
+    })
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -283,13 +337,11 @@ function changePassword(req, Customer, done) {
         }
         return done(response);
     }
-    console.log(req.user.username);
-    Customer.findByUsername(req.body.username).then(function(sanitizedUser) {
-        console.log(sanitizedUser);
+    Customer.findByUsername(req.user.username).then(function(sanitizedUser) {
         if(sanitizedUser) {
             const oldPassword = req.body.oldPassword;
             const newPassword = req.body.newPassword;
-            sanitizedUser.changePassword(oldPassword, newPassword, function(err, user, info) {
+            sanitizedUser.changePassword(oldPassword, newPassword, function(err) {
                 if(err) {
                     const response = {
                         message: "Wrong password entered, please try again",
@@ -338,6 +390,7 @@ module.exports = {
     login,
     register,
     forgotPassword,
+    resetPassword,
     changePassword,
     deleteAccount,
 }
