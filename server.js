@@ -46,6 +46,7 @@ app.use(passport.session());
 
 mongoose.connect(process.env.API_KEY, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set("useCreateIndex", true);
+mongoose.set('useFindAndModify', false);
 
 const newCustomerSchema = new mongoose.Schema({
     firstName: String,
@@ -55,7 +56,7 @@ const newCustomerSchema = new mongoose.Schema({
     twitter: Array,
     lastLogIn: String,
     createdAt: String,
-    resetPasswordCode: String,
+    resetPasswordToken: String,
 });
 
 newCustomerSchema.plugin(passportLocalMongoose);
@@ -164,8 +165,6 @@ app.get("/", (req, res) => {
     res.render(`${__dirname}/index.html`);
 })
 
-/////////////// Login/Register & new-post redirect
-
 app.get("/entry", (req, res) => {
     if(req.isAuthenticated()) {
         res.redirect("/my-feed");
@@ -192,7 +191,7 @@ app.post("/forgot-password", (req, res) => {
 app.get("/reset-password", (req, res) => {
     const now = Date.now();
     // if the current timestamp is greater than the time stamp passed or one of the queries is missing then redirect to /forgot-password
-    if(req.query.ts < now || typeof req.query.cd === "undefined" || typeof req.query.ts === "undefined" || typeof req.query.un === "undefined" ) {
+    if(req.query.ts < now || typeof req.query.tk === "undefined" || typeof req.query.ts === "undefined" || typeof req.query.un === "undefined" ) {
         return res.redirect("/forgot-password");
     }
     res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
@@ -200,9 +199,14 @@ app.get("/reset-password", (req, res) => {
 
 
 // API request to reset password
-app.post("/reset-password", (req, res) => {
-    
-    //res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html'));
+app.post("/reset-password", [
+    check("password").isLength({ min: 8 }).stripLow().trim().escape(),
+], (req, res) => {
+    const cb = val => {
+        res.send(val);
+    }
+    blackPines.resetPassword(req, Customer, cb);
+    //res.sendFile(path.join(__dirname + '/dist/Blackpines/index.html')); ==========================================================================================================
 })
 
 app.post("/my-feed", (req, res) => res.redirect("/my-feed"));

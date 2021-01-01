@@ -29,8 +29,8 @@ export class MyFeedComponent implements OnInit {
   ngOnInit(): void {
     const headers = this.headers;
     this.http.get("api/user", { headers }).subscribe((data: any) => {
-      this.user.twitter = (data.twitter.length > 0) ? data.twitter : {};
-      this.twitAccounts = this.user.twitter.length
+      this.user.twitter = (data.twitter.length > 0) ? data.twitter : [];
+      this.twitAccounts = this.user.twitter.length;
       if(this.twitAccounts > 0) this.getFeed();
     });
   }
