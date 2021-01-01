@@ -171,12 +171,12 @@ function forgotPassword(req, Customer, done) {
                 const query = `un=${username}&tk=${token}&ts=${timeStamp}`; // query attached to link in email
                 
                 var transporter = nodemailer.createTransport({
-                    host: 'smtp.gmail.com',
+                    host: 'smtp.ionos.co.uk',
                     port: 587,
                     secure: false,
                     auth: {
-                        user: 'discoverdrink@gmail.com',
-                        pass: "150425LMS",
+                        user: 'no-reply@blackpines.co.uk',
+                        pass: process.env.EMAIL_PASSWORD,
                     }
                 });
         
