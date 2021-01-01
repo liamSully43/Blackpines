@@ -17,6 +17,7 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can like tweets with multiple accounts
  - User's can follow accounts using multiple accounts
  - User's can tweet using multiple accounts at once
+ - User's can reset their password if they forget what it is
 
 ## Known Issues
 Change password feature on /my-account has stopped working - unable to sanitize the user
