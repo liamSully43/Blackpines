@@ -20,7 +20,7 @@ This is a backup copy of the code for the Blackpines project (https://blackpines
  - User's can reset their password if they forget what it is
 
 ## Known Issues
-Change password feature on /my-account has stopped working - unable to sanitize the user
+no-reply@blackpines.co.uk doesn't want to work with nodemailer - refuses to send an email but doesn't show any error messages. noreply.blackpines@gmail.com is currently being used in its place.
 
 ## Notes
-Max number of Twitter accounts that can be connected has been set to 5
+N/A
