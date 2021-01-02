@@ -173,7 +173,7 @@ function forgotPassword(req, Customer, done) {
                     secure: false,
                     auth: {
                         user: 'noreply.blackpines@gmail.com',
-                        pass: "Blackpines150425$",
+                        pass: process.env.EMAIL_PASSWORD,
                     }
                 });
 
