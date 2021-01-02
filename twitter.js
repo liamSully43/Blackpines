@@ -265,6 +265,7 @@ const getPosts = (req, done) => {
                     const result = {
                         success: true,
                         feed,
+                        user: account
                     }
                     feeds.push(result);
                     callback();
