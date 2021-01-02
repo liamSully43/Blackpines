@@ -32,7 +32,9 @@
                 
                 <!-- tweet results -->
                 <ng-template #twitterElse>
-                    <app-feed-posts *ngFor="let post of tweets.results" [post]="post" [search]="true" [user]="user" (showPost)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
+                    <div *ngFor="let post of tweets.results" class="post-containers">
+                        <app-feed-posts [post]="post" [search]="true" [user]="user" (showPost)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
+                    </div>
                 </ng-template>
 
                 <div *ngIf="loadingSearch; else showMessages" class="loading-container">
@@ -53,7 +55,9 @@
     
     <!-- post & account previews -->
     <div class="content-previews" *ngIf="expand">
-        <app-loading *ngIf="loadingResult"></app-loading>
+        <div class="content-loading-container">
+            <app-loading *ngIf="loadingResult"></app-loading>
+        </div>
         <app-twitter-account *ngIf="twitterAccount !== false" [account]="twitterAccount" [userIds]="user.twitter" (closePreview)="close()" (showTweet)="showPost($event)" (showUser)="showTwitterAccount($event)"></app-twitter-account>
         <app-twitter-post *ngIf="tweet !== false" [tweet]="tweet" [accounts]="user.twitter" (close)="close()" (updateTweet)="showPost($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)" ></app-twitter-post>
     </div>

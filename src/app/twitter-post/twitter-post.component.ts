@@ -177,7 +177,12 @@ export class TwitterPostComponent implements OnInit {
           this.tweet.likesRounded = this.roundNumbers(this.tweet.favorite_count);
         }
       }
-      if(this.likesCount < 0) this.likesCount = 0; // prevents any erros with showning if the user has liked the tweet - if the user unlikes a tweet they've previously liked then the counter will go to -1
+      // prevents any erros with showning if the user has liked the tweet - if the user unlikes a tweet they've previously liked then the counter will go to -1
+      if(this.likesCount <= 0) {
+        this.likesCount = 0;
+        this.tweet.favorite_count = 0;
+        this.tweet.likesRounded = 0;
+      }
       this.liked = (this.likesCount > 0) ? true: false; // highlights the like button if at least 1 account has liked the tweet 
       this.clearMessages();
     }));
@@ -213,7 +218,12 @@ export class TwitterPostComponent implements OnInit {
           this.tweet.retweetsRounded = this.roundNumbers(this.tweet.retweet_count);
         }
       }
-      if(this.retweetCount < 0) this.retweetCount = 0; // prevents any erros with showning if the user has retweeted the tweet - if the user unretweets a tweet they've previously retweeted then the counter will go to -1
+      // prevents any erros with showning if the user has retweeted the tweet - if the user unretweets a tweet they've previously retweeted then the counter will go to -1
+      if(this.retweetCount < 0) {
+        this.retweetCount = 0;
+        this.tweet.retweet_count = 0;
+          this.tweet.retweetsRounded = 0;
+      }
       this.retweeted = (this.retweetCount > 0) ? true: false; // highlights the retweet button if at least 1 account has liked the tweet 
       this.clearMessages();
     }))

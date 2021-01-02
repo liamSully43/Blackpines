@@ -109,7 +109,7 @@ export class MyAccountComponent implements OnInit {
     const oldPassword = (<HTMLInputElement>document.querySelector(".old-password")).value;
     const newPassword = (<HTMLInputElement>document.querySelector(".new-password")).value;
     if(oldPassword === newPassword) {
-        (<HTMLInputElement>document.querySelector(".same-password")).innerHTML = "Please enter a new password";
+        (<HTMLInputElement>document.querySelector(".same-password")).innerHTML = "Your old password and new password cannot match";
     }
     else {
       const headers = this.headers;
