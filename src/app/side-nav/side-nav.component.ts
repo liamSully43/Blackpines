@@ -20,8 +20,8 @@ export class SideNavComponent implements OnInit {
 
   ngOnChanges() {
     for(let account of this.users) {
-      const url = account.profile_image_url.replace("normal", "200x200");
-      account.profile_image_url = url;
+      const url = account.profile_image_url_https.replace("normal", "200x200");
+      account.profile_image_url_https = url;
     }
   }
 

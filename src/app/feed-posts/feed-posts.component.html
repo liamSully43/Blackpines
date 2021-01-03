@@ -1,16 +1,16 @@
 <div class="results" id="a{{post.id}}" (click)="viewPost()">
 
     <!-- delete button/image -->
-    <img *ngIf="deleteable" class="delete-post" src="../../assets/delete.png" width="15" height="auto" (click)="deleteTweet($event)" />
+    <img *ngIf="deleteable" class="delete-post" src="../../assets/delete.png" width="15" height="auto" (click)="deleteTweet($event)" alt="delete tweet" />
 
     <!-- if the user retweeted a tweet -->
     <ng-container *ngIf="post.original_user; else nonRetweet">
-        <p class="retweet-name" (click)="loadUser($event, post.original_user)"><img class="retweet-pic" src="{{ post.original_user.profile_image_url }}" height="20" width="auto" alt="{{post.original_user.name}}'s profile picture" /> {{post.original_user.name}} retweeted</p>
+        <p class="retweet-name" (click)="loadUser($event, post.original_user)"><img class="retweet-pic" src="{{ post.original_user.profile_image_url_https }}" height="20" width="auto" alt="{{post.original_user.name}}'s profile picture" /> {{post.original_user.name}} retweeted</p>
         <!-- The rewtweeted user's picture, name, handle & verification badge -->
-        <img class="profile-pic" width="50" height="50" src="{{ post.user.profile_image_url }}" title="View account" (click)="loadUser($event, post.user)" />
+        <img class="profile-pic" width="48" height="48" src="{{ post.user.profile_image_url_https }}" title="View account" (click)="loadUser($event, post.user)" alt="{{ post.user.profile_image_url_https }}'s profile picture" />
         <div class="profile-headers" title="View post" (click)="loadUser($event, post.user)">
             <p>{{ post.user.name }}</p>
-            <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
+            <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" alt="Verified" />
             <p>@{{ post.user.screen_name }}</p>
         </div>
     </ng-container>
@@ -18,10 +18,10 @@
     <!-- if the user didn't retweet a tweet -->
     <ng-template #nonRetweet>
         <!-- The user's picture, name, handle & verification badge -->
-        <img class="profile-pic" width="50" height="50" src="{{ post.user.profile_image_url }}" title="View account" (click)="loadUser($event, post.user)" />
+        <img class="profile-pic" width="48" height="48" src="{{ post.user.profile_image_url_https }}" title="View account" (click)="loadUser($event, post.user)" alt="{{ post.user.profile_image_url_https }}'s profile picture" />
         <div class="profile-headers" title="View post" (click)="loadUser($event, post.user)">
             <p>{{ post.user.name }}</p>
-            <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" />
+            <img *ngIf="post.user.verified" width="20" height="20" src="../../assets/verified.png" alt="Verified" />
             <p>@{{ post.user.screen_name }}</p>
         </div>
     </ng-template>
@@ -32,7 +32,7 @@
     <!-- list of external links included in tweet -->
     <div *ngIf="links.length > 0" class="links-container">
         <ng-container *ngFor="let link of links">
-            <a class="user-links" href="{{ link.expandedUrl }}" target="_blank" rel="nofollow" >> {{ link.displayUrl }}</a>
+            <a class="user-links" href="{{ link.expandedUrl }}" target="_blank" rel="noreferrer" >> {{ link.displayUrl }}</a>
         </ng-container>
     </div>
 
@@ -43,17 +43,17 @@
                 <source *ngFor="let video of url.video_info.variants" src={{video.url}} type={{video.content_type}}>
             </video>
             <ng-template #image >
-                <img class="image-item" src={{url.media_url_https}} alt="A photo posted by the user" /> <!-- images -->
+                <img class="image-item" width="100%" height="auto" src={{url.media_url_https}} alt="A photo posted by the user" /> <!-- images -->
             </ng-template>
         </div>
     </div>
 
     <!-- quote tweet if the original tweet is a quote tweet -->
     <div *ngIf="post.quoted_status" class="quoted-tweet">
-        <img class="users-profile-pic" width="60" height="auto" src="{{ post.quoted_status.user.profile_image_url }}" title="View account" />
+        <img class="users-profile-pic" width="60" height="auto" src="{{ post.quoted_status.user.profile_image_url_https }}" title="View account" alt="{{ post.quoted_status.user.profile_image_url_https}}'s profile picture" />
         <div class="profile-headers">
             <p>{{ post.quoted_status.user.name }}</p>
-            <img class="verified" *ngIf="post.quoted_status.user.verified" width="20" height="20" src="../../assets/verified.png" />
+            <img class="verified" *ngIf="post.quoted_status.user.verified" width="20" height="20" src="../../assets/verified.png" alt="Verified" />
             <p>@{{ post.quoted_status.user.screen_name }}</p>
         </div>
         <p class="text">{{ post.quoted_status.full_text }}</p>

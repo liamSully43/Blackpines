@@ -39,7 +39,7 @@
     background-color: $primary;
     border: none;
     text-align: center;
-    color: darkgrey;
+    color: $secondary;
     font-size: 100%;
     padding-bottom: 10px;
     cursor: pointer;
@@ -49,7 +49,7 @@
 }
 
 .nav-buttons:hover {
-    color: grey;
+    color: $accent;
 }
 
 .sign-up-button {
@@ -108,7 +108,7 @@
 }
 
 .forgotten-password, .forgotten-password:visited {
-    color: $accent;
+    color: $secondary;
     font-size: 87.5%;
     display: inline-block;
 }
@@ -126,7 +126,7 @@
 @media(min-width: 1921px) {
 
     .login-page {
-        background-image: url("../../assets/pine-forest-large.png");
+        background-image: url("../../assets/pine-forest-large.WebP");
     }
 
     .title {
@@ -140,7 +140,7 @@
 @media(max-width: 1920px) {
 
     .login-page {
-        background-image: url("../../assets/pine-forest-med.png");
+        background-image: url("../../assets/pine-forest-med.WebP");
     }
 
 }
@@ -150,7 +150,7 @@
 @media(max-width: 1024px) {
 
     .login-page {
-        background-image: url("../../assets/pine-forest-small.png");
+        background-image: url("../../assets/pine-forest-small.WebP");
     }
 
     .title {

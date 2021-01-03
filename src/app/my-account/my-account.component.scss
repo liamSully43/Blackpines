@@ -71,6 +71,12 @@ html {
         overflow: hidden;
         margin-bottom: 0px;
 
+        label {
+            opacity: 0;
+            position: absolute;
+            z-index: -10;
+        }
+
         input, button {
             display: block;
         }

@@ -2,26 +2,26 @@
 <ng-container *ngIf="account">
     <div class="platform-sections-connected a{{ count }}">
         <div class="account-info">
-            <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" />
+            <img *ngIf="account.profile_banner_url; else elseBlock" width="100%" height="auto" src="{{ account.profile_banner_url }}" alt="@{{ account.screen_name }}'s profile picture" />
             <ng-template #elseBlock >
                 <div class="default-background">
-                    <img src="../../assets/default-blank.png" width="100%" height="auto" alt="default user banner" /> <!-- the file size is 564 bytes as it's only needed for it's size/ratio -->
+                    <img src="../../assets/default-blank.png" width="100%" height="auto" alt="default user banner"  alt="Default background" /> <!-- the file size is 564 bytes as it's only needed for it's size/ratio -->
                 </div>
             </ng-template>
             <div class="profile-pic-container">
-                <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url_https }}" />
+                <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url_https }}" alt="@{{ account.screen_name }}'s profile picture" />
             </div>
 
             <p class="name">{{ account.name }}</p>
-            <img *ngIf="account.verified" src="../../assets/verified.png" width="20" height="20" alt="User is verified" class="verified" />
+            <img *ngIf="account.verified" src="../../assets/verified.png" width="20" height="20" alt="Verified" class="verified" />
             <p class="handle">@{{ account.screen_name }}</p>
 
             <!-- user's profile description -->
             <p *ngIf="account.description" class="description">{{ account.description }}</p>
                 
             <div class="info">
-                <p *ngIf="account.location"><img src="../../assets/pin.png" width="auto" height="20" /> {{ account.location }}</p>
-                <a *ngIf="account.entities.url" href="{{account.entities.url.urls[0].expanded_url}}" target="_blank" >{{ account.entities.url.urls[0].display_url }}</a>
+                <p *ngIf="account.location"><img src="../../assets/pin.png" width="12" height="20" alt="Location pin" /> {{ account.location }}</p>
+                <a *ngIf="account.entities.url" href="{{account.entities.url.urls[0].expanded_url}}" target="_blank" rel="noreferrer" >{{ account.entities.url.urls[0].display_url }}</a>
             </div>
 
             <!-- links to the user's tweets, followers & who they're following -->
@@ -33,10 +33,14 @@
             <div class="update-twitter-form">
                 <p class="update-title">Update Twitter Account -</p>
                 <br />
-                <input type="text" placeholder="Update name" (keydown)="updateFields('name', $event)" class="form-fields" value="{{ name }}"/>
-                <input type="text" placeholder="Update location" (keydown)="updateFields('location', $event)" class="form-fields" value="{{ location }}"/>
-                <input type="text" placeholder="Update website URL" (keydown)="updateFields('url', $event)" class="form-fields" value="{{ url }}"/>
-                <textarea type="text" placeholder="Update bio" maxlength="160" (keydown)="updateFields('bio', $event)" class="form-fields">{{ description }}</textarea>
+                <label for="name{{ account.id_str }}">Update @{{ account.screen_name }}'s name</label>
+                <input type="text" placeholder="Update name" (keydown)="updateFields('name', $event)" id="name{{ account.id_str }}" class="form-fields" value="{{ name }}"/>
+                <label for="location{{ account.id_str }}">Update @{{ account.screen_name }}'s location</label>
+                <input type="text" placeholder="Update location" (keydown)="updateFields('location', $event)" id="location{{ account.id_str }}" class="form-fields" value="{{ location }}"/>
+                <label for="url{{ account.id_str }}">Update website @{{ account.screen_name }}'s address</label>
+                <input type="text" placeholder="Update website URL" (keydown)="updateFields('url', $event)" id="url{{ account.id_str }}" class="form-fields" value="{{ url }}"/>
+                <label for="bio{{ account.id_str }}">Update @{{ account.screen_name }}'s account description</label>
+                <textarea type="text" placeholder="Update bio" maxlength="160" (keydown)="updateFields('bio', $event)" id="bio{{ account.id_str }}" class="form-fields">{{ description }}</textarea>
             </div>
             <div class="button-container">
                 <button name="update" class="submit update" [disabled]="disableButton" (click)="updateAccountInfo()">Update Account</button>

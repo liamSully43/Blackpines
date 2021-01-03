@@ -14,10 +14,11 @@
         <!-- main body/content -->
         <form method="POST" action="/new-post" (submit)="newPost($event)" (reset)="resetCharLimit()">
             <!-- input/post -->
-            <textarea class="primary-input" [ngClass]="{'limit': percentage >= 100}" placeholder="Type your post here" name="primary-post" (keydown)="onPrimaryInput()" maxlength="280"></textarea>
+            <label for="tweet">Type your tweet here</label>
+            <textarea id="tweet" class="primary-input" [ngClass]="{'limit': percentage >= 100}" placeholder="Type your tweet here" name="primary-post" (keydown)="onPrimaryInput()" maxlength="280"></textarea>
             <section class="user-container">
                 <div class="users usr{{ selectedAccounts.length }} bp{{ user.screen_name }} hide" *ngFor="let user of connectedAccounts" title="@{{ user.screen_name }}">
-                    <img src="{{ user.profile_image_url }}" alt="{{ user.screen_name }}" />
+                    <img src="{{ user.profile_image_url_https }}" height="24" width="24" alt="{{ user.screen_name }}" />
                 </div>
                 <div class="char-limit" [ngClass]="{'void': percentage >= 100}">
                     <p>Character Limit</p>

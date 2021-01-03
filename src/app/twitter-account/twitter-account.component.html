@@ -14,7 +14,7 @@
 
                 <!-- account profile picture -->
                 <div class="profile-pic-container">
-                    <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url }}" alt="incorrect source provided by Twitter" />
+                    <img width="65" height="65" class="profile-pic" src="{{ account.profile_image_url_https }}" alt="incorrect source provided by Twitter" />
                 </div>
 
                 <!-- follow/following -->
@@ -23,7 +23,7 @@
                     <div class="following-container">
                         <button (click)="toggleFollow()">Follow</button>
                         <div class="accounts height{{ userIds.length }}" [ngClass]="{'expanded' : expanded}">
-                            <img width="30" height="30" *ngFor="let user of userIds" src="{{ user.profile_image_url }}" [ngClass]="{'selected' : user.following}" title="@{{ user.screen_name }}" (click)="followInteract(user)" />
+                            <img width="30" height="30" *ngFor="let user of userIds" src="{{ user.profile_image_url_https }}" [ngClass]="{'selected' : user.following}" title="@{{ user.screen_name }}" (click)="followInteract(user)" />
                         </div>
                     </div>
                 </ng-template>
@@ -65,9 +65,9 @@
                             <div class="results" *ngFor="let tweet of tweets.results" title="View Tweet" (click)="loadTweet(tweet.id_str)" >
                                 <!-- if the user retweeted a tweet -->
                                 <ng-container *ngIf="tweet.original_user; else nonRetweet">
-                                    <p class="retweet-name"><img class="retweet-pic" src="{{ tweet.original_user.profile_image_url }}" height="20" width="auto" alt="{{tweet.original_user.name}}'s profile picture" /> {{tweet.original_user.name}} retweeted</p>
+                                    <p class="retweet-name"><img class="retweet-pic" src="{{ tweet.original_user.profile_image_url_https }}" height="20" width="auto" alt="{{tweet.original_user.name}}'s profile picture" /> {{tweet.original_user.name}} retweeted</p>
                                     <!-- The rewtweeted user's picture, name, handle & verification badge -->
-                                    <img class="profile-pic" width="50" height="50" src="{{ tweet.user.profile_image_url }}" title="View account"/>
+                                    <img class="profile-pic" width="50" height="50" src="{{ tweet.user.profile_image_url_https }}" title="View account"/>
                                     <div class="profile-headers" title="View post">
                                         <p>{{ tweet.user.name }}</p>
                                         <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
@@ -78,7 +78,7 @@
                                 <!-- if the user didn't retweet a tweet -->
                                 <ng-template #nonRetweet>
                                     <!-- The user's picture, name, handle & verification badge -->
-                                    <img class="profile-pic" width="50" height="50" src="{{ tweet.user.profile_image_url }}" title="View account"/>
+                                    <img class="profile-pic" width="50" height="50" src="{{ tweet.user.profile_image_url_https }}" title="View account"/>
                                     <div class="profile-headers" title="View post">
                                         <p>{{ tweet.user.name }}</p>
                                         <img *ngIf="tweet.user.verified" width="20" height="20" src="../../assets/verified.png" />
@@ -91,7 +91,7 @@
     
                                 <!-- quote tweet if the original tweet is a quote tweet -->
                                 <div *ngIf="tweet.quoted_status" class="quoted-tweet">
-                                    <img class="users-profile-pic" width="60" height="auto" src="{{ tweet.quoted_status.user.profile_image_url }}" title="View account" />
+                                    <img class="users-profile-pic" width="60" height="auto" src="{{ tweet.quoted_status.user.profile_image_url_https }}" title="View account" />
                                     <div class="profile-headers">
                                         <p>{{ tweet.quoted_status.user.name }}</p>
                                         <img class="verified" *ngIf="tweet.quoted_status.user.verified" width="20" height="20" src="../../assets/verified.png" />
@@ -109,7 +109,7 @@
 
                         <ng-template #showAccounts>
                             <div *ngFor="let user of accounts" class="results account-results" (click)="loadUser(user)" title="Click to view {{ user.name }}'s account">
-                                <img class="profile-pic" width="50" height="auto" src="{{ user.profile_image_url }}" />
+                                <img class="profile-pic" width="50" height="auto" src="{{ user.profile_image_url_https }}" />
                                 <div class="account-details">
                                     <div class="user-verified">
                                         <p>{{ user.name }}</p>

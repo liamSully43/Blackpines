@@ -102,7 +102,6 @@ export class MyFeedComponent implements OnInit {
 
   showTwitterAccount(user) {
     this.clear();
-    console.log(this.user);
     this.loading = true;
     this.expand = true;
     setTimeout(() => {

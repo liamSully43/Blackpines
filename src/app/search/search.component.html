@@ -2,8 +2,10 @@
 <div class="main-content">
     <main [ngClass]="{'main-border' : expand}">
         <form action="/search" method="GET" class="search-bar" (submit)="submitForm($event)">
-            <input placeholder="Search" name="search" class="search" (change)="setSearchQuery($event)" />
-            <select *ngIf="search" (change)="toggleSearch()">
+            <label for="search">Search Query</label>
+            <input placeholder="Search" name="search" class="search" id="search" (change)="setSearchQuery($event)" />
+            <label for="toggle">Toggle between searching for Users and for Tweets</label>
+            <select id="toggle" (change)="toggleSearch()">
                 <option>Users</option>
                 <option>Tweets</option>
             </select>

@@ -14,16 +14,18 @@
                 <div class="feeds max{{ twitAccounts }}" *ngFor="let feed of activeFeed"  [ngClass]="{'feeds-preview' : expand}">
                     <!-- user headers -->
                     <div class="user-headers" title="@{{ feed.user.screen_name }}'s Twitter feed">
-                        <img src="{{ feed.user.profile_image_url }}" height="100%" width="auto" alt="@{{ feed.user.screen_name }}" />
+                        <img src="{{ feed.user.profile_image_url_https }}" height="100%" width="auto" alt="@{{ feed.user.screen_name }}" />
                         <p>@{{ feed.user.screen_name }}</p>
                     </div>
-                    <p *ngIf="feed.message" class="error">{{ feed.message }}</p> <!-- error message -->
-                    <!-- feed -->
-                    <div *ngFor="let post of feed.feed">
-                        <app-feed-posts [post]=post [search]="false" [user]="user" (showPost)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
-                    </div>
-                    <!-- if the user had an empty feed -->
-                    <p class="no-results" *ngIf="feed.feed.length < 1 && feed.success">No Tweets to show!</p>
+                    <p *ngIf="feed.message; else results" class="error">{{ feed.message }}</p> <!-- error message -->
+                    <ng-template #results>
+                        <!-- feed -->
+                        <div *ngFor="let post of feed.feed">
+                            <app-feed-posts [post]=post [search]="false" [user]="user" (showPost)="showTweet($event)" (showUser)="showTwitterAccount($event)" (fetchUserEvent)="fetchUser($event)"></app-feed-posts>
+                        </div>
+                        <!-- if the user had an empty feed -->
+                        <p class="no-results" *ngIf="feed.feed.length < 1 && feed.success">No Tweets to show!</p>
+                    </ng-template>
                 </div>
             </ng-template>
         </ng-template>

@@ -67,7 +67,6 @@ function callback(req, Customer, done) {
         {multi: false},
         function(err) {
             if(err) {
-                console.log(err)
                 return done(500);
             }
             return done(200);
@@ -90,7 +89,6 @@ function disconnect(req, Customer, done) {
                 {multi: false},
                 function(err) {
                     if(err) {
-                        console.log(err)
                         done(false);
                     }
                     else {
@@ -209,10 +207,9 @@ const getFeed = (req, done) => {
             tokenSecret,
             function(err, data) {
                 if(err) {
-                    console.log(err);
                     const res = {
-                        message: "Unable to fetch your twitter home timeline, please try again later",
                         success: false,
+                        message: "Unable to fetch your twitter home timeline, please try again later",
                         user: account,
                     }
                     feeds.push(res);
@@ -220,8 +217,8 @@ const getFeed = (req, done) => {
                 else {
                     const feed = Function(`"use strict";return ${data}`)();
                     const res = {
-                        feed,
                         success: true,
+                        feed,
                         user: account,
                     }
                     feeds.push(res);
@@ -252,7 +249,6 @@ const getPosts = (req, done) => {
             access_token_secret,
             function(err, data) {
                 if(err) {
-                    console.log(err);
                     const result = {
                         success: false,
                         message: "Something went wrong, please try again later",
@@ -308,7 +304,6 @@ function newTweet(req, done) {
         })
         T.post("statuses/update", { status: req.body.post }, function(err) {
             if(err) {
-                console.log(err);
                 const message = {
                     text: `Unable to post to @${account.screen_name}'s Twitter, please try again later`,
                     success: false,
@@ -342,7 +337,6 @@ function getTweet(req, id, done) {
         tokenSecret,
         function(err, data) {
             if(err) {
-                console.log(err);
                 const results = {
                     success: false,
                     post: "Something went wrong, please try again later",
@@ -378,7 +372,6 @@ function getUser(req, done) {
         tokenSecret,
         function(err, data) {
             if(err) {
-                console.log(err);
                 const res = {
                     success: false,
                     message: "Something went wrong, please try again later"
@@ -426,7 +419,6 @@ function like(req, done) {
             "application/json",
             function(err, data) {
                 if(err) {
-                    console.log(err);
                     const error = Function(`"use strict";return ${data}`)();
                     if(error.errors[0].code === 139) {
                         oauth.post(
@@ -437,7 +429,6 @@ function like(req, done) {
                             "application/json",
                             function(err, data) {
                                 if(err) {
-                                    console.log(err);
                                     const res = {
                                         success: null,
                                         message: `@${account.screen_name} was unable to unlike the tweet`,
@@ -515,7 +506,6 @@ function reply(req, done) {
         })
         T.post("statuses/update", { in_reply_to_status_id: id, status: status}, function(err, data, response) {
             if(err) {
-                console.log(err);
                 const res = {
                     success: false,
                     message: `Unable to add @${account.screen_name}'s reply`,
@@ -565,9 +555,8 @@ function retweet(req, done) {
             timeout_ms: 60*1000,
             strictSSL: false,
         })
-        T.post("statuses/retweet/:id", { id }, function(err, data, response) {
+        T.post("statuses/retweet/:id", { id }, function(err) {
             if(err) {
-                console.log(err);
                 if(err.allErrors[0].code === 327) {
                     oauth.post(
                         `https://api.twitter.com/1.1/statuses/unretweet/${id}.json?trim_user=true`,
@@ -575,9 +564,8 @@ function retweet(req, done) {
                         access_token_secret,
                         null,
                         "application/json",
-                        function(err, data) {
+                        function(err) {
                             if(err) {
-                                console.log(err);
                                 const res = {
                                     success: null,
                                     message: `@${account.screen_name} was unable to un-retweet the tweet`,
@@ -637,9 +625,8 @@ function deleteTweet(req, done) {
         tokenSecret,
         null,
         "application/json",
-        function(err, data) {
+        function(err) {
             if(err) {
-                console.log(err);
                 done(false);
             }
             else {
@@ -670,9 +657,8 @@ function follow(req, done) {
         tokenSecret,
         null,
         "application/json",
-        function(err, data) {
+        function(err) {
             if(err) {
-                console.log(err);
                 done(null);
             }
             else {
@@ -703,9 +689,8 @@ function unfollow(req, done) {
         tokenSecret,
         null,
         "application/json",
-        function(err, data) {
+        function(err) {
             if(err) {
-                console.log(err);
                 done(null);
             }
             else {
@@ -735,7 +720,6 @@ function checkIfFollowing(req, done) {
             tokenSecret,
             function(err, data) {
                 if(err) {
-                    console.log(err);
                     const res = {
                         success: false,
                         id: account.id_str,
@@ -774,7 +758,6 @@ const getUsersTweets = (req, done) => {
         tokenSecret,
         function(err, data) {
             if(err) {
-                console.log(err);
                 const res = {
                     success: false
                 }
@@ -807,7 +790,6 @@ const getUsersFollowers = (req, done) => {
         tokenSecret,
         function(err, data) {
             if(err) {
-                console.log(err);
                 const res = {
                     success: false
                 }
@@ -840,7 +822,6 @@ const getUsersFollowing = (req, done) => {
         tokenSecret,
         function(err, data) {
             if(err) {
-                console.log(err);
                 const res = {
                     success: false
                 }
@@ -873,7 +854,6 @@ function searchUsers (req, query, done, fail) {
         access_token_secret,
         function(err, data) {
             if(err) {
-                console.log(err)
                 return fail();
             }
             else {
@@ -908,7 +888,6 @@ function searchTweets (req, query, done, fail) {
         access_token_secret,
         function(err, data) {
             if(err) {
-                console.log(err)
                 return fail();
             }
             else {
