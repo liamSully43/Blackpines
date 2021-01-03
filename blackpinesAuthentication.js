@@ -15,7 +15,6 @@ function login(req, res, next, Customer) {
                 success: false,
                 message: "Something went wrong, please try again later"
             }
-            console.log(err);
             return res.send(result);
         }
         if(!customer) {
@@ -31,7 +30,6 @@ function login(req, res, next, Customer) {
                     success: false,
                     message: "Something went wrong, please try again later"
                 }
-                console.log(err);
                 return res.send(result);
             }
             else {
@@ -41,7 +39,7 @@ function login(req, res, next, Customer) {
                     {_id: req.user._id},
                     {lastLogIn},
                     {multi: false},
-                    function(err) {if(err) console.log(err)}
+                    function() {}
                 )
             }
             // get account information from Twitter and update the database
@@ -55,7 +53,7 @@ function login(req, res, next, Customer) {
                         {multi: false},
                         function(err) {
                             if(err) {
-                                return console.log(err)
+                                return;
                             }
                             req.user.twitter = accounts;
                         }
@@ -74,9 +72,7 @@ function login(req, res, next, Customer) {
                         data.tokenSecret = account.tokenSecret;
                         accounts.push(data);
                         updateDatabase();
-                    }).catch((err) => {
-                        console.log(err);
-                    });
+                    }).catch(() => {});
                 }
             }
             const result = {
@@ -105,7 +101,6 @@ function register(req, res, Customer) {
     const createdAt = String(time).substr(0, 28);
     Customer.register({username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName, createdAt}, req.body.password, function(err, user) {
         if(err) {
-            console.log(err);
             const result = {
                 success: false,
                 message: "An account with that email already exists, please use a different email",
@@ -115,7 +110,7 @@ function register(req, res, Customer) {
         else {
             passport.authenticate("local", function(err, customer) {
                 if(err || !customer) {
-                    if(err) console.log(err);
+                    if(err)
                     const result = {
                         success: false,
                         message: "Something went wrong, please try again later",
@@ -124,7 +119,6 @@ function register(req, res, Customer) {
                 }
                 req.login(customer, function(err) {
                     if(err) {
-                        console.log(err);
                         const result = {
                             success: false,
                             message: "Something went wrong, please try again later",
@@ -159,7 +153,6 @@ function forgotPassword(req, Customer, done) {
         {multi: false},
         function(err) {
             if(err) {
-                console.log(err);
                 done(false);
             }
             else {
@@ -186,7 +179,6 @@ function forgotPassword(req, Customer, done) {
                 };
                 transporter.sendMail(email, function(err){
                     if(err) {
-                        console.log(err);
                         done(false);
                     }
                     else {
@@ -231,7 +223,6 @@ async function resetPassword (req, Customer, done) {
     });
     user.setPassword(password, function(err) {
         if(err) {
-            console.log(err);
             const result = {
                 success: false,
                 message: "Something went wrong, please try again later",
@@ -241,7 +232,6 @@ async function resetPassword (req, Customer, done) {
         user.save();
         req.login(user, function(err) {
             if(err) {
-                console.log(err);
                 const result = {
                     success: true,
                     route: "/entry"
@@ -309,7 +299,6 @@ function deleteAccount(req, Customer, done) {
     const id = req.user._id;
     Customer.deleteOne({_id: id}, (err) => {
         if(err) {
-            console.log(err);
             done(false);
         }
         else {

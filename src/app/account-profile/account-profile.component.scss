@@ -125,6 +125,12 @@
     display: flex;
     flex-wrap: wrap;
 
+    label {
+        opacity: 0;
+        position: absolute;
+        z-index: -10;
+    }
+
     .update-title {
         flex: 1 0 calc(100% - 12px);
         margin-bottom: 20px;

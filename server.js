@@ -279,6 +279,12 @@ app.post("/register", [
     blackPines.register(req, res, Customer);
 })
 
+/////////////// serve robots.txt for web crawlers
+
+app.get("/robots.txt", (req, res) => {
+    res.sendFile("/robots.txt");
+})
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //                                   API Requests                                      //
 /////////////////////////////////////////////////////////////////////////////////////////

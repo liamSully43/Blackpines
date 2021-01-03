@@ -9,8 +9,10 @@
         <!-- password reset form -->
         <button class="side-nav-buttons password-button" (click)="passwordField()">Change Password</button>
         <div class="password-form">
-            <input type="password" name="oldPassword" class="old-password" placeholder="Old password" />
-            <input type="password" name="newPassword" class="new-password" placeholder="New password" />
+            <label for="old">Old Password</label>
+            <input type="password" name="oldPassword" class="old-password" id="old" placeholder="Old password" />
+            <label for="new">New Password</label>
+            <input type="password" name="newPassword" class="new-password" id="new" placeholder="New password" />
             <button class="side-nav-buttons" (click)="checkPasswords()">Update</button>
             <p class="message same-password"></p>
         </div>

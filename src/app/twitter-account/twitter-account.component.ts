@@ -62,9 +62,6 @@ export class TwitterAccountComponent implements OnInit {
     this.account.followersRounded = this.roundNumbers(this.account.followers_count);
     this.account.followingRounded = this.roundNumbers(this.account.friends_count);
 
-    console.log(this.account);
-    console.log(this.userIds);
-
     // this swaps a lower quality version of the image for a better quality version
     let url = this.account.profile_image_url.replace("normal", "200x200");
     this.account.profile_image_url = url;
@@ -143,7 +140,6 @@ export class TwitterAccountComponent implements OnInit {
       this.loading = false;
       if(res.success) {
         this.tweets.searched = true;
-        console.log(res.tweets);
         for(let tweet of res.tweets) {
           if(tweet.retweeted_status) {
             const user = tweet.user;
@@ -179,7 +175,6 @@ export class TwitterAccountComponent implements OnInit {
           }
           this.tweets.results.push(tweet);
         }
-        console.log(this.tweets);
       }
       else {
         this.showError();
@@ -201,7 +196,6 @@ export class TwitterAccountComponent implements OnInit {
     this.http.get("api/twitter/account/following", { headers, params }).subscribe((users: any) => {
       if(users.success) {
         this.followingAccounts.searched = true;
-        console.log(users.accounts.users);
         for(let user of users.accounts.users) {
           user.followersRounded = this.roundNumbers(user.followers_count);
           user.followingRounded = this.roundNumbers(user.friends_count);
@@ -230,7 +224,6 @@ export class TwitterAccountComponent implements OnInit {
     this.http.get("api/twitter/account/followers", { headers, params }).subscribe((users: any) => {
       if(users.success) {
         this.followersAccounts.searched = true;
-        console.log(users.accounts.users);
         for(let user of users.accounts.users) {
           user.followersRounded = this.roundNumbers(user.followers_count);
           user.followingRounded = this.roundNumbers(user.friends_count);
@@ -247,7 +240,6 @@ export class TwitterAccountComponent implements OnInit {
   }
   
   loadUser(user) {
-    console.log(user);
     this.showUser.next(user);
   }
 

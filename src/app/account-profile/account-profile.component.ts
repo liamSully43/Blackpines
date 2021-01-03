@@ -25,9 +25,7 @@ export class AccountProfileComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  ngOnInit(): void {
-    console.log(this.account);
-  }
+  ngOnInit(): void {}
 
   ngOnChanges() {
     this.account.statusesRounded = this.roundNumbers(this.account.statuses_count);
@@ -114,7 +112,6 @@ export class AccountProfileComponent implements OnInit {
     const id = this.account.id_str;
     this.http.post("api/twitter/account/update", { headers, userUpdate, id }).subscribe((res: any) => {
       this.message = res;
-      console.log(this.message);
       setTimeout(() => this.message = {}, 7000);
     })
   }

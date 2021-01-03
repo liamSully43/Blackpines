@@ -194,8 +194,9 @@ main {
         }
 
         .twitter-card {
-            padding: 10px 0px;
             width: 100%;
+            height: auto;
+            padding: 10px 0px;
             max-width: 260px;
 
             p {
@@ -240,7 +241,7 @@ main {
 
 @media(min-width: 1921px) {
     .background {
-        background-image: url("../../assets/pine-forest-large.png");
+        background-image: url("../../assets/pine-forest-header-large.WebP");
     }
 }
 
@@ -248,7 +249,7 @@ main {
 
 @media(max-width: 1920px) {
     .background {
-        background-image: url("../../assets/pine-forest-med.png");
+        background-image: url("../../assets/pine-forest-header-med.WebP");
     }
 }
 
@@ -256,7 +257,7 @@ main {
 
 @media(max-width: 1024px) {
     .background {
-        background-image: url("../../assets/pine-forest-small.png");
+        background-image: url("../../assets/pine-forest-header-small.WebP");
     }
 }
 

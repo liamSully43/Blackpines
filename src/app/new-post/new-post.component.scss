@@ -86,8 +86,6 @@ form {
             background-color: $accent;
 
             img {
-                height: calc(100% - 6px);
-                width: auto;
                 padding: 3px;
                 float: left;
                 border-radius: 100%;
@@ -183,6 +181,12 @@ form {
 
 .platform-input-container {
     display: flex;
+}
+
+label {
+    opacity: 0;
+    position: absolute;
+    z-index: -10;
 }
 
 .primary-input {
