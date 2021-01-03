@@ -110,7 +110,6 @@ function register(req, res, Customer) {
         else {
             passport.authenticate("local", function(err, customer) {
                 if(err || !customer) {
-                    if(err)
                     const result = {
                         success: false,
                         message: "Something went wrong, please try again later",
