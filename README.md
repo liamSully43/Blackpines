@@ -3,7 +3,7 @@
 [blackpines.co.uk](http://www.blackpines.co.uk/)
 
 ## Purpose
-Blackpines is a Twitter account management app that allows users to connect up to five accounts with. With these accounts connected, users can interact with the Twitter platform to manage their presence on the platform.re
+Blackpines is a Twitter management app that allows users to connect up to five Twitter accounts to. With these accounts, users can interact with the Twitter platform to manage their presence on the platform.
 
 ## Features & Functionality
  - View home timelines
