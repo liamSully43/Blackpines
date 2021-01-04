@@ -69,7 +69,7 @@ const Customer = new mongoose.model("Customer", newCustomerSchema);
 
 passport.use(Customer.createStrategy());
 
-const host = (process.env.PORT) ? "https://blackpines.herokuapp.com" : "http://localhost:3000";
+const host = (process.env.PORT) ? "http://www.blackpines.co.uk" : "http://localhost:3000";
 
 passport.use(new TwitterStrategy({
     consumerKey: process.env.TWITTER_CONSUMER_KEY,
