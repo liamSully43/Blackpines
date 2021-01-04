@@ -273,3 +273,15 @@ main {
         }
     }
 }
+
+@media(max-width: 420px) {
+    .guide {
+        p {
+            margin-bottom: 15px;
+
+            &:last-of-type {
+                margin-bottom: 0px;
+            }
+        }
+    }
+}

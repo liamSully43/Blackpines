@@ -1,4 +1,5 @@
 function email(username, token, timestamp) {
+    const host = (process.env.PORT) ? "http://www.blackpines.co.uk" : "http://localhost:3000";
     const template = `
     <head>
         <style>
@@ -60,7 +61,7 @@ function email(username, token, timestamp) {
             <div>
                 <h1>Password Reset?</h1>
                 <p>Forgotten your password? Need to reset your password? Not a problem, just click the Reset Password Button below to do so. If you didn't request to reset your password, please just ignore this email. This link will expire after 15 minutes.</p>
-                <a href="http://localhost:3000/reset-password?un=${username}&tk=${token}&ts=${timestamp}">Reset Password</a>
+                <a href="${host}/reset-password?un=${username}&tk=${token}&ts=${timestamp}">Reset Password</a>
             </div>
         </section>
     </body>
