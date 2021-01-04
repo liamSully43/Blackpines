@@ -4,7 +4,7 @@
 Blackpines is a Twitter account management app that allows users to connect up to five accounts with. With these accounts connected, users can interact with the Twitter platform to manage their presence on the platform.re
 
 ## Live Site
-[Blackpines] (http://www.blackpines.co.uk/)
+[Blackpines](http://www.blackpines.co.uk/)
 
 ## Features & Functionality
  - View home timelines
